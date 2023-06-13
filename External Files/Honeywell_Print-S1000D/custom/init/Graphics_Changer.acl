@@ -1,0 +1,40 @@
+Package Graphics;
+
+
+function graphic_dim(){
+##Variable Declaration
+	local n, o = oid_caret(); 
+	
+##Main Code
+	while (oid_valid($o) == 1) {
+		$o = oid_forward($o);
+		$name = oid_name($o)
+		if ($name == "graphic") {
+		a = response("How big is this graphic?\n\n", '&Full Page', '&Quarter Page', '&Halfpage', '&Foldout', '&Full Page Landscape', '&Cancel');
+			if (a == 1){
+				oid_modify_attr($o, "reproductionHeight", "167.64 mm");
+				oid_modify_attr($o, "reproductionWidth", "203.2 mm");
+			}
+			else if (a == 2){
+				oid_modify_attr($o, "reproductionHeight", "44.45 mm");
+				oid_modify_attr($o, "reproductionWidth", "167.64 mm");
+			}
+			else if (a == 3){
+				oid_modify_attr($o, "reproductionHeight", "97.79 mm");
+				oid_modify_attr($o, "reproductionWidth", "167.64 mm");
+			}
+			else if (a == 4){
+				oid_modify_attr($o, "reproductionHeight", "209.55 mm");
+				oid_modify_attr($o, "reproductionWidth", "355.6 mm");
+			}
+			else if (a == 5){
+				oid_modify_attr($o, "reproductionHeight", "158.75 mm");
+				oid_modify_attr($o, "reproductionWidth", "190.5 mm");
+			}
+			else{
+				break;
+			}
+		}
+	}
+
+}

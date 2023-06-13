@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    table.bottomBorder { 
+        border-collapse: collapse; 
+    }
+    table.bottomBorder td, 
+    table.bottomBorder th { 
+        border-bottom: 1px solid black; 
+        padding: 10px; 
+        text-align: left;
+    }
+    table.bottomBorder tr:hover {
+            background-color: #6dd0fd;
+    }
+</style>
+	<div class="container" onmouseover="highlightEmpty()">
+        <h2>Illustration Checklist</h2>
+        <h4>Job Number: {{ job_no }}</h4>
+        <h4>Revision: {{ revision }}</h4>
+        <form action="" method="post" novalidate>
+            <p>
+                {{ form.op_manager.label }}<br>
+                {{ form.op_manager() }}<br>
+                <span class="note">For example: bkelly</span><br>
+            </p>
+            <p>
+                {{ form.er_level.label }}<br>
+                {{ form.er_level() }}<br>
+                <span class="note">Pre-Delivery = 0, Engineering Review #1 = 1, Engineering Review #2 = 2, etc.</span><br>
+            </p>
+            <p>
+                {{ form.illustrator.label }}<br>
+                {{ form.illustrator }}<br>
+            </p>
+            <p>
+                {{ form.date.label }}<br>
+                {{ form.date }}<br>
+            </p>
+            <p>
+                {{ form.comments.label }}<br>
+                {{ form.comments }}<br>
+            </p>
+            <a class="button_one" onclick="zeroFill()">Fill in all empty comment fields with 'Completed'</a>
+            <table class="bottomBorder">
+                    <thead><tr><th></th><th colspan="2">Subject</th><th>{{ comment_name }}</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>A</b></td><td></td><td><b>Illustration</b></td><td></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td> {{ illustration_A.get(1) }}</td><td style="width: 150px;">{{ form.input1() }}</td></tr>
+                        <tr><td></td><td> 2 </td><td> {{ illustration_A.get(2) }}</td><td style="width: 150px;">{{ form.input2() }}</td></tr>
+                        <tr><td></td><td> 3 </td><td> {{ illustration_A.get(3) }}</td><td style="width: 150px;">{{ form.input3() }}</td></tr>
+                        <tr><td></td><td> 4 </td><td> {{ illustration_A.get(1) }}</td><td style="width: 150px;">{{ form.input4() }}</td></tr>
+                    </tbody>
+            </table>
+            <p>{{ form.submit_complete(class="button_one") }}</p>
+            <P>{{ form.submit_incomplete(class="button_one") }}</P>
+        </form>
+    </div>
+    <script type="text/javascript">
+        function zeroFill() {
+            var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                            document.getElementById('input4')];
+    
+            myArray.forEach(zeroFillinter);
+    
+            function zeroFillinter(item) {
+                        if (item.value == '') {
+                            item.value = 'Completed';
+                        }
+                    }
+            
+        }
+    window.onload = highlightEmpty()
+    function highlightEmpty() {
+        var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                        document.getElementById('input4'),
+                        document.getElementById('illustrator'), document.getElementById('er_level'), document.getElementById('date'),
+                        document.getElementById('op_manager')];
+        myArray.forEach(highlight);
+
+        function highlight(item) {
+                    if (item.value == '') {
+                        item.style.border = "1px solid #FF0000";
+                    }
+                    else {
+                        item.style.border = "1px solid #00FF00";
+                    }
+                }
+    }
+</script>
+{% endblock %}

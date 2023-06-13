@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?MENTORPATH ?>
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A"
+infoCode="003" infoCodeVariant="B" itemLocationCode="D"
+modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0"
+systemCode="00" systemDiffCode="EAB"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>LRU</techName><infoName>Record of Revisions</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="99193">
+</responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="AAA"/></dmRefIdent>
+</dmRef></brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara></levelledPara>
+<para>For each revision, write the revision number, revision date,
+date put in the manual, and your initials in the applicable column.</para>
+<note>
+<notePara>Refer to the Revision History in the <dmRef><dmRefIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A"
+infoCode="003" infoCodeVariant="A" itemLocationCode="D"
+modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0"
+systemCode="00" systemDiffCode="EAB"/></dmRefIdent></dmRef> section
+for revision data.</notePara>
+</note>
+<table><tgroup cols="9">
+<?PubTbl tgroup dispwid="1230.00px"?>
+<colspec colname="col1" colwidth="0.92in"/><colspec colname="col2"
+colwidth="0.86in"/><colspec colname="col3" colwidth="0.78in"/><colspec
+colname="col4" colwidth="0.51in"/><colspec colname="col5"
+colwidth="0.31in"/><colspec colname="col6" colwidth="0.76in"/><colspec
+colname="col7" colwidth="0.75in"/><colspec colname="col8"
+colwidth="0.74in"/><colspec colname="col9" colwidth="0.47in"/><thead>
+<row>
+<entry align="center">
+<para>Revision Number</para>
+</entry>
+<entry align="center">
+<para>Revision Date</para>
+</entry>
+<entry align="center">
+<para>Date Put in Manual</para>
+</entry>
+<entry align="center">
+<para>By</para>
+</entry>
+<entry></entry>
+<entry align="center">
+<para>Revision Number</para>
+</entry>
+<entry align="center">
+<para>Revision Date</para>
+</entry>
+<entry align="center">
+<para>Date Put in Manual</para>
+</entry>
+<entry align="center">
+<para>By</para>
+</entry>
+</row></thead><tbody><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

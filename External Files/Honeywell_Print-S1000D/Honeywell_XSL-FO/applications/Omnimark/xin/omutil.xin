@@ -1,0 +1,69 @@
+;===========================================================================
+;
+; Copyright (C) 1998 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  omutil.xin - Micellaneous Utility functions
+;
+;  Version: 1.0
+;  Revised: 15 May 1998
+;
+;  Version: 1.1
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;===========================================================================
+
+include-guard omutil.xin
+declare function-library "omutil"
+
+; ---------------------
+; Function Declarations
+; ---------------------
+
+define external switch function UTIL_IsVersionCompatible
+   as "UTIL_IsVersionCompatible"
+
+define external stream function UTIL_LibraryVersion
+   as "UTIL_LibraryVersion"
+
+define external stream function UTIL_GetEnv
+   (  value stream VarName  )
+   as "UTIL_GetEnv"
+
+define external counter function UTIL_UniformRand
+   (  value counter Val1,
+      value counter Val2
+   )
+   as "UTIL_UniformRand"
+
+define external function UTIL_Sleep
+   (value counter seconds)
+   as "UTIL_Sleep"
+
+define external counter function UTIL_GetProcessId
+   as "UTIL_GetProcessId"
+
+define external counter function UTIL_GetMilliSecondTimer
+   as "UTIL_GetTime"
+
+define external function UTIL_Srand
+   (value counter seed)
+   as "UTIL_Srand"
+
+DEFINE EXTERNAL COUNTER FUNCTION UTIL_Rand
+   AS "UTIL_Rand"
+
+DEFINE EXTERNAL COUNTER FUNCTION UTIL_ExpRand
+   (VALUE COUNTER lambda)
+   AS "UTIL_ExpRand"

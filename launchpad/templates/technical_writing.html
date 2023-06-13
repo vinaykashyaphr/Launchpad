@@ -1,0 +1,321 @@
+{% extends "layout.html" %}
+{% set directory_lifetime = config.DIRECTORY_LIFETIME %}
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/checkbox.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tabs.css') }}">
+	<style>
+		.checkbox_columns{
+			columns: 2;
+			column-gap: 15px;
+		}
+
+		.checkbox_columns p {
+			display: inline-block;
+			margin: 10px;
+		}
+	</style>
+{% endblock %}
+{% block content %}
+<div class="tabs">
+	<button id="tab_arec_button" class="tablinks" onclick="openTab(event, 'tab_arec')">Arecibo</button>
+	<button id="tab_hot_button" class="tablinks" onclick="openTab(event, 'tab_hot')">Hotspots</button>
+	{% if current_user.role is not divisibleby 2 or current_user.admin %}
+	<button id="tab_dict_button" class="tablinks" onclick="openTab(event, 'tab_dict')">Dictionary</button>
+	{% endif %}
+</div>
+
+<div id="tab_arec" class="tabcontent">
+	<div class="container">
+		<div title="QA documents"><h2><a class='link_hide' href="{{ url_for('help') }}">Arecibo</a></h2>
+			<!-- <span class="tooltip_text">
+				QA documents
+			</span> -->
+		</div>	
+		<form enctype="multipart/form-data" method="post" action="{{ url_for('upload_techwrite_arecibo') }}">
+			<div class="button_one" id="pdf_button" onclick="getFile('#pdf_upfile')">Select PDF</div>
+			<div class="file_wrapper"><input type="file" name="pdf_file" id="pdf_upfile" accept=".pdf" required onchange="sub(this, '#pdf_button')" /></div><br>
+			
+			<input type='text' id='job_no' name='job_no' required placeholder="Job Number"/>
+
+			<select id='file_type' name='file_type'>
+				<option value='1' selected>File Type: TR</option>
+				<option value='2'>File Type: SB, SIL, etc.</option>
+				<option value='3'>File Type: OTHER (CMM, EIPC, EM, etc.)</option>
+			</select>
+
+			<p title='[TR Only] The D number is the publication number on original CMM'>
+				<label class="checkbox_container">
+					D number is publication number
+					<input type="checkbox" id='has_D' name="has_D" value='has_D'>
+					<span class="checkmark"></span>				
+				</label>
+				<!-- <span class="tooltip_text">
+					[TR Only] The D number is the publication number on original CMM
+				</span> -->
+			</p>
+			<hr>
+			<div class="checkbox_columns">
+				<p title='Uses job specific data obtained from Jira (I.e., Publication number, ECCN, etc.) to check front matter accuracy of the document.' class=''>
+					<label class="checkbox_container">
+						Automated QA
+						<input type="checkbox" id='auto_QA' name="auto_QA" value='auto_QA'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Uses job specific data obtained from Jira (I.e., Publication number, ECCN, etc.) to check front matter accuracy of the document.
+					</span> -->
+				</p>
+				<br>
+				<p title='Checks the pages found in the List of Effective Pages (LEP) against the pages in the body of the document to see if all pages exist in both. Will also check asterisks against revision bars if the document contains the proper tags.' class='tooltip'>
+					<label class="checkbox_container">
+						LEP Check
+						<input type="checkbox" id='LEP_check' name="LEP_check" value='LEP_check'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Checks the pages found in the List of Effective Pages (LEP) against the pages in the body of the document to see if all pages exist in both. Will also check asterisks against revision bars if the document contains the proper tags.
+					</span> -->
+				</p>
+				<br>
+				<p title='Checks the document for any missing graphics and flags them (*Only works on XSL-FO printed document'>
+					<label class="checkbox_container">
+						Missing Graphic Check
+						<input type="checkbox" id='miss_graphic' name="miss_graphic" value='miss_graphic'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Checks the document for any missing graphics and flags them (*Only works on XSL-FO printed document.)
+					</span> -->
+				</p>
+				<br>
+				<p title='Checks the Acronym Table for any duplicates in either the definition or the acronym.'>
+					<label class="checkbox_container">
+						Acronym Check
+						<input type="checkbox" id='acro' name="acro" value='acro'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Checks the Acronym Table for any duplicates in either the definition or the acronym.
+					</span> -->
+				</p>
+				<br>
+				<p title='Checks through the document for foldout consistency (I.e, proper pagination, blank pages etc.)'>
+					<label class="checkbox_container">
+						Foldouts Check
+						<input type="checkbox" id='foldouts' name="foldouts" value='foldouts'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Checks through the document for foldout consistency (I.e, proper pagination, blank pages etc.)
+					</span> -->
+				</p>
+				<br>
+				<p title='Checks the document for proper Simplified English.'>
+					<label class="checkbox_container">
+						Simplified English Check
+						<input type="checkbox" id='simp_eng' name="simp_eng" value='simp_eng'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Checks the document for proper Simplified English.
+					</span> -->
+				</p>
+				<br>
+				<p title='Uses the highlights to check if document has a revision bar in the location stated by the highlight (*Only works on XSL-FO printed documents).'>
+					<label class="checkbox_container">
+						Highlight Check
+						<input type="checkbox" id='highlight' name="highlight" value='highlight'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Uses the highlights to check if document has a revision bar in the location stated by the highlight (*Only works on XSL-FO printed documents).
+					</span> -->
+				</p>
+				<br>
+				<p title='Checks the spelling of words against a technical english dictionary, also allows users to add to that dictionary.'>
+					<label class="checkbox_container">
+						Spelling Check
+						<input type="checkbox" id='spelling' name="spelling" value='spelling'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						Checks the spelling of words against a technical english dictionary, also allows users to add to that dictionary.
+					</span> -->
+				</p>
+				<br>
+				<p title='This will run all relevant checks for the particular type of document and output a pdf with the flagged comments.'>
+					<label class="checkbox_container">
+						Full Quality Analysis
+						<input type="checkbox" id='all' name="all" value='all'>
+						<span class="checkmark"></span>				
+					</label>
+					<!-- <span class="tooltip_text">
+						This will run all relevant checks for the particular type of document and output a pdf with the flagged comments.
+					</span> -->
+				</p>
+			</div>
+
+			<input name="qa" class="button_one" type="submit" value="Start QA"/>
+			<input name="upload_type" type="hidden" value="tr"/>
+		</form>
+	</div>
+	<div class="container">
+		<h2>View Uploads:</h2>
+		<div class="uploads_container">
+			{% if uploads|length == 0 %}
+			<p class="nouploads">You don't have any recent uploads.</p>
+			{% else %}
+			<form class="uploads" method="post" action="{{ url_for('technical_writing') }}">
+				{% for upload in uploads %}
+				<div class="upload_item" upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+					<!-- <button type="button" class="expand" onclick="show(this)">></button> -->
+					<div>
+						<label class="checkbox_container">
+							<input type="checkbox" name="upload_item" value='{{ upload.id }}'>
+							<span class="checkmark"></span>
+							{{ upload.filename }}
+						</label>
+						<div class="details">
+							<p><b>STATUS:</b><br><span class="status">{{ upload.status }}</span></p>
+							<p><b>TIME TO DELETE:</b><br><span class="timer" value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+							<a class="download" href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + ".zip", ftype="tw" )}}' {% if upload.status != "Completed" %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+							<!-- <img src="/static/images/delete.png" /> -->
+							<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+						</div>
+					</div>
+					<div class="input_form" style="display: none;">
+						<hr/>
+						<p class="prompt"></p>
+						<input type="text" class="user_input" disabled required/><!--
+						--><input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+						<input type="hidden" class="sid" />
+					</div>
+				</div>
+				{% endfor %}
+				<div class="buttons">
+					<label class="checkbox_container">
+						<input id="select" type="checkbox" name='select_all' value=''>
+						<div class="checkmark"></div>
+					</label>
+					<!-- <button type="button" id="select">Select All</button> -->
+					<input type="submit" name="delete" value="Delete Selected">
+					<input type="submit" name="download" value="Download Selected">
+				</div>
+			</form>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<div id="tab_hot" class="tabcontent">
+	<div class="container">
+		<div title="Add Hotspots"><h2><a class='link_hide' href="{{ url_for('help') }}">IETM Hotspots</a></h2>
+			<!-- <span class="tooltip_text">
+				QA documents
+			</span> -->
+		</div>	
+		<form enctype="multipart/form-data" method="post" action="{{ url_for('upload_techwrite') }}">
+			<div class="button_one" id="zip_button" onclick="getFile('#zip_upfile')">Select ZIP</div>
+			<div class="file_wrapper"><input type="file" name="zip_file" id="zip_upfile" accept=".zip" required onchange="sub(this, '#zip_button')" /></div><br>
+
+			<input name="hotspots" class="button_one" type="submit" value="Insert Hotspots"/>
+			<input name="upload_type" type="hidden" value="hot"/>
+		</form>
+	</div>
+	<div class="container">
+		<h2>View Uploads:</h2>
+		<div class="uploads_container">
+			{% if hot_uploads|length == 0 %}
+			<p class="nouploads">You don't have any recent uploads.</p>
+			{% else %}
+			<form class="uploads" method="post" action="{{ url_for('technical_writing') }}">
+				{% for upload in hot_uploads %}
+				<div class="upload_item" upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+					<!-- <button type="button" class="expand" onclick="show(this)">></button> -->
+					<div>
+						<label class="checkbox_container">
+							<input class='select_button' type="checkbox" name="hot_upload_item" value='{{ upload.id }}'>
+							<span class="checkmark"></span>
+							{{ upload.filename }}
+						</label>
+						<div class="details">
+							<p><b>STATUS:</b><br><span class="status">{{ upload.status }}</span></p>
+							<p><b>TIME TO DELETE:</b><br><span class="timer" value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+							<a class="download" href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + ".zip", ftype="hot" )}}' {% if upload.status != "Completed" %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+							<!-- <img src="/static/images/delete.png" /> -->
+							<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+						</div>
+					</div>
+					<div class="input_form" style="display: none;">
+						<hr/>
+						<p class="prompt"></p>
+						<input type="text" class="user_input" disabled required/><!--
+						--><input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+						<input type="hidden" class="sid" />
+					</div>
+				</div>
+				{% endfor %}
+				<div class="buttons">
+					<label class="checkbox_container">
+						<input class="select" type="checkbox" name='hot_upload_item' value=''>
+						<div class="checkmark"></div>
+					</label>
+					<!-- <button type="button" id="select">Select All</button> -->
+					<input type="submit" name="delete" value="Delete Selected">
+					<input type="submit" name="download" value="Download Selected">
+					<input name="dl_type" type="hidden" value="hot"/>
+				</div>
+			</form>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% if current_user.role is not divisibleby 2 or current_user.admin %}
+<div id="tab_dict" class="tabcontent">
+	<div class="container">
+		<h2>Add or Remove Words from Technical Dictionary</h2>
+		<form method="post">
+			<input type="text" id="dict_w" name="dict_w" class="dict_w" required placeholder="Enter Word Here"/>
+			<br>
+			<p>
+				<label class="checkbox_container">
+					Add Word
+					<input type="radio" id='add_w' name="modify_w" value='add_w' checked>
+					<span class="checkmark"></span>				
+				</label>
+			</p>
+			<p>
+				<label class="checkbox_container">
+					Remove Word
+					<input type="radio" id='remove_w' name="modify_w" value='remove_w'>
+					<span class="checkmark"></span>				
+				</label>
+			</p>
+			<input type="submit" class="button_one" name="dict_modify" value="Submit">
+		</form>
+	</div>
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+	<script type="text/javascript">
+		var directory_lifetime = '{{ directory_lifetime }}';
+		var file_delete_url = '{{ url_for("delete_files", directory=-1) }}';
+		var current_user = '{{ current_user.username }}'
+
+		function sub(obj, target){
+			var file = obj.value;
+			var fileName = file.split("\\");
+			$(target).html(fileName[fileName.length-1]);
+			event.preventDefault();
+		}
+		$( document ).ready(function() {
+			$('#{{ tab }}').attr({style: 'display:block;'});
+			$('#{{ tab }}_button').toggleClass("active");
+		});
+	</script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/upload_item.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/tabs.js') }}"></script>
+{% endblock %}

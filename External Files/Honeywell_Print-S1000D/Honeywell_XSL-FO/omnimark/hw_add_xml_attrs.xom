@@ -1,0 +1,264 @@
+process
+
+;Adds required attributes.
+;	- Does not change chg or key attributes.
+
+submit #main-input
+
+global stream GsMainInput initial {""}					;Pass on command line.
+global stream GsChapnbr initial {""}
+global stream GsSectnbr initial {""}
+global stream GsSubjnbr initial {""}
+global stream GsPgblknbr initial {''}	;This is so that pgblknbr's are not output in the mfmatr (like in a table).
+global stream GsRevdate initial {""}
+global stream GsChg initial {'N'}
+global stream GsFignbr initial {""}
+global stream GsGraphicFunc initial {""}				;To use in the sheet elements.
+global stream GsGraphicSeq initial {""}					;To use in the sheet elements.
+global integer GiSeq variable				;Keyed integer shelf to base sequence on the func value. The func is used for the key of the shelf. (A 'T' is added to task func values to keep them separate from the others.)
+global switch GxWipe initial {false}	;activated/deactivated on the command line. True = Overwrite existing attributes. False = Only add attribute if it doesn't already exist.
+
+;==================
+;===== Macros =====
+;==================
+
+macro ws is white-space macro-end
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+;=====================
+;===== Functions =====
+;=====================
+
+;Add an attribute to an element. (the stream must contain the end of the tag '>')
+;	-	Replace existing attribute if GxWipe is true.
+;	Syntax: add-attr(stream name, attr name, attr value)
+define function add-attr
+	(modifiable stream tag,
+	value stream attr-name,
+	value stream attr-val) as
+	local stream LsTmp
+	local switch LxExists initial {false} ;Attribute exists.
+	local switch LxEmpty initial {false}  ;Attribute exists, but is empty? (seq="")
+	do scan tag
+		match unanchored ws '%g(attr-name)=""'
+			activate LxEmpty
+		match unanchored ws '%g(attr-name)="'
+			activate LxExists
+	done
+	do when not LxExists and not LxEmpty
+		open LsTmp as buffer
+			repeat scan tag
+				match ('/'? '>')=>end
+					put LsTmp ' %g(attr-name)="%g(attr-val)"%x(end)'
+				match any=>char
+					put LsTmp char
+			again
+		close LsTmp
+	else ;when the attribute already exists
+		open LsTmp as buffer
+			do when GxWipe or LxEmpty ;when the attribute should be replaced
+				repeat scan tag
+					match ws+ (attr-name '="' [any except '"']* '"')=>old
+						put LsTmp ' %g(attr-name)="%g(attr-val)"'
+					match any=>char
+						put LsTmp char
+				again
+			else
+				set LsTmp to tag ;The stream "tag" is set to LsTmp at the end of the function. If no modifications were done, keep original "tag". Otherwise, the whole tag will get stripped.
+			done
+		close LsTmp
+	done
+	set tag to LsTmp
+
+;===========================
+;===== MAIN PROCESSING =====
+;===========================
+
+;Add required attributes
+
+;	@revdate only
+find ('<cmm' [any except '>']+ '>')=>elem
+	repeat scan elem
+		match ws+ 'chapnbr="' [any except '"']*=>val '"'
+			set GsChapnbr to val
+		match ws+ 'sectnbr="' [any except '"']*=>val '"'
+			set GsSectnbr to val
+		match ws+ 'subjnbr="' [any except '"']*=>val '"'
+			set GsSubjnbr to val
+		match ws+ 'chg="' [any except '"']*=>val '"'
+			set GsChg to val
+		match ws+ 'revdate="' [any except '"']*=>val '"'
+			set GsRevdate to val
+		match any
+	again
+	output elem
+
+;Convert altpnr to separate mfrpnr (for simplification).
+find (('<mfrpnr>') upto ('</mfrpnr>') '</mfrpnr>')=>mfrpnr
+	repeat scan mfrpnr
+		match '<altpnr>'
+			output '</mfrpnr>%n<mfrpnr>'
+		match '</altpnr>'
+		match any=>char
+			output char
+	again
+;  <mfrpnr>
+;  <pnr>2117342-8</pnr>
+;  <mfr>64547</mfr>
+;  <altpnr>
+;  <pnr>S351T020-8</pnr>
+;  <mfr>81205</mfr>
+;  </altpnr>
+;  </mfrpnr>
+
+find ('<' ('legalntc'|'trlist'|'sblist'|'hazmtlst'|'vendlist')=>tag [any except '>']* '>')=>elem
+	local stream LsElem
+	set LsElem to elem
+	add-attr(LsElem, 'chg', GsChg)
+	add-attr(LsElem, 'revdate', GsRevdate)
+;ADD-KEY|add-attr(LsElem, 'key', 'cmm-%g(GsChapnbr)-%g(GsSectnbr)-%g(GsSectnbr)-%g(GsSubjnbr)-%x(tag)')
+	output LsElem
+
+find ('<prtlist' [any except '>']+ '>')=>elem
+	local stream LsElem
+	set LsElem to elem
+	add-attr(LsElem, 'chg', GsChg)
+	add-attr(LsElem, 'revdate', GsRevdate)
+	output LsElem
+
+find ('<' ('pgblk' | ('ipl' ws)) [any except '>']+ '>')=>elem
+	local stream LsElem
+	set LsElem to elem
+	repeat scan elem
+		match ws+ 'pgblknbr="' [any except '"']*=>val '"'
+			set GsPgblknbr to val
+		match any
+	again
+	add-attr(LsElem, 'chapnbr', GsChapnbr)
+	add-attr(LsElem, 'sectnbr', GsSectnbr)
+	add-attr(LsElem, 'subjnbr', GsSubjnbr)
+	add-attr(LsElem, 'chg', GsChg)
+	add-attr(LsElem, 'revdate', GsRevdate)
+;ADD-KEY|add-attr(LsElem, 'key', 'cmm-%g(GsChapnbr)-%g(GsSectnbr)-%g(GsSubjnbr)-pgblk-%g(GsPgblknbr)')
+	output LsElem
+
+find ul (('<task') [any except '>']+ '>')=>elem
+	local stream LsElem
+	local stream LsFunc initial {''}
+	local stream LsSeq
+	set LsElem to elem
+	do scan LsElem
+		match unanchored ul (ws+ 'func="' [any except '"']*=>val '"')=>attr
+			set LsFunc to val
+	done
+	do when LsFunc != ''
+		increment GiSeq ^ 'T%g(LsFunc)'
+		set LsSeq to '3fzd' format GiSeq ^ 'T%g(LsFunc)'
+		add-attr(LsElem, 'seq', LsSeq)
+	done
+	add-attr(LsElem, 'chapnbr', GsChapnbr)
+	add-attr(LsElem, 'sectnbr', GsSectnbr)
+	add-attr(LsElem, 'subjnbr', GsSubjnbr)
+	add-attr(LsElem, 'func', LsFunc)
+	add-attr(LsElem, 'confltr', 'A')
+	add-attr(LsElem, 'varnbr', '01')
+	add-attr(LsElem, 'pgblknbr', GsPgblknbr)
+	add-attr(LsElem, 'chg', GsChg)
+	add-attr(LsElem, 'revdate', GsRevdate)
+;ADD-KEY|add-attr(LsElem, 'key', 'cmm-%g(GsChapnbr)-%g(GsSectnbr)-%g(GsSubjnbr)-%g(LsFunc)-%g(LsSeq)')
+	output LsElem
+
+find ul (('<subtask'|'<table'|'<graphic'|'<figure'|'<arlist')=>tag [any except '>']+ '>')=>elem
+	local stream LsElem
+	local stream LsFunc initial {''}
+	local stream LsSeq
+	set LsElem to elem
+	do when tag = '<graphic'
+		set LsFunc to '99B'
+	done
+	do scan LsElem
+		match unanchored ul (ws+ 'func="' [any except '"']*=>val '"')=>attr
+			set LsFunc to val
+	done
+	do when LsFunc != ''
+		increment GiSeq ^ LsFunc
+		set LsSeq to '3fzd' format GiSeq ^ LsFunc
+		add-attr(LsElem, 'seq', LsSeq)
+	done
+;	do when tag = '<graphic'
+;	   set GsGraphicFunc to LsFunc
+;	   set GsGraphicSeq to LsSeq
+;	done
+	add-attr(LsElem, 'chapnbr', GsChapnbr)
+	add-attr(LsElem, 'sectnbr', GsSectnbr)
+	add-attr(LsElem, 'subjnbr', GsSubjnbr)
+	add-attr(LsElem, 'func', LsFunc)
+	add-attr(LsElem, 'confltr', 'A')
+	add-attr(LsElem, 'varnbr', '01')
+	add-attr(LsElem, 'pgblknbr', GsPgblknbr) when GsPgblknbr != ''
+	add-attr(LsElem, 'chg', GsChg) when tag != '<table'
+	add-attr(LsElem, 'revdate', GsRevdate) when tag != '<table'
+;ADD-KEY|add-attr(LsElem, 'key', 'cmm-%g(GsChapnbr)-%g(GsSectnbr)-%g(GsSubjnbr)-%g(LsFunc)-%g(LsSeq)') when tag != '<table'
+	output LsElem
+	
+find ('<sheet' [any except '/>']+ '/'? '>')=>elem
+	local stream LsElem
+	local stream LsSheetnbr
+	set LsElem to elem
+	do scan LsElem
+		match unanchored ws+ 'sheetnbr="' [any except '"']*=>val '"'
+			set LsSheetnbr to val
+	done
+	add-attr(LsElem, 'chg', GsChg)
+	add-attr(LsElem, 'revdate', GsRevdate)
+;ADD-KEY|add-attr(LsElem, 'key', 'cmm-%g(GsChapnbr)-%g(GsSectnbr)-%g(GsSubjnbr)-%g(GsGraphicFunc)-%g(GsGraphicSeq)-SH%g(LsSheetnbr)')
+	output LsElem
+	
+find ('<refint' [any except '>']+ '>')=>elem	
+	local stream LsElem
+	set LsElem to elem	
+	add-attr(LsElem, 'reftype', 'xref')
+	output LsElem	
+
+;Change any "EFF REV X" msc elements to mdl elements.
+;	EFF REV A
+;	EFF REV A THRU REV B
+find '<msc>' ws* 'EFF' ws* 'REV' ws* (letter (ws* 'THRU' ws* 'REV' ws* letter)?)=>mdl ws* '</msc>'
+	output '<mdl>%x(mdl)</mdl>'
+
+;Strip prefix from RD's.
+;find ('<rdi>' [any except '<']+ '</rdi>')=>rdi
+;	local stream LsNewRd
+;	output '<rdi>'
+;	repeat scan rdi
+;		match (letter+ digit+)=>rd (letter=>suffix '<')?
+;			set LsNewRd to rd
+;			set LsNewRd to '%g(LsNewRd)%x(suffix)' when suffix is specified
+;		match any
+;	again
+;	output LsNewRd
+;	output '</rdi>'
+	
+process-start
+	;Find all func attributes in the manual and create an item on the GiSeq shelf with an initial seq value (that will be incremented).
+	local switch LxInTask initial {false}
+	repeat scan file GsMainInput
+		match '<task'
+			activate LxInTask
+		match '>'
+			deactivate LxInTask
+		match ul (ws+ 'func="' [any except '"']*=>val '"')=>attr
+			local stream LsFunc
+			set LsFunc to 'T%x(val)' when LxInTask
+			set LsFunc to val when not LxInTask
+			do when GiSeq hasnt ^ LsFunc
+				set new GiSeq ^ LsFunc to 800 when LxInTask
+				set new GiSeq ^ LsFunc to 0 when not LxInTask
+			done
+		match any
+	again
+	;Set item on GiSeq shelf for graphics.
+	set new GiSeq ^ '99B' to 800 when GiSeq hasnt ^ '99B'

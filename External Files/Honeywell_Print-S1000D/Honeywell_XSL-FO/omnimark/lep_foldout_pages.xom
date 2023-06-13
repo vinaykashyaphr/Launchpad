@@ -1,0 +1,202 @@
+process
+
+;Modify to update all page numbers.
+
+submit #main-input
+
+global stream GsDebug initial {''}
+global stream GsFilename initial {''}
+global stream GsCurrChapter initial {''}
+global stream GsCurrSection initial {''}
+global stream GsCurrSubject initial {''}
+global stream GsCurrUnit initial {''}
+global stream GsCurrPgblk initial {''}
+global stream GsCurrRevdate initial {''}
+global stream GsCurrRevised initial {''}
+global stream GsPrevPgblk initial {''}
+global stream GsCurrPrefix initial {''}
+global stream GsPrevPrefix initial {''}
+global stream GsCurrConfnbr initial {''}
+
+; Sonovision update (2019.09.16)
+; - sometimes there is new PGBLK within existing PGBLK and want to make sure that page numbering is reset
+global stream GsCurrLabel initial {''}
+global stream GsCurrNumber initial {''}
+global stream GsCurrNumberEndsWith initial {''}
+
+global stream GsPrevConfnbr initial {''}
+global stream GsPrevChapter initial {''}
+global stream GsPrevSection initial {''}
+global stream GsPrevSubject initial {''}
+global stream GsPrevUnit initial {''}
+global integer GiFoldoutTablePages
+global integer GiNewPageNumber initial {1}
+global switch GxUpdatePage initial {true}
+
+define integer function get-table-foldout-pages(value stream page) as
+	local integer LiPages initial {0}
+	do scan page
+		match unanchored ul (white-space+ 'foldout-table-pages="' [any except '"']*=>val '"')=>attr
+			set LiPages to val
+	done
+	return LiPages
+
+define function get-current-attributes(value stream page) as
+        
+        set GsCurrLabel to ''
+        set GsCurrNumber to ''
+        set GsCurrNumberEndsWith to ''
+        
+	
+	repeat scan page
+		match ul (white-space+ 'chapter="' [any except '"']*=>val '"')=>attr
+			set GsCurrChapter to val
+		match ul (white-space+ 'section="' [any except '"']*=>val '"')=>attr
+			set GsCurrSection to val
+		match ul (white-space+ 'subject="' [any except '"']*=>val '"')=>attr
+			set GsCurrSubject to val
+		match ul (white-space+ 'unit="' [any except '"']*=>val '"')=>attr
+			set GsCurrUnit to val
+		match ul (white-space+ 'pgblk="' [any except '"']*=>val '"')=>attr
+			set GsCurrPgblk to val
+		match ul (white-space+ 'revdate="' [any except '"']*=>val '"')=>attr
+			set GsCurrRevdate to val
+		match ul (white-space+ 'revised="' [any except '"']*=>val '"')=>attr
+			set GsCurrRevised to val
+		match ul (white-space+ 'confnbr="' [any except '"']*=>val '"')=>attr
+			set GsCurrConfnbr to val		
+
+		match ul (white-space+ 'label="' [any except '"']*=>val '"')=>attr
+			set GsCurrLabel to val
+			do when (GsCurrLabel isnt equal "") and (GsCurrNumberEndsWith isnt equal "")
+			put GsDebug 'GsCurrLabel:%g(GsCurrLabel)%n'
+			done
+
+		match ul (white-space+ 'number="' [any except '"']*=>val '"')=>attr
+			set GsCurrPrefix to ''
+
+			set GsCurrNumber to '{%x(val)}'
+			do scan GsCurrNumber
+				match ((lookahead not "001}")any)* "001"=>suffix "}"
+					set GsCurrNumberEndsWith to suffix
+					put GsDebug 'GsCurrNumber: %x(val)%n'
+					put GsDebug 'GsCurrNumberEndsWith: %x(suffix)%n'
+			done
+
+			do scan val
+				; RS: changed to look for prefixes like "RTR-1", "1-1", "1-2-1", "A-1"
+				;match [any-text except digit]+=>prefix
+				match ( (letter+ '-') | (digit+ '-' digit+ '-') | (digit+ '-') ) => prefix digit+ ; => junk
+					set GsCurrPrefix to prefix
+					put GsDebug 'Set GsCurrPrefix to %x(prefix)%n'
+			done
+
+
+		match any
+	again
+
+define function add-pages(value stream orig-page, value integer page-count) as
+	local stream LsNewNumber initial {'TBD'}
+	local integer LiPagesAdded initial {0}
+	local integer LiPageNumber
+	do scan orig-page
+		match unanchored white-space+ 'number="' [any-text except digit]* digit+=>val
+			put GsDebug 'orig page number: "%x(val)"%n'
+			do when GxUpdatePage
+				set LiPageNumber to GiNewPageNumber
+			else
+				set LiPageNumber to val + 2
+			done
+			put GsDebug 'set LiPageNumber to "%d(LiPageNumber)"%n'
+	done
+	repeat
+		increment LiPagesAdded
+		do when LiPagesAdded = 1 and not GxUpdatePage
+			put GsDebug 'adding page %d(LiPagesAdded) (the original page)%n'
+			output orig-page
+		else when LiPagesAdded = 1 and GxUpdatePage
+			set LsNewNumber to '%g(GsCurrPrefix)%d(LiPageNumber)/%g(GsCurrPrefix)' || 'd' format LiPageNumber + 1
+			put GsDebug 'updating page %d(LiPagesAdded) (%g(LsNewNumber))%n'
+			output '<page position="UPDATED" number="%g(LsNewNumber)" chapter="%g(GsCurrChapter)" section="%g(GsCurrSection)" subject="%g(GsCurrSubject)"'_
+			       ' unit="" pgblk="%g(GsCurrPgblk)" figure="" revdate="%g(GsCurrRevdate)" revised="%g(GsCurrRevised)" target-id="NA" label="" foldout="F"/>%n'
+			increment LiPageNumber by 2
+		else
+			set LsNewNumber to '%g(GsCurrPrefix)%d(LiPageNumber)/%g(GsCurrPrefix)' || 'd' format LiPageNumber + 1
+			put GsDebug 'adding page %d(LiPagesAdded) (%g(LsNewNumber))%n'
+			output '<page position="ADDED" number="%g(LsNewNumber)" chapter="%g(GsCurrChapter)" section="%g(GsCurrSection)" subject="%g(GsCurrSubject)"'_
+			       ' unit="%g(GsCurrUnit)" pgblk="%g(GsCurrPgblk)" figure="" revdate="%g(GsCurrRevdate)" revised="%g(GsCurrRevised)" target-id="NA" label="" foldout="F"/>%n'
+			increment LiPageNumber by 2
+		done
+		exit when LiPagesAdded = page-count
+	again
+	set GiNewPageNumber to LiPageNumber
+	put GsDebug 'done with add-pages(). set GiNewPageNumber to "%d(GiNewPageNumber)"%n'
+
+define function update-page-number(value stream page) as
+	local switch LxIsFoldout initial {false}
+	do scan page
+		match unanchored ul white-space+ 'foldout="' 'L'? 'F"'
+			activate LxIsFoldout
+	done
+	repeat scan page
+		match ul (white-space+ 'number="' ([any-text except digit]* [any except '"']*=>val)=>attr-val '"')=>attr
+			local stream LsNewPage
+			set LsNewPage to '%g(GsCurrPrefix)%d(GiNewPageNumber)'
+			set LsNewPage to '%g(LsNewPage)/%g(GsCurrPrefix)' || 'd' format GiNewPageNumber + 1 when LxIsFoldout
+			output ' number="%g(LsNewPage)"'
+			put GsDebug 'updated page "%x(attr-val)" to "%g(LsNewPage)"%n'
+			increment GiNewPageNumber
+			increment GiNewPageNumber when LxIsFoldout
+		match ul (white-space+ 'position="' [any except '"']*=>val '"')=>attr
+			output ' position="UPDATED"'
+		match any=>char
+			output char
+	again
+
+;<page position="109" number="63/64" chapter="31" section="61" subject="59" unit="" pgblk="1" 
+;figure="" revdate="20110701" revised=" " target-id="cmm1223748613138882882-r1" label="" foldout="F" foldout-table-pages="3"/>
+find ('<page' [any except '>']+ '>' '%n'*)=>page
+	put GsDebug '===================================%n'
+	put GsDebug 'Found page.%n'
+	get-current-attributes(page)
+	do when GsCurrPrefix != GsPrevPrefix
+		put GsDebug 'START OF A NEW PREFIX%n'
+		set GsPrevPrefix to GsCurrPrefix
+		set GiNewPageNumber to 1
+	done
+	
+	; Sonovision update (2019.09.16)
+	; - force new PGBLK if @label isn't empty and @number ends-with "001"
+	
+	do when (GsPrevPgblk != GsCurrPgblk) or (GsCurrConfnbr != GsPrevConfnbr) or (GsCurrChapter != GsPrevChapter)
+	        or (GsCurrSection != GsPrevSection) or (GsCurrSubject != GsPrevSubject) or (GsCurrUnit != GsPrevUnit)
+	        or (GsCurrLabel != "" and GsCurrNumberEndsWith = "001")
+
+		put GsDebug 'START OF A NEW PGBLK%n'
+		set GsPrevPgblk to GsCurrPgblk
+		set GsPrevConfnbr to GsCurrConfnbr
+		set GsPrevChapter to GsCurrChapter
+		set GsPrevSection to GsCurrSection
+		set GsPrevSubject to GsCurrSubject
+		set GsPrevUnit to GsCurrUnit
+		set GiNewPageNumber to 1
+		do when GsCurrPgblk != ''
+			set GiNewPageNumber to GsCurrPgblk
+			set GiNewPageNumber to 0 when GsCurrPgblk = '1' or 'd' format GsCurrPgblk >= 17000 
+			increment GiNewPageNumber
+		done
+	done
+	do when get-table-foldout-pages(page) > 0
+		set GiFoldoutTablePages to get-table-foldout-pages(page)
+		put GsDebug 'Page is a table foldout page ("%d(GiFoldoutTablePages)" pages).%n'
+		add-pages(page, GiFoldoutTablePages)
+	else
+		update-page-number(page)
+	done
+	
+
+process-start
+	open GsDebug as file '%g(GsFilename)_lep_foldout_pages_debug.txt'
+	
+process-end
+	close GsDebug

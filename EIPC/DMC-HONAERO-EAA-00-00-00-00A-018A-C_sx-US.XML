@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub UDT _rev _touchup?>
+<?Pub Inc?>
+<dmodule xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd" xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>GAS TURBINE ENGINE</techName><infoName>Introduction</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="HON99193"><enterpriseName>HON99193</enterpriseName></responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic>
+<displayText>
+<simplePara>All</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<unverified/></qualityAssurance></dmStatus>
+</identAndStatusSection><?Pub Caret -3?>
+<content><description>
+<levelledPara><title>General</title>
+<levelledPara><para>This publication gives the parts for the equipment shown on the Title page.</para>
+</levelledPara>
+<levelledPara><para>This publication is written in agreement with the ATA Specification.</para>
+</levelledPara>
+<levelledPara><para>Refer to <internalRef internalRefId="tab-001" internalRefTargetType="irtt02"></internalRef> for effectivity code data.</para>
+<levelledPara><para>Determine the exact configuration of the equipment from the part number, series number, and change numbers stamped on the equipment identification plate.</para>
+</levelledPara>
+<levelledPara><para>The code symbol is used at the beginning of the illustration title, paragraph, or procedural step to identify work procedural differences between equipment.</para>
+<table>
+<title>Equipment Identification List</title>
+<tgroup cols="5"><colspec colname="COLSPEC0" colwidth="0.91in"/><colspec colname="col1" colwidth="0.58in"/><colspec colname="col2" colwidth="0.73in"/><colspec colname="col3" colwidth="2.85in"/><colspec colname="col4" colwidth="1.51in"/><thead><row>
+<entry>
+<para>Effectivity Code Symbol</para>
+</entry>
+<entry>
+<para>Series No.</para>
+</entry>
+<entry>
+<para>Change No.</para>
+</entry>
+<entry>
+<para>Description</para>
+</entry>
+<entry>
+<para>Service Bulletin No.</para>
+</entry>
+</row></thead><tbody><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

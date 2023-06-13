@@ -1,0 +1,17 @@
+@echo off
+rem   This batch file encapsulates a standard XEP call. 
+
+set CP=lib\xep.jar;lib\saxon.jar;lib\xt.jar
+
+if x%OS%==xWindows_NT goto WINNT
+"java" -classpath "%CP%" com.renderx.xep.XSLDriver "-DCONFIG=xep.xml" %1 %2 %3 %4 %5 %6 %7 %8 %9
+goto END
+
+:WINNT
+REM "java" -classpath "%CP%" com.renderx.xep.XSLDriver "-DCONFIG=xep.xml" %*
+"java" -Xms32M -Xmx384M -classpath "%CP%" com.renderx.xep.XSLDriver "-DCONFIG=xep.xml" %*
+
+:END
+
+
+set CP=

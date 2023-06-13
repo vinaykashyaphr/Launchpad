@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/proced.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="400" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>TESTING AND FAULT ISOLATION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><procedure><preliminaryRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+<reqSupportEquips>
+<noSupportEquips/></reqSupportEquips>
+<reqSupplies>
+<noSupplies/></reqSupplies>
+<reqSpares>
+<noSpares/></reqSpares>
+<reqSafety>
+<noSafety/></reqSafety>
+</preliminaryRqmts>
+<mainProcedure>
+<proceduralStep><title>Reason for the Job</title>
+<proceduralStep>
+<para>Use the test procedures in this section to test and isolate
+faults.</para>
+</proceduralStep>
+<proceduralStep>
+<para>The function of the test procedures is to find if there is a
+failure in the operation of the LRU.</para><?Pub
+Caret 118?>
+</proceduralStep>
+</proceduralStep>
+</mainProcedure>
+<closeRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+</closeRqmts>
+</procedure></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

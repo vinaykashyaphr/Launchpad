@@ -1,0 +1,839 @@
+{% extends "layout.html" %}
+{% set directory_lifetime = config.DIRECTORY_LIFETIME %}
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/checkbox.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/upload.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tabs.css') }}">
+	<style>
+		.manual_type_selection p{
+			display: inline-block;
+			width: 200px;
+		}
+	</style>
+{% endblock %}
+{% block content %}
+<div class="tabs">
+	<button id="tab_conv_button" class="tablinks" onclick="openTab(event, 'tab_conv')">Convert</button>
+	<button id="tab_qa_button" class="tablinks" onclick="openTab(event, 'tab_qa')">QA</button>
+	<button id="tab_textblocks_button" class="tablinks" onclick="openTab(event, 'tab_textblocks')">Textblocks</button>
+	<button id="tab_accuracy_button" class="tablinks" onclick="openTab(event, 'tab_accuracy')">Accuracy</button>
+	<button id="tab_folder_button" class="tablinks" onclick="openTab(event, 'tab_folder')">Folder Creation</button>
+	<button id="tab_highlight_button" class="tablinks" onclick="openTab(event, 'tab_highlight')">Highlight</button>
+	<button id="tab_finals_button" class="tablinks" onclick="openTab(event, 'tab_finals')">Finals</button>
+</div>
+
+<div id="tab_conv" class="tabcontent">
+	<div class="container">
+		<h2 title="Converts a .xml, .sgml, or .pdf ATA100 or ATA2200 document to S1000D data modules."><a class='link_hide' href="{{ url_for('help') }}">Convert a document</a></h2>
+		<form id="convert_form" enctype="multipart/form-data" method="post" action="{{ url_for(url, tab='tab_conv') }}">
+			<div class="button_one" id="file_button" onclick="getFile('#upfile')">Select File(s)</div>
+			<div class="file_wrapper"><input type="file" name="file" id="upfile" accept=".xml,.sgm,.pdf,.txt,.pickle" multiple required onchange="sub(this, '#file_button')" /></div><br>
+			<p style="display:none;" title='If checked, the conversion process will output a PDF print of the converted publication, in addition to the data modules.'>
+				<label class="checkbox_container">
+					Print
+					<input id="print_checkbox" name="print" value="do_print" type="checkbox"/>
+					<span class="checkmark"></span>
+				</label>
+				<!-- <span class="tooltip_text">
+					If checked, the conversion process will output a PDF print of the converted publication, in addition to the data modules.
+				</span> -->
+			</p>
+			<span id="print_options" style="display: none;">
+				<p title='If checked, the PDF output will contain Data Module codes'>
+					<label class="checkbox_container">
+						DM Codes
+						<input name="print_dm_codes" value="print_dm_codes" type="checkbox"/>
+						<span class="checkmark"></span>
+
+					</label>
+					<!-- <span class="tooltip_text">
+						If checked, the PDF output will contain Data Module codes
+					</span> -->
+				</p>
+				<span class="manual_type_selection">
+					<p title='The document type'>
+						<label>
+							Doctype
+							<select class="manual_type" name="manual_type" style="width: 80px;">
+								<option value="CMM">CMM</option>
+								<option value="EM">EM</option>
+								<option value="EIPC">EIPC</option>
+								<option value="SDOM">SDOM</option>
+							</select>
+						</label>
+						<!-- <span class="tooltip_text">
+							The document type
+						</span> -->
+					</p>
+					<p title='The document variant'>
+						<label>
+							Variant
+							<select class="manual_variant" name="manual_variant" style="width: 80px;">
+								<option value="cmm">CMM</option>
+								<option value="fmm">FMM</option>
+								<option value="irm">IRM</option>
+								<option value="orim">ORIM</option>
+								<option value="spm">SPM</option>
+								<option value="acmm">ACMM</option>
+								<option value="ipc">IPC</option>
+								<option value="gem">GEM</option>
+								<option value="mm">MM</option>
+								<option value="ohm">OHM</option>
+								<option value="lnmm">Line MM</option>
+							</select>
+						</label>
+						<!-- <span class="tooltip_text">
+							The document variant
+						</span> -->
+					</p>
+				</span>
+			</span>
+			<input name='convert' class="button_one" type="submit" value="Convert"/>
+			<input name="upload_type" type="hidden" value="conv"/>
+		</form>
+		<progress class='upload_bar' style="display: none;"></progress>
+	</div>
+
+	<div class="container">
+		<h2>Conversions:</h2>
+		<div class="uploads_container">
+			{% if uploads|length == 0 %}
+			<p class="nouploads">You don't have any recent uploads.</p>
+			{% else %}
+			<!-- <ul class="uploads"> -->
+			<form class="uploads" method="post" action="{{ url_for('data_conversion', tab='tab_conv') }}">
+				{% for upload in uploads %}
+				<div class="upload_item" upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+					<!-- <button type="button" class="expand" onclick="show(this)">></button> -->
+					<div>
+						<label class="checkbox_container">
+							<input class='select_button' type="checkbox" name="upload_item" value='{{ upload.id }}'>
+							<span class="checkmark"></span>
+							{{ upload.filename }}
+						</label>
+						<div class="details">
+							<p><b>STATUS:</b><br><span class="status">{{ upload.status }}</span></p>
+							<p><b>TIME TO DELETE:</b><br><span class="timer" value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+							<a class="download" href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + ".zip", ftype="conv" )}}' {% if upload.status in ["Converting", "Pending"] %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+							<!-- <img src="/static/images/delete.png" /> -->
+							<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+						</div>
+					</div>
+					<div class="input_form" style="display: none;">
+						<hr/>
+						<p class="prompt"></p>
+						<input type="text" class="user_input" disabled required/><!--
+						--><input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+						<input type="hidden" class="sid" />
+					</div>
+				</div>
+				{% endfor %}
+				<div class="buttons">
+					<label class="checkbox_container">
+						<input class="select" type="checkbox" name='upload_item' value=''>
+						<div class="checkmark"></div>
+					</label>
+					<!-- <button type="button" id="select">Select All</button> -->
+					<input type="submit" name="delete" class='button_select' value="Delete Selected">
+					<input type="submit" name="download" class='button_select' value="Download Selected">
+					<input name="dl_type" type="hidden" value="conv"/>
+				</div>
+			</form>
+			<!-- </ul> -->
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<div id="tab_qa" class="tabcontent">
+	<div class="container">
+		<h2>QA Validation</h2>
+		<form id="qa_form" enctype='multipart/form-data' method='POST' action='{{ url_for(url, tab="tab_qa") }}'>
+			<input type='text' name='job_no' required placeholder="Job Number"/>
+			<span class="manual_type_selection">
+				<p title='The document type'>
+					<label>
+						Doctype
+						<select class="manual_type" name="manual_type" style="width: 80px;">
+							<option value="CMM">CMM</option>
+							<option value="EM">EM</option>
+							<option value="EIPC">EIPC</option>
+							<option value="SDOM">SDOM</option>
+						</select>
+					</label>
+					<!--<span class="tooltip_text">
+						The document type
+					</span>-->
+				</p>
+				<p title='The document variant'>
+					<label>
+						Variant
+						<select class="manual_variant" name="manual_variant" style="width: 80px;">
+							<option value="cmm">CMM</option>
+							<option value="fmm">FMM</option>
+							<option value="irm">IRM</option>
+							<option value="orim">ORIM</option>
+							<option value="spm">SPM</option>
+							<option value="acmm">ACMM</option>
+							<option value="ipc">IPC</option>
+							<option value="gem">GEM</option>
+							<option value="mm">MM</option>
+							<option value="ohm">OHM</option>
+							<option value="lnmm">Line MM</option>
+						</select>
+					</label>
+					<!--<span class="tooltip_text">
+						The document variant
+					</span>-->
+				</p>
+			</span><br>
+			<div title="Zip file should contain only data modules and a graphics folder." class="button_one" id="file_button_qa_zip" onclick="getFile('#upfile_qa_zip')">Select Zip</div>
+			<div class="file_wrapper"><input type="file" name="upfile_qa_zip" id="upfile_qa_zip" accept=".zip" required onchange="sub(this, '#file_button_qa_zip')" /></div>
+			<div class="button_one" id="file_button_qa_pdf1" onclick="getFile('#upfile_qa_pdf1')">Select Converted PDF</div>
+			<div class="file_wrapper"><input type="file" name="upfile_qa_pdf1" id="upfile_qa_pdf1" accept=".pdf" required onchange="sub(this, '#file_button_qa_pdf1')" /></div>
+			<div class="button_one" id="file_button_qa_pdf2" onclick="getFile('#upfile_qa_pdf2')">Select Source PDF</div>
+			<div class="file_wrapper"><input type="file" name="upfile_qa_pdf2" id="upfile_qa_pdf2" accept=".pdf" required onchange="sub(this, '#file_button_qa_pdf2')" /></div><br>
+			<input name='upload' class="button_one" type="submit" value="Run QA"/>
+			<input name="upload_type" type="hidden" value="qa"/>
+		</form>
+		<progress class='upload_bar' style="display: none;"></progress>
+	</div>
+
+	<div class='container'>
+		<h2>QA Validations:</h2>
+		<div class='uploads_container'>
+		{% if q_uploads|length == 0 %}
+		<p class='nouploads'>You don't have any recent uploads.</p>
+		{% else %}
+		<form action="{{ url_for('data_conversion', tab='tab_qa') }}" class='uploads' method="POST">
+			{% for upload in q_uploads %}
+			<div class='upload_item' upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+				<div>
+					<label class='checkbox_container'>
+						<input class='select_button' type="checkbox" name='q_upload_item' value='{{ upload.id }}'>
+						<span class='checkmark'></span>
+						{{ upload.filename }}
+					</label>
+					<div class='details'>
+						<p><b>STATUS:</b><br><span class='status'>{{ upload.status }}</span></p>
+						<p><b>TIME TO DELETE:</b><br><span class='timer' value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+						<a class='download' href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + "_validation.html", ftype="qa") }}' {% if upload.status in ['Pending', 'QA Running'] %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+						<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+					</div>
+				</div>
+				<div class='input_form' style='display: none;'>
+					<hr/>
+					<p class="prompt"></p>
+					<input type="text" class="user_input" disabled required/>
+					<input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+					<input type="hidden" class="sid"/>
+				</div>
+			</div>
+			{% endfor %}
+			<div class="buttons">
+				<label class='checkbox_container'>
+					<input class="select" type="checkbox" name='q_upload_item' value=''>
+					<div class='checkmark'></div>
+				</label>
+				<input type='submit' class='button_select' name='delete' value='Delete Selected'>
+				<input type='submit' class='button_select' name='download' value='Download Selected'>
+				<input name="dl_type" type="hidden" value="qa"/>
+			</div>
+		</form>
+		{% endif %}
+		</div>
+	</div>
+</div>
+
+<div id="tab_textblocks" class="tabcontent">
+	<div class="container">
+		<div title="Processes a PDF and outputs it as a text file containing sorted and processed textblocks"><h2><a class='link_hide' href="{{ url_for('help') }}">Output as Textblocks (Beyond Measure)</a></h2>
+			<!-- <span class="tooltip_text">
+				Processes a PDF and outputs it as a text file containing sorted and processed textblocks
+			</span> -->
+		</div>
+	<form id='blocks_form' enctype='multipart/form-data' method='POST' action='{{ url_for(url, tab="tab_textblocks") }}'>
+		<div class='button_one' id= 'pdf_file_button' onclick="getFile('#pdf_file')">Select File</div>
+		<div class='file_wrapper'>
+			<input type="file" name='pdf_file' id='pdf_file' accept='.pdf' required onchange="sub(this, '#pdf_file_button')"/>
+		</div>
+		<br>
+
+		<input class='button_one' type="submit" name='blocks' value="Output Textblocks">
+		<input name="upload_type" type="hidden" value="blocks"/>
+	</form>
+	<progress class='upload_bar' style="display: none;"></progress>
+	</div>
+
+	<div class='container'>
+		<h2>Processed files:</h2>
+		<div class='uploads_container'>
+		{% if b_uploads|length == 0 %}
+		<p class='nouploads'>You don't have any recent uploads.</p>
+		{% else %}
+		<form action="{{ url_for('data_conversion', tab='tab_textblocks') }}" class='uploads' method="POST">
+			{% for upload in b_uploads %}
+			<div class='upload_item' upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+				<div>
+					<label class='checkbox_container'>
+						<input class='select_button' type="checkbox" name='b_upload_item' value='{{ upload.id }}'>
+						<span class='checkmark'></span>
+						{{ upload.filename }} Sorting
+					</label>
+					<div class='details'>
+						<p><b>STATUS:</b><br><span class='status'>{{ upload.status }}</span></p>
+						<p><b>TIME TO DELETE:</b><br><span class='timer' value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+						<a class='download' href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + ".zip", ftype="bl") }}' {% if upload.status in ['Pending', 'Starting', 'Parsing', 'Formatting', 'Sorting', 'Highlighting'] %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+						<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+					</div>
+				</div>
+				<div class='input_form' style='display: none;'>
+					<hr/>
+					<p class="prompt"></p>
+					<input type="text" class="user_input" disabled required/>
+					<input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+					<input type="hidden" class="sid"/>
+				</div>
+			</div>
+			{% endfor %}
+			<div class="buttons">
+				<label class='checkbox_container'>
+					<input class="select" type="checkbox" name='p_upload_item' value=''>
+					<div class='checkmark'></div>
+				</label>
+				<input type='submit' class='button_select' name='delete' value='Delete Selected'>
+				<input type='submit' class='button_select' name='download' value='Download Selected'>
+				<input name="dl_type" type="hidden" value="bl"/>
+			</div>
+		</form>
+		{% endif %}
+	</div>
+	</div>
+</div>
+
+<div id="tab_accuracy" class="tabcontent">
+	<div class='container'>
+		<div title="Delivers percentage similarity between two documents based on filtered word checks"><h2><a class='link_hide' href="{{ url_for('help') }}">Data conversion accuracy</a></h2>
+			<!-- <span class="tooltip_text">
+				Delivers percentage similarity between two documents based on filtered word checks
+			</span> -->
+		</div>
+		<form id="accuracy_form" enctype=multipart/form-data action="{{ url_for('accuracy_upload', tab='tab_accuracy') }}" method='post'>
+			<div class="button_one" id="file_A_button" onclick="getFile('#upfile_A')">Select Converted File</div>
+			<div class="file_wrapper"><input type="file" name="file_A" id="upfile_A" accept=".xml,.pdf,.txt" required onchange="sub(this, '#file_A_button')" /></div>
+			<div class="button_one" id="file_B_button" onclick="getFile('#upfile_B')">Select Source File</div>
+			<div class="file_wrapper"><input type="file" name="file_B" id="upfile_B" accept=".xml,.pdf,.txt" required onchange="sub(this, '#file_B_button')" /></div><br>
+			<input type='text' id='job_no' name='job_no' required placeholder="Job Number"/>
+
+			<!-- <input type='text' list='list_steps' id='conversion_step' name='conversion_step' autocomplete="off" required placeholder="Step"/> -->
+			<select id='conversion_step' name='conversion_step' placeholder="Conversion Step" required>
+				<!-- <option value="" disabled selected>Please select conversion step</option> -->
+				<option value='Publishing Test' selected>Publishing Test</option>
+				<option value='Conversion Validation'>Conversion Validation</option>
+				<option value='QA Review'>QA Review</option>
+				<option value='Final Assembly'>Final Assembly</option>
+			</select>
+			<p class='tooltip'>
+				<label class="checkbox_container">
+					Raw check (no processing)
+					<input type="checkbox" id='blind' name="blind" value='blindsight'>
+					<span class="checkmark"></span>
+				</label>
+				<span class="tooltip_text">
+					Disables filtering and views all content
+				</span>
+			</p>
+
+
+			<input class="button_one" type="submit" name='accuracy_check' value="Check Accuracy"/>
+		</form>
+
+		<!-- <div id='accuracy_check_status' class='output'>Status: <strong>{{ accuracy_status }}</strong></div> -->
+		<!-- <textarea id='accuracy_check_status' class='output' value='Null'> </textarea> -->
+
+		<div id='accuracy_output' class='output'></div>
+	</div>
+</div>
+
+<div id="tab_folder" class="tabcontent">
+	<div class="container">
+		<div  title="Generates the folder structure for jobs in their correct network folders"><h2><a class='link_hide' href="{{ url_for('help') }}">Job Folder Creation</a></h2>
+			<!-- <span class="tooltip_text">
+				Generates the folder structure for jobs in their correct network folders
+			</span> -->
+		</div>
+		<form id='folder_form' enctype='multipart/form-data' method='POST' action='{{ url_for(url, tab="tab_folder") }}'>
+			<div class='button_one' id='excel_button' onclick="getFile('#excel_file')" title="Excel file contains info needed to create job folders">Select Excel File</div>
+			<div class='file_wrapper'>
+				<input type="file" name='excel_file' id='excel_file' accept=".xls,.xlsx" required onchange="sub(this, '#excel_button')"/>
+			</div>
+			<input class='button_one' type="submit" name='jobfolder' value="Create Job Folders">
+			<input name="upload_type" type="hidden" value="jobfolder"/>
+		</form>
+	</div>
+
+	<div class='container'>
+		<h2>ITAR Folders:</h2>
+		<div class='uploads_container'>
+			{% if f_uploads|length == 0 %}
+			<p class='nouploads'>You don't have any recent uploads.</p>
+			{% else %}
+			<form action="{{ url_for('data_conversion', tab='tab_folder') }}" class='uploads' method="POST">
+				{% for upload in f_uploads %}
+				<div class='upload_item' upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+					<div>
+						<label class='checkbox_container'>
+							<input class='select_button' type="checkbox" name='f_upload_item' value='{{ upload.id }}'>
+							<span class='checkmark'></span>
+							{{ upload.filename }} ITAR Folders
+						</label>
+						<div class='details'>
+							<p><b>STATUS:</b><br><span class='status'>{{ upload.status }}</span></p>
+							<p><b>TIME TO DELETE:</b><br><span class='timer' value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+							<a class='download' href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + ".zip", ftype="fc") }}' {% if upload.status in ['Pending', 'Starting', 'Parsing', 'Formatting', 'Sorting', 'Highlighting', 'Done. No ITAR folders created'] %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+							<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+						</div>
+					</div>
+					<div class='input_form' style='display: none;'>
+						<hr/>
+						<p class="prompt"></p>
+						<input type="text" class="user_input" disabled required/>
+						<input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+						<input type="hidden" class="sid"/>
+					</div>
+				</div>
+				{% endfor %}
+				<div class="buttons">
+					<label class='checkbox_container'>
+						<input class="select" type="checkbox" name='f_upload_item' value=''>
+						<div class='checkmark'></div>
+					</label>
+					<input type='submit' class='button_select' name='delete' value='Delete Selected'>
+					<input type='submit' class='button_select' name='download' value='Download Selected'>
+					<input name="dl_type" type="hidden" value="fc"/>
+				</div>
+			</form>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<div id="tab_highlight" class="tabcontent">
+	<div class="container">
+			<div title="Highlights the similar and extra lines found in two pdf files"><h2><a class='link_hide' href="{{ url_for('help') }}">Highlight differences</a></h2>
+			<!-- <span class="tooltip_text">
+				Highlights the similar and extra lines found in two pdf files
+			</span> -->
+		</div>
+		<form id='highlight_form' enctype='multipart/form-data' method='POST' action='{{ url_for(url, tab="tab_highlight") }}'>
+			<div class='button_one' id= 'file_1_button' onclick="getFile('#cnv_file')">Select Converted File</div>
+			<div class='file_wrapper'>
+				<input type="file" name='cnv_file' id='cnv_file' accept='.pdf' required onchange="sub(this, '#file_1_button')"/>
+			</div>
+			<div class='button_one' id= 'file_2_button' onclick="getFile('#src_file')">Select Source File</div>
+			<div class='file_wrapper'>
+				<input type="file" name='src_file' id='src_file' accept='.pdf' required onchange="sub(this, '#file_2_button')"/>
+			</div>
+			<br>
+			<input type='text' id='job_no' name='job_no' required placeholder="Job Number"/>
+			<input class='button_one' type="submit" name='highlight' value="Highlight Differences">
+			<input name="upload_type" type="hidden" value="highlight"/>
+		</form>
+		<progress class='upload_bar' style="display: none;"></progress>
+	</div>
+
+	<div class='container'>
+		<h2>Highlighted files:</h2>
+		<div class='uploads_container'>
+			{% if p_uploads|length == 0 %}
+			<p class='nouploads'>You don't have any recent uploads.</p>
+			{% else %}
+			<form action="{{ url_for('data_conversion', tab='tab_highlight') }}" class='uploads' method="POST">
+				{% for upload in p_uploads %}
+				<div class='upload_item' upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+					<div>
+						<label class='checkbox_container'>
+							<input class='select_button' type="checkbox" name='p_upload_item' value='{{ upload.id }}'>
+							<span class='checkmark'></span>
+							{{ upload.filename }} Highlighting
+						</label>
+						<div class='details'>
+							<p><b>STATUS:</b><br><span class='status'>{{ upload.status }}</span></p>
+							<p><b>TIME TO DELETE:</b><br><span class='timer' value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+							<a class='download' href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + ".zip", ftype="hl") }}' {% if upload.status in ['Pending', 'Starting', 'Parsing', 'Formatting', 'Sorting', 'Highlighting'] %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+							<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+						</div>
+					</div>
+					<div class='input_form' style='display: none;'>
+						<hr/>
+						<p class="prompt"></p>
+						<input type="text" class="user_input" disabled required/>
+						<input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+						<input type="hidden" class="sid"/>
+					</div>
+				</div>
+				{% endfor %}
+				<div class="buttons">
+					<label class='checkbox_container'>
+						<input class="select" type="checkbox" name='p_upload_item' value=''>
+						<div class='checkmark'></div>
+					</label>
+					<input type='submit' class='button_select' name='delete' value='Delete Selected'>
+					<input type='submit' class='button_select' name='download' value='Download Selected'>
+					<input name="dl_type" type="hidden" value="finals"/>
+				</div>
+			</form>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<div id="tab_finals" class="tabcontent">
+	<div class="container">
+		<h2>Finals</h2>
+		<form id="finals_form" enctype='multipart/form-data' method='POST' onsubmit="submit_finals()" action='{{ url_for(url, tab="tab_finals") }}'>
+			<input type='text' name='job_no' required placeholder="Job Number" onchange="job_number_change(this)"/>
+			<p style="display: inline;" name="existing_job_number"></p><br>
+			<input type='text' name='modellic' required placeholder='Modellic'/>
+			<input type='text' name='cage' required placeholder='Cage'/>
+			<input type='text' name='ata' required placeholder='ATA Number'/>
+			<div>
+				<label>
+					Manual Type
+					<select id="finals_manual_type" name="manual_variant" style="width: 80px;">
+						<option value="CMM">CMM</option>
+						<option value="EIPC">EIPC</option>
+						<option value="EM">EM</option>
+						<option value="LMM">LMM</option>
+						<option value="HMM">HMM</option>
+						<option value="MM">MM</option>
+						<option value="OHM">OHM</option>
+						<option value="IRM">IRM</option>
+						<option value="SPM">SPM</option>
+						<option value="SDIM">SDIM</option>
+						<option value="AMM">AMM</option>
+						<option value="IM">IM</option>
+						<option value="IMM">IMM</option>
+						<option value="OH">OH</option>
+						<option value="ORIM">ORIM</option>				
+					</select>
+				</label>
+			</div><br>
+			<label>
+				Data Type
+				<select name="data_type" style="width: 150px;">
+					<option value="AVIONICS">AVIONICS</option>
+					<option value="ENGAPU">ENGAPU</option>
+					<option value="MECHANICAL">MECHANICAL</option>
+				</select>
+			</label>
+			<div class="button_one" id="file_button_zip" onclick="getFile('#upfile_zip')">Select Zip</div>
+			<div class="file_wrapper"><input type="file" name="upfile_zip" id="upfile_zip" accept=".zip" required onchange="sub(this, '#file_button_zip')" /></div>
+			<br>
+			<input name='finals' class="button_one" type="submit" value="Run Finals"/>
+			<input name="upload_type" type="hidden" value="finals"/>
+		</form>
+	</div>
+
+	<div class='container'>
+		<h2>Finals Uploads:</h2>
+		<div class='uploads_container'>
+		{% if fn_uploads|length == 0 %}
+		<p class='nouploads'>You don't have any recent uploads.</p>
+		{% else %}
+		<form action="{{ url_for('data_conversion', tab='tab_finals') }}" class='uploads' method="POST">
+			{% for upload in fn_uploads %}
+			<div class='upload_item' upload_id='{{ upload.id }}' filename='{{ upload.filename }}'>
+				<div>
+					<label class='checkbox_container'>
+						<input class='select_button' type="checkbox" name='fn_upload_item' value='{{ upload.id }}'>
+						<span class='checkmark'></span>
+						{{ upload.filename }}
+					</label>
+					<div class='details'>
+						<p><b>STATUS:</b><br><span class='status'>{{ upload.status }}</span></p>
+						<p><b>TIME TO DELETE:</b><br><span class='timer' value="{{ upload.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}"></span></p>
+						<a class='download' href='{{ url_for("single_download", directory=upload.id, filename=upload.filename + ".zip", ftype="finals") }}' {% if upload.status in ['Pending', 'Finals Running'] %}style="display: none;"{% endif %}><img src="/static/images/download.png"/></a>
+						<a onclick="delete_file($(this).closest('.upload_item'))"><img src="/static/images/delete.png"/></a>
+					</div>
+				</div>
+				<div class='input_form' style='display: none;'>
+					<hr/>
+					<p class="prompt"></p>
+					<input type="text" class="user_input" disabled required/>
+					<input type="submit" class="button_one input_submit" upload_id="{{ upload.id }}" disabled/>
+					<input type="hidden" class="sid"/>
+				</div>
+			</div>
+			{% endfor %}
+			<div class="buttons">
+				<label class='checkbox_container'>
+					<input class="select" type="checkbox" name='fn_upload_item' value=''>
+					<div class='checkmark'></div>
+				</label>
+				<input type='submit' class='button_select' name='delete' value='Delete Selected'>
+				<input type='submit' class='button_select' name='download' value='Download Selected'>
+				<input name="dl_type" type="hidden" value="finals"/>
+			</div>
+		</form>
+		{% endif %}
+		</div>
+	</div>
+	<div class='container'>
+		<h2>Modify Finals Database</h2>
+		<form id="finals_db_update_form" enctype='multipart/form-data' method='POST' action='{{ url_for("finals_update") }}'>
+			<input type='text' name='job_no' required placeholder="Job Number" onchange="job_number_change(this)"/>
+			<p style="display: inline;" name="existing_job_number"></p><br>
+			<input type='text' name='modellic' placeholder='Modellic'/>
+			<input type='text' name='cage' placeholder='Cage'/>
+			<div>
+				<label>
+					Manual Type
+					<select name="manual_variant" style="width: 80px;">
+						<option value="CMM">CMM</option>
+						<option value="EIPC">EIPC</option>
+						<option value="EM">EM</option>
+						<option value="LMM">LMM</option>
+						<option value="HMM">HMM</option>
+						<option value="MM">MM</option>
+						<option value="OHM">OHM</option>
+						<option value="IRM">IRM</option>
+						<option value="SPM">SPM</option>
+						<option value="SDIM">SDIM</option>
+						<option value="AMM">AMM</option>
+						<option value="IM">IM</option>
+						<option value="IMM">IMM</option>
+						<option value="OH">OH</option>
+						<option value="ORIM">ORIM</option>				
+					</select>
+				</label>
+			</div><br>
+			<input name='finals' class="button_one" type="submit" value="Update Finals DB"/>
+			<input name="upload_type" type="hidden" value="finals"/>
+		</form>
+	</div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/tabs.js') }}"></script>
+<script type="text/javascript">
+	// var conv_socket = io.connect(null, {
+	// 	port: location.port,
+	// 	//rememberTransport: false,
+	// 	transports: ['websocket'],
+	// 	reconnectionAttempts: 5,
+	// 	reconnectionDelay: 2000
+	// });
+
+	// function openTab(evt, tabName) {
+	// 	// Declare all variables
+	// 	var i, tabcontent, tablinks;
+
+	// 	// Get all elements with class="tabcontent" and hide them
+	// 	tabcontent = document.getElementsByClassName("tabcontent");
+	// 	for (i = 0; i < tabcontent.length; i++) {
+	// 		tabcontent[i].style.display = "none";
+	// 	}
+
+	// 	// Get all elements with class="tablinks" and remove the class "active"
+	// 	tablinks = document.getElementsByClassName("tablinks");
+	// 	for (i = 0; i < tablinks.length; i++) {
+	// 		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	// 	}
+
+	// 	// Show the current tab, and add an "active" class to the button that opened the tab
+	// 	document.getElementById(tabName).style.display = "block";
+	// 	evt.currentTarget.className += " active";
+	// }
+
+	function submit_finals(){
+		$('#finals_manual_type').removeAttr('disabled');
+		return true;
+	}
+	
+	function job_number_change(obj){
+		$.ajax({
+				type: 'POST',
+				url: '{{ url_for("check_job_number") }}',
+  				data : {'job_number':obj.value},
+				cache: false,
+				error: function(xhr, status, error) {
+					console.log('error fetching info for job number: ' + error)
+				},
+				success: function(data) {
+					// console.log(data);
+					if(data['result'] == true){
+						$(obj).next().text("Job Number Exists In Database.");
+						update_finals_form($(obj).parent().prop('id'), data['modellic'], data['cage'], data['type']);
+					} else{
+						$(obj).next().text("Job Number Does Not Exist. Please Fill Out Data Manually.");
+						update_finals_form($(obj).parent().prop('id'), null, null, null);
+					}
+				}
+		});
+	}
+
+	function update_finals_form(id, modellic, cage, man_type){
+		// console.log(id);
+		if(modellic != null){
+			$(`#${id} input[name="modellic"]`).val(modellic);
+			if(id == "finals_form"){
+				$(`#${id} input[name="modellic"]`).attr('readonly','readonly');
+			}
+		} else {
+			$(`#${id} input[name="modellic"]`).val("");
+			$(`#${id} input[name="modellic"]`).removeAttr('readonly');
+		}
+
+		if(cage != null){
+			$(`#${id} input[name="cage"]`).val(cage);
+			if(id == "finals_form"){
+				$(`#${id} input[name="cage"]`).attr('readonly','readonly');
+			}
+		} else {
+			$(`#${id} input[name="cage"]`).val("");
+			$(`#${id} input[name="cage"]`).removeAttr('readonly');
+		}
+		
+		if(man_type != null){
+			console.log($(`#${id} select[name="manual_variant"]`).val());
+			$(`#${id} select[name="manual_variant"]`).val(man_type);
+			if(id == "finals_form"){
+				$(`#${id} select[name="manual_variant"]`).attr('disabled','disabled');
+			}
+		} else {
+			$(`#${id} select[name="manual_variant"]`).val("CMM");
+			$(`#${id} select[name="manual_variant"]`).removeAttr('disabled');
+		}
+	}
+
+	function sub(obj, target){
+		if(obj.files.length > 1){
+			$(target).html("Multiple Files (" + obj.files.length + ")");
+		}
+		else{
+			var file = obj.value;
+			var fileName = file.split("\\");
+			$(target).html(fileName[fileName.length-1]);
+		}
+	}
+
+	$( ".manual_type" ).change(function() {
+		// alert( "Handler for .change() called." + this.value );
+		var list = ``
+		if(this.value == "CMM"){
+			list = `<option value="cmm">CMM</option>
+					<option value="fmm">FMM</option>
+					<option value="irm">IRM</option>
+					<option value="orim">ORIM</option>
+					<option value="spm">SPM</option>
+					<option value="acmm">ACMM</option>
+					<option value="ipc">IPC</option>
+					<option value="gem">GEM</option>
+					<option value="mm">MM</option>
+					<option value="ohm">OHM</option>
+					<option value="lnmm">Line MM</option>`
+		} else if(this.value == "EM"){
+			list = `<option value="em">EM</option>
+					<option value="emm">MM</option>
+					<option value="lmm">LMM</option>
+					<option value="hmm">HMM</option>
+					<option value="eohm">OHM</option>
+					<option value="amm">AMM</option>
+					<option value="espm">SPM</option>`
+		} else if(this.value == "EIPC"){
+			list = `<option value="eipc">EIPC</option>`
+		} else {
+			list = `<option value="sdom">SDOM</option>
+					<option value="sdim">SDIM</option>
+					<option value="im">IM</option>`
+		}
+		$(this).closest(".manual_type_selection").find('.manual_variant').html(list);
+	});
+
+	$( "#print_checkbox" ).change(function() {
+		if($(this).is(":checked") == true){
+			$( "#print_options" ).css("display", 'inline');
+		} else {
+			$( "#print_options" ).css("display", 'none');
+		}
+		// if(this.value == "checked")
+		// $( "#print_options" ).val("dis")
+	});
+
+	$( document ).ready(function() {
+		$('#{{ tab }}').attr({style: 'display:block;'});
+		$('#{{ tab }}_button').toggleClass("active");
+
+		$( "#accuracy_form" ).submit(function( event ) {
+			conv_socket.connect(null, {
+				port: location.port,
+				//rememberTransport: false,
+				transports: ['websocket'],
+				reconnectionAttempts: 5,
+				reconnectionDelay: 2000
+			});
+			// $('#file_A_button').text('Select Converted File');
+			// $('#file_B_button').text('Select Source File');
+			$('#accuracy_output').text('Uploading (0%)');
+			event.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: '{{ url_for("accuracy_upload") }}',
+				dataType: 'json',
+				data: new FormData($(this)[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				xhr: function () {
+					var myXhr = $.ajaxSettings.xhr();
+					if (myXhr.upload) {
+						// For handling the progress of the upload
+						myXhr.upload.addEventListener('progress', function (e) {
+						if (e.lengthComputable) {
+							$('#accuracy_output').text(`Uploading (${Math.floor(((e.loaded / e.total) * 100))}%)`);
+							// $('progress').attr({
+							// style: "display: block;",
+							// value: e.loaded,
+							// max: e.total,
+							// });
+							if(e.loaded == e.total){
+								// $('progress').hide();
+								$('#accuracy_output').text('In Progress');
+							}
+						}
+						}, false);
+					}
+					return myXhr;
+				},
+				error: function(xhr, status, error) {
+					// $("#accuracy_output").text(status + ": " + error);
+				},
+				success: function(data) {
+					//$("#accuracy_output").text(data.status);
+				}
+			});
+			$(this).trigger("reset");
+			// event.preventDefault();
+			//
+		});
+
+	});
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/upload_item.js') }}"></script>
+
+<script type="text/javascript">
+	conv_socket.on('accuracy_status', function( json) {
+		console.log('status' + json.status);
+		if (json.status != null){
+			$('#accuracy_output').html(json.status);
+		}
+	});
+	conv_socket.on('accuracy', function( json) {
+		console.log('accuracy' + json.percentage);
+		if(json.percentage != null){
+			$('#accuracy_output').html(`Result: <strong>${json.percentage}%</strong> Similar`);
+		}
+	});
+</script>
+{% endblock %}

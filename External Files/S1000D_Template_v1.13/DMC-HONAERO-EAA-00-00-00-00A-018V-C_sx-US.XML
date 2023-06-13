@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!NOTATION tif SYSTEM "tiff">
+]>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="V" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>ILLUSTRATED PARTS LIST</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="70210">
+</responsiblePartnerCompany>
+<originator enterpriseCode="70210"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Vendor Code List</title>
+<levelledPara><para>The vendor code list shows the vendor CAGE code,
+name, and address in numerical sequence for all vendors shown in the
+<dmRef
+authorityName="IPL"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="T" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef>. Refer to the
+
+
+
+
+<dmRef authorityName="Vendor Code List"><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="019" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef>.</para>
+</levelledPara>
+<levelledPara><para>The vendor CAGE code is given in the nomenclature
+column of the DPL to identify the vendor.</para>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

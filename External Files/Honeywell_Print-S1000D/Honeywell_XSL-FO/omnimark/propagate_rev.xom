@@ -1,0 +1,189 @@
+process
+
+;ONLY PROPAGATING FROM PGBLK DOWN.
+;THIS SHOULD ONLY BE RUN AFTER ALL NESTED REV PI'S HAVE BEEN REMOVED (run fix_pi.xom)
+
+submit #main-input
+
+global switch GxRev initial {false}
+global switch GxEIPC initial {false} ; CJM : OCSHONSS-511 : Used for EIPC only
+
+macro revst is '<?Pub _rev?>' macro-end
+macro revend is '<?Pub /_rev?>' macro-end
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+; CJM : OCSHONSS-511 : Used for EIPC only
+find '<eipc'
+	activate GxEIPC
+	output '<eipc'
+
+find (revst? white-space* ('<mfmatr') upto ('</mfmatr>') '</mfmatr>' white-space* revend? white-space*)=>mfmatr
+	put #error 'IN MFMATR%n'
+	repeat scan mfmatr
+		;Leave revst/revend around sheet. Shouldn't be nested since fix_pi.xom should've been run first.
+		match (revst? white-space* '<sheet' [any except '/>']+ '/>' white-space* revend?)=>sheet
+			output revst when GxRev
+			output sheet
+			output revend when GxRev
+		match '<sheet'
+			output revst when GxRev
+			output '<sheet'
+		match '</sheet>'
+			output '</sheet>'
+			output revend when GxRev
+		match (('<trdata>') upto ('</trdata>') '</trdata>')=>trdata
+			output revst when GxRev
+			output trdata
+			output revend when GxRev
+		match (('<sbdata>') upto ('</sbdata>') '</sbdata>')=>sbdata
+			output revst when GxRev
+			output sbdata
+			output revend when GxRev
+		match (('<para>') upto ('</para>') '</para>')=>para
+			output revst when GxRev
+			output para
+			output revend when GxRev
+		match (('<title>') upto ('</title>') '</title>')=>title
+			output revst when GxRev
+			output title
+			output revend when GxRev
+		; CJM : OCSHONSS-511 : vendata can be revised
+		match (('<vendata>') upto ('</vendata>') '</vendata>')=>vendata when GxEIPC
+			output revst when GxRev
+			output vendata
+			output revend when GxRev
+		;Match revst/revend last. If revst/revend are within title or para, leave them alone.
+		match revst
+			activate GxRev
+		match revend
+			deactivate GxRev
+		match any=>char
+			output char
+	again
+
+find (revst? white-space* ('<pgblk') upto ('</pgblk>') '</pgblk>' white-space* revend? white-space*)=>pgblk
+	put #error 'IN PGBLK%n'
+	repeat scan pgblk
+		;Leave revst/revend around sheet. Shouldn't be nested since fix_pi.xom should've been run first.
+		match (revst? white-space* '<sheet' [any except '/>']+ '/>' white-space* revend?)=>sheet
+			output revst when GxRev
+			output sheet
+			output revend when GxRev
+		match '<sheet'
+			output revst when GxRev
+			output '<sheet'
+		match '</sheet>'
+			output '</sheet>'
+			output revend when GxRev
+		match (('<para>') upto ('</para>') '</para>')=>para
+			output revst when GxRev
+			output para
+			output revend when GxRev
+		match (('<title>') upto ('</title>') '</title>')=>title
+			output revst when GxRev
+			output title
+			output revend when GxRev
+		match (('<defdata>') upto ('</defdata>') '</defdata>')=>defdata
+			output revst when GxRev
+			output defdata
+			output revend when GxRev
+		match '<regulation'
+			output revst when GxRev
+			output '<regulation'
+		match '</regulation>'
+			output '</regulation>'
+			output revend when GxRev
+		;Match revst/revend last. If revst/revend are within title or para, leave them alone.
+		match revst
+			activate GxRev
+		match revend
+			deactivate GxRev
+		match any=>char
+			output char
+	again
+
+;== CMM SPECIFIC ==
+find (revst? white-space* ('<ipl' white-space+) upto ('</ipl>') '</ipl>' white-space* revend? white-space*)=>ipl
+	put #error 'IN IPL%n'
+	repeat scan ipl
+		;Leave revst/revend around sheet. Shouldn't be nested since fix_pi.xom should've been run first.
+		match (revst? white-space* '<sheet' [any except '/>']+ '/>' white-space* revend?)=>sheet
+			output revst when GxRev
+			output sheet
+			output revend when GxRev
+		match '<sheet'
+			output revst when GxRev
+			output '<sheet'
+		match '</sheet>'
+			output '</sheet>'
+			output revend when GxRev
+		match (('<para>') upto ('</para>') '</para>')=>para
+			output revst when GxRev
+			output para
+			output revend when GxRev
+		match (('<vendata>') upto ('</vendata>') '</vendata>')=>vendata
+			output revst when GxRev
+			output vendata
+			output revend when GxRev
+		match (('<itemdata') upto ('</itemdata>') '</itemdata>')=>itemdata
+			output revst when GxRev
+			output itemdata
+			output revend when GxRev
+		match (('<title>') upto ('</title>') '</title>')=>title
+			output revst when GxRev
+			output title
+			output revend when GxRev		
+		;Match revst/revend last. If revst/revend are within title or para, leave them alone.
+		match revst
+			activate GxRev
+		match revend
+			deactivate GxRev
+		match any=>char
+			output char
+	again
+;==================
+
+; CJM : OCSHONSS-511 : Added for EIPC, This is a direct copy of IPL, only modified during troubleshooting
+;== EIPC SPECIFIC ==
+find (white-space* ('<dplist' white-space*) upto ('</dplist>') '</dplist>' white-space*)=>dplist when GxEIPC
+	put #error 'IN DPLIST%n'
+	repeat scan dplist
+		;Leave revst/revend around sheet. Shouldn't be nested since fix_pi.xom should've been run first.
+		match (revst? white-space* '<sheet' [any except '/>']+ '/>' white-space* revend?)=>sheet
+			output revst when GxRev
+			output sheet
+			output revend when GxRev
+		match '<sheet'
+			output revst when GxRev
+			output '<sheet'
+		match '</sheet>'
+			output '</sheet>'
+			output revend when GxRev
+		match (('<para>') upto ('</para>') '</para>')=>para
+			output revst when GxRev
+			output para
+			output revend when GxRev
+		match (('<item') upto ('</item>') '</item>')=>item
+			output revst when GxRev
+			output item
+			output revend when GxRev
+		match (('<title>') upto ('</title>') '</title>')=>title
+			output revst when GxRev
+			output title
+			output revend when GxRev		
+		;Match revst/revend last. If revst/revend are within title or para, leave them alone.
+		match revst
+			activate GxRev
+		match revend
+			deactivate GxRev
+		match any=>char
+			output char
+	again
+;==================
+
+	
+find any=>char
+	output char

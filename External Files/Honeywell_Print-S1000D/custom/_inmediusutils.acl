@@ -1,0 +1,32 @@
+#
+# © Inmedius 2007. All rights Reserved
+#
+
+function inmediusutils(){
+  local scripts;
+
+  local inmediusutilspath = $main::ENV['INMEDIUSUTILS']; # 'C:\\Program Files\\Inmedius\\common\\'
+  #inmediusutilspath = "C:\\Program Files\\Inmedius\\common\\";
+  #inmediusutilspath = "C:\\Programme\\Inmedius\\common\\";
+  inmediusutilspath = winregistry::GetKey( 'HKEY_LOCAL_MACHINE', 'SOFTWARE\Inmedius\INMEDIUSUTILS', 'Path' );
+
+
+  if( length( $inmediusutilspath ) > 0 ){
+    # message_box("Got Env Var".$inmediusutilspath, 0x00 );
+
+    scripts = $inmediusutilspath."scripts"; # C:\Program Files\Inmedius\common\scripts
+
+    append_load_path( $scripts, 1 );
+    append_catalog_path( $inmediusutilspath."doctypes" );
+
+    # load the main initialisation function
+    source inmediusutils.acl;
+    source inmediusverify.acl;
+
+
+  } else {
+    message_box("Error [_inmediusutils.acl]: failed to initialise inmediusutils", 0x00 );
+  }
+}
+
+inmediusutils();

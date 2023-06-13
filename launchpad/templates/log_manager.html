@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="container">
+		<h2>Manage Log Files:</h2>
+		<form action="" method="post" novalidate>
+			
+			<div class="column">
+				<h3>Filters:</h3>
+				{{ form.hidden_tag() }}
+				<p>
+					{{ form.user.label }}<br>
+					<span class="note">Separate multiple values using commas (eg. 'User1,User2,User3')</span><br>
+					{{ form.user(size=32, class="textfield") }}
+					{% for error in form.user.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.event.label }}<br>
+					<span class="note">Hold Ctrl or Shift to select multiple values</span><br>
+					{{ form.event() }}
+					{% for error in form.event.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.after_date.label }}<br>
+					<span class="note">YYYY-mm-dd hh:mm:ss</span><br>
+					{{ form.after_date() }}
+					{% for error in form.after_date.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.before_date.label }}<br>
+					<span class="note">YYYY-mm-dd hh:mm:ss</span><br>
+					{{ form.before_date() }}
+					{% for error in form.before_date.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.limit.label }}<br>
+					{{form.limit_type() }} {{ form.limit() }} 
+					{% for error in form.limit.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+			</div>
+			<div class="column">
+				<h3>Graphing Options:</h3>
+				<p>
+					{{ form.total.label }}
+					{{ form.total(id="total") }}
+					{% for error in form.total.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.blank_days.label }}
+					{{ form.blank_days(id="blank_days", default=true) }}
+					{% for error in form.blank_days.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.x_axis.label }}
+					{{ form.x_axis(id="x_axis", disabled=true) }}
+					{% for error in form.x_axis.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.incr.label }}
+					{{ form.incr(id="incr", disabled=false) }}
+					{% for error in form.incr.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+			</div>
+
+			<div class='column'>
+				<h3>Accuracy Metrics</h3>
+				<p>
+					{{ form.job_no.label }}
+					<br><span class="note">Separate multiple values using commas (eg. '513005-111,513005-222')</span><br>
+					<!-- {{ form.job_no(id="job_number", size=32, class="textfield") }} -->
+					{{ form.job_no(id="job_number", list='job_datalist', autocomplete='off') }}
+					<datalist id='job_datalist'>
+						{% for job in acc_jobs %}
+							<option value={{ job.job_no }}>
+						{% endfor %}
+					</datalist>
+					{% for error in form.job_no.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+			</div>
+
+			<p>{{ form.graph(class="button_one") }}</p>
+			<p>{{ form.dump(class="button_one") }}</p>
+			<p>{{ form.erase(class="button_one") }}</p>
+			<p>{{ form.accuracy_table(class="button_one") }}</p>
+		</form>
+		{% if graph != "" %}
+		<div id="graph_window">{{ graph|safe }}</div>
+		{% endif %}
+
+		
+		{% for acc_table in acc_tables %}
+		{% if acc_table != [] %}
+		<table>			
+			<div class='acc_title'>Accuracy results for job number: {{ acc_table[0][0] }}</div>			
+			<tr>
+				<th>Step</th>
+				<th>Timestamp</th>
+				<th>Result</th>
+			</tr>
+			{% for entry in acc_table %}
+			<tr>
+				<td>{{ entry[1] }}</td>
+				<td>{{ entry[2] }}</td>
+				<td>{{ entry[3] }}%</td>
+			</tr>			
+			{% endfor %}
+		</table>
+		<br>
+		{% endif %}
+		{% endfor %}
+
+	</div>
+{% endblock %}
+{% block scripts %}
+	<script>
+		$( document ).ready(function() {
+			$('#total').change(function(){
+				//$('.grph_dis').prop("disabled", function(i, v) { return !v; });
+				$('#incr').prop("disabled", $(this).is(':checked'));
+				$('#x_axis').prop("disabled", !$(this).is(':checked'));
+			});
+			$('#total').change()
+		});
+	</script>
+{% endblock %}

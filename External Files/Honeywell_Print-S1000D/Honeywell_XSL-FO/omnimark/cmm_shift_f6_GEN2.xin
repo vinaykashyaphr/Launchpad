@@ -1,0 +1,255 @@
+;==================================;
+;          MACROS                  ;
+;==================================;
+
+macro upto (arg string) is
+    ((lookahead not string) any)*
+macro-end
+
+macro revst is
+    '<?Pub' white-space* '_rev?>'
+macro-end
+
+macro revend is
+    '<?Pub' white-space* '/_rev?>'
+macro-end
+
+macro revst-pi is
+    '<?Pub _rev?>'
+macro-end
+
+macro revend-pi is
+    '<?Pub /_rev?>'
+macro-end
+
+macro pub-pi is
+    (white-space* ('<?Pub Dtl?>'|'<?Pub Caret?>') white-space*)*
+macro-end
+
+macro tgroup-start is
+    output '<tgroup cols="3">%n'
+    output '<colspec colname="col1" colwidth="2.25in"/>%n'
+    output '<colspec colname="col2" colwidth="2.25in"/>%n'
+    output '<colspec colname="col3" colwidth="2.25in"/>%n'
+    output '<thead>%n'
+    output '<row>%n'
+    output '<entry><para>Number</para></entry>%n'
+    output '<entry><para>Description</para></entry>%n'
+    output '<entry><para>Source</para></entry>%n'
+    output '</row>%n'
+    output '</thead>%n'
+    output '<tbody>%n'
+macro-end
+
+macro tgroup-end is
+    output '</tbody>%n'
+    output '</tgroup>%n'
+macro-end
+
+macro na-row is
+    output '<row><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry></row>%n'
+macro-end
+
+;=====================================;
+;          FUNCTIONS                  ;
+;=====================================;
+
+define function clean-stream(modifiable stream orig-stream, value integer keep-rev optional) as
+    local stream LsNewStream
+    local switch LxKeepRev initial {false}
+    activate LxKeepRev when keep-rev is specified and keep-rev = 1
+    open LsNewStream as buffer
+        repeat scan orig-stream
+            match revst when not LxKeepRev
+            match revend when not LxKeepRev
+            match pub-pi
+            match '>' '%n'+ '<'
+                put LsNewStream '><'
+            match '%n'
+                put LsNewStream ' '
+            match any=>char
+                put LsNewStream char
+        again
+    close LsNewStream
+    set orig-stream to LsNewStream
+
+define function check-rev-acroabbr(value stream string) as
+    repeat scan string
+        ;ACRO
+        match ((revst '%n'*)? ('<acro>') upto ('</acro>') '</acro>' ('%n'* revend)?)=>acro
+            local stream LsAcroterm initial {''}
+            local stream LsAcroname initial {''}
+            local stream LsAcroKey
+            ;Create key for GxRevAcroAbbr
+            repeat scan acro
+                match ('<acroterm>') upto ('</acroterm>')=>acroterm
+                    set LsAcroterm to acroterm
+                    ;cleanup acroterm string, strip rev tags if any
+                    clean-stream(LsAcroterm)
+                match ('<acroname>') upto ('</acroname>')=>acroname
+                    set LsAcroname to acroname
+                    ;cleanup acroname string, strip rev tags if any
+                    clean-stream(LsAcroname)
+                match '</acro>'
+                    set LsAcroKey to '%g(LsAcroterm) %g(LsAcroname)'
+                match any
+            again
+            ;Create a new switch if it doesn't exist. (Default value of false.)
+            set new GxRevAcroAbbr ^ LsAcroKey to false when GxRevAcroAbbr hasnt ^ LsAcroKey
+            ;Activate rev switch
+            ;Only activate when directly surrounded by (rev before and after) rev or if rev is inside.
+            repeat scan acro
+                ;rev surrounding
+                match ((revst '%n'*) ('<acro>') upto ('</acro>') '</acro>' ('%n'* revend))
+                    put GsDebugFile '%tGxRevAcroAbbr is now active for "' || LsAcroKey || '" (rev surrounding)%n'
+                    activate GxRevAcroAbbr ^ LsAcroKey
+                ;ignore when rev is only before
+                match (revst|revend) '%n'* '<acro>'
+                ;ignore when rev is only after
+                match '</acro>' '%n'* (revst|revend)
+                ;rev inside
+                match (revst|revend)
+                    put GsDebugFile '%tGxRevAcroAbbr is now active for "' || LsAcroKey || '" (rev inside)%n'
+                    activate GxRevAcroAbbr ^ LsAcroKey
+                match any
+            again
+        ;ABBR
+        match ((revst '%n'*)? ('<abbr>') upto ('</abbr>') '</abbr>' ('%n'* revend)?)=>abbr
+            local stream LsAbbrterm initial {''}
+            local stream LsAbbrname initial {''}
+            local stream LsAbbrKey
+            ;Create key for GxRevAcroAbbr
+            repeat scan abbr
+                match ('<abbrterm>') upto ('</abbrterm>')=>abbrterm
+                    set LsAbbrterm to abbrterm
+                    clean-stream(LsAbbrterm)
+                match ('<abbrname>') upto ('</abbrname>')=>abbrname
+                    set LsAbbrname to abbrname
+                    clean-stream(LsAbbrname)
+                match '</abbr>'
+                    set LsAbbrKey to '%g(LsAbbrterm) %g(LsAbbrname)'
+                match any
+            again
+            ;Create a new switch if it doesn't exist. (Default value of false.)
+            set new GxRevAcroAbbr ^ LsAbbrKey to false when GxRevAcroAbbr hasnt ^ LsAbbrKey
+            ;Activate rev switch
+            ;Only activate when directly surrounded by (rev before and after) rev or if rev is inside.
+            repeat scan abbr
+                ;rev surrounding
+                match ((revst '%n'*) ('<abbr>') upto ('</abbr>') '</abbr>' ('%n'* revend))
+                    put GsDebugFile '%tGxRevAcroAbbr is now active for "' || LsAbbrKey || '" (rev surrounding)%n'
+                    activate GxRevAcroAbbr ^ LsAbbrKey
+                ;ignore when rev is only before
+                match (revst|revend) '%n'* '<abbr>'
+                ;ignore when rev is only after
+                match '</abbr>' '%n'* (revst|revend)
+                ;rev inside
+                match (revst|revend)
+                    put GsDebugFile '%tGxRevAcroAbbr is now active for "' || LsAbbrKey || '" (rev inside)%n'
+                    activate GxRevAcroAbbr ^ LsAbbrKey
+                match any
+            again
+        ;-
+        match any
+    again
+
+define function build-acroabbr-row(value stream string) as
+    repeat scan string
+        ;ACRO
+        match ((revst '%n'*)? ('<acro>') upto ('</acro>') '</acro>' ('%n'* revend)?)=>acro
+            local stream LsAcroterm initial {''}
+            local stream LsAcroname initial {''}
+            local stream LsAcroKey
+            local stream LsAcroDefdata
+            repeat scan acro
+                match ('<acroterm>') upto ('</acroterm>')=>acroterm
+                    set LsAcroterm to acroterm
+                    clean-stream(LsAcroterm)
+                match ('<acroname>') upto ('</acroname>')=>acroname
+                    set LsAcroname to acroname
+                    clean-stream(LsAcroname)
+                match '</acro>'
+                    set LsAcroKey to '%g(LsAcroterm) %g(LsAcroname)'
+                    open LsAcroDefdata as buffer
+                        put LsAcroDefdata '<?Pub _rev?>%n' when GxRevAcroAbbr ^ LsAcroKey
+                        put LsAcroDefdata '<defdata><term>%g(LsAcroterm)</term><fullterm>%g(LsAcroname)</fullterm></defdata>%n'
+                        put LsAcroDefdata '<?Pub /_rev?>%n' when GxRevAcroAbbr ^ LsAcroKey
+                    close LsAcroDefdata
+                    put GsDebugFile '%n%tTesting LsAcroKey "' || LsAcroKey || '"%n'
+                    do when GxRevAcroAbbr ^ LsAcroKey
+                        put GsDebugFile '%t%tThe LsAcroKey was revised.%n'
+                    else
+                        put GsDebugFile '%t%tThe LsAcroKey was NOT revised.%n'
+                    done
+                    do when GsAllAcroAbbrs hasnt ^ LsAcroKey
+                        put GsDebugFile '%t%tThe LsAcroKey did not did not exist in GsAllAcroAbbrs and was created.%n'
+                        set new GsAllAcroAbbrs ^ LsAcroKey to LsAcroDefdata
+                    else
+                        put GsDebugFile '%t%tThe LsAcroKey already existed in GsAllAcroAbbrs.%n'
+                    done
+                match any
+            again
+        ;ABBR
+        match ((revst '%n'*)? ('<abbr>') upto ('</abbr>') '</abbr>' ('%n'* revend)?)=>abbr
+            local stream LsAbbrterm initial {''}
+            local stream LsAbbrname initial {''}
+            local stream LsAbbrKey
+            local stream LsAbbrDefdata
+            repeat scan abbr
+                match ('<abbrterm>') upto ('</abbrterm>')=>abbrterm
+                    set LsAbbrterm to abbrterm
+                    clean-stream(LsAbbrterm)
+                match ('<abbrname>') upto ('</abbrname>')=>abbrname
+                    set LsAbbrname to abbrname
+                    clean-stream(LsAbbrname)
+                match '</abbr>'
+                    set LsAbbrKey to '%g(LsAbbrterm) %g(LsAbbrname)'
+                    open LsAbbrDefdata as buffer
+                        put LsAbbrDefdata '<?Pub _rev?>%n' when GxRevAcroAbbr ^ LsAbbrKey
+                        put LsAbbrDefdata '<defdata><term>%g(LsAbbrterm)</term><fullterm>%g(LsAbbrname)</fullterm></defdata>%n'
+                        put LsAbbrDefdata '<?Pub /_rev?>%n' when GxRevAcroAbbr ^ LsAbbrKey
+                    close LsAbbrDefdata
+                    put GsDebugFile '%n%tTesting LsAbbrKey "' || LsAbbrKey || '"%n'
+                    do when GxRevAcroAbbr ^ LsAbbrKey
+                        put GsDebugFile '%t%tThe LsAbbrKey was revised.%n'
+                    else
+                        put GsDebugFile '%t%tThe LsAbbrKey was NOT revised.%n'
+                    done
+                    do when GsAllAcroAbbrs hasnt ^ LsAbbrKey
+                        put GsDebugFile '%t%tThe LsAbbrKey did not did not exist in GsAllAcroAbbrs and was created.%n'
+                        set new GsAllAcroAbbrs ^ LsAbbrKey to LsAbbrDefdata
+                    else
+                        put GsDebugFile '%t%tThe LsAbbrKey already existed in GsAllAcroAbbrs.%n'
+                    done
+                match any
+            again
+        ;-
+        match any
+    again
+
+define stream function StringReplace
+        (
+        value stream p_string,
+        value stream p_searchString,
+        value stream p_replaceString,
+        value integer p_caseSense optional initial {0}
+        ) as 
+        local stream lst_return
+        open lst_return as buffer
+        ;m_scrl('replace:['||p_searchString||']  with:['||p_replaceString||']')
+        
+        repeat scan p_string
+            ;case sensitive match
+            match p_searchString when p_caseSense = 1
+                put lst_return p_replaceString
+            ;case insensitive match 
+            match ul p_searchString when p_caseSense = 0
+                put lst_return p_replaceString
+            ;nonmatched string  
+            match (any)=>pv_char
+                put lst_return pv_char
+        again
+        ;modified string
+        close lst_return
+        return lst_return
+        

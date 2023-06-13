@@ -1,0 +1,14 @@
+#
+# © Inmedius 2012. All rights Reserved
+#
+
+# link to authorpro
+require authorpro;
+
+source authorpro_fosi_extras.acl;
+
+authorpro_common::sourcePrefs();
+
+authorpro_config::read_configuration_files();
+authorpro_insert::add_document_callbacks();
+authorpro_common::open_document_commands();

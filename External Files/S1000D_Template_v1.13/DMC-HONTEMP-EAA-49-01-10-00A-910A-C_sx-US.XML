@@ -1,0 +1,1337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY ICN-HNYWL-0000100000-001-01 SYSTEM "Graphics\ICN-HNYWL-0000100000-001-01.cgm" NDATA cgm>
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!NOTATION tif SYSTEM "tif">
+<!NOTATION cgm SYSTEM "cgm">
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/proced.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A"
+infoCode="910" infoCodeVariant="A" itemLocationCode="C"
+modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0"
+systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>Appendix</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent>
+</dmRef></brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><procedure><preliminaryRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+<reqSupportEquips>
+<noSupportEquips/></reqSupportEquips>
+<reqSupplies>
+<noSupplies/></reqSupplies>
+<reqSpares>
+<noSpares/></reqSpares>
+<reqSafety>
+<noSafety/></reqSafety>
+</preliminaryRqmts>
+<mainProcedure>
+<proceduralStep><title>List of Data Module Names</title>
+<table><tgroup cols="2"><colspec colname="col1" colwidth="252.19pt"/>
+<colspec colname="col2" colwidth="268.76pt"/><tbody><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">FRONT MATTER</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Honeywell - Confidential</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-023A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Honeywell Materials License Agreement</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-010A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Safety Advisory</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-012A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Warranty/Liability</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-012B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Copyright - Notice</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-021A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Transmittal Information</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-003A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Record of Revisions</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-003B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Record of Temporary Revisions</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-003C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Service Bulletin List</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-008A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">INTRODUCTION</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Observance of Manual Instructions</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Symbols</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Units of Measure</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Torque Values</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Page Number Block Explanation</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Chapter/Subject Explanation</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Illustration</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Application of Maintenance, Application of Jet Engine Maintenance</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Standard Practices Manual</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018G-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Electrostatic Discharge</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018H-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Honeywell Aerospace Online Technical Publications</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018I-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Honeywell Aerospace Contact Team, Global Customer Care Center</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018J-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Honeywell/Vendor Publications</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018K-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Honeywell/Vendor Publications, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018K-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Other Publications</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018L-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>The component maintenance levels</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018M-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Acronyms and Abbreviations</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018N-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Verification Data</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018O-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Verification Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018O-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Software Data</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018P-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Software Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018P-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Modification/Configuration History</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018Q-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Modification/Configuration History, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018Q-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Change History for Parts List, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018R-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Change History for Parts List</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018R-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Applicable Service Information Documents</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018S-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Applicable Service Information Documents, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018S-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Publication Use</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Standard Definitions</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>FPI</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>MPI</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018G-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Bearing Check</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018H-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Marking of Critical High Temperature Alloys</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018I-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>General Check</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-910A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>ROTATING COMPONENTS, ROTATING COMPONENTS</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-01A-018J-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-018A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">ILLUSTRATED PARTS LIST INTRODUCTION</emphasis
+></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>General</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018T-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018U-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018U-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Vendor Code List, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018V-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Vendor Code List Intro Module</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018V-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Equipment Designator Index, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018W-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Equipment Designator Index</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018W-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Numerical Index, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018X-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Numerical Index</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018X-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Detailed Parts List, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-018Y-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Detailed Parts List</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-018Y-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Vendor Code List</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-019A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>APPENDIX, APPENDIX</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-910A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">DESCRIPTION AND OPERATION</emphasis
+></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Description and Operation</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-040A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">TESTING AND FAULT ISOLATION</emphasis
+></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-400A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-400B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-400C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-400D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-400F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-420A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">SCHEMATIC AND WIRING DIAGRAM</emphasis
+></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-050A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-050D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-050B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-050C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-050F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-050E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Schematic Diagrams, Interconnect Diagram</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-051A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Wiring Diagram, Wire Lists</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-054A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-050A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">DISASSEMBLY</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-500A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-500B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-500C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-500D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-500F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-500E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-500A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">CLEANING</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-250A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-250B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-250C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-250D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-250F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-250E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-250A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">INSPECTION/CHECK</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-300A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-300B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-300C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-300D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-300F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-300E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-300A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">REPAIR</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-600A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-600B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-600C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-600D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-600F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-600E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-600A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">ASSEMBLY</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-700A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-700B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-700C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-700D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-700F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-700E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-700A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">FITS AND CLEARANCES</emphasis
+></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-711A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-711D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-711F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-711E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-711A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">SPECIAL TOOLS, FIXTURES, EQUIPMENT,
+AND CONSUMABLES</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-900A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-900E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-900A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">SPECIAL PROCEDURES</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-900A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-900D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-900F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-01A-900E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-01A-900A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">REMOVAL</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-520A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-520B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-520C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-520D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-520F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-520E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-520A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">ADJUSTMENT/TEST</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Adjustment/Test</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-320A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">INSTALLATION</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-720A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup Data, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-720B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Setup, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-720C-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-720D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-720F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-720E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-720A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">SERVICING</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-200A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-200D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-200F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-200E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-200A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">STORAGE (INCLUDING TRANSPORTATION)</emphasis
+></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-800A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-800D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-800F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Package</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-830A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Storage</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-850A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Transportation</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-860A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-800E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-800A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">REWORK</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Reason for the Job (Template)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-664A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Remove all tools, equipment, used parts, and materials
+from the work area.</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-664D-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Job Close-up, Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-664F-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Not Applicable</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONAERO-XXX-00-00-00-00A-664E-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>OTHER</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-664A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">HEAVY MAINTENANCE AND MAINTENANCE
+PRACTICES</emphasis></para><?Pub Caret -2?>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Heavy Maintenance and Maintenance Practices</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-913A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">REPOSITORIES (HONAVIONICS, HONENGAPU,
+HONMECHANICAL)</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Warning repository</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-A-XX-XX-XX-00A-012A-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Caution repository</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-A-XX-XX-XX-00A-012B-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Support equipment common information repository</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-A-XX-XX-XX-00A-00NA-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Organizations common information repository</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-A-XX-XX-XX-00A-00KA-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Supplies - List of products common information repository</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-A-XX-XX-XX-00A-00LA-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Applicability Cross-reference Table (ACT)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-00WA-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>Product Cross-reference Table (PCT)</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-00PA-C_sx-US.XML</para>
+</entry>
+</row><row>
+<entry align="center" nameend="col2" namest="col1" valign="middle">
+<para><emphasis emphasisType="em01">IPL</emphasis></para>
+</entry>
+</row><row>
+<entry valign="middle">
+<para>IPL Modules</para>
+</entry>
+<entry valign="middle">
+<para>DMC-HONXXXX-XXX-XX-XX-XX-00A-941A-C_sx-US.XML</para>
+</entry>
+</row></tbody></tgroup></table>
+</proceduralStep>
+</mainProcedure>
+<closeRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+</closeRqmts>
+</procedure></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

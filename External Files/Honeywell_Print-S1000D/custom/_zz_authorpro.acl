@@ -1,0 +1,13 @@
+if( defined( "authorpro::" ) ){
+
+  require( "authorpro" );
+  require( "authorpro_common" );
+  require( "authorpro_init" );
+
+  # $authorpro::allow_mgrchk_on_init=0;
+  # $authorpro::allow_auto_hotspotfix_on_save=0
+
+  eval( "post_initialise()", "authorpro_init");
+
+
+}

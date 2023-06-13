@@ -1,0 +1,170 @@
+$USER = $main::ENV['USERNAME']
+
+
+function _initMenus() {};
+
+function initMenus(){
+if ($USER == 'smainuddin'){
+menu_add -menu .Window "SonoAlchemist";
+menu_add -menu .SonoAlchemist. "Print Type";
+menu_add ".SonoAlchemist.Print Type." "Standard ATA2200" -cmd {sCata::catalogue_FOprint()}
+menu_add ".SonoAlchemist.Print Type." "S1000D: XSL-FO" -cmd {sCata::catalogue_S1000DFOprint()}
+menu_add ".SonoAlchemist.Print Type." "S1000D: FOSI ATA Print" -cmd {sCata::catalogue_ATA()}
+menu_add ".SonoAlchemist.Print Type." "S1000D: FOSI EM Print" -cmd {sCata::catalogue_EM()}
+menu_add ".SonoAlchemist.Print Type." "S1000D: AB (A350) Print" -cmd {sCata::catalogue_AB()}
+menu_add ".SonoAlchemist.Print Type." "Inmedius" -cmd {sCata::catalogue_inmedius()}
+menu_add ".SonoAlchemist.Print Type." "ATA2200(FOR TESTING ONLY)" -cmd {sCata::catalogue_DFOprint()}
+menu_add ".SonoAlchemist.Print Type." "S1000D-FO(FOR TESTING ONLY)[DESKTOP]" -cmd {sCata::catalogue_S1000DFOprintDesk()}
+menu_add ".SonoAlchemist.Print Type." "S1000D: ATA(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_ATA()}
+menu_add ".SonoAlchemist.Print Type." "S1000D: EM(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_EM()}
+menu_add ".SonoAlchemist.Print Type." "S1000D: AB(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_AB()}
+menu_add -menu .SonoAlchemist. "ATA2200 Tools";
+menu_add ".SonoAlchemist.ATA2200 Tools." "Delete Tag" -cmd {ACLfunctions::deletetag()}
+menu_add ".SonoAlchemist.ATA2200 Tools." "Delete Rev Bars/Highlights" -cmd {ACLfunctions::deleterevbars()}
+menu_add ".SonoAlchemist.ATA2200 Tools." "Check Graphics/Table" -cmd {ACLfunctions::checkfrontmatter()}
+menu_add ".SonoAlchemist.ATA2200 Tools." "Update Legal Matter" -cmd {ACLfunctions::legalmatter()}
+menu_add ".SonoAlchemist.ATA2200 Tools." "Update Front Matter" -cmd {ACLfunctions::updatefrontmatter()}
+menu_add ".SonoAlchemist.ATA2200 Tools." "Replace CAGE Codes (Middle)" -cmd {ACLfunctions::rep_cage()}
+menu_add -menu .SonoAlchemist. "S1000D Tools";
+menu_add ".SonoAlchemist.S1000D Tools." "Change Graphics Size" -cmd {Graphics::graphic_dim()}
+menu_add ".SonoAlchemist.S1000D Tools." "Add Task Codes(Hybrid S1000D)" -cmd {Hybrid::ATAcodes()}
+menu_add -menu .SonoAlchemist. "Misc";
+menu_add ".SonoAlchemist.Misc." "Copy Boilerplate Graphics" -cmd {ACLfunctions::move()}
+menu_add ".SonoAlchemist.Misc." "Search Subtask or Graphic" -cmd {search::sTaskSearch()}
+menu_add -menu .SonoAlchemist. "Version";
+menu_add ".SonoAlchemist.Version." "XSL-FO Changelog" -cmd {changelog::changelog_Manual('XSL')}
+menu_add ".SonoAlchemist.Version." "AB Changelog" -cmd {changelog::changelog_Manual('AB')}
+}
+
+else if ($USER == 'lneave'){
+menu_add -menu .Window "SonoMAN";
+menu_add -menu .SonoMAN. "Print Type";
+menu_add ".SonoMAN.Print Type." "Standard ATA2200" -cmd {sCata::catalogue_FOprint()}
+menu_add ".SonoMAN.Print Type." "S1000D: XSL-FO" -cmd {sCata::catalogue_S1000DFOprint()}
+menu_add ".SonoMAN.Print Type." "S1000D: FOSI ATA Print" -cmd {sCata::catalogue_ATA()}
+menu_add ".SonoMAN.Print Type." "S1000D: FOSI EM Print" -cmd {sCata::catalogue_EM()}
+menu_add ".SonoMAN.Print Type." "S1000D: AB (A350) Print" -cmd {sCata::catalogue_AB()}
+menu_add ".SonoMAN.Print Type." "Inmedius" -cmd {sCata::catalogue_inmedius()}
+menu_add ".SonoMAN.Print Type." "ATA2200(FOR TESTING ONLY)" -cmd {sCata::catalogue_DFOprint()}
+menu_add ".SonoMAN.Print Type." "S1000D-FO(FOR TESTING ONLY)[DESKTOP]" -cmd {sCata::catalogue_S1000DFOprintDesk()}
+menu_add ".SonoMAN.Print Type." "S1000D: ATA(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_ATA()}
+menu_add ".SonoMAN.Print Type." "S1000D: EM(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_EM()}
+menu_add ".SonoMAN.Print Type." "S1000D: AB(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_AB()}
+menu_add -menu .SonoMAN. "ATA2200 Tools";
+menu_add ".SonoMAN.ATA2200 Tools." "Delete Tag" -cmd {ACLfunctions::deletetag()}
+menu_add ".SonoMAN.ATA2200 Tools." "Delete Rev Bars/Highlights" -cmd {ACLfunctions::deleterevbars()}
+menu_add ".SonoMAN.ATA2200 Tools." "Check Graphics/Table" -cmd {ACLfunctions::checkfrontmatter()}
+menu_add ".SonoMAN.ATA2200 Tools." "Update Legal Matter" -cmd {ACLfunctions::legalmatter()}
+menu_add ".SonoMAN.ATA2200 Tools." "Update Front Matter" -cmd {ACLfunctions::updatefrontmatter()}
+menu_add ".SonoMAN.ATA2200 Tools." "Replace CAGE Codes (Middle)" -cmd {ACLfunctions::rep_cage()}
+menu_add -menu .SonoMAN. "S1000D Tools";
+menu_add ".SonoMAN.S1000D Tools." "Change Graphics Size" -cmd {Graphics::graphic_dim()}
+menu_add ".SonoMAN.S1000D Tools." "Add Task Codes(Hybrid S1000D)" -cmd {Hybrid::ATAcodes()}
+menu_add -menu .SonoMAN. "Misc";
+menu_add ".SonoMAN.Misc." "Copy Boilerplate Graphics" -cmd {ACLfunctions::move()}
+menu_add ".SonoMAN.Misc." "Search Subtask or Graphic" -cmd {search::sTaskSearch()}
+menu_add -menu .SonoMAN. "Version";
+menu_add ".SonoMAN.Version." "XSL-FO Changelog" -cmd {changelog::changelog_Manual('XSL')}
+menu_add ".SonoMAN.Version." "AB Changelog" -cmd {changelog::changelog_Manual('AB')}
+}
+
+else if ($USER == 'cjmillbank'){
+menu_add -menu .Window "SonoWizard";
+menu_add -menu .SonoWizard. "Print Type";
+menu_add ".SonoWizard.Print Type." "Standard ATA2200" -cmd {sCata::catalogue_FOprint()}
+menu_add ".SonoWizard.Print Type." "S1000D: XSL-FO" -cmd {sCata::catalogue_S1000DFOprint()}
+menu_add ".SonoWizard.Print Type." "S1000D: FOSI ATA Print" -cmd {sCata::catalogue_ATA()}
+menu_add ".SonoWizard.Print Type." "S1000D: FOSI EM Print" -cmd {sCata::catalogue_EM()}
+menu_add ".SonoWizard.Print Type." "S1000D: AB (A350) Print" -cmd {sCata::catalogue_AB()}
+menu_add ".SonoWizard.Print Type." "Inmedius" -cmd {sCata::catalogue_inmedius()}
+menu_add ".SonoWizard.Print Type." "ATA2200(FOR TESTING ONLY)" -cmd {sCata::catalogue_DFOprint()}
+menu_add ".SonoWizard.Print Type." "S1000D-FO(FOR TESTING ONLY)[DESKTOP]" -cmd {sCata::catalogue_S1000DFOprintDesk()}
+menu_add ".SonoWizard.Print Type." "S1000D: ATA(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_ATA()}
+menu_add ".SonoWizard.Print Type." "S1000D: EM(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_EM()}
+menu_add ".SonoWizard.Print Type." "S1000D: AB(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_AB()}
+menu_add -menu .SonoWizard. "ATA2200 Tools";
+menu_add ".SonoWizard.ATA2200 Tools." "Delete Tag" -cmd {ACLfunctions::deletetag()}
+menu_add ".SonoWizard.ATA2200 Tools." "Delete Rev Bars/Highlights" -cmd {ACLfunctions::deleterevbars()}
+menu_add ".SonoWizard.ATA2200 Tools." "Check Graphics/Table" -cmd {ACLfunctions::checkfrontmatter()}
+menu_add ".SonoWizard.ATA2200 Tools." "Update Legal Matter" -cmd {ACLfunctions::legalmatter()}
+menu_add ".SonoWizard.ATA2200 Tools." "Update Front Matter" -cmd {ACLfunctions::updatefrontmatter()}
+menu_add ".SonoWizard.ATA2200 Tools." "Replace CAGE Codes (Middle)" -cmd {ACLfunctions::rep_cage()}
+menu_add -menu .SonoWizard. "S1000D Tools";
+menu_add ".SonoWizard.S1000D Tools." "Change Graphics Size" -cmd {Graphics::graphic_dim()}
+menu_add ".SonoWizard.S1000D Tools." "Add Task Codes(Hybrid S1000D)" -cmd {Hybrid::ATAcodes()}
+menu_add -menu .SonoWizard. "Misc";
+menu_add ".SonoWizard.Misc." "Copy Boilerplate Graphics" -cmd {ACLfunctions::move()}
+menu_add ".SonoWizard.Misc." "Search Subtask or Graphic" -cmd {search::sTaskSearch()}
+menu_add -menu .SonoWizard. "Version";
+menu_add ".SonoWizard.Version." "XSL-FO Changelog" -cmd {changelog::changelog_Manual('XSL')}
+menu_add ".SonoWizard.Version." "AB Changelog" -cmd {changelog::changelog_Manual('AB')}
+}
+
+else if ($USER == 'pkyriacopoulos'){
+menu_add -menu .Window "SonoShaman";
+menu_add -menu .SonoShaman. "Print Type";
+menu_add ".SonoShaman.Print Type." "Standard ATA2200" -cmd {sCata::catalogue_FOprint()}
+menu_add ".SonoShaman.Print Type." "S1000D: XSL-FO" -cmd {sCata::catalogue_S1000DFOprint()}
+menu_add ".SonoShaman.Print Type." "S1000D: FOSI ATA Print" -cmd {sCata::catalogue_ATA()}
+menu_add ".SonoShaman.Print Type." "S1000D: FOSI EM Print" -cmd {sCata::catalogue_EM()}
+menu_add ".SonoShaman.Print Type." "S1000D: AB (A350) Print" -cmd {sCata::catalogue_AB()}
+menu_add ".SonoShaman.Print Type." "Inmedius" -cmd {sCata::catalogue_inmedius()}
+menu_add ".SonoShaman.Print Type." "ATA2200(FOR TESTING ONLY)" -cmd {sCata::catalogue_DFOprint()}
+menu_add ".SonoShaman.Print Type." "S1000D-FO(FOR TESTING ONLY)[DESKTOP]" -cmd {sCata::catalogue_S1000DFOprintDesk()}
+menu_add ".SonoShaman.Print Type." "S1000D: ATA(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_ATA()}
+menu_add ".SonoShaman.Print Type." "S1000D: EM(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_EM()}
+menu_add ".SonoShaman.Print Type." "S1000D: AB(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_AB()}
+menu_add -menu .SonoShaman. "ATA2200 Tools";
+menu_add ".SonoShaman.ATA2200 Tools." "Delete Tag" -cmd {ACLfunctions::deletetag()}
+menu_add ".SonoShaman.ATA2200 Tools." "Delete Rev Bars/Highlights" -cmd {ACLfunctions::deleterevbars()}
+menu_add ".SonoShaman.ATA2200 Tools." "Check Graphics/Table" -cmd {ACLfunctions::checkfrontmatter()}
+menu_add ".SonoShaman.ATA2200 Tools." "Update Legal Matter" -cmd {ACLfunctions::legalmatter()}
+menu_add ".SonoShaman.ATA2200 Tools." "Update Front Matter" -cmd {ACLfunctions::updatefrontmatter()}
+menu_add ".SonoShaman.ATA2200 Tools." "Replace CAGE Codes (Middle)" -cmd {ACLfunctions::rep_cage()}
+menu_add -menu .SonoShaman. "S1000D Tools";
+menu_add ".SonoShaman.S1000D Tools." "Change Graphics Size" -cmd {Graphics::graphic_dim()}
+menu_add ".SonoShaman.S1000D Tools." "Add Task Codes(Hybrid S1000D)" -cmd {Hybrid::ATAcodes()}
+menu_add -menu .SonoShaman. "Misc";
+menu_add ".SonoShaman.Misc." "Copy Boilerplate Graphics" -cmd {ACLfunctions::move()}
+menu_add ".SonoShaman.Misc." "Search Subtask or Graphic" -cmd {search::sTaskSearch()}
+menu_add -menu .SonoShaman. "Version";
+menu_add ".SonoShaman.Version." "XSL-FO Changelog" -cmd {changelog::changelog_Manual('XSL')}
+menu_add ".SonoShaman.Version." "AB Changelog" -cmd {changelog::changelog_Manual('AB')}
+}
+
+else{
+menu_add -menu .Window "SonoBOT";
+menu_add -menu .SonoBOT. "Print Type";
+menu_add ".SonoBOT.Print Type." "Standard ATA2200" -cmd {sCata::catalogue_FOprint()}
+menu_add ".SonoBOT.Print Type." "S1000D: XSL-FO" -cmd {sCata::catalogue_S1000DFOprint()}
+menu_add ".SonoBOT.Print Type." "S1000D: FOSI ATA Print" -cmd {sCata::catalogue_ATA()}
+menu_add ".SonoBOT.Print Type." "S1000D: FOSI EM Print" -cmd {sCata::catalogue_EM()}
+menu_add ".SonoBOT.Print Type." "S1000D: AB (A350) Print" -cmd {sCata::catalogue_AB()}
+menu_add ".SonoBOT.Print Type." "Inmedius" -cmd {sCata::catalogue_inmedius()}
+menu_add ".SonoBOT.Print Type." "ATA2200(FOR TESTING ONLY)" -cmd {sCata::catalogue_DFOprint()}
+menu_add ".SonoBOT.Print Type." "S1000D-FO(FOR TESTING ONLY)[DESKTOP]" -cmd {sCata::catalogue_S1000DFOprintDesk()}
+menu_add ".SonoBOT.Print Type." "S1000D: ATA(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_ATA()}
+menu_add ".SonoBOT.Print Type." "S1000D: EM(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_EM()}
+menu_add ".SonoBOT.Print Type." "S1000D: AB(FOR TESTING ONLY)" -cmd {sCata::catalogue_TEST_AB()}
+menu_add -menu .SonoBOT. "ATA2200 Tools";
+menu_add ".SonoBOT.ATA2200 Tools." "Delete Tag" -cmd {ACLfunctions::deletetag()}
+menu_add ".SonoBOT.ATA2200 Tools." "Delete Rev Bars/Highlights" -cmd {ACLfunctions::deleterevbars()}
+menu_add ".SonoBOT.ATA2200 Tools." "Check Graphics/Table" -cmd {ACLfunctions::checkfrontmatter()}
+menu_add ".SonoBOT.ATA2200 Tools." "Update Legal Matter" -cmd {ACLfunctions::legalmatter()}
+menu_add ".SonoBOT.ATA2200 Tools." "Update Front Matter" -cmd {ACLfunctions::updatefrontmatter()}
+menu_add ".SonoBOT.ATA2200 Tools." "Replace CAGE Codes (Middle)" -cmd {ACLfunctions::rep_cage()}
+menu_add -menu .SonoBOT. "S1000D Tools";
+menu_add ".SonoBOT.S1000D Tools." "Change Graphics Size" -cmd {Graphics::graphic_dim()}
+menu_add ".SonoBOT.S1000D Tools." "Add Task Codes(Hybrid S1000D)" -cmd {Hybrid::ATAcodes()}
+menu_add -menu .SonoBOT. "Misc";
+menu_add ".SonoBOT.Misc." "Copy Boilerplate Graphics" -cmd {ACLfunctions::move()}
+menu_add ".SonoBOT.Misc." "Search Subtask or Graphic" -cmd {search::sTaskSearch()}
+menu_add -menu .SonoBOT. "Version";
+menu_add ".SonoBOT.Version." "XSL-FO Changelog" -cmd {changelog::changelog_Manual('XSL')}
+menu_add ".SonoBOT.Version." "AB Changelog" -cmd {changelog::changelog_Manual('AB')}
+}
+
+}
+
+add_hook("menuloadhook","initMenus");
+changelog::changelog()

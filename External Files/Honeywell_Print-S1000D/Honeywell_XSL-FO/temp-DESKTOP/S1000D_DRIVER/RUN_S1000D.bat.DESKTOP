@@ -1,0 +1,17 @@
+@echo off
+
+rem *** (Note: running S1000D as command line process, so temp directories may not have been created, yet) ***
+mkdir TEMP
+mkdir PDF_OUTPUT
+
+del TEMP\run.log
+
+cls
+
+echo Rendering S1000D CMM XSL-FO...
+
+call DRIVER_S1000D.bat >> TEMP\run.log 2>&1
+
+echo Finished
+
+rem pause

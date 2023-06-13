@@ -1,0 +1,187 @@
+process
+
+submit #main-input
+
+;   <page position="237" number="175" chapter="34" section="45" subject="48" unit=""
+;         pgblk="1"
+;         figure=""
+;         revdate="20110131"
+;         revised=" "
+;         target-id="F18SH1-r1"
+;         label=""
+;         foldout="F"/> <-- foldout attr is optional.
+
+
+global stream GsDebug initial {''}
+global stream GsFilename initial {''}
+global integer GiPrevPage initial {0}
+global integer GiPointPage initial {0}
+global integer GiPointPageBase initial {0}
+global switch GxPointPages initial {false}
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+;Stopped at pgblk 16000. 17000+ are appendices. Add appendix handling, if needed, at a later date.
+macro start-pgblk-nbr is
+	('1001'|'2001'|'3001'|'4001'|'5001'|'6001'|'7001'|'8001'|'9001'|'10001'|'11001'|'12001'|'13001'|'14001'|'15001'|'16001')
+macro-end
+
+macro start-pointpg-nbr is
+	('999'|'1999'|'2999'|'3999'|'4999'|'5999'|'6999'|'7999'|'8999'|'9999'|'10999'|'11999'|'12999'|'13999'|'14999'|'15999'|'16999')
+macro-end
+
+define function capitalize-label(modifiable stream orig-string) as
+	local stream LsUpdatedString
+	open LsUpdatedString as buffer
+		using output as LsUpdatedString do
+			repeat scan orig-string
+				match ul (white-space+ 'label="' [any except '"']*=>val '"')=>attr
+					put GsDebug 'Capitalizing label "%x(val)"...%n'
+					output ' label="'
+					repeat scan val
+						match (word-start) upto (word-end)=>word word-end
+							put GsDebug '%tFound word "%x(word)"%n'
+							do when '%lx(word)' = ('and'|'of'|'amp')
+								put GsDebug '%t%tFound special word "%x(word)"%n'
+								output '%lx(word)'
+							else
+								do scan word
+									match any-text=>first-char any*=>rest
+										output '%ux(first-char)%lx(rest)'
+										put GsDebug '%t%tfirst-char: %x(first-char)%n'
+										put GsDebug '%t%trest: %x(rest)%n'
+								done
+							done
+						match any=>char
+							output char
+					again
+					output '"'
+				match any=>char
+					output char
+			again
+		done	
+	close LsUpdatedString
+	set orig-string to LsUpdatedString
+	
+define function add-point-page(modifiable stream orig-string) as
+	local stream LsUpdatedString
+	open LsUpdatedString as buffer
+		using output as LsUpdatedString do
+			repeat scan orig-string
+				match ul white-space+ 'number="' [any except '"']*=>val '"'
+					increment GiPointPage
+					output ' number="%d(GiPointPageBase).%d(GiPointPage)"'
+					put GsDebug '%t changed page "%x(val)" to "%d(GiPointPageBase).%d(GiPointPage)"%n'
+				match any=>char
+					output char
+			again
+		done
+	close LsUpdatedString
+	set orig-string to LsUpdatedString
+
+define function add-foldout(modifiable stream orig-string, value integer orig-number, value stream prefix) as
+	local stream LsPrefix initial {''}
+	local stream LsUpdatedString
+	set LsPrefix to prefix
+	open LsUpdatedString as buffer
+		using output as LsUpdatedString do
+			repeat scan orig-string
+				match ul (white-space+ 'number="' [any except '"']*=>val '"')=>attr
+					local integer LiPageNumber
+					local switch LxPointPage initial {false}
+					set LiPageNumber to orig-number
+					do scan val
+						match unanchored '.'
+							activate LxPointPage
+					done
+					do when LxPointPage
+						do scan val
+							match (digit+=>base-number '.' digit+)=>orig-val
+								output ' number="%g(LsPrefix)%x(orig-val)/%g(LsPrefix)%x(base-number)'
+								increment GiPointPage
+								output '.%d(GiPointPage)"'
+						done
+						increment LiPageNumber
+						set GiPrevPage to LiPageNumber
+					else
+						output ' number="%g(LsPrefix)%d(LiPageNumber)'
+						increment LiPageNumber
+						output '/%g(LsPrefix)%d(LiPageNumber)"'
+						set GiPrevPage to LiPageNumber
+					done
+				match any=>char
+					output char
+			again
+		done
+	close LsUpdatedString
+	set orig-string to LsUpdatedString
+
+find ul ('<page' [any except '>']+ '>')=>page
+	
+	local stream LsPage
+	local stream LsPageNumberAttr
+	local stream LsPrefix initial {''}
+	local integer LiPageNumber
+	local integer LiPgblkNumber
+	local switch LxFoldout initial {false}
+	set LsPage to page
+	repeat scan page
+		; RS: changed to look for prefixes like "RTR-1", "1-1", "1-2-1", "A-1"
+		;match ul (white-space+ 'number="' (letter+ '-')?=>prefix digit+=>val ('/' digit+)? '"')=>attr
+		match ul (white-space+ 'number="' ( (letter+ '-') | (digit+ '-' digit+ '-') | (digit+ '-') )? => prefix digit+=>val ('/' ( (letter+ '-') | (digit+ '-' digit+ '-') | (digit+ '-') )? digit+)? '"')=>attr
+			set LiPageNumber to val
+			set LsPrefix to prefix
+			set LsPageNumberAttr to attr
+			put GsDebug 'Page number attribute: "%g(LsPageNumberAttr)" prefix: %g(LsPrefix) page number: %d(LiPageNumber)%n'
+		match ul (white-space+ 'foldout="F"')=>attr
+			activate LxFoldout
+		match ul (white-space+ 'pgblk="' (digit+)=>val '"')=>attr
+			set LiPgblkNumber to val
+		match any
+	again
+	do when '%d(LiPageNumber)' = start-pointpg-nbr and not GxPointPages ;Added "and not GxPointPages" for point pages over 999.
+		activate GxPointPages
+		set GiPointPageBase to LiPageNumber - 1
+		set GiPointPage to 0
+		put #error and GsDebug 'Starting point-page output for page number "%d(LiPageNumber)". (Previous page number was "%d(GiPrevPage)".)%n'
+	else when '%d(LiPageNumber)' = start-pgblk-nbr and GxPointPages
+		do when LiPageNumber = LiPgblkNumber + 1
+			deactivate GxPointPages
+			put #error and GsDebug 'Stopping point-page output for page number "%d(LiPageNumber)". Found a new pageblock.%n'
+		else
+			put #error and GsDebug 'Found a faux starting pageblock number "%d(LiPageNumber)". Current pageblock number is "%d(LiPgblkNumber)".%n'
+		done
+	done
+	capitalize-label(LsPage)
+	do when GxPointPages
+		add-point-page(LsPage)
+	done
+	
+	;;Do not need to do foldouts here.
+	;;do when LxFoldout
+	;;	put #error and GsDebug 'Adding a foldout page to %d(LiPageNumber)%n'
+	;;	add-foldout(LsPage, LiPageNumber, LsPrefix)
+	;;else
+	;	set GiPrevPage to LiPageNumber	
+	;;done
+	
+	; Sonovision update (2018.11.15)
+	; - we do need foldout point pages in LEP (e.g. "F 2998.23/2998.24 16 Jul 2018")
+	do when LxFoldout
+		put #error and GsDebug 'Adding a foldout page to %d(LiPageNumber)%n'
+		add-foldout(LsPage, LiPageNumber, LsPrefix)
+	else
+		set GiPrevPage to LiPageNumber	
+	done
+
+	output LsPage
+	output '%n'
+
+	
+process-start
+	open GsDebug as file '%g(GsFilename)_lep_point_pages_debug.txt'
+	
+process-end
+	close GsDebug

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!NOTATION tif SYSTEM "tiff">
+]>
+<?Pub Inc?>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="Z" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>(component Name)</techName><infoName>ILLUSTRATED PARTS LIST</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="99193"></responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="AAA"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<unverified/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<para>Vendor codes, preceded by the capital letter V, are used in the NOMENCLATURE column of the DPL to identify the manufacturer of non-Honeywell components of the engine. A listing of these codes in numerical sequence, with vendors name and address,
+is contained in the table below. When no code number exists, the vendors full name and address are included in the NOMENCLATURE column of the DPL.</para>
+<para>The inclusion of vendor codes and part numbers in the DPL shall not be construed as an authorization of the vendor, pursuant to FAA regulations, to ship directly to the user. Neither shall it be construed as a certification by Honeywell that parts
+shipped by vendors directly to users will conform to the type design or that such parts are airworthy or safe for installation.</para><?Pub Caret 43?>
+<table><tgroup cols="2">
+<?PubTbl tgroup dispwid="667.00px"?>
+<colspec colname="col1" colwidth="0.27*"/><colspec colname="col2" colwidth="1.73*"/><thead><row>
+<entry colsep="0">
+<?PubTbl cell border-left-style="none"?>
+<para>Code</para>
+</entry>
+<entry>
+<?PubTbl cell border-right-style="none"?>
+<para>Vendor</para>
+</entry>
+</row></thead><tbody><row>
+<entry colsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry>
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row></tbody></tgroup></table>
+</description></content></dmodule>

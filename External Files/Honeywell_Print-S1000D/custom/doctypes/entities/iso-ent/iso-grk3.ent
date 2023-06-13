@@ -1,0 +1,48 @@
+<!-- iso-grk3.ent produced by Norman Walsh for the XML version of DocBook -->
+
+<!-- Derived from the corresponding ISO 8879 standard entity set
+     and the Unicode character mappings provided by Sebastian Rahtz -->
+
+<!ENTITY alpha	"&#38;#x03B1;"> <!--  -->
+<!ENTITY beta	"&#38;#x03B2;"> <!-- GREEK SMALL LETTER BETA -->
+<!ENTITY gamma	"&#38;#x03B3;"> <!-- GREEK SMALL LETTER GAMMA -->
+<!ENTITY Gamma	"&#38;#x0393;"> <!-- GREEK CAPITAL LETTER GAMMA -->
+<!ENTITY gammad	"&#38;#x03DC;"> <!-- GREEK LETTER DIGAMMA -->
+<!ENTITY delta	"&#38;#x03B4;"> <!-- GREEK SMALL LETTER DELTA -->
+<!ENTITY Delta	"&#38;#x0394;"> <!-- GREEK CAPITAL LETTER DELTA -->
+<!ENTITY epsi	"&#38;#x220A;"> <!--  -->
+<!ENTITY epsiv	"&#38;#x03B5;"> <!--  -->
+<!ENTITY epsis	"&#38;#x220A;"> <!--  -->
+<!ENTITY zeta	"&#38;#x03B6;"> <!-- GREEK SMALL LETTER ZETA -->
+<!ENTITY eta	"&#38;#x03B7;"> <!-- GREEK SMALL LETTER ETA -->
+<!ENTITY thetas	"&#38;#x03B8;"> <!--  -->
+<!ENTITY Theta	"&#38;#x0398;"> <!-- GREEK CAPITAL LETTER THETA -->
+<!ENTITY thetav	"&#38;#x03D1;"> <!--  -->
+<!ENTITY iota	"&#38;#x03B9;"> <!-- GREEK SMALL LETTER IOTA -->
+<!ENTITY kappa	"&#38;#x03BA;"> <!-- GREEK SMALL LETTER KAPPA -->
+<!ENTITY kappav	"&#38;#x03F0;"> <!-- GREEK KAPPA SYMBOL -->
+<!ENTITY lambda	"&#38;#x03BB;"> <!-- GREEK SMALL LETTER LAMDA -->
+<!ENTITY Lambda	"&#38;#x039B;"> <!-- GREEK CAPITAL LETTER LAMDA -->
+<!ENTITY mu	"&#38;#x03BC;"> <!-- GREEK SMALL LETTER MU -->
+<!ENTITY nu	"&#38;#x03BD;"> <!-- GREEK SMALL LETTER NU -->
+<!ENTITY xi	"&#38;#x03BE;"> <!-- GREEK SMALL LETTER XI -->
+<!ENTITY Xi	"&#38;#x039E;"> <!-- GREEK CAPITAL LETTER XI -->
+<!ENTITY pi	"&#38;#x03C0;"> <!-- GREEK SMALL LETTER PI -->
+<!ENTITY piv	"&#38;#x03D6;"> <!-- GREEK PI SYMBOL -->
+<!ENTITY Pi	"&#38;#x03A0;"> <!-- GREEK CAPITAL LETTER PI -->
+<!ENTITY rho	"&#38;#x03C1;"> <!-- GREEK SMALL LETTER RHO -->
+<!ENTITY rhov	"&#38;#x03F1;"> <!-- GREEK RHO SYMBOL -->
+<!ENTITY sigma	"&#38;#x03C3;"> <!-- GREEK SMALL LETTER SIGMA -->
+<!ENTITY Sigma	"&#38;#x03A3;"> <!-- GREEK CAPITAL LETTER SIGMA -->
+<!ENTITY sigmav	"&#38;#x03C2;"> <!--  -->
+<!ENTITY tau	"&#38;#x03C4;"> <!-- GREEK SMALL LETTER TAU -->
+<!ENTITY upsi	"&#38;#x03C5;"> <!-- GREEK SMALL LETTER UPSILON -->
+<!ENTITY Upsi	"&#38;#x03D2;"> <!--  -->
+<!ENTITY phis	"&#38;#x03C6;"> <!-- GREEK SMALL LETTER PHI -->
+<!ENTITY Phi	"&#38;#x03A6;"> <!-- GREEK CAPITAL LETTER PHI -->
+<!ENTITY phiv	"&#38;#x03D5;"> <!-- GREEK PHI SYMBOL -->
+<!ENTITY chi	"&#38;#x03C7;"> <!-- GREEK SMALL LETTER CHI -->
+<!ENTITY psi	"&#38;#x03C8;"> <!-- GREEK SMALL LETTER PSI -->
+<!ENTITY Psi	"&#38;#x03A8;"> <!-- GREEK CAPITAL LETTER PSI -->
+<!ENTITY omega	"&#38;#x03C9;"> <!-- GREEK SMALL LETTER OMEGA -->
+<!ENTITY Omega	"&#38;#x03A9;"> <!-- GREEK CAPITAL LETTER OMEGA -->

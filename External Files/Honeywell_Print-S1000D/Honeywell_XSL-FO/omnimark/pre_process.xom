@@ -1,0 +1,147 @@
+process
+
+;1.	Check character code of every character. (Outputs to stream.) (Does not resolve parameter entities. Entities handled by COMET.)
+;2.	Run pre-process steps on stream output of character code check.
+
+submit #main-input
+
+global stream GsMainInput initial {""}							;This holds the input for cleanup after character code checking.
+
+global stream GsLogFileName initial {"TEMP\parse1.log"}			;(full TEMP path provided on command line)
+global stream GsLog initial {""}
+
+global stream GsGen2LogFileName initial {"TEMP\gen2_shift-f6.txt"}	;(full TEMP path provided on command line)
+global stream GsGen2Log initial {""}
+
+global integer GiLine initial {1}
+global integer GiErrorLine initial {0}
+global integer GiChar initial {1}
+global switch GxGen2 initial {false}			;This will determine if the generation 2 shift-f6 replacement should be run. (3 column tables)
+global switch GxBadChars initial {false}		;This will determine whether or not the "bad character" note needs to be output in the log.
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+macro char-note is
+	do when not GxBadChars
+		put GsLog 'There were characters found with a character code greater than 127 (non-US keyboard characters)%n'_ 
+				   'Choose one of two ways to find the offending character:%n%n'_ 
+		          '1. Run the application ARChIE on the file and search for Flag 105.%n%n'_
+		          '2. Without using ARChIE, please see the "[CHAR-ERROR]" errors below.%n%n'_
+		          'NOTE: You can copy pieces of the line snapshot to search for the location of the character in Epic.%n'_
+		          '      However, do not copy the character itself. It will most likely appear different in Epic.%n%n'
+		activate GxBadChars
+	done
+macro-end
+
+;Strip xml markup from string.
+define stream function clean(modifiable stream markup) as
+	local stream LsCleaned
+	open LsCleaned as buffer
+	repeat scan markup
+		match value-start [any-text except '<>']* '>'
+		match '<' [any-text except '>']* '>'?
+		match any=>char
+			put LsCleaned char
+	again
+	close LsCleaned
+	return LsCleaned
+
+;=============================
+;	Check character codes     ;
+;=============================
+
+;Find UTF-8 byte order mark.
+find '﻿'=>bom
+	put GsLog 'Found a UTF-8 file with a BOM (byte order mark). Please save file as a different encoding:%n%n'_
+             '%t1.  Open the file in Notepad or TextPad and do a "Save As...".%n'_
+             '%t2.  Leave the filename the same and change the encoding from "UTF-8" to "ANSI".%n'_
+             '%t3.  Choose "Yes" when it asks you if you want to replace the file.%n'
+	put GsMainInput bom
+
+;Don't check characters in comments.
+find (('<!--') upto ('-->') '-->')=>comment
+	;Match chars to keep line/character counts accurate.
+	repeat scan comment
+		match '%n'=>char
+			increment GiLine
+			set GiChar to 1
+		match any=>char
+			increment GiChar
+	again
+
+;Find newlines to keep track of line numbers and reset character count.
+find '%n'=>char
+	increment GiLine
+	set GiChar to 1
+	put GsMainInput char
+
+;Find any other text to check.
+find any-text+=>line
+	local stream LsLine
+	set LsLine to line
+	repeat scan line
+		match any=>char
+			local integer LiCharCode
+			set LiCharCode to 'd' format binary char
+			do when LiCharCode > 127
+				do when GiErrorLine != GiLine
+					char-note
+					;put GsLog 'Error. Character code greater than 127. The ASCII code for "%b(LiCharCode)" is "%d(LiCharCode)". (LINE: %d(GiLine) CHAR: %d(GiChar))%n'
+					;put GsLog 'Error. Character code greater than 127. The ASCII code for "%b(LiCharCode)" is "%d(LiCharCode)". LINE #%d(GiLine):%n%n%t%g(LsLine)%n%t' || clean(LsLine) || '%n'
+					;put GsLog '%nError. Character code greater than 127. The ASCII code for "%b(LiCharCode)" is "%d(LiCharCode)". (Line: %d(GiLine) Char: %d(GiChar)) Line snapshot:%n%n%t' || clean(LsLine) || '%n%n'
+					put GsLog '%n[CHAR-ERROR] CHAR: "%b(LiCharCode)" CODE: "%d(LiCharCode)" LINE NUMBER: "%d(GiLine)" CHAR NUMBER: "%d(GiChar)" LINE SNAPSHOT:%n%n%t' || clean(LsLine) || '%n%n'
+				else
+					put GsLog '[CHAR-ERROR] CHAR: "%b(LiCharCode)" CODE: "%d(LiCharCode)" LINE NUMBER: "%d(GiLine)" CHAR NUMBER: "%d(GiChar)" (See line snapshot above.)%n'
+				done
+				set GiErrorLine to GiLine
+			done
+			increment GiChar
+			put GsMainInput char
+	again
+
+process-start
+	; CV - TEMP is no longer a relative path location
+	;open GsLog as file 'TEMP\parse1.log'
+	open GsLog as file GsLogFileName
+	open GsMainInput as buffer
+
+process-end
+	close GsMainInput
+	;=============================
+	;	Check character codes     ;
+	;=============================
+	;Scan the stream that was output during the character checking.
+	repeat scan GsMainInput
+		;Look for evidence of 3 column tables.
+		match ul ('<condesc>'|'<consrc>'|'<stddesc>'|'<stdsrc>'|'<tooldesc>'|'<toolsrc>')=>tag when not GxGen2
+			output tag
+			activate GxGen2
+		;Look for evidence of 3 column tables in parameter entities.
+		match ('<!ENTITY' white-space+ '%%' white-space+ [any-text except white-space]+=>ent white-space+
+			  'SYSTEM' white-space+ '"' 'file:///'? [any except '"']+=>val '"' white-space* '>' white-space*)=>ent-dec
+			output ent-dec
+			do when file val exists
+				do scan file val
+					match unanchored ul ('<condesc>'|'<consrc>'|'<stddesc>'|'<stdsrc>'|'<tooldesc>'|'<toolsrc>')
+						activate GxGen2
+				done
+			done
+		;Strip atict info
+		match (ul 'xmlns:atict="' [any except '"']* '"')=>pv.test
+			put #error '%nMatched: %x(pv.test)%n'
+		match (ul '<' '/'? 'atict:' [any except '>']* '>')=>pv.test
+			put #error '%nMatched: %x(pv.test)%n'
+		match any=>char
+			output char
+	again
+	close GsLog
+	do when GxGen2
+		; CV - TEMP is no longer a relative path location
+		;open GsGen2Log as file 'TEMP\gen2_shift-f6.txt'
+		open GsGen2Log as file GsGen2LogFileName
+			put GsGen2Log 'Found one or more "<condesc>", "<consrc>", "<tooldesc>", "<toolsrc>", "<stddesc>", and/or "<stdsrc>" elements.%n' _
+			              'This indicates a generation 2 shift-f6 replacement should be run to create 3 column tools/consumables tables.%n'
+		close GsGen2Log
+	done

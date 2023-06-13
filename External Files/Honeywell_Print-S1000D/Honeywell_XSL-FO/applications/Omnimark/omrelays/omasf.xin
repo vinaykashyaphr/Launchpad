@@ -1,0 +1,211 @@
+;***********************************************************************
+;
+;   Created by 1998 OmniMark Technologies Corporation.
+;
+;**************************** DESCRIPTION ******************************
+;
+; Version: 1.2
+; Revised: 12 May 1999
+;
+;    omasf  - A template for writing OmniMark servers which use the
+;             OmniMark web relay protocol.
+;
+;             As a template, this file is structured into into two
+;             sections: a generic OmniMark Web Services server 
+;             section (omasf.xin) which is followed by a replaceable
+;             application section (omasf.xom).
+;
+; Version: 1.3
+; Revised: 26 January 2000
+;
+; moved the declaration back to the .xom file.
+
+;**************** Define Prototype of Service Function *****************
+
+; prototype definitions of the functions which actually perform the
+; service processing.
+
+define function ServiceInitialize elsewhere
+define function ServiceMain (read-only stream requestHeader,
+                             read-only stream requestBody) elsewhere
+define function ServiceTerminate elsewhere
+
+;********************** TCP Service Functionality **********************
+
+include "omioprot.xin"
+include "omtcp.xin"
+
+;******************************* MACROS ********************************
+
+; parameter request is a stream shelf
+macro ReceivedAreYouAliveRequest (token request) is
+   (number of request = 1 &
+    length of request = 0 &          ; optimized requestHeader = ""
+    key of request = "UnParsedText")
+macro-end
+
+; parameter request is a stream shelf
+macro ReceivedTerminateRequest (token request) is
+   (request ^ "UnParsedText" = PoisonPill)
+macro-end
+
+macro exitable-do is repeat macro-end
+macro exitable-done is exit again macro-end
+
+macro CRLF is "%13#%10#" macro-end
+
+;********************* global COMMAND-LINE SETTABLE ********************
+
+global counter  ListenPort     initial {5800}
+global stream   PoisonPill     initial {"POISON PILL"}
+global stream   serviceName    initial {"omasf"}
+
+;************************* Utility FUNCTIONS ***************************
+
+include "builtins.xin"  ; used for log-message
+
+;***************** local Server loop helper FUNCTIONS ******************
+;
+; These local functions parse/decode the request packets and handle
+; reporting of TCP errors.
+;
+
+; The definition of the request grammar that ParsePacket parses is
+; defined in [**** add link to SureSpeed grammar definition ****].
+;
+define function ParsePacket value stream packetText
+                  into modifiable stream parsedPacket
+as
+   clear parsedPacket
+   repeat scan packetText
+   match [any-text except "=&"]+ => name "="
+         [any-text except "&"]* => data "&"?
+      do when parsedPacket has key name
+         reopen parsedPacket ^ name
+         put parsedPacket ^ name ","
+      else
+         new parsedPacket ^ name
+         open parsedPacket as buffer
+      done
+      using output as parsedPacket ^ name
+      repeat scan data
+         match ([any-text except "+%%"]+ |
+                "%%" lookahead not ul [digit | "ABCDEF"] {2})+ => otherText
+            output otherText
+         match "%%" ul [digit | "ABCDEF"] {2} => twoHex
+            output "b" % (twoHex base 16)
+         match "+"+ => plusSequence
+            output "%_" ||* (length of plusSequence)
+      again
+      close parsedPacket ^ name
+   match ([any-text except "&="]* "&")+
+      ; skip non-DATA=VALUE entries
+   again
+
+   ; store the original packet on the shelf if the key "UnParsedText" is
+   ; available
+   set new parsedPacket ^ "UnParsedText" to packetText
+       unless parsedPacket has key "UnParsedText"
+
+
+define function ReportServiceError (value TCPService this-TCPService,
+                                    value stream situation)
+as
+   local stream reportText
+   local stream errorReport variable
+   TCPServiceGetStatusReport this-TCPService into errorReport
+   return when number of errorReport = 0
+   set reportText to "TCP Service Error in %g(situation)%n"
+   repeat over errorReport
+      set reportText to reportText || errorReport || "%n"
+   again
+   log-message reportText severity 1
+
+
+define function ReportConnectionError (value TCPConnection
+                                             this-TCPConnection,
+                                       value stream situation)
+as
+   local stream reportText
+   local stream errorReport variable
+   TCPConnectionGetStatusReport this-TCPConnection into errorReport
+   return when number of errorReport = 0
+   set reportText to "TCP Connection Error in %g(situation)%n"
+   repeat over errorReport
+      set reportText to reportText || errorReport || "%n"
+   again
+   log-message reportText severity 1
+
+; ************************* Main Server Loop ***************************
+
+process
+   local TCPService this-TCPService
+
+   set this-TCPService to TCPServiceOpen at ListenPort
+   do when TCPServiceIsInError this-TCPService
+      ReportServiceError (this-TCPService, "Service Open")
+      halt with 1
+   done
+
+   ServiceInitialize
+
+   log-message "%g(serviceName) Server Ready on Port %d(ListenPort)"
+
+   repeat
+      local TCPConnection this-TCPConnection
+      local stream  requestHeader Variable initial-size 0
+      local stream  requestBody   Variable initial-size 0
+      local stream  responseBody
+
+      set this-TCPConnection to TCPServiceAcceptConnection this-TCPService
+      do when TCPConnectionIsInError this-TCPConnection
+         ReportConnectionError (this-TCPConnection, "Accept Connection")
+                 ServiceTerminate
+         halt with 2
+      done
+
+      exitable-do
+
+         ParsePacket TCPConnectionGetLine this-TCPConnection
+                into requestHeader
+         do when TCPConnectionIsInError this-TCPConnection
+            ReportConnectionError (this-TCPConnection,
+                                   "Parse Header Packet")
+            exit
+         done
+
+         ; check if received protocol level request. These requests are
+         ; never transmitted to the ServiceMain routine. The two
+         ; supported protocol level requests are:
+         ;                     AreYouAlive
+         ;                     Terminate
+         ;
+         do when ReceivedAreYouAliveRequest (requestHeader)
+            ; This request has been processed so wait for next request
+            exit
+         else when ReceivedTerminateRequest (requestHeader)
+                    ServiceTerminate
+            log-message "Terminating program as requested."
+            halt with 0
+         done
+
+         ParsePacket TCPConnectionGetLine this-TCPConnection
+                into requestBody
+         do when TCPConnectionIsInError this-TCPConnection
+            ReportConnectionError (this-TCPConnection,
+                                   "Parse Body Packet")
+            exit
+         done
+
+         open responseBody as TCPConnectionGetOutput this-TCPConnection
+         using output as responseBody
+            ServiceMain (requestHeader, requestBody)
+         close responseBody
+         do when TCPConnectionIsInError this-TCPConnection
+            ReportConnectionError (this-TCPConnection,
+                                   "Send Body Packet")
+            exit
+         done
+
+      exitable-done
+   again

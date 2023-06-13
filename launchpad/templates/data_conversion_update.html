@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>  
+    table.bottomBorder { 
+        border-collapse: collapse; 
+    }
+    table.bottomBorder td, 
+    table.bottomBorder th { 
+        border-bottom: 1px solid black; 
+        padding: 10px; 
+        text-align: left;
+    }
+    table.bottomBorder tr:hover {
+            background-color: #6dd0fd;
+    }
+</style>
+	<div class="container"  onmouseover="highlightEmpty()">
+        <h2>Data Conversion Checklist</h2>
+        <h4>Job Number: {{ job_no }}</h4>
+        <h4>Revision: {{ revision }}</h4>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.op_manager.label }}<br>
+                {{ form.op_manager() }}<br>
+                <span class="note">For example: bkelly</span><br>
+            </p>
+            <p>
+                {{ form.er_level.label }}<br>
+                {{ form.er_level() }}<br>
+                <span class="note">Pre-Delivery = 0, Engineering Review #1 = 1, Engineering Review #2 = 2, etc.</span><br>
+            </p>
+
+            <p>
+                {{ form.pages_reviewed.label }}<br>
+                {{ form.pages_reviewed() }}<br>
+                <span class="note">Note: Having 'Pages Reviewed' set to 0 forces the 'Item 10 References as a Minor/Major PPM' to be 0</span><br>
+            </p>
+            <a class="button_one" onclick="zeroFill()">Fill in all empty comment fields with zeros</a>
+            <table class="bottomBorder">
+                <thead><tr><th>Defect Intensity</th><th>Code</th><th>Description</th><th>{{ comment_name }}</th></tr></thead>
+                <tbody>
+                    <tr><td> Minor </td><td> 1 </td><td>{{ dc_1 }}</td><td style="width: 150px;">{{ form.errorcount1() }}</td></tr>
+                    <tr><td> Major </td><td> 2 </td><td>{{ dc_2 }}</td><td style="width: 150px;">{{ form.errorcount2() }}</td></tr>
+                    <tr><td> Major </td><td> 3 </td><td>{{ dc_3 }}</td><td style="width: 150px;">{{ form.errorcount3() }}</td></tr>
+                    <tr><td> Minor </td><td> 4 </td><td>{{ dc_4 }}</td><td style="width: 150px;">{{ form.errorcount4() }}</td></tr>
+                    <tr><td> Minor </td><td> 5 </td><td>{{ dc_5 }}</td><td style="width: 150px;">{{ form.errorcount5() }}</td></tr>
+                    <tr><td> Minor </td><td> 6 </td><td>{{ dc_6 }}</td><td style="width: 150px;">{{ form.errorcount6() }}</td></tr>
+                    <tr><td> Major </td><td> 7 </td><td>{{ dc_7 }}</td><td style="width: 150px;">{{ form.errorcount7() }}</td></tr>
+                    <tr><td> Major </td><td> 8 </td><td>{{ dc_8 }}</td><td style="width: 150px;">{{ form.errorcount8() }}</td></tr>
+                    <tr><td> Minor </td><td> 9 </td><td>{{ dc_9 }}</td><td style="width: 150px;">{{ form.errorcount9() }}</td></tr>
+                    <tr><td> Major </td><td> 10 </td><td>{{ dc_10 }}</td><td style="width: 150px;">{{ form.errorcount10() }}</td></tr>
+                </tbody>
+            </table>
+            <p>{{ form.submit_complete(class="button_one") }}</p>
+            <P>{{ form.submit_incomplete(class="button_one") }}</P>
+        </form>
+
+<script type="text/javascript">
+    function zeroFill() {
+        var myArray = [document.getElementById('errorcount1'), document.getElementById('errorcount2'), document.getElementById('errorcount3'),
+                        document.getElementById('errorcount4'), document.getElementById('errorcount5'), document.getElementById('errorcount6'),
+                        document.getElementById('errorcount7'), document.getElementById('errorcount8'), document.getElementById('errorcount9'),
+                        document.getElementById('errorcount10')];
+
+        myArray.forEach(zeroFillinter);
+
+        function zeroFillinter(item) {
+                    if (item.value == '') {
+                        item.value = '0';
+                    }
+                }
+    }
+    window.onload = highlightEmpty()
+
+    function highlightEmpty() {
+        var myArray = [document.getElementById('errorcount1'), document.getElementById('errorcount2'), document.getElementById('errorcount3'),
+                        document.getElementById('errorcount4'), document.getElementById('errorcount5'), document.getElementById('errorcount6'),
+                        document.getElementById('errorcount7'), document.getElementById('errorcount8'), document.getElementById('errorcount9'),
+                        document.getElementById('errorcount10'), document.getElementById('pages_reviewed'), document.getElementById('er_level'),
+                        document.getElementById('op_manager')];
+
+        myArray.forEach(highlight);
+
+        function highlight(item) {
+                    if (item.value == '') {
+                        item.style.border = "1px solid #FF0000";
+                    }
+                    else {
+                        item.style.border = "1px solid #00FF00";
+                    }
+                }
+    }
+</script>
+{% endblock %}

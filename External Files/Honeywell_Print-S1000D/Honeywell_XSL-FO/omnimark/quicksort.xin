@@ -1,0 +1,65 @@
+ define function quicksort
+           modifiable  stream   a
+     from  value       counter  l     optional initial {1}
+     to    value       counter  r-opt optional
+  as
+     ;
+     ; Local variables
+     ;
+     local counter i
+     local counter j
+     local counter r
+     local stream x
+     local stream w
+     local stream v
+
+     ;
+     ; Initialize variables
+     ;
+     do when r-opt is specified
+        set r to r-opt
+     else
+        set r to (number of a)
+     done
+     set i to l
+     set j to r
+     set x to a@((i+j)/2)
+     set key of x to key of a@((i+j)/2)
+
+     repeat
+        repeat
+           do when (key of a@i) < (key of x)
+              increment i
+           else
+              exit
+           done
+        again
+        repeat
+           do when (key of x) < (key of a@j)
+              decrement j
+           else
+              exit
+           done
+        again
+        do when i <= j
+           set w to a@i
+           set key of w to key of a@i
+           set key of v to key of a@j
+           remove key of a@j
+           set a@i to a@j
+           set key of a@i to key of v
+           set a@j to w
+           set key of a@j to key of w
+           increment i
+           decrement j
+        done
+
+        exit when i > j
+     again
+
+     ;
+     ; Recurse
+     ;
+     quicksort a from l to j when l < j
+     quicksort a from i to r when i < r
+  return

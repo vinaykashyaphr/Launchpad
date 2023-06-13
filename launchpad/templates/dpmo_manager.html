@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block content %}
+<head>
+	<script src="plotly-latest.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<style>
+		.button_one{
+			background-color: #e7e7e7;
+		}
+	</style>
+</head>
+	<div class="container bg-white">
+        <h2>DPMO Metrics</h2>
+        <form action="" method="post" novalidate>
+			<div class="column">
+				{{ form.hidden_tag() }}
+				<h3>Filters:</h3>
+				{{ form.display_type.label }}
+				{{ form.display_type() }}
+				<div>
+					<p><span class="note">Note: Any job that doesn't have the correct publication type or site information will not be included in these metrics.</span><br></p>
+					<p><span class="note">Note: Only completed checklists will be included.</span><br></p>
+					
+					<p>Monthly metrics range: (All Tables)</p>
+					<input type='month' name='month1'></input>
+					<p></p>
+					<p>Date range: (Tables 1-4)</p>
+					
+					<p>
+						{{ form.after_date.label }}<br>
+						<span class="note">YYYY-mm-dd hh:mm:ss</span><br>
+						<span class="note">Leave blank to search all dates</span><br>
+						{{ form.after_date() }}
+					</p>
+					<p>
+						{{ form.before_date.label }}<br>
+						<span class="note">YYYY-mm-dd hh:mm:ss</span><br>
+						<span class="note">Leave blank to search all dates</span><br>
+						{{ form.before_date() }}
+					</p>
+
+					<div>
+					<p><b>The following will affect all tables (including monthly metrics):</b></p>
+					
+					<p>
+						{{ form.project.label }}<br>
+						{{ form.project() }}<br>
+					</p>
+					<p>
+						{{ form.user.label }}<br>
+						<span class="note">Separate multiple values using commas (eg. 'User1,User2,User3')</span><br>
+						<span class="note">Leave blank to search all Users</span><br>
+						{{ form.user(size=32, class="textfield") }}<br>
+					</p>
+					<p>
+						{{ form.op_manager.label }}<br>
+						{{ form.op_manager() }}<br>
+						<span class="note">Separate multiple values using commas (eg. 'User1,User2,User3')</span><br>
+						<span class="note">Leave blank to search all Operation Managers</span><br>
+					</p>
+					<p>
+						{{ form.job_no.label }}<br>
+						<span class="note">Separate multiple values using commas (eg. 'JobNo1,JobNo2,JobNo3')</span><br>
+						<span class="note">Leave blank to search all Job Numbers</span><br>
+						{{ form.job_no() }}<br>
+					</p>
+					<p>
+						{{ form.er_level.label }}<br>
+						{{ form.er_level() }}<br>
+					</p>
+					<p>
+						{{ form.order.label }}<br>
+						<span class="note">Sort by Date Created (Table 1 only)</span><br>
+						{{ form.order() }}<br>
+					</p>
+					</div>
+
+					<p>{{ form.submit(class="button_one") }}</p>
+					<p>{{ form.export(class="button_one") }}</p>
+			</div>
+		</form>
+			{{ table1 | safe }}
+			{{ table2 | safe }}
+			{{ table3 | safe }}
+			{{ table4 | safe }}
+			{{ table8 | safe }}
+			{{ table5 | safe }}
+			{{ fig_pareto | safe }}
+			{{ table6 | safe }}
+			{{ fig_runchart | safe }}
+			{{ table7 | safe }}
+			{{ fig_site | safe }}
+		<div style='min-height:150px'></div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock %}

@@ -1,0 +1,131 @@
+process
+;COMMAND LINE: omnimark.exe sample_gdesc.txt -sb strip_tags.xom -of test.out
+submit #main-input
+
+global switch Gsw_SBType initial {false} ;activated for Service Bulletins
+
+macro m_upto(arg p_string) is
+	((lookahead not p_string) any)*
+macro-end
+
+macro m_scr(arg p_string) is put #error p_string||'%n' macro-end
+
+macro m-white-space is (white-space* "%n"* white-space*) macro-end
+
+
+define switch function f_uptoInc( value stream p_string) as 
+	return #current-input matches unanchored p_string
+
+define switch function StringInString
+	(
+	value stream p_string,
+	value stream p_searchString,
+	value integer p_caseSense optional initial {0}
+	) as 
+
+	;when p_searchString is a string 
+	repeat scan p_string
+		;------ p_searchString is a string -----
+		match p_searchString when p_caseSense = 1
+			return true
+		;------ p_searchString is a string -----
+		;case sensitive match
+		match p_searchString when p_caseSense = 1
+			return true
+		;case insensitive match	
+		match ul p_searchString when p_caseSense = 0
+			return true
+		;nonmatched string	
+		match any
+	again	
+	return false
+
+find ul('<sb ')=>pv_root
+	output pv_root
+	;Used to add an exception for service bulletins
+	activate Gsw_SBType
+
+find ul('<gdesc>' f_uptoInc('</gdesc>'))=>pv_gdesc
+	local switch Lsw_WithinTable initial {false}
+	local switch Lsw_TableFound initial {false}
+	local switch Lsw_TitleMissing initial {false}
+	local switch Lsw_FirstTable initial {true}
+	;m_scr('--------------------------------')
+	do scan pv_gdesc
+		;we match only the first table in the gdesc
+		match unanchored ul('<table ' m_upto('</table>'))=>pv_FirstTable
+			;allows for re-output of the gdesc elem below
+			activate Lsw_TableFound	
+			;allows for insertion of missing title below
+			do when not StringInString(pv_FirstTable,'<title>')
+				activate Lsw_TitleMissing 
+				;m_scr('**Table Title missing**')
+			done
+	done
+	
+	repeat scan pv_gdesc
+		match ul '<gdesc>'
+			;gdesc stripped unless they contain tables
+			output '<gdesc>' when Lsw_TableFound
+			;m_scr('<gdesc>') when Lsw_TableFound
+			
+		match ul ('<table' [any except '>']* '>')=>pv_TableStart 
+			activate Lsw_WithinTable
+			output pv_TableStart
+			;m_scr(pv_TableStart)
+			do when Lsw_TitleMissing and Lsw_FirstTable and not Gsw_SBType
+				output '<title>Key</title>'
+				m_scr('Added: <title>Key</title>')
+			done
+			deactivate Lsw_FirstTable
+		
+		match ul('<title>' f_uptoInc('</title>'))=>pv_title
+			output pv_title 
+			;m_scr(pv_title)
+		
+		match ul('<para>' f_uptoInc('</para>'))=>pv_para
+			;para stripped if outside tables
+			output pv_para when Lsw_WithinTable
+			;m_scr('  <para>..</para>') when Lsw_WithinTable
+		
+		match ul'</table>'=>pv_TableEnd
+			output pv_TableEnd
+			;m_scr(' </table>')
+			deactivate Lsw_WithinTable
+		
+		match ul'</gdesc>'
+			;gdesc stripped unless they contain tables
+			output '</gdesc>' when Lsw_TableFound
+			;m_scr('</gdesc>') when Lsw_TableFound
+			
+		match any=>pv_char
+			;other content stripped if outside tables
+			output pv_char when Lsw_WithinTable
+	again
+	
+
+
+; *******************************************************************************************************
+; Sonovision update (2019.02.14)
+; Special case for table at end of note:
+; - typically inside of a list item and due to indent block of note, the table runs off right-hand edge
+; - move this trailing table outside of note ("out of context", but already in XSL-FO processing - so don't care)
+; - rest of note will be indented, but this table should be treated same as others and usually appear full left-justified
+
+find ("<table " ((lookahead not "</table>")any)* "</table>")=table m-white-space "</note>"=note
+  output "%x(note)%x(table)"
+
+; *******************************************************************************************************
+
+
+find '\'(['()['])=>pv_char
+ 	output pv_char
+ 	put #error '\'
+
+find any=>pv_char
+	output pv_char
+	
+
+  
+
+	

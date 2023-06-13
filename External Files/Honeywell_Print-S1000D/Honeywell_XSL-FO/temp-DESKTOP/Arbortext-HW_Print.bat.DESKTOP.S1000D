@@ -1,0 +1,30 @@
+rem *** ARBORTEX_HOME should be set as environment variable ***
+
+rem set ARBORTEXT_HOME=C:\Program Files\PTC\Arbortext Editor 6.0
+set ARBORTEXT_HOME=C:\Program Files\PTC\Arbortext Editor
+
+set APTCUSTOM=C:\Honeywell_Print-S1000D\custom
+
+
+rem *** Unzip XEP "fonts" (first launch of updated package)
+if not exist "%APTCUSTOM%\..\Honeywell_XSL-FO\applications\XEP\fonts\fonts.zip" goto LaunchArbortext
+"%APTCUSTOM%\..\Honeywell_XSL-FO\applications\FBZip.exe" -e -p "%APTCUSTOM%\..\Honeywell_XSL-FO\applications\XEP\fonts\fonts.zip" "%APTCUSTOM%\..\Honeywell_XSL-FO\applications\XEP\fonts"
+del "%APTCUSTOM%\..\Honeywell_XSL-FO\applications\XEP\fonts\fonts.zip"
+
+
+:LaunchArbortext
+
+rem *** 32-bit ***
+if exist "%ARBORTEXT_HOME%\bin\x86\editor.exe" set ARBORTEXT_CMD="%ARBORTEXT_HOME%\bin\x86\editor.exe"
+
+rem *** 64-bit ***
+if exist "%ARBORTEXT_HOME%\bin\x64\editor.exe" set ARBORTEXT_CMD="%ARBORTEXT_HOME%\bin\x64\editor.exe"
+
+rem *** Launch Arbortext Editor ***
+rem %ARBORTEXT_CMD% -editor
+
+rem *** Launch Arbortext Styler ***
+rem %ARBORTEXT_CMD% -styler
+
+rem *** Launch Arbortext (default state) ***
+%ARBORTEXT_CMD%

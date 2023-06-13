@@ -1,0 +1,55 @@
+process
+
+submit #main-input
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+macro empty-elems is
+	('colspec'|'spanspec'|'deleted'|'isempty'|'hotlink'|'effsb')
+macro-end
+
+;Replace DOCTYPE declaration
+find ul ('<!DOCTYPE cmm') upto ('[')
+	output '<!DOCTYPE cmm PUBLIC "-//HONEYWELL//DTD CMM cmm//EN" "cmm.dtd" '
+
+find ul ('<!DOCTYPE sb') upto ('[')
+	output '<!DOCTYPE sb PUBLIC "-//ATA-HONEYWELL-TEXT//DTD SB-VER7-REV1-LEVEL2//EN" "sb.dtd" '
+
+
+; Remove erroneous entity declarations that may be found in an SGML file, but not allowed for XML
+; e.g.
+;<!ENTITY lt SDATA "[lt     ]">
+;<!ENTITY gt SDATA "[lt     ]">
+;<!ENTITY amp SDATA "[amp    ]"
+find "<!ENTITY " ("lt" or "gt" or "amp") " " [any except ">"]* ">"
+  output ""
+
+
+;Rev UDT
+find ul ('<cmm' white-space)=>tag
+	output '<?Pub UDT _rev _touchup?>%n' || tag
+
+;revst/revend
+find ul '<revst>'
+	output '<?Pub _rev?>'
+find ul '<revend>'
+	output '<?Pub /_rev?>'
+
+;Empty elements
+find ul ('<' empty-elems=>elem-name [any except '>']*)=>elem '>' (white-space* '</' elem-name '>')?
+	output elem || '/>'
+	
+;Processing instructions (It looks like Epic sometimes puts XML pi's in SGML??)
+find ul ('<?' [any except '>?']+)=>pi '?'? '>'
+	output pi || '?>'
+
+;Find any other elements and make sure attributes have a space before them. (Issue that was caused by HW XML -> SGML conversion.)
+find ul ('<' [any except '>']+ '>')=>elem
+	repeat scan elem
+		match ul '"' ([any-text except white-space | '"=']+ '="' [any except '"']*=>val '"')=>attr
+			output '" %x(attr)'
+		match any=>char
+			output char
+	again

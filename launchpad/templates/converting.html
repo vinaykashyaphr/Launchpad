@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+{% block content %}	
+	<h2>Converting Document</h2>
+	<p id="test">Pending...</p>
+	<div id="console"></div>
+	<form action="" id="input_form" style="display: none;" class="input_form">
+	<input type="text" id="user_input" disabled required/><!--
+	--><input type="submit" class="button_one" id="input_submit" disabled/>
+	<input type="hidden" id="sid" />
+	<input type="hidden" id="cc" />
+	</form>
+	<!-- <br><a class='button_one' id='continue' href="url_for('files_ready', filedir=upload_id, filename=filename.rsplit('.')[0] +'.zip')", style="display: none;">Continue</a> -->
+	<br><a class='button_one' id='continue' href="{{ url_for('technical_writing') }}", style="display: none;">Return</a>
+	
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+<script type="text/javascript">
+	//var socket = io.connect('http://' + document.domain, {'sync disconnect on unload': true, 'transports':['websocket']}); // + ':' + location.port , {'sync disconnect on unload': true, 'transports':['websocket'] }
+	var namespace = '/'; // change to an empty string to use the global namespace
+	var conv_socket = io.connect(null, {port: location.port, rememberTransport: false, transports: ['websocket']});
+	var countdown;
+	var statuses = ["__COMPLETED__", "__EXITED WITH ERRORS__", "__INPUT TIMED OUT__", "", "", "", ""]
+	
+	function resetForm(){
+		$("#input_submit").val('Submit');
+		$("#input_submit").prop("disabled", true);
+		$("#user_input").prop("disabled", true);
+		$("#user_input").val('');
+		$("#input_form").hide();
+		clearInterval(countdown); 
+	}
+	
+	function scrollBottom(){
+		var element = document.getElementById("console");
+		element.scrollTop = element.scrollHeight;
+	}
+	
+	conv_socket.on('connect', function() {
+		conv_socket.emit('join', {user : '{{ current_user.username }}'});
+	});
+	
+	conv_socket.on('disconnect', function() {
+		conv_socket.emit('leave', {user : '{{ current_user.username }}'})
+	});
+	
+	conv_socket.on('completed', function(data){	
+		$('#test').html(data.status);
+		$('#continue').show();
+		resetForm();
+		scrollBottom();
+		conv_socket.disconnect();
+	});
+		
+	conv_socket.on('print_message', function( message ) {
+		$('#console').append(message + '<br>');
+		scrollBottom();
+	});
+	
+	conv_socket.on('status', function( data ) {
+		$('#test').html(data.status);
+	});
+	
+	conv_socket.on('prompt_input', function( data ){
+		$("#input_form").show();
+		$("#user_input").prop("disabled", false);
+		$("#user_input").focus();
+		$('#console').append(">>>" + data.message + "<br>");
+		console.log(data.sio);
+		$("#sid").val(data.sio);
+		$("#input_submit").prop("disabled", false);
+		
+		var timer = data.timeout;
+		countdown = setInterval(function(){
+			$("#input_submit").val("Submit (" + timer + ")");
+			timer -= 1;
+			if(timer < 0){ 
+				resetForm();
+				conv_socket.emit('submit_input', {'input' : null, 'sender' : $("#sid").val()}); }
+		}, 1000);
+	});
+	
+	$( "#input_form" ).submit(function( event ) {
+		event.preventDefault();
+		var data = $("#user_input").val();
+		console.log($("#sid").val());
+		conv_socket.emit('submit_input', {'input' : data, 'sender' : $("#sid").val()}, function(){
+            console.log('Input acknowledged: ' + data);
+        });
+		//conv_socket.emit('submit_input', {'input' : , 'sender' : $("#sid").val(), 'conv_client': $("#cc").val()});
+		resetForm();
+	});
+
+	$( document ).ready(function() {
+		$.ajax({
+			type: 'POST',
+			url: '{{ url_for(url) }}',
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			data: JSON.stringify({
+				"fname": '{{ filename }}',
+				"up_folder": '{{ upload_folder }}',
+				"user": '{{ current_user.username }}',
+				"checks": '{{ checks }}'
+				}),
+			success: function() {
+			},
+			error: function() {
+				alert('Unexpected error');
+			}
+		});
+	});
+
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+@echo off
+
+del TEMP\run.log
+if exist firstXMLrevision.xml del firstXMLrevision.xml
+
+rem BatchRender_LocalGraphics.bat >> run.log 2>&1
+
+cls
+
+echo Rendering EIPC XSL-FO...
+
+call DRIVER_EIPC.bat >> TEMP\run.log 2>&1
+
+echo Finished
+
+rem pause

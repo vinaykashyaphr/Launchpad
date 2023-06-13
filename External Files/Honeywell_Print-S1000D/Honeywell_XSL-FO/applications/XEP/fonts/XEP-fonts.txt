@@ -1,0 +1,14 @@
+XEP fonts must be zipped in CVS, otherwise may be partially corrupted on CVS export.
+
+Including FBZip utility to automatically unzip on first launch of updated "Honeywell_Print" package.
+
+e.g.
+C:\Honeywell_Print\Honeywell_XSL-FO\applications\XEP\fonts\Arial-BoldItalicMT.afm
+C:\Honeywell_Print\Honeywell_XSL-FO\applications\XEP\fonts\Arial-BoldItalicMT.pfa
+C:\Honeywell_Print\Honeywell_XSL-FO\applications\XEP\fonts\Arial-BoldMT.afm
+...
+C:\Honeywell_Print\Honeywell_XSL-FO\applications\XEP\fonts\Times-Roman.afm
+C:\Honeywell_Print\Honeywell_XSL-FO\applications\XEP\fonts\ZapfDingbats.afm
+
+
+

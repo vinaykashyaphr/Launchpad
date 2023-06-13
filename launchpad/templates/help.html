@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}	
+<div class='container'>
+	<h2 class="homepage_title">Help</h2>
+	<p><h3>Data Conversion:</h3>		
+		<p>Instructions on how to use the data conversion tool.</p>		
+	</p>
+	<hr>
+	<p><h3>Arecibo:</h3>			
+		<p>Select the file to be QAed and enter its job number. Next choose which type of document it is (TR, SB, CMM, etc.). Indicate whether its D number is its publication number. Next, select which checks to run on the document:</p>
+		<p><b>Automated QA:</b> Uses job specific data obtained from Jira (I.e., Publication number, ECCN, etc.) to check front matter accuracy of the document.</p>
+		<p><b>LEP Check:</b> Checks the pages found in the List of Effective Pages (LEP) against the pages in the body of the document to see if all pages exist in both. Will also check asterisks against revision bars if the document contains the proper tags.</p>
+		<p><b>Missing Graphic Check:</b> Checks the document for any missing graphics and flags them (*Only works on XSL-FO printed document.)</p>
+		<p><b>Acronym Check:</b> Checks the Acronym Table for any duplicates in either the definition or the acronym.</p>
+		<p><b>Foldouts Check:</b> Checks through the document for foldout consistency (I.e, proper pagination, blank pages etc.)</p>
+		<!-- <p><b>Simplified English Check:</b> Checks the document for proper Simplified English.</p> -->
+		<p><b>Highlight Check:</b> Uses the highlights to check if document has a revision bar in the location stated by the highlight (*Only works on XSL-FO printed documents).</p>
+		<p><b>Full Quality Analysis:</b> This will run all relevant checks for the particular type of document and output a pdf with the flagged comments.</p>
+	</p>
+	<hr>
+	<p><h3>Accuracy Checker:</h3>			
+		<p>In order to use the accuracy checker, choose two files you wish to check the accuracy of. These can be PDFS, text, or XML files as long as both files are the same.</p>
+		<p>When you run the check, you will need to enter the job number and the stage of conversion that the document is at.</p>
+		<p>Selecting a raw check means that the checker will not attempt to remove or ignore things like extra table headings, blank pages, etc.</p>
+	</p>
+	<hr>
+	<p><h3>PDF Highlighter:</h3>
+		<h4>How to use</h4>			
+		<p>In order to use the PDF Highlighter, select two PDF files you wish to see the differences between.</p>
+		<p>When you run the highlighter, you will need to enter the job number.</p>
+		<p>Active and completed highlight jobs will appear below the highlighter inputs. Depending on the PDF files, highlighting the differences could take seconds or minutes.</p>
+		<p>The Highlighter will display what stage a give highlight job is on:</p>
+		<ul>
+			<li>Parsing PDFs</li>
+			<li>Examining PDFs</li>
+			<li>Generating Comments</li>
+			<li>Highlighting PDFs</li>
+		</ul>
+		<h4>Interpreting the results</h4>
+		<p>On the first page, there will be a yellow comment listing how many of each type of highlight is present in the document.</p>
+		<p>The types of comments and their colours is as follows:</p>
+		<ul>
+			<li>Green:  High Confidence similar - The highlighted block is considered very similar to another block in the other document.</li>
+			<li>Blue: Medium Confidence similar - The highlighted block is considered reasonably similar to another block in the other document.</li>
+			<li>Purple: Low Confidence similar - The highlighted block is considered similar to another block in the other document.</li>
+			<li>Red: Extra - The highlighted block could not be found in the other document.</li>
+		</ul>
+		<p>Each comment is labeled with a code containing what sort of highlight it is and what number it is in the document.</p>
+	</p>
+	<hr>
+	<p><h3>Beyond Measure</h3>
+		<h4>How to use</h4>
+		<p>In order to use Beyond Measure, select a dpf document and press "Output Textblocks".</p>
+		<p>A text file will be created containing the content of the document:</p>
+		<ul>
+			<li>Sorted by block type, ex. Process step, figure title, etc.</li>
+			<li>Without boiler-plate content</li>
+		</ul>
+
+	</p>
+	<p><h3>Job Folder Creator</h3>
+		<h4>How to use</h4>
+		<p>Fill out an excel spreadsheet with the following columns:</p>
+		<ul>
+			<li>Job Number</li>
+			<li>D Number</li>
+			<li>Rev Number</li>
+			<li>CAGE Code</li>
+			<li>Classification (USCA/ITAR/UNCLASSIFIED)</li>
+		</ul>
+		<p>For each filled out row, a fob folder structure will be created. For USCA and Unclassified, the folders will be created on their respective drives, but ITAR folders will have to be downloaded from Launchpad once the program has completed.</p>
+	
+	</p>
+
+	
+</div>
+{% endblock %}

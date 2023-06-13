@@ -1,0 +1,919 @@
+process
+
+submit #main-input
+
+global stream GsDebug initial {''}
+global stream GsFilename initial {''}
+global stream GsPagePrefix initial {''}
+global stream GsNewPages variable
+global stream GsIgnorePages variable
+global integer GiTFPnumber initial {'0'} ;Use this to keep track of the TFP's (first TFP, second TFP, etc.). This is for TOC tracking.
+global switch GxTFP initial {false} ;Only need to renumber pages if there was a table foldout.
+global integer GiOffsetAdjustment initial {0}
+
+macro upto (arg string) is
+    ((lookahead not string) any)*
+macro-end
+
+;OLD|define function update-tag(modifiable stream orig-stream,
+;OLD|                           value stream orig-prefix,
+;OLD|                           value stream orig-value,
+;OLD|                           value stream tfp-page optional ) as
+;OLD|   local stream LsUpdatedString
+;OLD|   put GsDebug 'orig-stream: "%g(orig-stream)"%n'
+;OLD|   put GsDebug 'tfp-page is specified%n' when tfp-page is specified
+;OLD|   open LsUpdatedString as buffer
+;OLD|       using output as LsUpdatedString do
+;OLD|           repeat scan orig-stream
+;OLD|               match ul white-space+ 'value="' [any except '"']* '"'
+;OLD|                   local stream LsVal
+;OLD|                   set LsVal to orig-value
+;OLD|                   set LsVal to GsNewPages ^ orig-value when GsNewPages has ^ orig-value
+;OLD|                   output ' value="%g(LsVal)"'
+;OLD|                   put GsDebug 'changed value "%g(orig-value)" to "%g(LsVal)"%n'
+;OLD|               match ul white-space+ 'x="' [any except '"']*=>val '"'
+;OLD|                   local integer LiOrigOffset initial {0}
+;OLD|                   local integer LiOffset initial {0}
+;OLD|                   local integer LiPrefixCharCount initial {0}
+;OLD|                   repeat scan orig-prefix
+;OLD|                       match any
+;OLD|                           increment LiPrefixCharCount
+;OLD|                   again
+;OLD|                   set LiOrigOffset to val
+;OLD|                   decrement LiPrefixCharCount by 5 when tfp-page is specified and orig-prefix != '~TCE~' ;In INTRO-
+;OLD|                   increment LiPrefixCharCount by 4 when tfp-page is specified and orig-prefix  = '~TCE~' ;Not in INTRO-
+;OLD|                   set LiOffset to (LiPrefixCharCount * 5560)
+;OLD|                   do when LiOffset > LiOrigOffset
+;OLD|                       put GsDebug 'LiOffset (%d(LiOffset)) > LiOrigOffset (%d(LiOrigOffset))%n'
+;OLD|                   else
+;OLD|                       put GsDebug 'LiOffset (%d(LiOffset)) < LiOrigOffset (%d(LiOrigOffset))%n'
+;OLD|                   done
+;OLD|                   do when tfp-page is specified
+;OLD|                       output ' x="' || 'd' format val + LiOffset || '"'
+;OLD|                   else
+;OLD|                       output ' x="' || 'd' format val - LiOffset || '"'
+;OLD|                   done
+;OLD|                   put GsDebug 'changed x="%x(val)" to x="' || 'd' format val - LiOffset || '" based on the prefix "%g(orig-prefix)"%n'
+;OLD|               match ul white-space+ 'width="' [any except '"']*=>val '"'
+;OLD|                   local integer LiOrigWidth initial {0}
+;OLD|                   local integer LiWidth initial {0}
+;OLD|                   local integer LiPrefixCharCount initial {0}
+;OLD|                   repeat scan orig-prefix
+;OLD|                       match any
+;OLD|                           increment LiPrefixCharCount
+;OLD|                   again
+;OLD|                   set LiOrigWidth to val
+;OLD|                   decrement LiPrefixCharCount by 5 when tfp-page is specified and orig-prefix != '~TCE~' ;In INTRO-
+;OLD|                   increment LiPrefixCharCount by 4 when tfp-page is specified and orig-prefix  = '~TCE~' ;Not in INTRO-
+;OLD|                   set LiWidth to ((LiPrefixCharCount * 4273) + LiOrigWidth)
+;OLD|                   ;do when tfp-page is specified
+;OLD|                   ;   output ' x="' || 'd' format val + LiOffset || '"'
+;OLD|                   ;else
+;OLD|                   ;   output ' x="' || 'd' format val - LiOffset || '"'
+;OLD|                   ;done
+;OLD|                   output ' width="%d(LiWidth)"'
+;OLD|                   put GsDebug 'changed width="%x(val)" to width="%d(LiWidth)" based on the prefix "%g(orig-prefix)"%n'
+;OLD|               match any=>char
+;OLD|                   output char
+;OLD|           again
+;OLD|       done
+;OLD|   close LsUpdatedString
+;OLD|   set orig-stream to LsUpdatedString
+;OLD|   put GsDebug 'new-stream: "%g(LsUpdatedString)"%n'
+
+define function update-tag(modifiable stream orig-stream,
+                           value stream orig-prefix,
+                           value stream orig-value,
+                           value stream tfp-page optional ) as
+    local stream LsNewVal
+    local stream LsUpdatedString
+    local integer LiOrigValueLength initial {0}
+    local integer LiNewValueLength initial {0}
+    put GsDebug 'orig-stream: "%g(orig-stream)"%n'
+    put GsDebug 'tfp-page is specified%n' when tfp-page is specified
+    ;Get the number of characters in the original value attribute.
+    repeat scan orig-value
+        match any
+            increment LiOrigValueLength
+    again
+    put GsDebug 'original prefix attribute: "%g(orig-prefix)"%n'   ; "is %d(LiOrigValueLength) characters" [RS: this is not correct, the prefix length has not been calculated here yet]
+    put GsDebug 'original value attribute: "%g(orig-value)" is %d(LiOrigValueLength) characters%n'
+    ;Get the number of characters in the new value.
+    set LsNewVal to orig-value
+    set LsNewVal to GsNewPages ^ orig-value when GsNewPages has ^ orig-value
+    repeat scan LsNewVal
+        match any
+            increment LiNewValueLength
+    again
+    put GsDebug 'new value attribute: "%g(LsNewVal)" is %d(LiNewValueLength) characters%n'
+    put GsDebug '***check me***%n' when LiNewValueLength != LiOrigValueLength
+    open LsUpdatedString as buffer
+        using output as LsUpdatedString do
+            repeat scan orig-stream
+                match ul white-space+ 'value="' [any except '"']* '"'
+                    output ' value="%g(LsNewVal)"'
+                    put GsDebug 'changed value "%g(orig-value)" to "%g(LsNewVal)"%n'
+                match ul white-space+ 'x="' [any except '"']*=>val '"'
+                    local integer LiOrigOffset initial {0}
+                    local integer LiOffset initial {0}
+                    local integer LiPrefixCharCount initial {0}
+                    repeat scan orig-prefix
+                        match any
+                            increment LiPrefixCharCount
+                    again
+                    put GsDebug 'original prefix attribute: "%g(orig-prefix)" is %d(LiPrefixCharCount) characters%n'
+                    set LiOrigOffset to val
+                    decrement LiPrefixCharCount by 5 when tfp-page is specified and orig-prefix != '~TCE~' ;In INTRO-
+                    increment LiPrefixCharCount by 4 when tfp-page is specified and orig-prefix  = '~TCE~' ;Not in INTRO-
+                    put GsDebug 'LiNewValueLength (%d(LiNewValueLength)) & LiOrigValueLength (%d(LiOrigValueLength))%nLiPrefixCharCount(%d(LiPrefixCharCount))%n'
+                    do when LiNewValueLength < LiOrigValueLength
+                        decrement LiPrefixCharCount by (LiOrigValueLength - LiNewValueLength)
+                        put GsDebug 'decrement LiPrefixCharCount(%d(LiPrefixCharCount)) by LiOrigValueLength - LiNewValueLength (' || 'd' format LiOrigValueLength - LiNewValueLength || ')%n'
+                        put Gsdebug 'LiPrefixCharCount is now %d(LiPrefixCharCount)%n'
+                    else when LiNewValueLength > LiOrigValueLength
+                        decrement LiPrefixCharCount by (LiOrigValueLength - LiNewValueLength)
+                        put GsDebug 'decrement LiPrefixCharCount by LiNewValueLength - LiOrigValueLength (' || 'd' format LiNewValueLength - LiOrigValueLength || ')%n'
+                        put Gsdebug 'LiPrefixCharCount is now %d(LiPrefixCharCount)%n'
+                    done
+                    ;CJM : OCSHONSS-483 : Added the following 2 set statements
+                    set LiOrigValueLength to 5 when tfp-page is specified and orig-prefix  = '~TCE~' 
+                    set LiPrefixCharCount to (LiOrigValueLength - LiNewValueLength) + 1 when tfp-page is specified and orig-prefix  = '~TCE~'
+                    set LiOffset to (LiPrefixCharCount * 5560)
+                    do when LiOffset > LiOrigOffset
+                        put GsDebug 'LiOffset (%d(LiOffset)) > LiOrigOffset (%d(LiOrigOffset))%n'
+                    else
+                        put GsDebug 'LiOffset (%d(LiOffset)) < LiOrigOffset (%d(LiOrigOffset))%n'
+                    done
+                    do when tfp-page is specified
+                        ;output ' x="' || 'd' format val + LiOffset || '"' ;<-- ORIG
+                        ;CJM : OCSHONSS-483 : Changed additional offset from 21365 to 24145
+                        output ' x="' || 'd' format (val + 24145) + LiOffset || '"' when orig-prefix = '~TCE~'  ;21365="ok for non-intro?"
+                        put GsDebug 'changed x="%x(val)" to x="' || 'd' format (val + 24145) + LiOffset  || '" based on the prefix "%g(orig-prefix)"%n' when orig-prefix = '~TCE~'  
+                        output ' x="' || 'd' format (val + 12819) + LiOffset || '"' when orig-prefix != '~TCE~' ;12819="ok for intro"
+                        put GsDebug 'changed x="%x(val)" to x="' || 'd' format (val + 12819) + LiOffset || '" based on the prefix "%g(orig-prefix)"%n' when orig-prefix != '~TCE~'
+                    else
+                        output ' x="' || 'd' format val - LiOffset || '"'
+                        put GsDebug 'changed x="%x(val)" to x="' || 'd' format val - LiOffset || '" based on the prefix "%g(orig-prefix)"%n'
+                    done
+                    
+                match ul white-space+ 'width="' [any except '"']*=>val '"'
+                    local integer LiOrigWidth initial {0}
+                    local integer LiWidth initial {0}
+                    local integer LiPrefixCharCount initial {0}
+                    repeat scan orig-prefix
+                        match any
+                            increment LiPrefixCharCount
+                    again
+                    set LiOrigWidth to val
+                    decrement LiPrefixCharCount by 5 when tfp-page is specified and orig-prefix != '~TCE~' ;In INTRO-
+                    increment LiPrefixCharCount by 4 when tfp-page is specified and orig-prefix  = '~TCE~' ;Not in INTRO-
+                    do when LiNewValueLength < LiOrigValueLength
+                        decrement LiPrefixCharCount by (LiOrigValueLength - LiNewValueLength)
+                        put GsDebug 'decrement LiPrefixCharCount by LiOrigValueLength - LiNewValueLength (' || 'd' format LiOrigValueLength - LiNewValueLength || ')%n'
+                    else when LiNewValueLength > LiOrigValueLength
+                        increment LiPrefixCharCount by (LiNewValueLength - LiOrigValueLength)
+                        put GsDebug 'increment LiPrefixCharCount by LiNewValueLength - LiOrigValueLength (' || 'd' format LiNewValueLength - LiOrigValueLength || ')%n'
+                    done
+                    set LiWidth to ((LiPrefixCharCount * 4273) + LiOrigWidth)
+                    ;do when tfp-page is specified
+                    ;   output ' x="' || 'd' format val + LiOffset || '"'
+                    ;else
+                    ;   output ' x="' || 'd' format val - LiOffset || '"'
+                    ;done
+                    output ' width="%d(LiWidth)"'
+                    put GsDebug 'changed width="%x(val)" to width="%d(LiWidth)" based on the prefix "%g(orig-prefix)"%n'
+                match any=>char
+                    output char
+            again
+        done
+    close LsUpdatedString
+    set orig-stream to LsUpdatedString
+    put GsDebug 'new-stream: "%g(LsUpdatedString)"%n'
+
+define function update-toh-tag(modifiable stream orig-stream,
+                           value stream orig-prefix,
+                           value stream orig-value,
+                           value integer pageblock,
+                           value stream tfp-page optional) as
+
+    local stream LsNewVal
+    local stream LsUpdatedString
+    local integer LiOrigValueLength initial {0}
+    local integer LiNewValueLength initial {0}
+	
+	; The orig-stream is the XEP tag with the page number, which looks like this:
+	; <xep:text value="3571" x="100326" y="154655" width="22240"/>
+	
+    put GsDebug 'update-toh-tag; orig-stream: "%g(orig-stream)"%n'
+    put GsDebug 'tfp-page is specified%n' when tfp-page is specified
+	
+    ; Get the number of characters in the original value attribute (the original page number).
+    repeat scan orig-value
+        match any
+            increment LiOrigValueLength
+    again
+	
+    put GsDebug 'original prefix attribute: "%g(orig-prefix)"%n'
+    put GsDebug 'original value attribute (page number): "%g(orig-value)" is %d(LiOrigValueLength) characters%n'
+	
+    ; For the new page number (value), start with the old value as a default, and check the GsNewPages
+	; shelf to see if the page number has been updated:
+	set LsNewVal to orig-value
+    set LsNewVal to GsNewPages ^ orig-value when GsNewPages has ^ orig-value
+	
+    ; Get the number of characters in the new value.
+    repeat scan LsNewVal
+        match any
+            increment LiNewValueLength
+    again
+	
+	; Determine whether the replacement page is for the right page block.
+	; If not, then use the original value.
+    repeat scan LsNewVal
+		; Find the point page separator (a period), and save the first part to check its page block number
+        match digit+ => first-part '.' digit+
+		
+		do when first-part is specified
+			; If the first part is five digits, then the page block part is the first two
+			do when length of first-part = 5
+				do scan first-part
+					match (digit digit) => newPageBlock any*
+						do when newPageBlock != pageBlock
+							set LsNewVal to orig-value
+						done
+				done
+			; If the first part is four digits, then the page block part is the first one
+			else when length of first-part = 4
+				do scan first-part
+					match (digit) => newPageBlock any*
+						do when newPageBlock != pageBlock
+							set LsNewVal to orig-value
+						done
+				done
+			done
+			; Otherwise, we'll accept the page number substituation (don't change LsNewVal)
+		done
+    again
+	
+    put GsDebug 'new value attribute: "%g(LsNewVal)" is %d(LiNewValueLength) characters%n'
+    put GsDebug '***check me***%n' when LiNewValueLength != LiOrigValueLength
+	
+    open LsUpdatedString as buffer
+        using output as LsUpdatedString do
+		
+            repeat scan orig-stream
+				
+				; Find the page number ("value" attribute) in the original tag and replace it with the new value
+				; (which will most often be the same)
+				; ("ul" means ignore case)
+                match ul white-space+ 'value="' [any except '"']* '"'
+                    output ' value="%g(LsNewVal)"'
+                    do when orig-value != LsNewVal
+						put GsDebug 'Changed value "%g(orig-value)" to "%g(LsNewVal)"%n'
+					done
+				
+				; Adjust the horizontal position ("x" attribute) of the page number
+                match ul white-space+ 'x="' [any except '"']*=>val '"'
+                    local integer LiOrigOffset initial {0}
+                    local integer LiOffsetAdjustment initial {0}
+                    local integer LiPrefixCharCount initial {0}
+                    local integer LiPrefixAdjustment initial {0}
+                    local integer LiNewXValue initial {0}
+					
+                    repeat scan orig-prefix
+                        match any
+                            increment LiPrefixCharCount
+                    again
+                    put GsDebug 'original prefix attribute: "%g(orig-prefix)" is %d(LiPrefixCharCount) characters%n'
+					
+					; The "offset" is the "x" value (the horizontal distance from the edge of the page in 1/1000pts)
+                    set LiOrigOffset to val
+					
+					; Because we're combining the page number and the prefix (when it wasn't before), if there was a prefix,
+					; we need to start where the prefix started, so we need to adjust the start position to the left.
+					; Calculate an offset value based on the number of characters added (allow 5.56pt each)
+					set LiPrefixAdjustment to LiPrefixCharCount * 5560
+					
+					; I don't think the following should be applicable for table of highlight page numbers, but
+					; leave here commented in case they are needed later:
+                    ;decrement LiPrefixCharCount by 5 when tfp-page is specified and orig-prefix != '~TCE~' ;In INTRO-
+                    ;increment LiPrefixCharCount by 4 when tfp-page is specified and orig-prefix  = '~TCE~' ;Not in INTRO-
+					
+                    put GsDebug 'LiNewValueLength (%d(LiNewValueLength)) & LiOrigValueLength (%d(LiOrigValueLength))%nLiPrefixCharCount(%d(LiPrefixCharCount))%n'
+					
+					; If the new page number is shorter (this doesn't seem likely to ever happen)...
+                    do when LiNewValueLength < LiOrigValueLength
+                        decrement LiPrefixCharCount by (LiOrigValueLength - LiNewValueLength)
+                        put GsDebug 'decrement LiPrefixCharCount(%d(LiPrefixCharCount)) by LiOrigValueLength - LiNewValueLength (' || 'd' format LiOrigValueLength - LiNewValueLength || ')%n'
+                        put Gsdebug 'LiPrefixCharCount is now %d(LiPrefixCharCount)%n'
+					
+					; The new page number is longer...
+                    else when LiNewValueLength > LiOrigValueLength
+						; Not sure why it's expressed like this, but add the difference in lengths to the prefix character count (by subtracting a negative)
+                        decrement LiPrefixCharCount by (LiOrigValueLength - LiNewValueLength)
+                        put GsDebug 'decrement LiPrefixCharCount by LiNewValueLength - LiOrigValueLength (' || 'd' format LiNewValueLength - LiOrigValueLength || ')%n'
+                        put Gsdebug 'LiPrefixCharCount is now %d(LiPrefixCharCount)%n'
+                    done
+					
+                    ; CJM : OCSHONSS-483 : Added the following 2 set statements
+					; This shouldn't occur in the ToH, but leave for future reference if there is an issue with table foldout pages ("tfp")
+                    ;set LiOrigValueLength to 5 when tfp-page is specified and orig-prefix  = '~TCE~' 
+                    ;set LiPrefixCharCount to (LiOrigValueLength - LiNewValueLength) + 1 when tfp-page is specified and orig-prefix  = '~TCE~'
+					
+					; Calculate an offset value based on the number of page characters added (allow 4.9pt each - less than the prefix, which is capital letters)
+                    set LiOffsetAdjustment to ((LiNewValueLength - LiOrigValueLength) * 4900)
+					
+					; Save the offset as a global so it can be used to adjust the following parenthesis later
+					set GiOffsetAdjustment to LiOffsetAdjustment
+					
+					; For the ToH, we want the updated page number to start at the same place, but have a bigger width,
+					; as well as moving the trailing paren after. So just apply any adjustment required for the prefix
+					; (calculated above).
+					set LiNewXValue to val - LiPrefixAdjustment
+                    output ' x="%d(LiNewXValue)"'
+					
+				; Find the width attribute and update it. The new width will also have the width of the prefix added,
+				; since that is now included with the page number text.
+                match ul white-space+ 'width="' [any except '"']*=>val '"'
+				
+                    local integer LiOrigWidth initial {0}
+                    local integer LiWidth initial {0}
+                    local integer LiPrefixCharCount initial {0}
+					
+                    repeat scan orig-prefix
+                        match any
+                            increment LiPrefixCharCount
+                    again
+					
+                    set LiOrigWidth to val
+					
+                    ;decrement LiPrefixCharCount by 5 when tfp-page is specified and orig-prefix != '~TCE~' ;In INTRO-
+                    ;increment LiPrefixCharCount by 4 when tfp-page is specified and orig-prefix  = '~TCE~' ;Not in INTRO-
+					
+                    do when LiNewValueLength < LiOrigValueLength
+                        decrement LiPrefixCharCount by (LiOrigValueLength - LiNewValueLength)
+                        put GsDebug 'decrement LiPrefixCharCount by LiOrigValueLength - LiNewValueLength (' || 'd' format LiOrigValueLength - LiNewValueLength || ')%n'
+                    else when LiNewValueLength > LiOrigValueLength
+                        increment LiPrefixCharCount by (LiNewValueLength - LiOrigValueLength)
+                        put GsDebug 'increment LiPrefixCharCount by LiNewValueLength - LiOrigValueLength (' || 'd' format LiNewValueLength - LiOrigValueLength || ')%n'
+                    done
+					
+                    set LiWidth to ((LiPrefixCharCount * 4273) + LiOrigWidth)
+					
+                    output ' width="%d(LiWidth)"'
+                    put GsDebug 'changed width="%x(val)" to width="%d(LiWidth)" based on the difference in length (%d(LiPrefixCharCount) characters); prefix "%g(orig-prefix)"%n'
+				
+				; Output the rest of the tag as-is
+                match any=>char
+                    output char
+            again
+        done
+    close LsUpdatedString
+	
+    set orig-stream to LsUpdatedString
+    put GsDebug 'new-stream: "%g(LsUpdatedString)"%n'
+
+define function update-paren-tag(modifiable stream orig-stream) as
+    local stream LsNewVal
+    local stream LsUpdatedString
+	
+	; The orig-stream is the XEP tag with the parenthesis following the page number, which looks like this:
+	; <xep:text value=")" x="111980" y="162819" width="3330"/>
+	;
+	; We will need to shift the paren over the same amount the width of the updated page number changed
+	; (stored in GiOffset from function update-toh-tag() above).
+	
+    put GsDebug 'update-paren-tag; orig-stream: "%g(orig-stream)"%n'
+	
+    open LsUpdatedString as buffer
+        using output as LsUpdatedString do
+		
+            repeat scan orig-stream
+				
+				; Adjust the horizontal position ("x" attribute) of the page number
+                match ul white-space+ 'x="' [any except '"']*=>val '"'
+                    local integer LiOrigOffset initial {0}
+                    local integer LiNewOffset initial {0}
+
+					; The "offset" is the "x" value (the horizontal distance from the edge of the page in 1/1000pts)
+                    set LiOrigOffset to val
+					
+					; Add the offset due to updated page numbers (which should be zero if it wasn't updated)
+					set LiNewOffset to LiOrigOffset + GiOffsetAdjustment
+					
+                    put GsDebug 'Original offset ("x" value): %d(LiOrigOffset); New offset: %d(LiNewOffset)%n'
+					
+                    output ' x="%d(LiNewOffset)"'
+					
+				; Output unmatched parts of the tag as-is
+                match any=>char
+                    output char
+            again
+        done
+    close LsUpdatedString
+	
+    set orig-stream to LsUpdatedString
+    put GsDebug 'new-stream: "%g(LsUpdatedString)"%n'
+
+;<xep:text value="~TCE~"
+;<xep:text value="~TCE~INTRO-"
+find (('<xep:letter-spacing' [any except '>']* '>' white-space*)?
+        ('<xep:text value="~TCE~' [any except '"{']*=>prefix ('{TFP}')?=>tfp-page [any except '>']* '>' white-space*)=>tce-tag
+        ('<xep:text value="' [any except '"']*=>page [any except '>']* '>' white-space*)?=>page-tag)=>tce
+        local stream LsTCE-Tag initial {''}
+        local stream LsPageTag initial {''}
+        local stream LsPrefix initial {''}
+        local stream LsPage initial {''}
+        local switch LxTFP initial {false}
+        put GsDebug '%n===============================%nFound ~TCE~ (Table of Contents Entry)%n'
+        set LsPage to page when page is specified
+        do when tfp-page != ''
+            put GsDebug 'Found a TFP page.%n'
+            increment GiTFPnumber
+            set LsPage to '%d(GiTFPnumber)-TFP'
+            set LsTCE-Tag to tce-tag
+            activate LxTFP
+        done
+        do when prefix != ''
+            set LsPrefix to prefix
+            put GsDebug 'LsPrefix set to %x(prefix)%n'
+        done
+        set LsPageTag to page-tag
+        do when LxTFP
+            put GsDebug 'Updating LsTCE-Tag%n'
+            ;update-tag(LsTCE-Tag, '{TFP}', '%g(LsPage)', 'tfp') ;<!-- *** change 'tfp' to 'tfp%x(tfp-page)' so that the page number gets passed to update-tag. use the number of digits to add additional offset.
+            update-tag(LsTCE-Tag, '~TCE~%g(LsPrefix)', '%g(LsPage)', 'tfp')
+        else
+            do when GsIgnorePages hasnt ^ LsPage
+                put GsDebug 'Updating LsPageTag%n'
+                update-tag(LsPageTag, LsPrefix, '%g(LsPrefix)%g(LsPage)')
+            done
+        done
+        ;update x values?? <-- YES!!
+        output '<xep:letter-spacing value="0"/>%n'
+        output LsTCE-Tag when LxTFP
+        output LsPageTag
+
+; Slightly different method for updating Table of Highlight page numbers
+; UPDATE: Added the pageblock to the "~THE~" code so we don't replace page numbers
+; in other page blocks by mistake (e.g., change 4007 to 3998.8 when the real page is 4007,
+; but in page block 3000 with point-pages, 4007 should become 3998.8.)
+; So now we have a marker like ~THE3~, meaning that substitutions should only be made
+; for pages in page block 3000.
+;
+find (('<xep:letter-spacing' [any except '>']* '>' white-space*)?
+        ('<xep:font ' [any except '>']* '>' white-space*)
+        ('<xep:text value="~THE' digit* => page-block '~' [any except '>']* '>' white-space*)=>tce-tag
+        ('<xep:font ' [any except '>']* '>' white-space*)
+        ('<xep:text value="' ('INTRO-' [any except '"']*) => prefix [any except '>']* '>' white-space*)? => prefix-tag
+        ('<xep:text value="' [any except '"']*=>page [any except '>']* '>' white-space*)?=>page-tag
+        ('<xep:text value=")' [any except '"']*=>paren-text [any except '>']* '>' white-space*)?=>paren-tag
+      )=>tce
+	  
+        local stream LsTCE-Tag initial {''}
+        local stream LsPageTag initial {''}
+        local stream LsParenTag initial {''}
+        local stream LsPrefix initial {''}
+        local stream LsPage initial {''}
+        local integer LiPageBlock initial {0}
+        local switch LxTFP initial {false}
+        
+		put GsDebug '%n===============================%nFound ~THE~ (Table of Highlights Page Entry)%n'
+        
+		set LsPage to page when page is specified
+		set LiPageBlock to page-block when page-block is specified
+		set LsPrefix to prefix when prefix is specified
+        set LsParenTag to paren-tag when paren-tag is specified
+        set LsPageTag to page-tag
+		
+		do when GsIgnorePages hasnt ^ LsPage
+			put GsDebug 'Updating LsPageTag%n'
+			update-toh-tag(LsPageTag, LsPrefix, '%g(LsPrefix)%g(LsPage)', LiPageBlock)
+			update-paren-tag(LsParenTag)
+		done
+		
+        output '<xep:letter-spacing value="0"/>%n'
+        output LsTCE-Tag when LxTFP
+        output LsPageTag
+        output LsParenTag
+     
+process-start
+
+    ; Fix for problem in ToC after long schematics section: the correct pages start with 3001,
+    ; but the ToC corrections file ([name]_point_pages_toc-tracker.txt) lists these numbers
+    ; as point pages from the schematics section, like this '3001,2998.3'. So exclude them
+    ; from the ToC substitutions. A better solution will need to be added later for other
+    ; cases.
+    new GsIgnorePages ^ '3001'
+    new GsIgnorePages ^ '3002'
+    new GsIgnorePages ^ '3003'
+    new GsIgnorePages ^ '3004'
+    new GsIgnorePages ^ '3005'
+
+; ***************************************************************************************
+    ; S1000D large CMM needs longer range otherwise TOC gets erroneous point pages appearing
+    ; (add more as needed)
+    new GsIgnorePages ^ '3006'
+    new GsIgnorePages ^ '3007'
+    new GsIgnorePages ^ '3008'
+    new GsIgnorePages ^ '3009'
+    new GsIgnorePages ^ '3010'
+    new GsIgnorePages ^ '3011'
+    new GsIgnorePages ^ '3012'
+    new GsIgnorePages ^ '3013'
+    new GsIgnorePages ^ '3014'
+    new GsIgnorePages ^ '3015'
+    new GsIgnorePages ^ '3016'
+    new GsIgnorePages ^ '3017'
+    new GsIgnorePages ^ '3018'
+    new GsIgnorePages ^ '3019'
+    new GsIgnorePages ^ '3020'
+
+    new GsIgnorePages ^ '2001'
+    new GsIgnorePages ^ '2002'
+    new GsIgnorePages ^ '2003'
+    new GsIgnorePages ^ '2004'
+    new GsIgnorePages ^ '2005'
+    new GsIgnorePages ^ '2006'
+    new GsIgnorePages ^ '2007'
+    new GsIgnorePages ^ '2008'
+    new GsIgnorePages ^ '2009'
+    new GsIgnorePages ^ '2010'
+    new GsIgnorePages ^ '2011'
+    new GsIgnorePages ^ '2012'
+    new GsIgnorePages ^ '2013'
+    new GsIgnorePages ^ '2014'
+    new GsIgnorePages ^ '2015'
+    new GsIgnorePages ^ '2016'
+    new GsIgnorePages ^ '2017'
+    new GsIgnorePages ^ '2018'
+    new GsIgnorePages ^ '2019'
+    new GsIgnorePages ^ '2020'
+
+    new GsIgnorePages ^ '4001'
+    new GsIgnorePages ^ '4002'
+    new GsIgnorePages ^ '4003'
+    new GsIgnorePages ^ '4004'
+    new GsIgnorePages ^ '4005'
+    new GsIgnorePages ^ '4006'
+    new GsIgnorePages ^ '4007'
+    new GsIgnorePages ^ '4008'
+    new GsIgnorePages ^ '4009'
+    new GsIgnorePages ^ '4010'
+    new GsIgnorePages ^ '4011'
+    new GsIgnorePages ^ '4012'
+    new GsIgnorePages ^ '4013'
+    new GsIgnorePages ^ '4014'
+    new GsIgnorePages ^ '4015'
+    new GsIgnorePages ^ '4016'
+    new GsIgnorePages ^ '4017'
+    new GsIgnorePages ^ '4018'
+    new GsIgnorePages ^ '4019'
+    new GsIgnorePages ^ '4020'
+
+    new GsIgnorePages ^ '5001'
+    new GsIgnorePages ^ '5002'
+    new GsIgnorePages ^ '5003'
+    new GsIgnorePages ^ '5004'
+    new GsIgnorePages ^ '5005'
+    new GsIgnorePages ^ '5006'
+    new GsIgnorePages ^ '5007'
+    new GsIgnorePages ^ '5008'
+    new GsIgnorePages ^ '5009'
+    new GsIgnorePages ^ '5010'
+    new GsIgnorePages ^ '5011'
+    new GsIgnorePages ^ '5012'
+    new GsIgnorePages ^ '5013'
+    new GsIgnorePages ^ '5014'
+    new GsIgnorePages ^ '5015'
+    new GsIgnorePages ^ '5016'
+    new GsIgnorePages ^ '5017'
+    new GsIgnorePages ^ '5018'
+    new GsIgnorePages ^ '5019'
+    new GsIgnorePages ^ '5020'
+
+    new GsIgnorePages ^ '6001'
+    new GsIgnorePages ^ '6002'
+    new GsIgnorePages ^ '6003'
+    new GsIgnorePages ^ '6004'
+    new GsIgnorePages ^ '6005'
+    new GsIgnorePages ^ '6006'
+    new GsIgnorePages ^ '6007'
+    new GsIgnorePages ^ '6008'
+    new GsIgnorePages ^ '6009'
+    new GsIgnorePages ^ '6010'
+    new GsIgnorePages ^ '6011'
+    new GsIgnorePages ^ '6012'
+    new GsIgnorePages ^ '6013'
+    new GsIgnorePages ^ '6014'
+    new GsIgnorePages ^ '6015'
+    new GsIgnorePages ^ '6016'
+    new GsIgnorePages ^ '6017'
+    new GsIgnorePages ^ '6018'
+    new GsIgnorePages ^ '6019'
+    new GsIgnorePages ^ '6020'
+
+    new GsIgnorePages ^ '7001'
+    new GsIgnorePages ^ '7002'
+    new GsIgnorePages ^ '7003'
+    new GsIgnorePages ^ '7004'
+    new GsIgnorePages ^ '7005'
+    new GsIgnorePages ^ '7006'
+    new GsIgnorePages ^ '7007'
+    new GsIgnorePages ^ '7008'
+    new GsIgnorePages ^ '7009'
+    new GsIgnorePages ^ '7010'
+    new GsIgnorePages ^ '7011'
+    new GsIgnorePages ^ '7012'
+    new GsIgnorePages ^ '7013'
+    new GsIgnorePages ^ '7014'
+    new GsIgnorePages ^ '7015'
+    new GsIgnorePages ^ '7016'
+    new GsIgnorePages ^ '7017'
+    new GsIgnorePages ^ '7018'
+    new GsIgnorePages ^ '7019'
+    new GsIgnorePages ^ '7020'
+
+    new GsIgnorePages ^ '8001'
+    new GsIgnorePages ^ '8002'
+    new GsIgnorePages ^ '8003'
+    new GsIgnorePages ^ '8004'
+    new GsIgnorePages ^ '8005'
+    new GsIgnorePages ^ '8006'
+    new GsIgnorePages ^ '8007'
+    new GsIgnorePages ^ '8008'
+    new GsIgnorePages ^ '8009'
+    new GsIgnorePages ^ '8010'
+    new GsIgnorePages ^ '8011'
+    new GsIgnorePages ^ '8012'
+    new GsIgnorePages ^ '8013'
+    new GsIgnorePages ^ '8014'
+    new GsIgnorePages ^ '8015'
+    new GsIgnorePages ^ '8016'
+    new GsIgnorePages ^ '8017'
+    new GsIgnorePages ^ '8018'
+    new GsIgnorePages ^ '8019'
+    new GsIgnorePages ^ '8020'
+
+    new GsIgnorePages ^ '9001'
+    new GsIgnorePages ^ '9002'
+    new GsIgnorePages ^ '9003'
+    new GsIgnorePages ^ '9004'
+    new GsIgnorePages ^ '9005'
+    new GsIgnorePages ^ '9006'
+    new GsIgnorePages ^ '9007'
+    new GsIgnorePages ^ '9008'
+    new GsIgnorePages ^ '9009'
+    new GsIgnorePages ^ '9010'
+    new GsIgnorePages ^ '9011'
+    new GsIgnorePages ^ '9012'
+    new GsIgnorePages ^ '9013'
+    new GsIgnorePages ^ '9014'
+    new GsIgnorePages ^ '9015'
+    new GsIgnorePages ^ '9016'
+    new GsIgnorePages ^ '9017'
+    new GsIgnorePages ^ '9018'
+    new GsIgnorePages ^ '9019'
+    new GsIgnorePages ^ '9020'
+
+    new GsIgnorePages ^ '10001'
+    new GsIgnorePages ^ '10002'
+    new GsIgnorePages ^ '10003'
+    new GsIgnorePages ^ '10004'
+    new GsIgnorePages ^ '10005'
+    new GsIgnorePages ^ '10006'
+    new GsIgnorePages ^ '10007'
+    new GsIgnorePages ^ '10008'
+    new GsIgnorePages ^ '10009'
+    new GsIgnorePages ^ '10010'
+    new GsIgnorePages ^ '10011'
+    new GsIgnorePages ^ '10012'
+    new GsIgnorePages ^ '10013'
+    new GsIgnorePages ^ '10014'
+    new GsIgnorePages ^ '10015'
+    new GsIgnorePages ^ '10016'
+    new GsIgnorePages ^ '10017'
+    new GsIgnorePages ^ '10018'
+    new GsIgnorePages ^ '10019'
+    new GsIgnorePages ^ '10020'
+
+    new GsIgnorePages ^ '11001'
+    new GsIgnorePages ^ '11002'
+    new GsIgnorePages ^ '11003'
+    new GsIgnorePages ^ '11004'
+    new GsIgnorePages ^ '11005'
+    new GsIgnorePages ^ '11006'
+    new GsIgnorePages ^ '11007'
+    new GsIgnorePages ^ '11008'
+    new GsIgnorePages ^ '11009'
+    new GsIgnorePages ^ '11010'
+    new GsIgnorePages ^ '11011'
+    new GsIgnorePages ^ '11012'
+    new GsIgnorePages ^ '11013'
+    new GsIgnorePages ^ '11014'
+    new GsIgnorePages ^ '11015'
+    new GsIgnorePages ^ '11016'
+    new GsIgnorePages ^ '11017'
+    new GsIgnorePages ^ '11018'
+    new GsIgnorePages ^ '11019'
+    new GsIgnorePages ^ '11020'
+
+    new GsIgnorePages ^ '12001'
+    new GsIgnorePages ^ '12002'
+    new GsIgnorePages ^ '12003'
+    new GsIgnorePages ^ '12004'
+    new GsIgnorePages ^ '12005'
+    new GsIgnorePages ^ '12006'
+    new GsIgnorePages ^ '12007'
+    new GsIgnorePages ^ '12008'
+    new GsIgnorePages ^ '12009'
+    new GsIgnorePages ^ '12010'
+    new GsIgnorePages ^ '12011'
+    new GsIgnorePages ^ '12012'
+    new GsIgnorePages ^ '12013'
+    new GsIgnorePages ^ '12014'
+    new GsIgnorePages ^ '12015'
+    new GsIgnorePages ^ '12016'
+    new GsIgnorePages ^ '12017'
+    new GsIgnorePages ^ '12018'
+    new GsIgnorePages ^ '12019'
+    new GsIgnorePages ^ '12020'
+
+    new GsIgnorePages ^ '13001'
+    new GsIgnorePages ^ '13002'
+    new GsIgnorePages ^ '13003'
+    new GsIgnorePages ^ '13004'
+    new GsIgnorePages ^ '13005'
+    new GsIgnorePages ^ '13006'
+    new GsIgnorePages ^ '13007'
+    new GsIgnorePages ^ '13008'
+    new GsIgnorePages ^ '13009'
+    new GsIgnorePages ^ '13010'
+    new GsIgnorePages ^ '13011'
+    new GsIgnorePages ^ '13012'
+    new GsIgnorePages ^ '13013'
+    new GsIgnorePages ^ '13014'
+    new GsIgnorePages ^ '13015'
+    new GsIgnorePages ^ '13016'
+    new GsIgnorePages ^ '13017'
+    new GsIgnorePages ^ '13018'
+    new GsIgnorePages ^ '13019'
+    new GsIgnorePages ^ '13020'
+
+    new GsIgnorePages ^ '14001'
+    new GsIgnorePages ^ '14002'
+    new GsIgnorePages ^ '14003'
+    new GsIgnorePages ^ '14004'
+    new GsIgnorePages ^ '14005'
+    new GsIgnorePages ^ '14006'
+    new GsIgnorePages ^ '14007'
+    new GsIgnorePages ^ '14008'
+    new GsIgnorePages ^ '14009'
+    new GsIgnorePages ^ '14010'
+    new GsIgnorePages ^ '14011'
+    new GsIgnorePages ^ '14012'
+    new GsIgnorePages ^ '14013'
+    new GsIgnorePages ^ '14014'
+    new GsIgnorePages ^ '14015'
+    new GsIgnorePages ^ '14016'
+    new GsIgnorePages ^ '14017'
+    new GsIgnorePages ^ '14018'
+    new GsIgnorePages ^ '14019'
+    new GsIgnorePages ^ '14020'
+
+    new GsIgnorePages ^ '15001'
+    new GsIgnorePages ^ '15002'
+    new GsIgnorePages ^ '15003'
+    new GsIgnorePages ^ '15004'
+    new GsIgnorePages ^ '15005'
+    new GsIgnorePages ^ '15006'
+    new GsIgnorePages ^ '15007'
+    new GsIgnorePages ^ '15008'
+    new GsIgnorePages ^ '15009'
+    new GsIgnorePages ^ '15010'
+    new GsIgnorePages ^ '15011'
+    new GsIgnorePages ^ '15012'
+    new GsIgnorePages ^ '15013'
+    new GsIgnorePages ^ '15014'
+    new GsIgnorePages ^ '15015'
+    new GsIgnorePages ^ '15016'
+    new GsIgnorePages ^ '15017'
+    new GsIgnorePages ^ '15018'
+    new GsIgnorePages ^ '15019'
+    new GsIgnorePages ^ '15020'
+
+    new GsIgnorePages ^ '16001'
+    new GsIgnorePages ^ '16002'
+    new GsIgnorePages ^ '16003'
+    new GsIgnorePages ^ '16004'
+    new GsIgnorePages ^ '16005'
+    new GsIgnorePages ^ '16006'
+    new GsIgnorePages ^ '16007'
+    new GsIgnorePages ^ '16008'
+    new GsIgnorePages ^ '16009'
+    new GsIgnorePages ^ '16010'
+    new GsIgnorePages ^ '16011'
+    new GsIgnorePages ^ '16012'
+    new GsIgnorePages ^ '16013'
+    new GsIgnorePages ^ '16014'
+    new GsIgnorePages ^ '16015'
+    new GsIgnorePages ^ '16016'
+    new GsIgnorePages ^ '16017'
+    new GsIgnorePages ^ '16018'
+    new GsIgnorePages ^ '16019'
+    new GsIgnorePages ^ '16020'
+
+    new GsIgnorePages ^ '17001'
+    new GsIgnorePages ^ '17002'
+    new GsIgnorePages ^ '17003'
+    new GsIgnorePages ^ '17004'
+    new GsIgnorePages ^ '17005'
+    new GsIgnorePages ^ '17006'
+    new GsIgnorePages ^ '17007'
+    new GsIgnorePages ^ '17008'
+    new GsIgnorePages ^ '17009'
+    new GsIgnorePages ^ '17010'
+    new GsIgnorePages ^ '17011'
+    new GsIgnorePages ^ '17012'
+    new GsIgnorePages ^ '17013'
+    new GsIgnorePages ^ '17014'
+    new GsIgnorePages ^ '17015'
+    new GsIgnorePages ^ '17016'
+    new GsIgnorePages ^ '17017'
+    new GsIgnorePages ^ '17018'
+    new GsIgnorePages ^ '17019'
+    new GsIgnorePages ^ '17020'
+
+    new GsIgnorePages ^ '18001'
+    new GsIgnorePages ^ '18002'
+    new GsIgnorePages ^ '18003'
+    new GsIgnorePages ^ '18004'
+    new GsIgnorePages ^ '18005'
+    new GsIgnorePages ^ '18006'
+    new GsIgnorePages ^ '18007'
+    new GsIgnorePages ^ '18008'
+    new GsIgnorePages ^ '18009'
+    new GsIgnorePages ^ '18010'
+    new GsIgnorePages ^ '18011'
+    new GsIgnorePages ^ '18012'
+    new GsIgnorePages ^ '18013'
+    new GsIgnorePages ^ '18014'
+    new GsIgnorePages ^ '18015'
+    new GsIgnorePages ^ '18016'
+    new GsIgnorePages ^ '18017'
+    new GsIgnorePages ^ '18018'
+    new GsIgnorePages ^ '18019'
+    new GsIgnorePages ^ '18020'
+
+    new GsIgnorePages ^ '19001'
+    new GsIgnorePages ^ '19002'
+    new GsIgnorePages ^ '19003'
+    new GsIgnorePages ^ '19004'
+    new GsIgnorePages ^ '19005'
+    new GsIgnorePages ^ '19006'
+    new GsIgnorePages ^ '19007'
+    new GsIgnorePages ^ '19008'
+    new GsIgnorePages ^ '19009'
+    new GsIgnorePages ^ '19010'
+    new GsIgnorePages ^ '19011'
+    new GsIgnorePages ^ '19012'
+    new GsIgnorePages ^ '19013'
+    new GsIgnorePages ^ '19014'
+    new GsIgnorePages ^ '19015'
+    new GsIgnorePages ^ '19016'
+    new GsIgnorePages ^ '19017'
+    new GsIgnorePages ^ '19018'
+    new GsIgnorePages ^ '19019'
+    new GsIgnorePages ^ '19020'
+
+; ***************************************************************************************
+
+
+
+
+    open GsDebug as file '%g(GsFilename)_update-toc_debug.txt'
+    ;Get changed pages from point-pages
+    repeat scan file '%g(GsFilename)_point_pages_toc-tracker.txt'
+        match [any-text except ',']+=>old-page ',' any-text+=>new-page
+            do when GsNewPages hasnt ^ old-page
+                set new GsNewPages ^ old-page to new-page
+                put GsDebug 'set new GsNewPages ^ %x(old-page) to %x(new-page)%n'
+            else
+                put #error and GsDebug '[error] Old page number ("%x(old-page)") already existed in %g(GsFilename)_point_pages_toc-tracker.txt%n'           
+            done
+        match any
+    again
+    ;Get changed pages from foldout-pages
+    repeat scan file '%g(GsFilename)_foldout_pages_toc-tracker.txt'
+        match [any-text except ',']+=>old-page ',' any-text+=>new-page
+            do when GsNewPages hasnt ^ old-page
+                set new GsNewPages ^ old-page to new-page
+                put GsDebug 'set new GsNewPages ^ %x(old-page) to %x(new-page)%n'
+            else
+                put #error and GsDebug '[error] Old page number ("%x(old-page)") already existed in %g(GsFilename)_point_pages_toc-tracker.txt%n'           
+            done
+        match any
+    again
+    
+process-end
+    close GsDebug

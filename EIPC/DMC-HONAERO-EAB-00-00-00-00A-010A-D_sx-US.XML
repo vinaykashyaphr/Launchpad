@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<dmodule xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd" xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="010" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="08" month="09" year="2017"/>
+<dmTitle><techName>GAS TURBINE ENGINE</techName><infoName>License Agreement</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="99193"></responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="AAA"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/><?Pub Caret -2?></qualityAssurance></dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Honeywell Materials License Agreement</title>
+<para>This document and the information contained herein (&ldquo;the Materials&rdquo;) are the proprietary data of Honeywell. These Materials are provided for the exclusive use of Honeywell-authorized Service Centers; Honeywell-authorized repair facilities;
+owners of a Honeywell aerospace product that is the subject of these Materials (&ldquo;Honeywell Product&rdquo;) that have entered into a written agreement with Honeywell relating to the repair or maintenance of Honeywell Product; and direct recipients
+of Materials from Honeywell via https://myaerospace.honeywell.com/wps/portal/ that own a Honeywell Product. The terms and conditions of this Honeywell Materials License Agreement (&ldquo;License Agreement&rdquo;) govern your use of these Materials, except
+to the extent that any terms and conditions of another applicable agreement with Honeywell regarding the maintenance or repair of a Honeywell Product and that is the subject of the Materials conflict with the terms and conditions of this License Agreement,
+in which case the terms and conditions of the other agreement will govern. However, this License Agreement will govern in the event of a conflict between these terms and conditions and those of a purchase order or acknowledgement. Your access or use
+of the Materials represents your acceptance of the terms of this License Agreement.</para>
+<levelledPara><para>License Grant - If you are a party to an applicable written agreement with Honeywell relating to the repair or maintenance of the subject Honeywell Product, subject to your compliance with the terms and conditions of this License
+Agreement, Honeywell hereby grants you, and you accept, a limited, personal, non-transferable, non-exclusive license to use these Materials only in accordance with that agreement.</para>
+<para>If you are a direct recipient of these Materials from Honeywell&rsquo;s MyAerospace Technical Publication website and are not a party to an agreement related to the maintenance or repair of the subject Honeywell Product, subject to your compliance
+with the terms and conditions of this License Agreement, Honeywell hereby grants you, and you accept, a limited, personal, non-transferable, non-exclusive license to use a single copy of these Materials to maintain or repair only the subject Honeywell
+Product installed or intended to be installed on the aircraft you own and/or operate and only at the facility to which these Materials have been shipped (&ldquo;the Licensed Facility&rdquo;). Transfer of the Materials to another facility owned by you
+is permitted only if the original Licensed Facility retains no copies of the Materials, the transferee accepts all of your obligations and liabilities under this License Agreement, and you provide prior written notice to Honeywell with the name and address
+of the transferee. You agree not to use these Materials for commercial purposes.</para>
+</levelledPara>
+<levelledPara><para>Restrictions on Use - You may not sell, rent, lease, or (except as authorized under any applicable airworthiness authority regulation) lend the Materials to anyone for any purpose. You may not use the Materials to reverse engineer
+any Honeywell product, hardware or software, and may not decompile or disassemble software provided under this License Agreement, except and only to the extent that such activity is expressly permitted by applicable law notwithstanding this limitation.
+You may not create derivative works or modify the Materials in any way. You agree that Materials shall only be used for the purpose of the rights granted herein. The Material furnished hereunder may be subject to U.S. export regulations. You will adhere
+to all U.S. export regulations as published and released from time to time by the U.S. Government. You may not design or manufacture a Honeywell part or detail of a Honeywell part, to create a repair for a Honeywell part, design or manufacture any part
+that is similar or identical to a Honeywell part, compare a Honeywell part or design of a Honeywell part to another part design, or apply for FAA PMA or other domestic or foreign governmental approval to manufacture or repair a Honeywell part.</para>
+</levelledPara>
+<levelledPara><para>Rights In Materials - Honeywell retains all rights in these Materials and in any copies thereof that are not expressly granted to you, including all rights in patents, copyrights, trademarks, and trade secrets. The Materials are licensed
+and not sold under this License Agreement. No license to use any Honeywell trademarks or patents is granted under this License Agreement.</para>
+</levelledPara>
+<levelledPara><para>Changes - Honeywell reserves the right to change the terms and conditions of this License Agreement at any time, including the right to change or impose charges for continued use of the Materials. Honeywell may add, delete or otherwise
+modify any portion of the Materials (&ldquo;Updated Materials&rdquo;) at any time. You agree to stop using outdated Materials upon issuance of any Updated Materials.</para>
+</levelledPara>
+<levelledPara><para>Confidentiality - You acknowledge that these Materials contain information that is confidential and proprietary to Honeywell. You agree to take all reasonable efforts to maintain the confidentiality of these Materials.</para>
+</levelledPara>
+<levelledPara><para>Assignment And Transfer - This License Agreement may be assigned to a service center approved and formally designated as a service center by Honeywell, provided, however, that you retain no copies of the Materials in whole or in part.
+However, the recipient of any such assignment or transfer must assume all of your obligations and liabilities under this License Agreement. No assignment or transfer shall relieve any party of any obligation that such party then has hereunder. Otherwise,
+neither this License Agreement nor any rights, licenses or privileges granted under this License Agreement, nor any of its duties or obligations hereunder, nor any interest or proceeds in and to the Materials shall be assignable or transferable (in insolvency
+proceedings, by merger, by operation of law, by purchase, by change of control or otherwise) by you without Honeywell&rsquo;s written consent.</para>
+</levelledPara>
+<levelledPara><para>Copies of Materials - Unless you have the express written permission of Honeywell, you may not make or permit making of copies, digital or printed, of the Materials. You agree to return the Materials and any such copies thereof to
+Honeywell upon the request of Honeywell.</para>
+</levelledPara>
+<levelledPara><para>Term - This License Agreement is effective until terminated as set forth herein. This License Agreement will terminate immediately, without notice from Honeywell, if you fail to comply with any provision of this License Agreement
+or will terminate simultaneously with the termination or expiration of your applicable agreement with Honeywell relating to the repair or maintenance of the subject Honeywell Product. Upon termination of this License Agreement, you will return these
+Materials to Honeywell without retaining any copies, in whole or in part, and will have one of your authorized officers certify that all Materials have been returned with no copies retained.</para>
+</levelledPara>
+<levelledPara><para>Audit Rights - Honeywell, through its authorized representatives, with no less than thirty (30) calendar days notice from Honeywell, has the right during normal business hours during the term of this License Agreement and for three
+(3) years thereafter to visit you and have access to the inside and outside of your facility for the purpose of inspecting, observing and evaluating your compliance under this License Agreement.</para>
+</levelledPara>
+<levelledPara><para>Remedies - Honeywell reserves the right to pursue all available remedies and damages resulting from a breach of this License Agreement.</para>
+</levelledPara>
+<levelledPara><para>Limitation of Liability - Honeywell makes no representations or warranties regarding the use or sufficiency of the Materials. THERE ARE NO OTHER WARRANTIES, WHETHER WRITTEN OR ORAL, EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT
+LIMITED TO (i) WARRANTIES ARISING FROM COURSE OF PERFORMANCE, DEALING, USAGE, OR TRADE, WHICH ARE HEREBY EXPRESSLY DISCLAIMED, OR (ii) WARRANTIES AGAINST INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS OF THIRD PARTIES, EVEN IF HONEYWELL HAS BEEN ADVISED
+OF ANY SUCH INFRINGEMENT. IN NO EVENT WILL HONEYWELL BE LIABLE FOR ANY INCIDENTAL DAMAGES, CONSEQUENTIAL DAMAGES, SPECIAL DAMAGES, INDIRECT DAMAGES, LOSS OF PROFITS, LOSS OF REVENUES, OR LOSS OF USE, EVEN IF INFORMED OF THE POSSIBILITY OF SUCH DAMAGES.
+TO THE EXTENT PERMITTED BY APPLICABLE LAW, THESE LIMITATIONS AND EXCLUSIONS WILL APPLY REGARDLESS OF WHETHER LIABILITY ARISES FROM BREACH OF CONTRACT, WARRANTY, INDEMNITY, TORT (INCLUDING BUT NOT LIMITED TO NEGLIGENCE), BY OPERATION OF LAW, OR OTHERWISE.</para>
+</levelledPara>
+<levelledPara><para>Controlling Law - This License Agreement shall be governed and construed in accordance with the laws of the State of New York without regard to the conflict of laws provisions thereof.</para>
+</levelledPara>
+<levelledPara><para>Severability - In the event any provision of this License Agreement is determined to be illegal, invalid, or unenforceable, the validity and enforceability of the remaining provisions of this License Agreement will not be affected
+and, in lieu of such illegal, invalid, or unenforceable provision, there will be added as part of this License Agreement one or more provisions as similar in terms as may be legal, valid and enforceable under controlling law.</para>
+</levelledPara>
+<levelledPara><para>Integration and Modification - This License Agreement and all attachments set forth the entire agreement and understanding between the parties on the subject matter of the License Agreement and merges all prior discussions and negotiations
+among them. This License Agreement may be modified only by a duly-authorized representative of Honeywell.</para>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

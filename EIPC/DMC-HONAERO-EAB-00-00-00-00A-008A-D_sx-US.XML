@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<dmodule xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd" xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="008" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>LRU</techName><infoName>SERVICE BULLETIN LIST</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="99193"></responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="AAA"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/></qualityAssurance></dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara>
+<table id="T001"><tgroup cols="4">
+<?PubTbl tgroup dispwid="999.00px"?>
+<colspec colname="col1" colwidth="1.63in"/><colspec colname="COLSPEC5" colwidth="3.46in"/><colspec colname="col2" colwidth="1.00in"/><colspec colname="COLSPEC0" colwidth="1.09in"/><thead><row>
+<entry colsep="0" valign="bottom">
+<?PubTbl cell border-left-style="none"?>
+<para>Service Bulletin / Revision Number</para>
+</entry>
+<entry colsep="0" valign="bottom">
+<para>Title</para>
+</entry>
+<entry colsep="0" valign="bottom">
+<para>Date Put in Manual</para>
+</entry>
+<entry valign="bottom">
+<?PubTbl cell border-right-style="none"?>
+<para>Status</para><?Pub Caret 6?>
+</entry>
+</row></thead><tbody><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

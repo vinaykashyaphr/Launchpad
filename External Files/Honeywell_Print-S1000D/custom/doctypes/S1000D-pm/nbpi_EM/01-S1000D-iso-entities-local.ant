@@ -1,0 +1,54 @@
+<project name="ISOEntities" default="entity-fixes">
+
+<description>
+
+===============================================================
+Entity Fixes - temporarily replace all S1000D URL ISOEntities
+               references with a local reference
+===============================================================
+
+EXAMPLE USAGE: ant -f ant-font-fixes.xml
+
+</description>
+
+
+<!-- <property name='dir' location='PROVIDED-ON-COMMAND-LINE'/> -->
+<property name='dir' location='.'/>
+
+
+<target name="entity-fixes" description="Entity Fixes">
+
+
+<echo>**************************************</echo>
+<echo>ISOEntities local reference</echo>
+<echo>**************************************</echo>
+<echo></echo>
+
+
+<replace encoding='UTF-8'
+         dir='${dir}'
+         token='http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities'
+         value='ISOEntities.ent'>
+
+  <!-- NOTE: PMC file is locked by Arbortext, so leave unchanged -->
+  <include name="**/DMC*.xml"/>         
+  <include name="**/DMC*.XML"/>         
+
+</replace>
+
+<replace encoding='UTF-8'
+         dir='${dir}'
+         token='http://www.s1000d.org/S1000D_4-1/ent/ISOEntities'
+         value='ISOEntities_4-1.ent'>
+
+  <!-- NOTE: PMC file is locked by Arbortext, so leave unchanged -->
+  <include name="**/DMC*.xml"/>         
+  <include name="**/DMC*.XML"/>         
+
+</replace>
+
+
+</target>
+
+</project>
+

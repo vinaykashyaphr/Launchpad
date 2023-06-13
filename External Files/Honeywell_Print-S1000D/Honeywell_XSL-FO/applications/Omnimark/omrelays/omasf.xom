@@ -1,0 +1,53 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;                         Web Service Application Section
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; These section implements the actual Web Service Request Handling and
+; Response logic. The entry point function is called ServiceMain. To use
+; a different Web service application replace this section with your
+; own. Remember your must provide the following three functions:
+;
+;          ServiceInitialize
+;          ServiceMain
+;          ServiceTerminate
+;
+;
+; Version: 1.1
+; Revised: 26 January 2000
+;
+; moved declaration to this file from the .xin
+
+declare no-default-io
+
+; include the OmniMark Web Services base functions
+include 'omasf.xin'
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ServiceInitialize - performs any initializations required for this
+;                     service
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+define function ServiceInitialize
+as
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ServiceMain - writes its response directly to the #current-output.
+;               This function performs the service processing
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+define function ServiceMain 
+   (  read-only stream requestHeader,
+      read-only stream requestBody
+   )
+as
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ServiceTerminate - performs any termination actions required for this
+;                    service.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+define function ServiceTerminate
+as
+

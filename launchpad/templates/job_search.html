@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<form class="form-inline" method="POST" action=""></form>
+	<div class="container">
+		<div class="center">
+			<h2>Job Search</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+						<p>
+							{{ form.job_no.label }}</br>
+							<p><span class="note">Include any applicable dashes</span><br>
+							{{ form.job_no() }}
+							{% for error in form.job_no.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+					<p>{{ form.submit(class="button_one") }}</p>
+			</form>	
+		</div>
+	</div>
+</form>
+{% endblock %}

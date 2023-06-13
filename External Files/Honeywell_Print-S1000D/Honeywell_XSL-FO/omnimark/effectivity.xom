@@ -1,0 +1,95 @@
+process
+
+submit #main-input
+
+;global stream GsDebug
+global stream GsEffectText initial {""}
+global integer GiEffectCount
+global switch GxEffectActive initial {false}
+global switch GxEffectAll initial {false}
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+find ('<xep:page' any-text+ '%n' white-space*)=>page-start
+	set GsEffectText to ''
+	set GiEffectCount to 0
+	deactivate GxEffectActive
+	deactivate GxEffectAll
+	output page-start
+	;put GsDebug '-------------------------%nPageStart: %x(page-start)'
+
+find ('<xep:text value="__effActive__"' any-text+ '%n' white-space*)=>effActive
+
+		activate GxEffectActive
+		;put GsDebug 'Found a item level effectivity!!!%n'
+		do when GxEffectActive put #error 'Effectivity set to ACTIVE%n' done
+		output effActive
+
+find ('<xep:text value="__effValStart__' any-text+ '%n' white-space*)=>effValStart
+     (upto ('<xep:text value="__effValEnd__' any-text+ '%n' white-space*))=>effVal
+     
+		increment GiEffectCount
+		activate GxEffectActive when GiEffectCount > 1
+		repeat scan effVal
+			match ('<xep:text value="' (upto ('"'))=>effectText '"')
+				set GsEffectText to '%g(GsEffectText) %x(effectText)'
+			match any
+		again
+		put #error 'EffectText: %g(GsEffectText)%n'
+		do when GxEffectActive put #error 'Effectivity set to ACTIVE%n' done
+		output effValStart || effVal
+
+find ('<xep:text value="__effAll__"' any-text+ '%n' white-space*)=>effAll
+
+		activate GxEffectAll
+		output effAll
+
+find (('<xep:font' any-text+ '%n' white-space*)
+     ('<xep:text value="__effectStart__"' any-text+ '%n' white-space*))=>eff-start
+     ('<xep:font' any-text+ '%n' white-space*)=>font-tag
+     ('<xep:text value="' (letter|digit)+ '" x="' (digit+)=>Xcoord '" y="' (digit+)=>Ycoord '"' any-text+ '%n' white-space*)=>eff-tag
+     (upto ('<xep:font' any-text+ '%n' white-space*))?=>eff-stuff
+     (('<xep:font' any-text+ '%n' white-space*)
+     ('<xep:text value="__effectEnd__"' any-text+ '%n' white-space*))=>eff-end
+
+		local stream LsFontTag
+		local stream LsEffTag
+		local stream LsEffStuff
+		local stream LsXcoord
+		local stream LsYcoord
+		set LsFontTag to font-tag
+		set LsEffTag to eff-tag
+		set LsEffStuff to eff-stuff
+		set LsXcoord to Xcoord
+		set LsYcoord to Ycoord
+
+		do when GxEffectActive
+			set LsEffTag to ('<xep:text value="ACTIVE" x="%g(LsXcoord)" y="%g(LsYcoord)" width="36070"/>%n')
+			set LsEffStuff to ''
+		done
+
+		do when GxEffectAll and not GxEffectActive
+			do when GiEffectCount = 1
+				set LsEffTag to ('<xep:text value="%g(GsEffectText)" x="%g(LsXcoord)" y="%g(LsYcoord)" width="36070"/>%n')
+				set LsEffStuff to ''
+			done
+		done
+
+		output LsFontTag || LsEffTag || LsEffStuff
+
+		;debug
+		;put GsDebug 'EffStart: %x(eff-start)'
+		;put GsDebug 'FontTag: %x(font-tag)'
+		;put GsDebug 'EffTag: %x(eff-tag)'
+		;put Gsdebug 'EffStuff: %x(eff-stuff)'
+		;put GsDebug 'EffEnd: %x(eff-end)'
+		;put GsDebug 'Xcoord: %x(Xcoord)%n'
+		;put GsDebug 'Ycoord: %x(Ycoord)%n'
+
+process-start
+	;open GsDebug as file 'effectivity_debug.txt'
+
+process-end
+	;close GsDebug

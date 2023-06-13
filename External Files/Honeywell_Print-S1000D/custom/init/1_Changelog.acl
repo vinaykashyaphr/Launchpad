@@ -1,0 +1,76 @@
+Package changelog;
+
+
+function changelog(){
+local choice = 'no', text_change = 0;
+
+	FID = open("C:\\Honeywell_Print-S1000D-client\\Changelog_KEY", "r");
+	text_change = getline(FID);
+	close(FID);
+	if (text_change != 'update_2' && ignore == 0){
+		readvar  -title  "PRINT DRIVER CHANGELOG" \
+						-prompt 'S1000D XSL_FO VERSION 3.13'\
+						-prompt '---------------------------------------------------:'\
+						-prompt 'Added the Ability for EMs to print ATA in the Front Matter.'\
+						-prompt '     '\
+						-prompt 'ATA2200 XSL_FO VERSION 4.2:'\
+						-prompt '---------------------------------------------------:'\
+						-prompt '---A bug has been fixed for Alert SBs that prevented highlights from printing.'\
+						-prompt '     '\
+						-prompt "Keep Showing Changelog?" -choice 'Yes|No' choice;
+		
+		if (tolower(choice) == 'no'){
+			FID = open("C:\\Honeywell_Print-S1000D-client\\Changelog_KEY", "w");
+			put(FID, "update_2");
+			close(FID);
+		}
+	}	
+}
+
+function changelog_AB(){
+local choice = 'no', text_change = 0;
+	FID = open("C:\\Honeywell_Print-S1000D-client\\ABChangelog_KEY", "r");
+	text_change = getline(FID);
+	close(FID);
+	if (text_change != 'ABupdate_2'){
+		readvar  -title  "PRINT DRIVER CHANGELOG" \
+						-prompt 'AB Print Driver Ver. 1.01 (BETA)'\
+						-prompt '---------------------------------------------------:'\
+						-prompt '-Scaling attribute is added to the last occurrence of graphic tag inside figure tag.'\
+						-prompt '     '\
+						-prompt "Keep Showing Changelog?" -choice 'Yes|No' choice;
+		if (tolower(choice) == 'no'){
+			FID = open("C:\\Honeywell_Print-S1000D-client\\ABChangelog_KEY", "w");
+			put(FID, "ABupdate_2");
+			close(FID);
+		}
+	}
+
+}
+
+
+function changelog_Manual(Driver){
+	if ($Driver == "AB"){
+		readvar  -title  "PRINT DRIVER CHANGELOG" \
+						-prompt 'AB Print Driver Ver. 1.01 (BETA)'\
+						-prompt '---------------------------------------------------:'\
+						-prompt '-Scaling attribute is added to the last occurrence of graphic tag inside figure tag.'\
+						-prompt '     '\
+						-prompt "" -choice '' choice;
+	
+	}
+	else if ($Driver == "XSL"){
+		readvar  -title  "PRINT DRIVER CHANGELOG" \
+						-prompt 'S1000D XSL_FO VERSION 3.13'\
+						-prompt '---------------------------------------------------:'\
+						-prompt 'N/A'\
+						-prompt '     '\
+						-prompt 'ATA2200 XSL_FO VERSION 4.2:'\
+						-prompt '---------------------------------------------------:'\
+						-prompt '---A bug has been fixed for Alert SBs that prevented highlights from printing.'\
+						-prompt '     '\
+						-prompt "" -choice '' choice;
+	}
+
+
+}

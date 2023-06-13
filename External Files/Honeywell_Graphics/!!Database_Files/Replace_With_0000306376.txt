@@ -1,0 +1,59 @@
+del /s C:\conversions\out\*.*
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00001\id000012\id0000120\id00001204\0000120453.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00001\id000014\id0000145\id00001453\0000145334.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00001\id000015\id0000153\id00001537\0000153752.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00001\id000017\id0000174\id00001745\0000174541.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00001\id000018\id0000182\id00001823\0000182309.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00002\id000020\id0000206\id00002065\0000206547.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00002\id000025\id0000256\id00002563\0000256334.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00002\id000027\id0000276\id00002766\0000276641.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00003\id000030\id0000306\id00003063\0000306376.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00003\id000035\id0000354\id00003547\0000354757.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00005\id000050\id0000508\id00005081\0000508183.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00005\id000058\id0000587\id00005871\0000587100.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000062\id0000620\id00006205\0000620553.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000062\id0000622\id00006222\0000622216.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000064\id0000645\id00006457\0000645757.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000064\id0000648\id00006481\0000648165.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000064\id0000649\id00006498\0000649866.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000069\id0000690\id00006909\0000690991.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000069\id0000693\id00006936\0000693695.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000069\id0000699\id00006998\0000699890.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00006\id000069\id0000699\id00006999\0000699940.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00007\id000070\id0000707\id00007073\0000707382.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00007\id000070\id0000707\id00007077\0000707728.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00007\id000071\id0000710\id00007104\0000710412.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00007\id000071\id0000710\id00007107\0000710723.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00007\id000071\id0000711\id00007117\0000711777.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00007\id000071\id0000711\id00007117\0000711778.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00007\id000071\id0000711\id00007118\0000711821.*" C:\conversions\out
+
+

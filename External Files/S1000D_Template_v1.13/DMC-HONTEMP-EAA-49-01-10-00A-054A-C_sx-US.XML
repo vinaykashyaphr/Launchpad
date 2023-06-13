@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="054" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>SCHEMATIC AND WIRING DIAGRAMS</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content>
+<description>
+<levelledPara><title>Wiring Diagram</title>
+<levelledPara>
+<para>The wiring diagrams for LRU are given
+in Figures TBD thru TBD.</para>
+</levelledPara>
+<levelledPara>
+<para><internalRef internalRefId="t001" internalRefTargetType="irtt02"
+></internalRef> shows the wiring diagrams in this section.</para>
+<table id="t001">
+<title>Wiring Diagrams</title>
+<tgroup cols="3"><colspec colname="col1"/><colspec colname="col2"/>
+<colspec colname="col3"/><thead><row>
+<entry>
+<para>Nomenclature</para>
+</entry>
+<entry>
+<para>PN</para>
+</entry>
+<entry>
+<para>Figure Number</para>
+</entry>
+</row></thead><tbody><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</description>
+
+</content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

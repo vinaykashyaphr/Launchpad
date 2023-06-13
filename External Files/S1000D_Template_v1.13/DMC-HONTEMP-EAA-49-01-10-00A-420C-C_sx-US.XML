@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/proced.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420" infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>TESTING AND FAULT ISOLATION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content>
+<warningsAndCautionsRef><warningRef id="warn-0001"
+warningIdentNumber="warn-0001">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></warningRef><cautionRef
+cautionIdentNumber="caut-0001" id="caut-0001">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef>
+<cautionRef cautionIdentNumber="caut-0002" id="caut-0002">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0003"
+id="caut-0003">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef></warningsAndCautionsRef>
+<procedure><preliminaryRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+<reqSupportEquips>
+<noSupportEquips/></reqSupportEquips>
+<reqSupplies>
+<noSupplies/></reqSupplies>
+<reqSpares>
+<noSpares/></reqSpares>
+<reqSafety>
+<noSafety/></reqSafety>
+</preliminaryRqmts>
+<mainProcedure>
+<proceduralStep><title>Job Setup</title>
+<proceduralStep cautionRefs="caut-0001 caut-0002 caut-0003"
+warningRefs="warn-0001">
+<para>Obey the precautions.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Insert job setup data.</para>
+</proceduralStep>
+<proceduralStep>
+<para>If you have access to the internet, go to the Honeywell Online
+Technical Publications website at (https://aerospace.honeywell.com). Refer to
+the website for test program revisions and software-related hardware
+adapter modifications.</para>
+<proceduralStep>
+<para>For the revision status of the test software and the modification
+status of the software-related hardware adapters:</para>
+<proceduralStep>
+<para>Find the TPOS Reports link.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Use the website TPOS instructions.</para>
+</proceduralStep>
+<proceduralStep>
+<para>If a revision or modification status given in TPOS and in the
+test procedure is different, the highest revision or modification
+status is applicable.</para>
+</proceduralStep>
+</proceduralStep>
+</proceduralStep>
+<proceduralStep>
+<para>If you do not have access to the internet, refer to the customer
+support data in the
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef>.</para>
+<proceduralStep>
+<para>To get a copy of the Catalog of TPOS, give the customer support
+personnel:<randomList>
+<listItem><para>The catalog publication number, Honeywell Pub. No.C44-9000-001.</para>
+</listItem>
+</randomList></para>
+</proceduralStep>
+</proceduralStep>
+<proceduralStep>
+<para>Refer to <internalRef internalRefId="t001"
+internalRefTargetType="irtt02"></internalRef> for a list of test procedures
+that are included in this section.</para>
+<table id="t001">
+<title>Test Procedures</title>
+<tgroup cols="4"><colspec colname="col1"/><colspec colname="col2"/>
+<colspec colname="col3"/><colspec colname="col4"/><thead><row>
+<entry>
+<para>Procedure PN</para>
+</entry>
+<entry>
+<para>Revision</para>
+</entry>
+<entry>
+<para>Used On PN</para>
+</entry>
+<entry>
+<para>Reference</para>
+</entry>
+</row></thead><tbody><row>
+<entry></entry>
+<entry>
+<para>X</para>
+</entry>
+<entry>
+<para>XXXXXXX-XXX</para>
+</entry>
+<entry>
+<para>Figure 1001</para>
+</entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+</proceduralStep>
+<proceduralStep>
+<para>The test procedure gives instructions to make the test setup.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Make the test setup as follows:</para>
+<proceduralStep>
+<para> </para>
+</proceduralStep>
+</proceduralStep>
+</proceduralStep>
+</mainProcedure>
+<closeRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+</closeRqmts>
+</procedure></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

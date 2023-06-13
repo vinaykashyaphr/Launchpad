@@ -1,0 +1,293 @@
+-- SGML Open TR 9401:1995 Catalog --
+SGMLDECL "basic.dcl"
+
+--==============================================================--
+-- OTHER HON DTD(s): --
+--==============================================================--
+
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD CMM-VER3-LEVEL2//EN" 		"cmm\cmm.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD CMM-VER4-LEVEL2//EN" 		"cmm\cmm.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD CMM-VER5-LEVEL2//EN" 		"cmm\cmm.dtd"
+PUBLIC "-//ATA-TEXT//DTD SB-VER4-LEVEL2//EN" 				"sb\sb.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD SB-VER4-LEVEL2//EN" 			"sb\sb.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD SB-VER6-LEVEL2//EN" 			"sb\sb.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD SB-VER7-REV1-LEVEL2//EN" 		"sb\sb.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD EM-VER6-REV2-LEVEL2//EN" 		"em\em.dtd"
+
+-- CV: adding EIPC from XSL-FO --
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD EIPC-VER7-REV02-LEVEL2//EN" 		"eipc\eipc.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD11 EIPC-VER7-REV02-LEVEL2//EN"	"eipc\eipc.dtd"
+
+
+-- CMM (XML) --
+-- (edited in XML and converted to SGML for FOSI publishing) --
+PUBLIC "-//HONEYWELL//DTD CMM cmm//EN" 				"cmm-edit-xml\cmm.dtd"
+
+-- SDOM (SGML) - FOSI only, no XSL-FO support --
+PUBLIC "-//HONEYWELL-TEXT//DTD SDOM-VER1-LEVEL2//EN"			"sdom\sdom.dtd"
+PUBLIC "-//HONEYWELL-TEXT//DTD BASELINEAMM-VER1-LEVEL2//EN" 		"sdom\extra-dtds\baseline-amm.dtd"
+PUBLIC "-//HONEYWELL-TEST-TEXT//DTD BASELINEAMM-VER1-LEVEL2//EN" 	"sdom\extra-dtds\baseline-amm.dtd"
+PUBLIC "-//HONEYWELL-TEXT//DTD BASELINESDS-VER5-LEVEL2//EN" 		"sdom\extra-dtds\baseline-sds.dtd"
+
+
+-- RS: The rest are not included in the new print applications yet, but keep for future reference --
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD PRTLIST-VER3-LEVEL2//EN" 		"hon\prtlist\prtlist.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD NI-VER3-LEVEL2//EN" 			"hon\ni\ni.dtd"
+PUBLIC "-//ATA-HONEYWELL-TEXT//DTD EDI-VER3-LEVEL2//EN" 		"hon\edi\edi.dtd"
+PUBLIC "-//HONEYWELL-TEXT//DTD REQ-VER1-LEVEL1//EN"			"hon\req\req.dtd"
+-- PUBLIC "-//HONEYWELL-TEXT//DTD SDOM-VER1-LEVEL2//EN"			"hon\sdom\sdom.dtd" --
+-- PUBLIC "-//ATA-HONEYWELL-TEXT//DTD AMM-VER3-LEVEL2//EN" 		"hon\amm\amm.dtd" --
+-- PUBLIC "-//HONEYWELL-TEXT//DTD BASELINEAMM-VER1-LEVEL2//EN" 		"hon\baseline-amm\baseline-amm.dtd" --
+-- PUBLIC "-//HONEYWELL-TEST-TEXT//DTD BASELINEAMM-VER1-LEVEL2//EN" 		"hon\baseline-amm\baseline-amm.dtd" --
+-- PUBLIC "-//HONEYWELL-TEXT//DTD BASELINESDS-VER5-LEVEL2//EN" 		"hon\baseline-sds\baseline-sds.dtd" --
+PUBLIC "-//HONEYWELL-TEXT//DTD FRMFIM-VER7-LEVEL2//EN"	 		"hon\baseline-frmfim\baseline-frmfim.dtd"
+
+
+--==============================================================--
+-- ISO ENTITIES (XML): --
+--==============================================================--
+
+PUBLIC "ISO 8879-1986//ENTITIES General Technical//EN//XML"  "entities\iso-ent\iso-tech.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Publishing//EN//XML"  "entities\iso-ent\iso-pub.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Numeric and Special Graphic//EN//XML"  "entities\iso-ent\iso-num.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Greek Letters//EN//XML"  "entities\iso-ent\iso-grk1.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Monotoniko Greek//EN//XML"  "entities\iso-ent\iso-grk2.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Greek Symbols//EN//XML"  "entities\iso-ent\iso-grk3.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Alternative Greek Symbols//EN//XML"  "entities\iso-ent\iso-grk4.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Added Latin 1//EN//XML"  "entities\iso-ent\iso-lat1.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Box and Line Drawing//EN//XML"  "entities\iso-ent\iso-box.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"  "entities\iso-ent\iso-amso.ent"
+PUBLIC "ISO 8879-1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"  "entities\iso-ent\iso-amsc.ent"
+
+
+--==============================================================--
+-- HON ENTITY(s) (FOSI): --
+--==============================================================--
+
+--PUBLIC "-//Honeywell//TEXT FOSI CMM //EN" 				"hon\cmm\cmmfossi.ent"--
+PUBLIC "-//Honeywell//TEXT FOSI CMM //EN" 				"cmm\cmm.fos"
+
+
+PUBLIC "-//Honeywell//TEXT FOSI COMMON DOCDESC//EN" 		"entities\fosi\docdesc.ent"
+PUBLIC "-//Honeywell//TEXT FOSI CMM FOLDOUT//EN" 			"entities\fosi\cmmfoldouts.ent"
+PUBLIC "-//Honeywell//TEXT FOSI COMMON STYLESETS//EN" 		"entities\fosi\stylesets.ent"
+PUBLIC "-//Honeywell//TEXT FOSI COMMON KEEPS//EN" 			"entities\fosi\keeps.ent"
+PUBLIC "-//Honeywell//NONSGML hwell TIF//EN" 				"entities\graphic\hwell.tif"
+PUBLIC "-//Honeywell//NONSGML rr-table TIF//EN" 			"entities\graphic\revision table.tif"
+PUBLIC "-//Honeywell//NONSGML acsslogo GIF//EN" 			"entities\graphic\acsslogo.gif"
+PUBLIC "-//Honeywell//NONSGML pelorus GIF//EN" 				"entities\graphic\pelorus.gif"
+PUBLIC "-//Honeywell//NONSGML thales JPG//EN" 				"entities\graphic\thales.jpg"
+PUBLIC "-//Honeywell//NONSGML ametek GIF//EN" 				"entities\graphic\ametek.gif"
+PUBLIC "-//Honeywell//NONSGML racal TIF//EN" 				"entities\graphic\racal.tif"
+PUBLIC "-//Honeywell//NONSGML mpc TIF//EN" 					"entities\graphic\mpc.tif"
+PUBLIC "-//Honeywell//NONSGML draft JPG//EN" 				"entities\graphic\draft_overlay.jpg"
+PUBLIC "-//Honeywell//NONSGML preliminary JPG//EN" 			"entities\graphic\preliminary.jpg"
+PUBLIC "-//Honeywell//NONSGML validation JPG//EN" 			"entities\graphic\validation.jpg"
+PUBLIC "-//Honeywell//NONSGML liebherr JPG//EN" 			"entities\graphic\liebherr.jpg"
+PUBLIC "-//Honeywell//NONSGML monogram TIF//EN" 			"entities\graphic\monogram.tif"
+PUBLIC "-//Honeywell//NONSGML zodiac TIF//EN" 				"entities\graphic\zodiac.tif"
+PUBLIC "-//Honeywell//NONSGML hispano JPG//EN" 				"entities\graphic\hispano.jpg"
+PUBLIC "-//HONEYWELL-TEXT//ENTITIES logo TIF//EN" 			"entities\graphic\company-logo.tif"
+PUBLIC "-//Honeywell//NONSGML logo TIF//EN" 				"entities\graphic\company-logo.tif"
+PUBLIC "-//Honeywell//NONSGML tr-page TIF//EN" 				"entities\graphic\rtr.tif"
+PUBLIC "-//Honeywell//NONSGML dunlop TIF//EN" 				"entities\graphic\dunlop.tif"
+-- RS: These last two are referenced in the SB FOSI: --
+PUBLIC "-//Honeywell//NONSGML cfe JPG//EN"					"entities\graphic\cfe.tif"
+PUBLIC "-//Honeywell//NONSGML bendixking JPG//EN"			"entities\graphic\BendixKing.jpg"
+
+
+--=================================================================--
+-- HONEYWELL FRAGMENTS --
+--=================================================================--
+--=================================================================--
+-- HONEYWELL CMM FRAGMENTS --
+--=================================================================--
+
+-- PUBLIC "-//ATA-HONEYWELL-TEXT//DTD CMM-VER5-LEVEL2//EN" 	"hon\fragments\cmm\cmm\cmm.dtd" --
+
+PUBLIC "-//HONEYWELL//DTD CMM dtd-entities-ref//EN" 		"hon\fragments\cmm\_dtd-entities-ref\_dtd-entities-ref.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM dtd-entities-ref ENTITIES//EN" 	"hon\fragments\cmm\_dtd-entities-ref\_dtd-entities-ref-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM dtd-entities//EN" 		"hon\fragments\cmm\_dtd-entities\_dtd-entities.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM dtd-entities ENTITIES//EN" 	"hon\fragments\cmm\_dtd-entities\_dtd-entities-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM dtd-notations//EN" 		"hon\fragments\cmm\_dtd-notations\_dtd-notations.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM dtd-notations ENTITIES//EN" 	"hon\fragments\cmm\_dtd-notations\_dtd-notations-ent.dtd"
+
+-- PUBLIC "-//HONEYWELL//DTD CMM cmm//EN" 				"hon\fragments\cmm\cmm\cmm.dtd" --
+-- PUBLIC "-//HONEYWELL//DTD CMM cmm//EN" 				"hon\cmmtemp\cmmtemp.dtd" --
+-- PUBLIC "-//HONEYWELL//DTD CMM cmm ENTITIES//EN" 		"hon\fragments\cmm\cmm\cmm-ent.dtd" --
+
+PUBLIC "-//HONEYWELL//DTD CMM increv//EN" 			"hon\fragments\cmm\increv\increv.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM increv ENTITIES//EN" 		"hon\fragments\cmm\increv\increv-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM tr//EN" 				"hon\fragments\cmm\tr\tr.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM tr ENTITIES//EN" 			"hon\fragments\cmm\tr\tr-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM trfmatr//EN" 			"hon\fragments\cmm\trfmatr\trfmatr.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM trfmatr ENTITIES//EN" 		"hon\fragments\cmm\trfmatr\trfmatr-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM transltr//EN" 			"hon\fragments\cmm\transltr\transltr.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM transltr ENTITIES//EN" 		"hon\fragments\cmm\transltr\transltr-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM mfmatr//EN" 			"hon\fragments\cmm\mfmatr\mfmatr.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM mfmatr ENTITIES//EN" 		"hon\fragments\cmm\mfmatr\mfmatr-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM legalntc//EN" 			"hon\fragments\cmm\legalntc\legalntc.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM legalntc ENTITIES//EN" 		"hon\fragments\cmm\legalntc\legalntc-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM proptary//EN" 			"hon\fragments\cmm\proptary\proptary.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM proptary ENTITIES//EN" 		"hon\fragments\cmm\proptary\proptary-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM fullstmt//EN" 			"hon\fragments\cmm\fullstmt\fullstmt.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM fullstmt ENTITIES//EN" 		"hon\fragments\cmm\fullstmt\fullstmt-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM partstmt//EN" 			"hon\fragments\cmm\partstmt\partstmt.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM partstmt ENTITIES//EN" 		"hon\fragments\cmm\partstmt\partstmt-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM exprtcl//EN" 			"hon\fragments\cmm\exprtcl\exprtcl.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM exprtcl ENTITIES//EN" 		"hon\fragments\cmm\exprtcl\exprtcl-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM cpyrght//EN" 			"hon\fragments\cmm\cpyrght\cpyrght.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM cpyrght ENTITIES//EN" 		"hon\fragments\cmm\cpyrght\cpyrght-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM year//EN" 			"hon\fragments\cmm\year\year.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM year ENTITIES//EN" 		"hon\fragments\cmm\year\year-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM holder//EN" 			"hon\fragments\cmm\holder\holder.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM holder ENTITIES//EN" 		"hon\fragments\cmm\holder\holder-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM geninfo//EN" 			"hon\fragments\cmm\geninfo\geninfo.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM geninfo ENTITIES//EN" 		"hon\fragments\cmm\geninfo\geninfo-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM trlist//EN" 			"hon\fragments\cmm\trlist\trlist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM trlist ENTITIES//EN" 		"hon\fragments\cmm\trlist\trlist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM trdata//EN" 			"hon\fragments\cmm\trdata\trdata.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM trdata ENTITIES//EN" 		"hon\fragments\cmm\trdata\trdata-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM sblist//EN" 			"hon\fragments\cmm\sblist\sblist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM sblist ENTITIES//EN" 		"hon\fragments\cmm\sblist\sblist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM sbdata//EN" 			"hon\fragments\cmm\sbdata\sbdata.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM sbdata ENTITIES//EN" 		"hon\fragments\cmm\sbdata\sbdata-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM hazmtlst//EN" 			"hon\fragments\cmm\hazmtlst\hazmtlst.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM hazmtlst ENTITIES//EN" 		"hon\fragments\cmm\hazmtlst\hazmtlst-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM partinfo//EN" 			"hon\fragments\cmm\partinfo\partinfo.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM partinfo ENTITIES//EN" 		"hon\fragments\cmm\partinfo\partinfo-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM pgblk//EN" 			"hon\fragments\cmm\pgblk\pgblk.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM pgblk ENTITIES//EN" 		"hon\fragments\cmm\pgblk\pgblk-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM task//EN" 			"hon\fragments\cmm\task\task.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM task ENTITIES//EN" 		"hon\fragments\cmm\task\task-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM topic//EN" 			"hon\fragments\cmm\topic\topic.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM topic ENTITIES//EN" 		"hon\fragments\cmm\topic\topic-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM subtask//EN" 			"hon\fragments\cmm\subtask\subtask.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM subtask ENTITIES//EN" 		"hon\fragments\cmm\subtask\subtask-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM vendlist//EN" 			"hon\fragments\cmm\vendlist\vendlist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM vendlist ENTITIES//EN" 		"hon\fragments\cmm\vendlist\vendlist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM vendata//EN" 			"hon\fragments\cmm\vendata\vendata.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM vendata ENTITIES//EN" 		"hon\fragments\cmm\vendata\vendata-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM prtlist//EN" 			"hon\fragments\cmm\prtlist\prtlist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM prtlist ENTITIES//EN" 		"hon\fragments\cmm\prtlist\prtlist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM itemdata//EN" 			"hon\fragments\cmm\itemdata\itemdata.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM itemdata ENTITIES//EN" 		"hon\fragments\cmm\itemdata\itemdata-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM iplintro//EN" 			"hon\fragments\cmm\iplintro\iplintro.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM iplintro ENTITIES//EN" 		"hon\fragments\cmm\iplintro\iplintro-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM ipl//EN" 				"hon\fragments\cmm\ipl\ipl.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM ipl ENTITIES//EN" 		"hon\fragments\cmm\ipl\ipl-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM figure//EN" 			"hon\fragments\cmm\figure\figure.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM figure ENTITIES//EN" 		"hon\fragments\cmm\figure\figure-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM dplist//EN" 			"hon\fragments\cmm\dplist\dplist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM dplist ENTITIES//EN" 		"hon\fragments\cmm\dplist\dplist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM table//EN" 			"hon\fragments\cmm\table\table.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM table ENTITIES//EN" 		"hon\fragments\cmm\table\table-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM graphic//EN" 			"hon\fragments\cmm\graphic\graphic.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM graphic ENTITIES//EN" 		"hon\fragments\cmm\graphic\graphic-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM grphcref//EN" 			"hon\fragments\cmm\grphcref\grphcref.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM grphcref ENTITIES//EN" 		"hon\fragments\cmm\grphcref\grphcref-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM sheet//EN" 			"hon\fragments\cmm\sheet\sheet.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM sheet ENTITIES//EN" 		"hon\fragments\cmm\sheet\sheet-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM prclist//EN" 			"hon\fragments\cmm\prclist\prclist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM prclist ENTITIES//EN" 		"hon\fragments\cmm\prclist\prclist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM deflist//EN" 			"hon\fragments\cmm\deflist\deflist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM deflist ENTITIES//EN" 		"hon\fragments\cmm\deflist\deflist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM arlist//EN" 			"hon\fragments\cmm\arlist\arlist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM arlist ENTITIES//EN" 		"hon\fragments\cmm\arlist\arlist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM numlist//EN" 			"hon\fragments\cmm\numlist\numlist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM numlist ENTITIES//EN" 		"hon\fragments\cmm\numlist\numlist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM unlist//EN" 			"hon\fragments\cmm\unlist\unlist.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM unlist ENTITIES//EN" 		"hon\fragments\cmm\unlist\unlist-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM list//EN" 			"hon\fragments\cmm\list\list.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM list ENTITIES//EN" 		"hon\fragments\cmm\list\list-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM warning//EN" 			"hon\fragments\cmm\warning\warning.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM warning ENTITIES//EN" 		"hon\fragments\cmm\warning\warning-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM caution//EN" 			"hon\fragments\cmm\caution\caution.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM caution ENTITIES//EN" 		"hon\fragments\cmm\caution\caution-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM note//EN" 			"hon\fragments\cmm\note\note.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM note ENTITIES//EN" 		"hon\fragments\cmm\note\note-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM para//EN" 			"hon\fragments\cmm\para\para.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM para ENTITIES//EN" 		"hon\fragments\cmm\para\para-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM title//EN" 			"hon\fragments\cmm\title\title.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM title ENTITIES//EN" 		"hon\fragments\cmm\title\title-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM ltitle//EN" 			"hon\fragments\cmm\ltitle\ltitle.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM ltitle ENTITIES//EN" 		"hon\fragments\cmm\ltitle\ltitle-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM refblock//EN" 			"hon\fragments\cmm\refblock\refblock.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM refblock ENTITIES//EN" 		"hon\fragments\cmm\refblock\refblock-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM chgdesc//EN" 			"hon\fragments\cmm\chgdesc\chgdesc.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM chgdesc ENTITIES//EN" 		"hon\fragments\cmm\chgdesc\chgdesc-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM deleted//EN" 			"hon\fragments\cmm\deleted\deleted.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM deleted ENTITIES//EN" 		"hon\fragments\cmm\deleted\deleted-ent.dtd"
+
+PUBLIC "-//HONEYWELL//DTD CMM isempty//EN" 			"hon\fragments\cmm\isempty\isempty.dtd"
+PUBLIC "-//HONEYWELL//DTD CMM isempty ENTITIES//EN" 		"hon\fragments\cmm\isempty\isempty-ent.dtd"
+
+-- PUBLIC "-//HONEYWELL//DTD CMM miscellaneous//EN" 		"hon\fragments\cmm\_miscellaneous\_miscellaneous.dtd" --
+-- PUBLIC "-//HONEYWELL//DTD CMM miscellaneous ENTITIES//EN" 	"hon\fragments\cmm\_miscellaneous\_miscellaneous-ent.dtd" --
+
+
+-- ************************* --
+-- S1000D Schema locations --
+-- ************************* --
+
+URI "http://www.s1000d.org/S1000D_4-1/xml_schema_flat/pm.xsd" "S1000D-pm/pm.xsd"
+URI "http://www.s1000d.org/S1000D_4-1/xml_schema_flat/ipd.xsd" "S1000D-pm/xml_schema_flat/ipd.xsd"
+URI "http://www.s1000d.org/S1000D_4-1/xml_schema_flat/proced.xsd" "S1000D-pm/xml_schema_flat/proced.xsd"
+URI "http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd" "S1000D-pm/xml_schema_flat/descript.xsd"
+PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "S1000D-pm/ISOEntities.ent"
+
+-- Collecting S1000D fragments into single combined file which uses "pm_cmb.xsd" schema and "pm_cmb.style" stylesheet --
+URI "http://www.s1000d.org/S1000D_4-1/xml_schema_flat/pm_cmb.xsd" "S1000D-pm/pm_cmb.xsd"
+

@@ -1,0 +1,106 @@
+#
+# © Inmedius 2004. All rights Reserved
+#
+
+require winregistry;
+
+# initialise the paths
+global appath;
+global apfound = 0;
+
+# Arbortext Editor, Arbortext Architect, Arbortext PE Interactive or Arbortext Editor with Arbortext Styler.
+global epicappname = application_name(1);
+
+global writetoreg = 1;
+global readfrmreg = 1;
+
+# initialise the paths
+
+# initialise inmedius menu for starting and stopping authorPro
+function loadInmedMenu() {
+  local menuname = "Inmedius";
+  local menuitem1 = "Start S1000DauthorPro";
+  local menuitem2 = "Stop S1000DauthorPro";
+
+  if( menu_exists( ".$menuname" ) ){
+    menu_delete .$menuname;
+  }
+
+  menu_add -menu . "$menuname";
+  menu_add .$menuname. "$menuitem1" -cmd {authorPro_stop_start(1);} -active "$apfound == -1";
+  menu_add .$menuname. "$menuitem2" -cmd {authorPro_stop_start(0);} -active "$apfound == 1";
+
+  return 1;
+}
+
+# stop/start authorPro
+function authorPro_stop_start( mode = 1) { # 1 = start; 0; = stop
+  local set;
+  catch(set = winregistry::SetKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\authorPro','Active', $mode),1);
+  local msg = "In order for the changes to take effect please restart ".$epicappname;
+  local keys = (0x00+0x40);
+  if($set == 0 ){
+    $msg = "ERROR: Access restrictions prevented change to S1000DauthorPro registry keys";
+    $msg .= "\n\nThe following registry key must be set by a user with administrative rights:";
+    $msg .= "\n\n'HKEY_LOCAL_MACHINE'\n'SOFTWARE\\Inmedius\\authorPro'\n'Active=".$mode."'";
+    $keys = (0x00+0x10);
+  }
+  message_box( $msg, $keys, "S1000DauthorPro" );
+}
+
+#menu hook
+function inmedius_menu_hook( win, menu_path ) {
+  local key = "";
+  key = eval( "winregistry::GetKey( 'HKEY_LOCAL_MACHINE', 'SOFTWARE\\Inmedius\\ATAauthorpro', 'Active' )" );
+  if( length( $key ) == 0 ){
+    loadInmedMenu();
+  }
+  return 1;
+}
+
+function init(){
+  add_hook( "menuloadhook", "inmedius_menu_hook" );
+}
+
+if( ( $epicappname != "Arbortext Architect" ) && ( $epicappname != "Arbortext PE Interactive" ) ){
+
+  $winregistry::VERBOSE = 0;
+
+  # verify that authorPro is configured, if not then do nothing
+  if( winregistry::HasKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\authorPro','Active') == 0 ){
+    $apfound = -1;
+  } else if ( winregistry::HasKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\authorPro','Path') == 1 ) {
+    $apfound = 1;
+    $appath = winregistry::GetKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\authorPro','Path');
+  } else if ( length( $main::ENV['AUTHORPROINSTALLPATH'] ) != 0 ) {
+    $appath = $main::ENV['AUTHORPROINSTALLPATH'];
+    $apfound = 1;
+  } else if( file_directory( ($main::ENV['PROGRAMFILES']."\\Inmedius\\authorPro\\") ) == 1 ){
+    $apfound = 1;
+    $appath = $main::ENV['PROGRAMFILES']."\\Inmedius\\authorPro\\";
+  }
+
+  # if an authorpro path is located
+  if ( $apfound == '1' ) {
+
+    append_load_path( $appath."application\\scripts" );
+
+    # load the main initialisation function
+    set entityoutputconvert=on;
+    source authorpro.acl;
+    source authorpro_fosi_extras.acl;
+    source authorpro_log.acl;
+
+  } else if( $apfound == -1 ){
+  } else {
+    message_box("Error [_authorpro.acl]: failed to initialise the authorPro environment.", 0x00 );
+  }
+  catch($readfrmreg = winregistry::GetKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\authorPro','Active'),1);
+  if( $readfrmreg == "1" || $readfrmreg == "0" ){
+    catch($writetoreg = winregistry::SetKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\authorPro','Active', $readfrmreg),1);
+    if( $writetoreg ){
+      init();
+    }
+  }
+
+}

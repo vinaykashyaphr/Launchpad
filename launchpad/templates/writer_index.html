@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <style>
+            table.bottomBorder { 
+                border-collapse: collapse; 
+            }
+            table.bottomBorder td, 
+            table.bottomBorder th { 
+                border-bottom: 1px solid black; 
+                padding: 10px; 
+                text-align: left;
+            }
+            table.bottomBorder tr:hover {
+                    background-color: #6dd0fd;
+            }
+        </style>
+    </head>
+	<div class="container">
+        <h2>Writer Checklist(s)</h2>
+        <h4>Job Number: {{ job_no }}</h4>
+        <form action="" method="post" novalidate>
+            <p><a class="material-icons" style="font-size:24px;color:black;text-decoration:None" id="checklist_index" href="{{ url_for('checklist_index', job_no=job_no) }}">home</a></p>
+            <a class="material-icons" style="font-size:24px;color:black;text-decoration:None" id="writer_add" href="{{ url_for('writer_add', job_no=job_no) }}">add_circle</a>
+            {{ table | safe }}
+        </form>
+<script>
+    function confirmDelete() {
+        var txt;
+        if (confirm("Are you sure you want to delete this checklist? This cannot be undone.")) {
+        return true;
+        } else {
+        return false;
+        }
+    }
+</script>
+{% endblock %}
+

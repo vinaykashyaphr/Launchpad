@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd" xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>GAS TURBINE ENGINE</techName><infoName>Introduction</infoName></dmTitle><?Pub Caret -2?>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="HON99193"><enterpriseName>HON99193</enterpriseName></responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic>
+<displayText>
+<simplePara>All</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<unverified/></qualityAssurance></dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Other Publications</title>
+<levelledPara><para>These publications are standard references:<randomList listItemPrefix="pf02">
+<listItem><para><acronym><acronymTerm>IEEE</acronymTerm><acronymDefinition>Institute of Electrical and Electronics Engineers</acronymDefinition></acronym> Std 260.1, Standard Letter Symbols for Units of Measurement (available from the American National
+Standards Institute at http://www.ansi.org)</para>
+</listItem>
+<listItem><para><acronym><acronymTerm>ASME</acronymTerm><acronymDefinition>American Society of Mechanical Engineers</acronymDefinition></acronym> Y14.38, Abbreviations for Use on Drawings and Related Documents (available from the American National Standards
+Institute at http://www.ansi.org) </para>
+</listItem>
+<listItem><para><acronym><acronymTerm>CAGE</acronymTerm><acronymDefinition>commercial and government entity</acronymDefinition></acronym> codes and manufacturers' addresses are available at https://cage.dla.mil. </para>
+</listItem>
+</randomList></para>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

@@ -1,0 +1,239 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <!--Register New User-->
+	<div class="container">
+		<div class="center">
+			<h2>Register New User:</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					<!-- {{ form.new_user_username.label }}<br> -->
+					{{ form.new_user_username(size=32, class="textfield", autocomplete='off', placeholder='Username') }}
+					{% for error in form.new_user_username.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+				<p>
+					<!-- {{ form.new_user_fname.label }}<br> -->
+					{{ form.new_user_fname(size=32, class="textfield", autocomplete='off', placeholder='First Name') }}
+					{% for error in form.new_user_fname.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+				<p>
+					<!-- {{ form.new_user_lname.label }}<br> -->
+					{{ form.new_user_lname(size=32, class="textfield", autocomplete='off', placeholder='Last Name') }}
+					{% for error in form.new_user_lname.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+                </p>
+                <p>
+					<!-- {{ form.new_user_email.label }}<br> -->
+					{{ form.new_user_email(size=32, class="textfield", autocomplete='off', placeholder='Email') }}
+					{% for error in form.new_user_email.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+                </p>
+                <p>
+					<!-- {{ form.new_user_password.label }}<br> -->
+					{{ form.new_user_password(size=32, class="textfield", autocomplete='off', placeholder='Password') }}
+					{% for error in form.new_user_password.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+                </p>
+                <p>
+					<!-- {{ form.new_user_confirm_password.label }}<br> -->
+					{{ form.new_user_confirm_password(size=32, class="textfield", autocomplete='off', placeholder='Confirm Password') }}
+					{% for error in form.new_user_confirm_password.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+                </p>
+				<p>
+					{{ form.new_user_submit(class="button_one") }}
+					{% for error in form.new_user_submit.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+			</form>
+		</div>
+    </div>
+    
+    <!--Unlock User-->
+    <div class="container">
+		<div class="center">
+			<h2>Unlock User:</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					<!-- {{ form.locked_username.label }}<br> -->
+					{{ form.locked_username(list='locked_datalist', autocomplete='off', placeholder='Locked Username') }}
+					<datalist id='locked_datalist'>
+						{% for locked in locked_users %}
+							<option value={{ locked.username }}>
+						{% endfor %}
+					</datalist>
+					{% for error in form.locked_username.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>				
+				<p>
+					{{ form.locked_submit(class="button_one") }}
+					{% for error in form.locked_submit.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+			</form>
+		</div>
+	</div>
+	
+	<!--Lock User-->
+    <div class="container">
+			<div class="center">
+				<h2>Lock User:</h2>
+				<form action="" method="post" novalidate>
+					{{ form.hidden_tag() }}
+					<p>
+						<!-- {{ form.to_lock_username.label }}<br> -->
+						{{ form.to_lock_username(list='unlocked_datalist', autocomplete='off', placeholder='Username') }}
+						<datalist id='unlocked_datalist'>
+							{% for unlocked in unlocked_users %}
+								<option value={{ unlocked.username }}>
+							{% endfor %}
+						</datalist>
+						{% for error in form.to_lock_username.errors %}
+						<span class="error">{{ error }}</span>
+						{% endfor %}
+					</p>				
+					<p>
+						{{ form.to_lock_submit(class="button_one") }}
+						{% for error in form.to_lock_submit.errors %}
+						<span class="error">{{ error }}</span>
+						{% endfor %}
+					</p>
+				</form>
+			</div>
+		</div>
+
+    <!--Change Password for User-->
+    <div class="container">
+		<div class="center">
+			<h2>Change User Password:</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					<!-- {{ form.pass_change_username.label }}<br> -->
+					{{ form.pass_change_username(list='all_list', autocomplete='off', placeholder='Username') }}
+					
+					{% for error in form.pass_change_username.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+                </p>			
+                <p>
+					<!-- {{ form.pass_change_password.label }}<br> -->
+					{{ form.pass_change_password(size=32, class="textfield", autocomplete='off', placeholder='New Password') }}
+					{% for error in form.pass_change_password.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+                </p>
+                <p>
+					<!-- {{ form.pass_change_confirm_password.label }}<br> -->
+					{{ form.pass_change_confirm_password(size=32, class="textfield", autocomplete='off', placeholder='Confirm New Password') }}
+					{% for error in form.pass_change_confirm_password.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>	
+				<p>
+					{{ form.pass_change_submit(class="button_one") }}
+					{% for error in form.pass_change_submit.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+			</form>
+		</div>
+	</div>
+	
+	<!--Delete User-->
+    <div class="container">
+		<div class="center">
+			<h2>Delete User:</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					<!-- {{ form.to_delete_username.label }}<br> -->				
+					{{ form.to_delete_username(list='all_list', autocomplete='off', placeholder='Username') }}
+					<datalist id='all_list'>
+						{% for user in all_users %}
+							<option value={{ user.username }}>
+						{% endfor %}
+					</datalist>
+					{% for error in form.to_delete_username.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>				
+				<p>
+					{{ form.to_delete_submit(class="button_one") }}
+					{% for error in form.to_delete_submit.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+			</form>
+		</div>
+	</div>
+
+	<!--Retire User-->
+    <div class="container">
+		<div class="center">
+			<h2>Retire User:</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					<!-- {{ form.to_retire_username.label }}<br>					 -->
+					{{ form.to_retire_username(list='unretired_datalist', autocomplete='off', placeholder='Username') }}
+					<datalist id='unretired_datalist'>
+						{% for unretired in unretired_users %}
+							<option value={{ unretired.username }}>
+						{% endfor %}
+					</datalist>
+					{% for error in form.to_retire_username.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>				
+				<p>
+					{{ form.to_retire_submit(class="button_one") }}
+					{% for error in form.to_retire_submit.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+			</form>
+		</div>
+	</div>
+
+	<!--Un-Retire User-->
+    <div class="container">
+		<div class="center">
+			<h2>Un-Retire User:</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					<!-- {{ form.to_unretire_username.label }}<br>					 -->
+					{{ form.to_unretire_username(list='retired_datalist', autocomplete='off', placeholder='Retired Username') }}
+					<datalist id='retired_datalist'>
+						{% for retired in retired_users %}
+							<option value={{ retired.username }}>
+						{% endfor %}
+					</datalist>
+					{% for error in form.to_unretire_username.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>				
+				<p>
+					{{ form.to_unretire_submit(class="button_one") }}
+					{% for error in form.to_unretire_submit.errors %}
+					<span class="error">{{ error }}</span>
+					{% endfor %}
+				</p>
+			</form>
+		</div>
+	</div>
+{% endblock %}

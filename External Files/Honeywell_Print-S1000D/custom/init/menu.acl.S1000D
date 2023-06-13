@@ -1,0 +1,635 @@
+# S1000D MENU - variant (modified to not open CONSOLIDATED file in Arbortext before initiating the XSL-FO process)
+
+
+# Add Sonovision - Honeywell menu
+#
+# Combined FOSI and XSL-FO options
+#
+
+# ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# Menu Handling Functions
+# ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+function init() {};
+function _menuloadhook() {};
+function _addhook() {};
+function _addmenu() {};
+
+function set_overlayformatstyle() {};
+function reset_overlayformatstyle() {};
+
+function set_outputtype() {};
+function reset_outputtype() {};
+
+
+function run_XSL_FO_BAT() {};
+
+# Variant run function where CONSOLIDATED file is not opened in Arbortext prior to sending to XSL-FO process
+function run_XSL_FO_BAT_S1000D() {};
+
+
+function run_XSL_FO_TEMP_CLEANUP_BAT() {};
+
+
+function S1000D_consolidate() {};
+function S1000D_restore_document() {};
+function cleanup() {};
+
+
+
+global overlayformatstyle_ORIG = "";
+global outputtype_ORIG = "";
+
+
+
+
+# ---------------------------------------------------------------------
+# function:	init()
+# inputs:	none
+# outputs:	none
+# description:	initialize the known list of extensions to notations
+# ---------------------------------------------------------------------
+function init() {
+	doc_add_callback(0, "insert_tag", "insert_tag_callback");
+	_addmenu();
+	_addhook();
+} # _init()
+
+
+
+# ---------------------------------------------------------------------
+# function:	_addmenu()
+# inputs:	none
+# outputs:	none
+# description:	initialize the known list of menus
+# ---------------------------------------------------------------------
+function _addmenu() {
+
+# create menu
+		if (!menu_exists('.Window')) {
+			return;
+		}
+
+		
+		# CV - all menu options should be set to disabled (then enable supported options based on doctype "instance.acl"),
+		#      but after a successful FOSI output, Window returns to default "menu.acl" state
+		#      and cannot re-trigger doctype "instance.acl" even when using doc_close() and doc_show() functions
+		#    - leave all enabled (-active "1") on Arbortext open and then reset to correct initial state via "instance.acl"
+		#      (FOSI will stay disabled for XSL-FO only, and re-enable for FOSI types - XSL-FO is always available)
+		       
+		
+		if ( !menu_exists( '.Honeywell-Print.' ) ) {
+
+			menu_add -menu .Window "Honeywell-Print";
+
+			#menu_add ".Honeywell-Print." "" -separator;
+
+			#if ( !menu_exists( '.Honeywell-Print.FOSI.' ) ) {
+			#
+			#	# Honeywell FOSI PDF print options
+			#	menu_add -menu ".Honeywell-Print." "FOSI";
+			#	menu_add ".Honeywell-Print.FOSI." "PDF (final)" -cmd { set_overlayformatstyle('final'); FileSave; ComposePDFFILE; reset_overlayformatstyle(); FileSave; license_release("PrintPublishing");} -active "1";
+			#	
+			#	# "Web File" output: @overlayformatstyle="final" and @outputype="web"
+			#	menu_add ".Honeywell-Print.FOSI." "PDF (web final)" -cmd { set_overlayformatstyle('final'); set_outputtype('web'); FileSave; ComposePDFFILE; reset_overlayformatstyle(); reset_outputtype(); FileSave; license_release("PrintPublishing");} -active "1";
+			#
+			#	menu_add ".Honeywell-Print.FOSI." "" -separator;
+			#
+			#	menu_add -menu ".Honeywell-Print.FOSI." "Watermark";
+			#
+			#	menu_add ".Honeywell-Print.FOSI.Watermark." "PDF (draft)" -cmd { set_overlayformatstyle('draft'); FileSave; ComposePDFFILE; reset_overlayformatstyle(); FileSave; license_release("PrintPublishing");} -active "1";
+			#	menu_add ".Honeywell-Print.FOSI.Watermark." "PDF (preliminary)" -cmd { set_overlayformatstyle('preliminary'); FileSave; ComposePDFFILE; reset_overlayformatstyle(); FileSave; license_release("PrintPublishing");} -active "1";
+			#	menu_add ".Honeywell-Print.FOSI.Watermark." "PDF (validation)" -cmd { set_overlayformatstyle('validation'); FileSave; ComposePDFFILE; reset_overlayformatstyle(); FileSave; license_release("PrintPublishing");} -active "1";
+			#
+			#
+			#}
+
+
+
+			#menu_add ".Honeywell-Print." "" -separator;
+			#
+			#if ( !menu_exists( '.Honeywell-Print.XSL-FO.' ) ) {
+			#
+			#	# Honeywell XSL-FO PDF print options
+			#	menu_add -menu ".Honeywell-Print." "XSL-FO";
+			#
+			#	# CV - adding watermark support to XSL-FO process
+			#	#menu_add ".Honeywell-Print.XSL-FO." "PDF" -cmd { FileSave; run_XSL_FO_BAT(); } -active "1";
+			#	
+			#	# NOTE: - something about "reset_overlayformatstyle()" interferes with the menus 
+			#	#         (e.g. "PDF (draft)" repeated four times instead of four unique menu entries)
+			#	#       - also, if "reset_overlayformatstyle()" triggered within "run_XSL_FO_BAT()",
+			#	#         the "reset to original state file" is sent for processing
+			#	#         (probably a timing error due to separation of "sh" command from Arbortext)
+			#	#       - just reset the attribute and don't bother trying to reset to original state
+			#	
+			#	menu_add ".Honeywell-Print.XSL-FO." "PDF (final)" -cmd { set_overlayformatstyle('final'); FileSave; run_XSL_FO_BAT(); } -active "1";
+			#
+			#	menu_add ".Honeywell-Print.XSL-FO." "" -separator;
+			#
+			#	menu_add -menu ".Honeywell-Print.XSL-FO." "Watermark";
+			#
+			#	menu_add ".Honeywell-Print.XSL-FO.Watermark." "PDF (draft)" -cmd { set_overlayformatstyle('draft'); FileSave; run_XSL_FO_BAT(); } -active "1";
+			#	menu_add ".Honeywell-Print.XSL-FO.Watermark." "PDF (preliminary)" -cmd { set_overlayformatstyle('preliminary'); FileSave; run_XSL_FO_BAT(); } -active "1";
+			#	menu_add ".Honeywell-Print.XSL-FO.Watermark." "PDF (validation)" -cmd { set_overlayformatstyle('validation'); FileSave; run_XSL_FO_BAT(); } -active "1";
+			#
+			#}
+
+
+################################################################################################
+			#menu_add ".Honeywell-Print." "" -separator;
+
+
+##################################################################################
+### S1000D Varianat: using run_XSL_FO_BAT_S1000D() instead of run_XSL_FO_BAT()
+##################################################################################
+
+
+			# Add sub-menus for variant print options (with DM codes or without)
+
+			if ( !menu_exists( '.Honeywell-Print.S1000D (Standard Print).' ) ) {
+			
+				# Honeywell S1000D (XSL-FO) print options
+				menu_add -menu ".Honeywell-Print." "S1000D (Standard Print)";
+				
+				#menu_add ".Honeywell-Print.S1000D." "PDF (final)" -cmd { set_overlayformatstyle('final'); FileSave; run_XSL_FO_BAT_S1000D(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "CMM" -cmd { FileSave; S1000D_consolidate('cmm', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "FMM" -cmd { FileSave; S1000D_consolidate('fmm', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "IRM" -cmd { FileSave; S1000D_consolidate('irm', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "ORIM" -cmd { FileSave; S1000D_consolidate('orim', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "IM" -cmd { FileSave; S1000D_consolidate('im', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "SDOM" -cmd { FileSave; S1000D_consolidate('sdom', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "SDIM" -cmd { FileSave; S1000D_consolidate('sdim', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "SPM" -cmd { FileSave; S1000D_consolidate('spm', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "ACMM" -cmd { FileSave; S1000D_consolidate('acmm', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "IPC" -cmd { FileSave; S1000D_consolidate('ipc', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "GEM" -cmd { FileSave; S1000D_consolidate('gem', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (Standard Print)." "MM" -cmd { FileSave; S1000D_consolidate('mm', 'std'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+			}
+
+			if ( !menu_exists( '.Honeywell-Print.S1000D (with DM Codes).' ) ) {
+			
+				# Honeywell S1000D (XSL-FO) print options (with DM Codes added)
+				menu_add -menu ".Honeywell-Print." "S1000D (with DM Codes)";
+				
+				#menu_add ".Honeywell-Print.S1000D." "PDF (final)" -cmd { set_overlayformatstyle('final'); FileSave; run_XSL_FO_BAT_S1000D(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "CMM" -cmd { FileSave; S1000D_consolidate('cmm', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "FMM" -cmd { FileSave; S1000D_consolidate('fmm', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "IRM" -cmd { FileSave; S1000D_consolidate('irm', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "ORIM" -cmd { FileSave; S1000D_consolidate('orim', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "IM" -cmd { FileSave; S1000D_consolidate('im', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "SDOM" -cmd { FileSave; S1000D_consolidate('sdom', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "SDIM" -cmd { FileSave; S1000D_consolidate('sdim', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "SPM" -cmd { FileSave; S1000D_consolidate('spm', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "ACMM" -cmd { FileSave; S1000D_consolidate('acmm', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "IPC" -cmd { FileSave; S1000D_consolidate('ipc', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "GEM" -cmd { FileSave; S1000D_consolidate('gem', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+				menu_add ".Honeywell-Print.S1000D (with DM Codes)." "MM" -cmd { FileSave; S1000D_consolidate('mm', 'dmc'); FileSave; run_XSL_FO_BAT_S1000D(); FileSave; S1000D_restore_document(); cleanup(); } -active "1";
+			}
+			
+			
+################################################################################################
+
+
+			menu_add ".Honeywell-Print." "" -separator;
+
+			menu_add -menu ".Honeywell-Print." "Cleanup";
+			menu_add ".Honeywell-Print.Cleanup." "Delete XSL-FO TEMP files" -cmd { run_XSL_FO_TEMP_CLEANUP_BAT(); } -active "1";
+
+
+			menu_add ".Honeywell-Print." "" -separator;
+
+			menu_add -menu ".Honeywell-Print." "About";
+			menu_add ".Honeywell-Print.About." "Honeywell - Print Environment - Desktop (S1000D)";
+			
+			# CV - tried using CVS keyword "Date" instead of manually updating version info all of the time,
+			#      but ACL display suppresses "Date" and keeps trailing dollar sign
+			#menu_add ".Honeywell-Print.About." "Newbook ($Date: 2019/06/18 19:28:12 $)";
+			
+			menu_add ".Honeywell-Print.About." "Newbook (v1.1 2019.06.14)";
+
+
+
+
+
+
+
+		}
+
+
+} # _addmenu()
+
+
+
+
+# ---------------------------------------------------------------------
+# function:	_menuloadhook()
+# inputs:	none
+# outputs:	none
+# description:	function to load the menu hook. Depends on _addhook() to
+#		set the hook.
+# ---------------------------------------------------------------------
+function _menuloadhook(win,menupath) {
+	_addmenu();
+} # _menuloadhook()
+
+
+
+# ---------------------------------------------------------------------
+# function:	_addhook()
+# inputs:	none
+# outputs:	none
+# description:	add the appropriate hooks to the document
+# ---------------------------------------------------------------------
+function _addhook() {
+		add_hook('menuloadhook',package_name()."::_menuloadhook");
+} # _addhook()
+
+
+
+
+
+
+
+
+function set_overlayformatstyle(new_type) {
+
+  # Temporarily modify @overlayformatstyle based on required PDF type (e.g. "draft | final | webfinal")
+
+  # Save real @overlayformatstyle in global variable $overlayformatstyle in order to reset to
+  # original value after publish complete
+  
+  overlayformatstyle_ORIG = xpath_string("/node()[1][1]/@overlayformatstyle");
+  
+  caret first,first;
+
+  # Honeywell top level docytpe nodes (only one should match for any give document)
+  caret 0,"<cmm>" -t;
+  caret 0,"<eipc>" -t;
+  caret 0,"<em>" -t;
+  caret 0,"<sb>" -t;
+  caret 0,"<sdom>" -t;
+
+  modify_attr("overlayformatstyle",$new_type);
+
+  # Note: - EIPC (XML) uses different case for this attribute
+  #       - no FOSI support, only XSL-FO
+  #       - don't need to worry about resetting to original state
+  #         (reset doesn't work in XSL-FO, anyway)
+  modify_attr("OverlayFormatStyle",$new_type);
+
+#response("@overlayformatstyle_ORIG: " . $overlayformatstyle_ORIG);
+#response("@overlayformatstyle: " . xpath_string("/node()[1][1]/@overlayformatstyle"));
+
+
+}
+
+
+function reset_overlayformatstyle() {
+
+  # Reset @overlayformatstyle to original value
+  
+  #response("@overlayformatstyle_ORIG: " . $overlayformatstyle_ORIG);
+
+  caret first,first;
+
+  # Honeywell top level docytpe nodes (only one should match for any give document)
+  caret 0,"<cmm>" -t;
+  caret 0,"<eipc>" -t;
+  caret 0,"<em>" -t;
+  caret 0,"<sb>" -t;
+  caret 0,"<sdom>" -t;
+
+  modify_attr("overlayformatstyle",$overlayformatstyle_ORIG);
+
+}
+
+
+function set_outputtype(new_type) {
+
+  # Temporarily modify @outputtype based on required PDF type (e.g. "print | web")
+
+  # Save real @outputtype in global variable $outputtype in order to reset to
+  # original value after publish complete
+  
+  outputtype_ORIG = xpath_string("/node()[1][1]/@outputtype");
+  
+  #response("@outputtype_ORIG: " . $outputtype_ORIG);
+  
+  caret first,first;
+
+  # Honeywell top level docytpe nodes (only one should match for any give document)
+  caret 0,"<cmm>" -t;
+  caret 0,"<eipc>" -t;
+  caret 0,"<em>" -t;
+  caret 0,"<sb>" -t;
+  caret 0,"<sdom>" -t;
+
+  modify_attr("outputtype",$new_type);
+
+}
+
+function reset_outputtype() {
+
+  # Reset @outputtype to original value
+  
+  #response("@outputtype_ORIG: " . $outputtype_ORIG);
+
+  caret first,first;
+
+  # Honeywell top level docytpe nodes (only one should match for any give document)
+  caret 0,"<cmm>" -t;
+  caret 0,"<eipc>" -t;
+  caret 0,"<em>" -t;
+  caret 0,"<sb>" -t;
+  caret 0,"<sdom>" -t;
+
+  modify_attr("outputtype",$outputtype_ORIG);
+
+}
+
+
+
+
+function run_XSL_FO_BAT() {
+
+  local doc_dir = doc_dir();
+  local doc_name = doc_name();
+  local doc_path = doc_path();
+  local doc_type_dir = doc_type_dir();
+  local doc_type = doc_type();
+
+
+  #response("DOC DIR: $doc_dir");
+  #response("DOC NAME: $doc_name");
+  #response("DOC PATH: $doc_path");
+  #response("DOCTYPE PATH: $doc_type_dir");
+  #response("DOCTYPE: $doc_type");
+
+
+  local ACL_run_XSL_FO_bat_quotes = '"' . $doc_type_dir . "\\ACL-run-XSL-FO.bat" . '"';
+  local doc_path_quotes = '"' . $doc_path . '"';
+  local doc_graphics_quotes = '"' . $doc_dir . "\\graphics" . '"';
+  
+  local pdf_filename = substr("$doc_name",1,length("$doc_name")-4) . ".pdf";
+  local pdf_filename_quotes = '"' . $pdf_filename . '"';
+
+  # ******************************************************************
+  # CV - this is only used by S1000D "ACL-run-XSL-FO.bat" to return PDF filename without "*.XML.CONSOLIDATED.pdf" contenations
+  #     (e.g. typical PDF "PMC-HON99193-99193-00001-01_001-00_sx-us.XML.CONSOLIDATED.pdf"
+  # ******************************************************************
+  
+  local S1000D_pdf_filename = substr("$doc_name",1,length("$doc_name")-21) . ".pdf";
+  local S1000D_pdf_filename_quotes = '"' . $S1000D_pdf_filename . '"';
+
+  # ******************************************************************
+
+  local doc_dir_quotes = '"' . $doc_dir . '"';
+
+  local pdf_fullpath_quotes = '"' . $doc_dir . "\\" . $pdf_filename .'"';
+
+  local S1000D_pdf_fullpath_quotes = '"' . $doc_dir . "\\" . $pdf_filename .'"';
+
+  # Change working directory to "$doc_type_dir" folder
+  # (as XSL-FO processing directories will be relative to it)
+  cd "$doc_type_dir";
+  
+  # CV - use of ampersand at end of command will allow DOS window to be separate from Arbortext
+  #sh "$ACL_run_XSL_FO_bat_quotes $doc_path_quotes $doc_graphics_quotes $pdf_filename_quotes $doc_dir_quotes $pdf_fullpath_quotes &";
+  sh "$ACL_run_XSL_FO_bat_quotes $doc_path_quotes $doc_graphics_quotes $pdf_filename_quotes $doc_dir_quotes $pdf_fullpath_quotes $S1000D_pdf_filename_quotes $S1000D_pdf_fullpath_quotes &";
+  
+
+}
+
+
+
+### S1000D variant (do not open CONSOLIDATED file in Arbortext) ###
+function run_XSL_FO_BAT_S1000D() {
+
+  local doc_dir = doc_dir();
+  
+  # S1000D variant - not opening the CONSOLIDATED in Arbortext (just assuming it's been successfully created)
+  #local doc_name = doc_name();
+  #local doc_path = doc_path();
+  
+  local doc_name = doc_name() . '.CONSOLIDATED.xml';
+  local doc_path = doc_dir() . "\\" . $doc_name;
+
+  
+  
+  local doc_type_dir = doc_type_dir();
+  local doc_type = doc_type();
+
+
+  #response("DOC DIR: $doc_dir");
+  #response("DOC NAME: $doc_name");
+  #response("DOC PATH: $doc_path");
+  #response("DOCTYPE PATH: $doc_type_dir");
+  #response("DOCTYPE: $doc_type");
+
+
+  local ACL_run_XSL_FO_bat_quotes = '"' . $doc_type_dir . "\\ACL-run-XSL-FO.bat" . '"';
+  local doc_path_quotes = '"' . $doc_path . '"';
+  local doc_graphics_quotes = '"' . $doc_dir . "\\graphics" . '"';
+  
+  local pdf_filename = substr("$doc_name",1,length("$doc_name")-4) . ".pdf";
+  local pdf_filename_quotes = '"' . $pdf_filename . '"';
+
+  # ******************************************************************
+  # CV - this is only used by S1000D "ACL-run-XSL-FO.bat" to return PDF filename without "*.XML.CONSOLIDATED.pdf" contenations
+  #     (e.g. typical PDF "PMC-HON99193-99193-00001-01_001-00_sx-us.XML.CONSOLIDATED.pdf"
+  # ******************************************************************
+  
+  local S1000D_pdf_filename = substr("$doc_name",1,length("$doc_name")-21) . ".pdf";
+  local S1000D_pdf_filename_quotes = '"' . $S1000D_pdf_filename . '"';
+
+  # ******************************************************************
+
+  local doc_dir_quotes = '"' . $doc_dir . '"';
+
+  local pdf_fullpath_quotes = '"' . $doc_dir . "\\" . $pdf_filename .'"';
+
+  local S1000D_pdf_fullpath_quotes = '"' . $doc_dir . "\\" . $pdf_filename .'"';
+
+  # Change working directory to "$doc_type_dir" folder
+  # (as XSL-FO processing directories will be relative to it)
+  cd "$doc_type_dir";
+  
+  # CV - use of ampersand at end of command will allow DOS window to be separate from Arbortext
+  #sh "$ACL_run_XSL_FO_bat_quotes $doc_path_quotes $doc_graphics_quotes $pdf_filename_quotes $doc_dir_quotes $pdf_fullpath_quotes &";
+  sh "$ACL_run_XSL_FO_bat_quotes $doc_path_quotes $doc_graphics_quotes $pdf_filename_quotes $doc_dir_quotes $pdf_fullpath_quotes $S1000D_pdf_filename_quotes $S1000D_pdf_fullpath_quotes &";
+  
+
+}
+
+
+
+
+#####################################################################
+### S1000D functions ################################################
+#####################################################################
+
+# Add type parameter for document type ("cmm", "sdom", etc.)
+# Add parameter for variant print options (with DM codes or without; now either "std" or "dmc")
+function S1000D_consolidate(type, variant) {
+
+  # CV - this is directory where S1000D zip has been unzipped,
+  #      and main PMC XML file
+  #      (e.g. "PMC-S1000DBIKE-U8025-12345-01_000-21_sx-US.XML")
+  local doc_dir = doc_dir();
+  local doc_name = doc_name();
+
+  # CV - this is the Arbortext custom schema folder location
+  local doc_type_dir = doc_type_dir();
+
+  local environment_bat_quotes = '"' . $doc_type_dir . "\\environment.bat" . '"';
+  local doc_name_quotes = '"' . $doc_name . '"';
+
+
+  local doc_dir_quotes = '"' . $doc_dir . '"';
+  local doc_type_dir_quotes = '"' . $doc_type_dir . '"';
+
+  # Change working directory to "$doc_dir" folder
+  # (as S1000D consolidate BAT processing directories will be relative to it)
+  cd "$doc_dir";
+
+
+  # *************************************************
+  # Copy the "consolidate" BAT and XSLT scripts
+  # to the $doc_dir 
+  # (e.g. S1000D zip folder)
+  # *************************************************
+  
+  local copy_scripts_bat_quotes = '"' . $doc_type_dir . "\\nbpi\\copy_scripts.bat" . '"';
+  #sh "$copy_scripts_bat_quotes $doc_type_dir $doc_dir"; 
+  # CV - there could be SPACES in doc_type_dir() and/or doc_dir(), so must pass with quotes
+  sh "$copy_scripts_bat_quotes $doc_type_dir_quotes $doc_dir_quotes"; 
+  
+  # *************************************************
+  # Run the scripts to generate consolidated 
+  # "*.xml-TEMP" file
+  # (e.g. "PMC-S1000DBIKE-U8025-12345-01_000-21_sx-US.XML-TEMP")
+  # *************************************************
+
+  # CV - seems to be a max limit for length of variable names
+  #      ("00_S1000D_collect_files_bat_quotes" is too long)
+  #local 00_S1000D_collect_files_bat_quotes = '"' . $doc_dir . "\\00-S1000D-collect-files.bat" . '"';
+
+  local collect_files_bat_quotes = '"' . $doc_dir . "\\00-S1000D-collect-files.bat" . '"';
+  
+  sh "$collect_files_bat_quotes $doc_name $type $variant"; 
+
+
+  # *************************************************
+  # Swap out the real "*.xml" XML file with the 
+  # generated "*.xml-TEMP" consolidated XML file
+  # *************************************************
+
+  # Save the global document id values for main document and temp version (where images changed from MathML to image)
+  
+  local current_doc_no_quotes = $doc_dir . '\\' . $doc_name;
+  #local current_doc_temp_no_quotes = $doc_dir . '\\' . $doc_name . '-TEMP';
+  
+  # CV - construct a better TEMP file for DOS copy of final PDF file
+  local current_doc_temp_no_quotes = $doc_dir . '\\' . $doc_name . '.CONSOLIDATED.xml';
+
+
+#response("current_doc_no_quotes: $current_doc_no_quotes");
+#response("current_doc_temp_no_quotes: $current_doc_temp_no_quotes");
+
+#response(doc_open($current_doc_no_quotes));
+#response(doc_open($current_doc_temp_no_quotes));
+
+
+  #########################################################
+  ### VARIANT: don't open CONSOLIDATED file in Arbortext
+
+  ###  # Set the global variables
+  ###  doc_id = doc_open($current_doc_no_quotes);
+  ###  doc_temp_id = doc_open($current_doc_temp_no_quotes);
+  
+  ###  # Open the "temp" file
+  ###  doc_show($doc_temp_id, 1);
+   
+  #########################################################
+
+} # S1000D_consolidate()
+
+
+
+#########################################################
+### VARIANT: don't open CONSOLIDATED file in Arbortext
+
+
+### function S1000D_restore_document() {
+###   
+###   # Close the S1000D consolidated XML "-TEMP" file and show the original document again
+###   doc_close($doc_temp_id);
+###   
+###   # Open the original S1000D XML file
+###   doc_show($doc_id, 1);
+###   
+### } # S1000D_restore_document()
+
+
+function S1000D_restore_document() {
+  # DO NOTHING
+}
+
+#########################################################
+
+
+function cleanup() {
+
+
+  # *************************************************
+  # Cleanup (delete the copied scripts and temp
+  #          files generated in $doc_dir)
+  # *************************************************
+
+  local doc_type_dir = doc_type_dir();
+  local cleanup_bat_quotes = '"' . $doc_type_dir . "\\nbpi\\cleanup.bat" . '"';
+
+  local doc_dir = doc_dir();
+  local doc_dir_quotes = '"' . $doc_dir . '"';
+
+  #sh "$cleanup_bat_quotes $doc_dir"; 
+  sh "$cleanup_bat_quotes $doc_dir_quotes"; 
+
+
+} # cleanup()
+
+
+
+function run_XSL_FO_TEMP_CLEANUP_BAT() {
+
+  local doc_dir = doc_dir();
+  local doc_name = doc_name();
+  local doc_path = doc_path();
+  local doc_type_dir = doc_type_dir();
+  local doc_type = doc_type();
+
+
+  # CV - known starting location is current $doc_type_dir, but launching BAT file 
+  #      from relative path location from within "Honeywell_XSL-FO" directory 
+  #      (which could be local "desktop" or remote "network")
+  local XSL_FO_TEMP_CLEANUP_bat_quotes = '"' . $doc_type_dir . "\\..\\..\\..\\Honeywell_XSL-FO\\XSL-FO-TEMP-CLEANUP.bat" . '"';
+
+  
+  #response("XSL_FO_TEMP_CLEANUP_bat_quotes: $XSL_FO_TEMP_CLEANUP_bat_quotes");
+
+
+
+  # CV - run BAT to delete all XSL-FO TEMP files from local system (in particular the PDF_OUTPUT folders which can continue to grow over time)
+  #    - use of ampersand at end of command will allow DOS window to be separate from Arbortext
+  sh "$XSL_FO_TEMP_CLEANUP_bat_quotes &";
+
+}
+
+
+
+# initialize the application
+init();
+
+

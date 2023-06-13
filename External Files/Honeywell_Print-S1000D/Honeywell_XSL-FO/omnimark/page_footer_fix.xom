@@ -1,0 +1,35 @@
+; Page footer fix (currently ACMM related)
+
+cross-translate
+
+; Padding for adusting removed " of 0" from ACMM page footers
+global integer c-padding-one initial {"0"}
+global integer c-padding-two initial {"0"}
+
+
+; *******************************************************************************
+; CV - ACCM generates "Page 1 of 0, Page 2 of 0, ..." throughout entire document
+; e.g.
+;      <xep:text value="Page " x="473930" y="38655" width="26130"/>
+;      <xep:text value="48" x="500060" y="38655" width="11120"/>
+;      <xep:text value=" of 0" x="511180" y="38655" width="19460"/>
+;
+;    - delete "of 0" and shift other text 
+;    - shift set x values of "Page" and number by +19460
+
+; CV - works, but also need to shift the other GENTEXT to the right
+;find "<xep:text value=%" of 0%"" ((lookahead not "/>")any-text)* "/>"
+;  output ""
+
+find "<xep:text value=%"Page %" x=%"" digit+=x-page-1 "%"" (((lookahead not "/>")any-text)* "/>" "%n" white-space*)=line-1
+     "<xep:text value=%"" digit+=page-number "%" x=%"" digit+=x-page-2 "%"" (((lookahead not "/>")any-text)* "/>" "%n" white-space*)=line-2
+     "<xep:text value=%" of 0%"" ((lookahead not "/>")any-text)* "/>"
+
+  set c-padding-one to ("%x(x-page-1)" + 19460)
+  set c-padding-two to ("%x(x-page-2)" + 19460)
+  output ""
+  	|| "<xep:text value=%"Page %" x=%"%d(c-padding-one)%" %x(line-1)"
+  	|| "<xep:text value=%"%x(page-number)%" x=%"%d(c-padding-two)%" %x(line-2)"
+
+; *******************************************************************************
+

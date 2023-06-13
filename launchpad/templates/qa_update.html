@@ -1,0 +1,200 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    table.bottomBorder { 
+        border-collapse: collapse; 
+    }
+    table.bottomBorder td, 
+    table.bottomBorder th { 
+        border-bottom: 1px solid black; 
+        padding: 10px; 
+        text-align: left;
+    }
+    table.bottomBorder tr:hover {
+            background-color: #6dd0fd;
+    }
+</style>
+	<div class="container" onmouseover="highlightEmpty()">
+        <h2>QA Checklist</h2>
+        <h4>Job Number: {{ job_no }}</h4>
+        <h4>Revision: {{ revision }}</h4>
+        <form action="" method="post" novalidate>
+            <p>
+                {{ form.op_manager.label }}<br>
+                {{ form.op_manager() }}<br>
+                <span class="note">For example: bkelly</span><br>
+            </p>
+            <p>
+                {{ form.er_level.label }}<br>
+                {{ form.er_level() }}<br>
+                <span class="note">Pre-Delivery = 0, Engineering Review #1 = 1, Engineering Review #2 = 2, etc.</span><br>
+            </p>
+            <p>
+                {{ form.qa_1.label }}<br>
+                {{ form.qa_1 }}<br>
+            </p>
+            <p>
+                {{ form.date_1.label }}<br>
+                {{ form.date_1 }}<br>
+            </p>
+            <a class="button_one" onclick="zeroFill()">Fill in all empty comment fields with zeros (QA 1 section only)</a>
+            <table class="bottomBorder">
+                    <thead><tr><th></th><th colspan="2">Subject</th><th>{{ comment_name }}</th></tr></thead>
+                    <tbody>
+                        <tr><td><b> A </b></td><td></td><td><b> Title and Front Matter Pages </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_A.get(1) }}</td><td style="width: 150px;">{{ form.input1 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_A.get(2) }}</td><td style="width: 150px;">{{ form.input2 }}</td></tr>
+                        <tr><td><b> B </b></td><td></td><td><b> List of Effective Pages (LEP) </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_B.get(1) }}</td><td style="width: 150px;">{{ form.input3 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_B.get(2) }}</td><td style="width: 150px;">{{ form.input4 }}</td></tr>
+                        <tr><td></td><td> 3 </td><td>{{ qa_B.get(3) }}</td><td style="width: 150px;">{{ form.input5 }}</td></tr>
+                        <tr><td><b> C </b></td><td></td><td><b> Text (Spot Checks) </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_C.get(1) }}</td><td style="width: 150px;">{{ form.input6 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_C.get(2) }}</td><td style="width: 150px;">{{ form.input7 }}</td></tr>
+                        <tr><td></td><td> 3 </td><td>{{ qa_C.get(3) }}</td><td style="width: 150px;">{{ form.input8 }}</td></tr>
+                        <tr><td></td><td> 4 </td><td>{{ qa_C.get(4) }}</td><td style="width: 150px;">{{ form.input9 }}</td></tr>
+                        <tr><td></td><td> 5 </td><td>{{ qa_C.get(5) }}</td><td style="width: 150px;">{{ form.input10 }}</td></tr>
+                        <tr><td></td><td> 6 </td><td>{{ qa_C.get(6) }}</td><td style="width: 150px;">{{ form.input11 }}</td></tr>
+                        <tr><td></td><td> 7 </td><td>{{ qa_C.get(7) }}</td><td style="width: 150px;">{{ form.input12 }}</td></tr>
+                        <tr><td></td><td> 8 </td><td>{{ qa_C.get(8) }}</td><td style="width: 150px;">{{ form.input13 }}</td></tr>
+                        <tr><td><b> D </b></td><td></td><td><b> Illustrations </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_D.get(1) }}</td><td style="width: 150px;">{{ form.input14 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_D.get(2) }}</td><td style="width: 150px;">{{ form.input15 }}</td></tr>
+                        <tr><td></td><td> 3 </td><td>{{ qa_D.get(3) }}</td><td style="width: 150px;">{{ form.input16 }}</td></tr>
+                        <tr><td></td><td> 4 </td><td>{{ qa_D.get(4) }}</td><td style="width: 150px;">{{ form.input17 }}</td></tr>
+                        <tr><td><b> E </b></td><td></td><td><b> Highlights Page </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_E.get(1) }}</td><td style="width: 150px;">{{ form.input18 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_E.get(2) }}</td><td style="width: 150px;">{{ form.input19 }}</td></tr>
+                        <tr><td><b> G </b></td><td></td><td><b> Miscellaneous </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_G.get(1) }}</td><td style="width: 150px;">{{ form.input20 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_G.get(2) }}</td><td style="width: 150px;">{{ form.input21 }}</td></tr>
+                    </tbody>
+                </table>
+                <p>{{ qa_note }}</p>
+                <p>
+                    {{ form.qa_2.label }}<br>
+                    {{ form.qa_2 }}<br>
+                </p>
+                <p>
+                    {{ form.date_2.label }}<br>
+                    {{ form.date_2 }}<br>
+                </p>
+                <a class="button_one" onclick="zeroFill2()">Fill in all empty comment fields with zeros (QA 2 section only)</a>
+                <table>
+                    <thead><tr><th></th><th colspan="2">Subject</th><th>{{ comment_name }}</th></tr></thead>
+                    <tbody>
+                        <tr><td><b> H </b></td><td></td><td><b> QA2 </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_H.get(1) }}</td><td style="width: 150px;">{{ form.input22 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_H.get(2) }}</td><td style="width: 150px;">{{ form.input23 }}</td></tr>
+                        <tr><td></td><td> 3 </td><td>{{ qa_H.get(3) }}</td><td style="width: 150px;">{{ form.input24 }}</td></tr>
+                        <tr><td></td><td> 4 </td><td>{{ qa_H.get(4) }}</td><td style="width: 150px;">{{ form.input25 }}</td></tr>
+                        <tr><td></td><td> 5 </td><td>{{ qa_H.get(5) }}</td><td style="width: 150px;">{{ form.input26 }}</td></tr>
+                        <tr><td></td><td> 6 </td><td>{{ qa_H.get(6) }}</td><td style="width: 150px;">{{ form.input27 }}</td></tr>
+                        <tr><td></td><td> 7 </td><td>{{ qa_H.get(7) }}</td><td style="width: 150px;">{{ form.input28 }}</td></tr>
+                    </tbody>
+                </table>
+                <p>
+                    {{ form.qa_3.label }}<br>
+                    {{ form.qa_3 }}<br>
+                </p>
+                <p>
+                    {{ form.date_3.label }}<br>
+                    {{ form.date_3 }}<br>
+                </p>
+                <a class="button_one" onclick="zeroFill3()">Fill in all empty comment fields with zeros (QA 3 section only)</a>
+                <table>
+                    <thead><tr><th></th><th colspan="2">Subject</th><th>{{ comment_name }}</th></tr></thead>
+                    <tbody>
+                        <tr><td><b> I </b></td><td></td><td><b> Delivery for Review </b></td><td></td></tr>
+                        <tr><td></td><td> 1 </td><td>{{ qa_I.get(1) }}</td><td style="width: 150px;">{{ form.input29 }}</td></tr>
+                        <tr><td></td><td> 2 </td><td>{{ qa_I.get(2) }}</td><td style="width: 150px;">{{ form.input30 }}</td></tr>
+                        <tr><td></td><td> 3 </td><td>{{ qa_I.get(3) }}</td><td style="width: 150px;">{{ form.input31 }}</td></tr>
+                        <tr><td></td><td> 4 </td><td>{{ qa_I.get(4) }}</td><td style="width: 150px;">{{ form.input32 }}</td></tr>
+                    </tbody>
+                </table>
+                <p>{{ form.submit_complete(class="button_one") }}</p>
+                <P>{{ form.submit_incomplete(class="button_one") }}</P>
+        </form>
+    </div>
+<script type="text/javascript">
+    function zeroFill() {
+        var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                        document.getElementById('input4'), document.getElementById('input5'), document.getElementById('input6'),
+                        document.getElementById('input7'), document.getElementById('input8'), document.getElementById('input9'),
+                        document.getElementById('input10'),
+                        document.getElementById('input11'), document.getElementById('input12'), document.getElementById('input13'),
+                        document.getElementById('input14'), document.getElementById('input15'), document.getElementById('input16'),
+                        document.getElementById('input17'), document.getElementById('input18'), document.getElementById('input19'),
+                        document.getElementById('input20'),
+                        document.getElementById('input21')];
+
+
+        myArray.forEach(zeroFillinter);
+
+        function zeroFillinter(item) {
+                    if (item.value == '') {
+                        item.value = '0';
+                    }
+                }
+        
+    }
+    function zeroFill2() {
+        var myArray = [document.getElementById('input22'), document.getElementById('input23'), document.getElementById('input24'),
+                        document.getElementById('input25'), document.getElementById('input26'), document.getElementById('input27'),
+                        document.getElementById('input28')];
+
+
+        myArray.forEach(zeroFillinter);
+
+        function zeroFillinter(item) {
+                    if (item.value == '') {
+                        item.value = '0';
+                    }
+                }
+        
+    }
+    function zeroFill3() {
+        var myArray = [document.getElementById('input29'), document.getElementById('input30'), document.getElementById('input31'),
+                        document.getElementById('input32')];
+
+
+        myArray.forEach(zeroFillinter);
+
+        function zeroFillinter(item) {
+                    if (item.value == '') {
+                        item.value = '0';
+                    }
+                }
+        
+    }
+    window.onload = highlightEmpty()
+    function highlightEmpty() {
+        var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                        document.getElementById('input4'), document.getElementById('input5'), document.getElementById('input6'),
+                        document.getElementById('input7'), document.getElementById('input8'), document.getElementById('input9'),
+                        document.getElementById('input10'),
+                        document.getElementById('input11'), document.getElementById('input12'), document.getElementById('input13'),
+                        document.getElementById('input14'), document.getElementById('input15'), document.getElementById('input16'),
+                        document.getElementById('input17'), document.getElementById('input18'), document.getElementById('input19'),
+                        document.getElementById('input20'), document.getElementById('input21'),
+                        document.getElementById('qa_1'), document.getElementById('er_level'), document.getElementById('date_1'),
+                        document.getElementById('op_manager'), document.getElementById('date_2'), document.getElementById('date_3'),
+                        document.getElementById('qa_2'), document.getElementById('qa_3'),
+                        document.getElementById('input22'), document.getElementById('input23'), document.getElementById('input24'),
+                        document.getElementById('input25'), document.getElementById('input26'), document.getElementById('input27'),
+                        document.getElementById('input28'),
+                        document.getElementById('input29'), document.getElementById('input30'), document.getElementById('input31'),
+                        document.getElementById('input32')];
+        myArray.forEach(highlight);
+
+        function highlight(item) {
+                    if (item.value == '') {
+                        item.style.border = "1px solid #FF0000";
+                    }
+                    else {
+                        item.style.border = "1px solid #00FF00";
+                    }
+                }
+        }
+</script>
+{% endblock %}

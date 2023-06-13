@@ -1,0 +1,38 @@
+; Check if current file is IRM XML 
+; (which will need to be converted to SGML via legacy conversion process to populate consumables tables)
+
+cross-translate
+
+global stream GsIRMLogFileName initial {"TEMP\irm_xml.txt"}; (network BAT - full TEMP path provided on command line)
+global stream GsIRMLog initial {""}
+
+global stream GsMasterTextEntityFolder initial {""}; (standalone and network BAT - provided on command line)
+
+
+find ("type=%"irm%"")=irm
+  output "%x(irm)"
+  open GsIRMLog as file GsIRMLogFileName
+  put GsIRMLog "This is an IRM file.%n%n"
+  close GsIRMLog
+  
+
+; ======================================================
+; Common error (remove full path to MasterTextEntities)
+; ======================================================
+; Type I
+; <!ENTITY % MasterTextEntities SYSTEM "P:\WORK\Honeywell\Admin\02-Master Entities\MasterTextEntities.xml">
+; <!ENTITY % MasterTextEntities SYSTEM "file:///P:\WORK\Honeywell\Admin\02-Master Entities\MasterTextEntities.xml">
+; Type II
+; <!ENTITY % MasterTextEntities SYSTEM "\\172.16.15.22\data\WORK\Honeywell\000 - Honeywell Admin\02-Master Entities\MasterTextEntities.xml">
+; to
+; <!ENTITY % MasterTextEntities SYSTEM "MasterTextEntities.xml">
+; (also "MasterTextEntities_IR.xml | MasterTextEntities_IRM.xml | etc.")
+
+; Type I
+find (letter+ ":" ((lookahead not "MasterTextEntities")any-text)* ("MasterTextEntities" ((lookahead not ".xml")any-text)* ".xml")=filename)
+  output "%g(GsMasterTextEntityFolder)\%x(filename)"
+
+; Type II
+find ("\\" ((lookahead not "MasterTextEntities")any-text)* ("MasterTextEntities" ((lookahead not ".xml")any-text)* ".xml")=filename)
+  output "%g(GsMasterTextEntityFolder)\%x(filename)"
+

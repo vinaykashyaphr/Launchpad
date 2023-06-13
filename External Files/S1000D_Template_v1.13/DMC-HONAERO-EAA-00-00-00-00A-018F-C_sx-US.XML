@@ -1,0 +1,1337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY ICN-HNYWL-0000233102-001-99 SYSTEM "Graphics\ICN-HNYWL-0000233102-001-99.cgm" NDATA cgm>
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!NOTATION cgm SYSTEM "cgm">
+<!NOTATION tif SYSTEM "tif">
+]>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>INTRODUCTION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Application of Maintenance Task Oriented Support
+System (MTOSS)</title>
+<levelledPara><para>In accordance with the ATA Specification 2200,
+this publication uses a Maintenance Task Numbering System which make
+the maintenance procedures in this manual compatible with an automated
+shop environment.</para>
+</levelledPara>
+<levelledPara><para>The system uses standard and unique number combinations
+to identify maintenance tasks and subtasks.</para>
+</levelledPara>
+<levelledPara><para>The MTOSS structure is the logical approach to
+organizing maintenance tasks and subtasks. The MTOSS numbering system
+includes the ATA Chapter-Section-Subject number as well as a function
+code and unique identifiers. The purpose of incorporating the MTOSS
+numbering system is to provide a means for the automated sorting,
+retrieval, and management of digitized data.</para>
+</levelledPara>
+<levelledPara><para>Section and Sub-section Numbering System</para>
+<levelledPara><para>All procedures in this publication have TASK and
+SUBTASK numbers at key data retrieval points. The numbers provide
+the following: </para>
+<para><randomList listItemPrefix="pf02">
+<listItem><para>Identification of the hardware (part or parts) primary
+to the TASK</para>
+</listItem>
+<listItem><para>Identification of the maintenance function applied
+to the part or parts</para>
+</listItem>
+<listItem><para>A unique identifier for a set of instructions (known
+as TASK or SUBTASK)</para>
+</listItem>
+<listItem><para>Identification of alternate methods and configuration
+differences that change the procedure applied to the TASK</para>
+</listItem>
+<listItem><para>Identification of airline changes to a TASK or SUBTASK.</para>
+</listItem>
+</randomList></para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Components of Task and Subtask Number</para>
+<levelledPara><para>The numbering system is an expansion of the ATA
+three-element numbering system. The number has seven elements. The
+first five elements are necessary for each TASK or SUBTASK. The sixth
+and seventh elements are applied only when necessary. Refer to <internalRef
+internalRefId="cmm118870321739123157" internalRefTargetType="irtt01"
+></internalRef>.</para>
+</levelledPara>
+<levelledPara><para>Elements 1, 2, and 3 identify the ATA Chapter-Section-Subject
+number of the pageblock.</para>
+</levelledPara>
+<levelledPara><para>Element 4 defines the maintenance function being
+performed. This element is a three position element. The third position
+is zero filled when further definition is not required. If required,
+the manufacturer will use the numbers 1 thru 9 or letters A thru Z,
+excluding the letters I and O. Refer to <internalRef
+internalRefId="cmm12870829482052314" internalRefTargetType="irtt02"
+></internalRef>.</para>
+</levelledPara>
+<levelledPara><para>Element 5 provides a unique identification for
+each TASK or SUBTASK number which is similarly numbered through the
+first four elements.</para>
+<para><randomList listItemPrefix="pf02">
+<listItem><para>TASKS are numbered from 801 thru 999.</para>
+</listItem>
+<listItem><para>SUBTASKS are numbered from 001 thru 800.</para>
+</listItem>
+</randomList></para>
+</levelledPara>
+<levelledPara><para>Element 6 is a three position alphanumeric element
+used for identification of differences in configurations, methods
+or techniques, variations of standard practice applications, etc.</para>
+</levelledPara>
+<levelledPara><para>Element 7 provides coding of those tasks or subtasks
+that have been changed by the customer (e.g., those tasks or subtasks
+accomplished by an outside repair source).</para>
+<figure id="cmm118870321739123157">
+<title>MTOSS Code Positions</title>
+<graphic infoEntityIdent="ICN-HNYWL-0000233102-001-99"></graphic>
+</figure>
+<table id="cmm12870829482052314">
+<title>MTOSS Function Code Definitions</title>
+<tgroup align="left" char="" charoff="50" cols="3"><colspec
+colname="colspec6" colsep="1" colwidth="0.76in"/><colspec colname="col2"
+colsep="1" colwidth="3.03in"/><colspec colname="col3" colwidth="3.02in"/>
+<thead valign="bottom"><row rowsep="1">
+<entry align="left" morerows="0" rotate="0" valign="bottom">
+<para>Code</para>
+</entry>
+<entry align="left" morerows="0" rotate="0" valign="bottom">
+<para>Function</para>
+</entry>
+<entry align="left" morerows="0" rotate="0" valign="bottom">
+<para>Definition</para>
+</entry>
+</row></thead><tbody valign="top"><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>000</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>REMOVAL AND DISASSEMBLY</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>010</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal of the engine/component from a workstand, transport
+dolly, test stand, etc., or aircraft.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>020</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Remove Modular Sections</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This is the first echelon of disassembly which consists of sectionalization
+of the unit/engine into primary modular sections. Modular sections
+are identified by the third element of the ATA number when removed
+from the unit/engine.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>030</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Disassemble Modular Sections</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This is the second echelon of disassembly which consists of
+disassembly of the modular sections into subassemblies after removal
+from the unit/engine. Modular section designations appear in the second
+element of the ATA number for this echelon of disassembly.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>040</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Disassemble Subassemblies</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This is the third echelon of engine disassembly which consists
+of disassembly of subassemblies to the piece part level. The subassemblies
+are identified by the third element of the ATA number.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>050</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Remove Accessory/Power Plant Components</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This consists of removing individual accessory/power plant components
+from either installed or uninstalled engines.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>060</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Disassemble Accessory</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This involves disassembly of accessories/components into subassemblies.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>070</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Disassemble Accessory Subassembly</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This involves disassembly of accessories/components subassemblies
+into piece parts.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>080</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Remove Test Equipment</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This consists of removing equipment and instrumentation after
+accessory/component test.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>090</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Disassemble Support Equipment</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>This consists of disassembly of support equipment required to
+maintain said support equipment.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>100</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>CLEANING</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>110</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Chemical</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal of surface deposits from a part by use of a chemical
+cleaning agent. After being dissolved, the deposit is washed or rinsed
+away after a soaking period. Also includes chemical power flushing.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>120</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Abrasive</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal of surface deposits from a part by wet or dry particle
+impingement.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>130</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Ultrasonic</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal of surface deposits and entrapped material by use of
+high frequency sound waves to produce cavitation at the surface of
+the part. Cleaning is performed in a liquid bath that transmits the
+sound energy and keeps the removed material in suspension.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>140</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Mechanical</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal of surface deposits from a part by use of a brush, felt
+bob, sandpaper, or other hand or mechanical action.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>150</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>160</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Miscellaneous</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal of deposits from parts with compressed air, miscellaneous
+hand cleaning, and various combinations of cleaning procedures.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>170</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Foam/Water Wash</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removal or post emulsified fluorescent penetrant via an agitated
+water wash, automatic spray rinse, or an aqueous remover aerated to
+produce a foam.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>180</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Testing of Solutions</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Test used to assist in identifying certain materials by electro-mechanically
+determining the presence or absence of known constituents.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>190</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>200</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>INSPECTION</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>210</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Check</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>A thorough visual examination of components, accessories, subsystems,
+and piece parts to detect structural failure, deterioration or damage:
+and to determine the need for corrective action. For example: exterior
+surfaces, electronic circuit cards, gears, control systems, linkages,
+accessories, components, tubing, wiring and connections, safety wiring,
+fasteners, clamps, etc., are inspected to verify proper condition
+and acceptability for continued service.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>220</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Visual/Dimensional</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>A comparison of the dimensions and material conditions of parts,
+subassemblies, and assemblies with the specifications contained in
+technical manuals and/or blueprints, to detect deviations from established
+standard and limits and determine the acceptability for continued
+service, repair, or need to discard the item. A visual/dimensional
+function code is also required to verify that proper corrective maintenance
+has been accomplished. Although some of these tasks may not require
+measurements, a complete spectrum of tasks/sub tasks requires a variety
+of measuring equipment to determine runout, concentricity, flatness,
+parallelism, hardness, thickness, clarity, dimensions, etc.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>230</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Penetrant</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Fluorescent penetrant inspection to detect surface cracks.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>240</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Magnetic</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Magnetic particle inspection to detect surface cracks in magnetic
+materials.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>250</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Eddy Current</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Inspection for subsurface cracks, porosity, inclusions, or other
+nonhomogeneous material structure by use of high frequency electromagnetic
+wave equipment. Parts are scanned and compared to similar parts or
+test specimens having known material defects.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>260</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>X-Ray</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Inspection for subsurface cracks, porosity, inclusions, or other
+nonhomogeneous material structure by use of x-ray techniques.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>270</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Ultrasonic</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Inspection for subsurface cracks, porosity, inclusions, or other
+nonhomogeneous material structure by use of contact pulse echo ultrasonic
+techniques.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>280</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Special</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Any special inspection to determine the integrity of a part
+for continued operation In-Service or qualitative analysis.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>290</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>300</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>REPAIR</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>310</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Welding and Brazing</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The joining of pieces by welding (fusion, resistance, spot,
+electron beam, plasma arc), brazing (furnace, torch, induction), or
+soldering. This category includes hard facing.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>320</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Machining</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The process of obtaining a desired shape or finish by grinding,
+turning, boring, reaming, broaching, milling, drilling, lapping, honing,
+sizing, polishing, buffing, cutting, forming, stamping, blanking,
+etc.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>330</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Stripping and Plating</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removing or applying a metallic coating on a surface by mechanical,
+chemical, or electrical means. Plating of chromium, cadmium, tin,
+etc., to build up the size of a part or provide surface protection.
+Includes masking or waxing prior to the process.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>340</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Plasma and Flame Spraying</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The application of a protective coating to a part by feeding
+a powder into an ionized gas stream. Flame spraying uses a fuel oxygen
+flame to melt and propel metal onto parts to build up the size or
+provide surface protection.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>350</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Miscellaneous Repairs</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Repairing parts by hand (cutting, drilling, polishing, grinding,
+lapping, riveting, blending, routing, fitting, burring, planishing,
+sanding, sawing, recambering, drilling, tapping, heating, chilling)
+and including miscellaneous disassembly and assembly required.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>360</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Bonding and Molding/Sealing</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Joining and curing of parts with an adhesive or fusible material
+(including silicone, fiberglass, glues).</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>370</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Heat Treating</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Controlled heating and cooling of a material to obtain the desired
+physical property (includes annealing, tempering, quenching, stress
+relieving, solution heat treat, etc.).</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>380</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Surface Treating</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Treating the surface of a part by painting, varnishing, aluminizing,
+Teflon coating, zinc chromate priming, tumble finishing, shot peening,
+etc. Baking and masking processes are included.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>390</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Machine Riveting and Flaring</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Joining of parts by riveting and flaring the rivet.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>400</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>INSTALLATION AND ASSEMBLY</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>410</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Install</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Installation of the unit/engine onto a workstand, transport
+dolly, test stand, or aircraft.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>420</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Install Modular Sections</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The third echelon of assembly consisting of assembly of the
+modular assemblies into a complete unit/engine assembly. The modular
+sections are identified by the third element of the ATA number.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>430</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Assemble Modular Sections</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The second echelon of assembly consisting of assembling subassemblies
+into modular sections. The modular section is identified by the second
+element of the ATA number.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>440</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Assemble Subassemblies</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The first echelon of assembly consisting of assembling piece
+parts into subassemblies. The subassemblies are identified by the
+third element of the ATA number.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>450</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Install/Close Items Removed/Opened for Access</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Installation or closing of access plates, closing of ports,
+installation of components, tubing or any item which was removed or
+opened in order to provide access to perform the task.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>460</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Assemble Accessory</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Assemble accessory components.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>470</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Assemble Accessory Subassembly</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Assembly of accessory subassembly components.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>480</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Install Test Equipment</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Install equipment and instrumentation required for accessory
+component test.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>490</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Assemble Support Equipment</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Any assembly required to maintain support equipment.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>500</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>MATERIAL HANDLING</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>510</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Shipping</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The movement of any part, subassembly, assembly, or component
+from the time it is packaged until it reaches its destination.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>520</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Receiving</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>The receipt activity for any incoming part, subassembly, assembly,
+or component.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>530</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Packing</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Installing parts, subassemblies, assemblies, or components into
+shipping containers.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>540</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unpacking</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removing parts, subassemblies, assemblies, or components from
+shipping containers.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>550</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Storage</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Safekeeping of parts, subassemblies, assemblies, or components
+until required for use.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>560</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Marshaling/Positioning</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Marshaling is collection of parts, subassemblies, and accessories
+prior to release for assembly. Positioning is movement from one fixed
+state to another.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>570</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Engine Ferry/Pod Maintenance</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Necessary preparations before and after transporting an engine
+by aircraft ferry method.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>580</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>590</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>600</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>SERVICING/PRESERVING/LUBRICATING</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>610</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Servicing</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Action required to sustain a unit or system in proper operating
+status including priming with applicable fluids prior to use.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>620</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Preserving</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Preparation of a unit, part, assembly, etc., for safekeeping
+from decomposition or deterioration. Includes preparation for storage
+(applying a preservative layer, desiccants, etc.).</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>630</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Depreserving</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Removing preservatives, desiccants, etc., from a unit, part,
+assembly, etc., prior to installation or operation.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>640</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Lubricating</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Applying oil, grease, dry film, or silicon lubricants on moving
+parts to reduce friction or cool the item.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>650</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>660</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>670</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>680</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>690</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>700</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>TESTING/CHECKING</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>710</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Oil Flow</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Measuring the flow of oil through components or compartments
+under specific conditions.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>720</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Air Flow</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Measuring the flow of air through components or compartments
+under specific conditions.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>730</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Fuel Flow</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Function checks and flow measurements through the part or system
+being tested.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>740</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Water Flow</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Function checks and flow measurements through the part or system
+being tested.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>750</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Electrical/Return to Service</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Functional tests (manual or ATE) of the system or component
+as well as measurement of electrical or electronic parameters designed
+to determine whether the item can be returned to service. May include
+fault isolation procedures for components that require close correlation
+between test results and fault indications.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>760</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Engine</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Operation of an engine to establish systems function or operation
+under specific conditions to measure performance.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>770</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Accessory/Bite</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Testing of an accessory to ensure proper operation or function.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>780</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Pressure Check</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Testing to establish the ability of a normally pressurized component
+or system to operate properly.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>790</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Leak Check</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Determine the ability of a component or system to operate without
+leaking.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>800</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>MISCELLANEOUS</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>810</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Fault Isolation</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Operation of an engine at constant thrust level or identical
+Engine Pressure Ratio (EPR) to locate the prime suspect deficient
+system: operating an improperly functioning system or component to
+locate the cause; or performing a series of checks to isolate a failed
+part or component.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>820</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Adjusting/Aligning/Calibrating</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Making a physical correction to ensure proper placement or operation
+of a system or component.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>830</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Rigging</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Hooking-up, arranging, or adjusting a component or accessory
+linkage for proper operation.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>840</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Service Bulletin Incorporation</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Performing the work specified in the service bulletin. Provides
+for identification of modification tasks at the task level with subtasks
+recognizing any functional changes (chemical, visual/dimensional,
+cleaning, machining, etc.) necessary to incorporate the service bulletin.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>850</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Part Number Change/Re-identification</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Change of part number, application of part number by transfer,
+engrave repair number, etc.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>860</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>870</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Description and Operation</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Electrical and mechanical description of the unit or component.
+Includes leading particulars, descriptions, limitations, specifications,
+and theory of operation.</para>
+</entry>
+</row><row>
+<entry rotate="0">
+<para>878</para>
+</entry>
+<entry rotate="0">
+<para>Schematic and Wiring Diagrams</para>
+</entry>
+<entry rotate="0">
+<para>Schematic diagrams, wiring diagrams, interconnect diagrams and
+wire lists.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>880</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Approved Vendor Processes</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Includes processes that may be proprietary and controlled by
+a particular manufacturer, or by nonproprietary and approved for application
+by conforming vendors.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>890</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Airline Maintenance Program (Customer Use)</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>900</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Unassigned</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>910</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Special Equipment Maintenance</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Identification of tasks to maintain special support equipment.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>920</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Standard Equipment Maintenance</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Identification of tasks to maintain standard support equipment.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>930</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Tool Fabrication</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Includes fabricating any tool for which procedures to use are
+included in the manual.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>940</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Special Tools, Equip, and Consumables Listing</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Listing of all special tools, standard equipment, special equipment,
+and consumables required to perform maintenance on the unit or component.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>94A</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Consumables</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>94B</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Special Tools/Non Std Tools</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>94C</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Fixtures/Test Equipment</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>94D</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Standard Tools</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>950</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Illustrated Parts List (Detailed Parts List)</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Section of IPL/IPC that contains parts description and identification
+in top-down break down sequence.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>960</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Illustrated Parts List (Equipment Designation Index)</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Section of IPL/IPC that contains equipment designators cross-referenced
+to detailed parts list.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>970</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Illustrated Parts List (Numerical Index)</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Section of IPL/IPC that contains an alphanumeric listing of
+all parts in the unit cross-referenced to the detailed parts list.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>980</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Illustrated Parts List (Alternate Vendor Index)</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Optional section of IPL/IPC that contains an alphanumeric listing
+of all parts in the unit that have more than one vendor source.</para>
+</entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>990</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Illustrations, Tables, Front Matter, Etc.</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>99A</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Tables</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>99B</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Illustrations</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>99C</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Front Matter Pageblock (TASK Level MTOSS) Front Matter Task
+(Collection of Subtask MTOSS)</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>99D</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>Access</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row rowsep="1">
+<entry morerows="0" rotate="0" valign="top">
+<para>99E</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>References</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row><row>
+<entry morerows="0" rotate="0" valign="top">
+<para>99F</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top">
+<para>General/Introduction</para>
+</entry>
+<entry morerows="0" rotate="0" valign="top"></entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

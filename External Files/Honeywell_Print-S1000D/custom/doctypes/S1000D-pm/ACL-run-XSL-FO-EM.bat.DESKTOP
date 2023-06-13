@@ -1,0 +1,66 @@
+@echo OFF
+
+rem *** S1000D XSL-FO processing ***
+
+rem *** Parameters passed by ACL ***
+rem *** % 1 = full path to ".\...\filename.xml.CONSOLIDATED.xml" (current source document - XML or SGML)
+rem *** % 2 = full path to ".\...\graphics\*.*" (graphics folder for current document)
+rem *** % 3 = final PDF filename "filename.pdf"
+rem *** % 4 = full path to source document directory
+rem *** % 5 = full path to final PDF copied to source document directory (NETWORK BAT use only)
+rem *** % 6 = renamed S1000D PDF to strip out "CONSOLIDATED" filename concatenation (S1000D BAT use only)
+rem *** % 7 = full path to renamed S1000D PDF (NETWORK S1000D BAT use only)
+
+
+rem *** 0. Delete previous "XML_INPUT" (if any)
+del /q/s/f ..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\XML_INPUT\*.*
+
+mkdir ..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\XML_INPUT\
+mkdir ..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\XML_INPUT\graphics
+mkdir ..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\TEMP
+mkdir ..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\PDF_OUTPUT
+
+
+
+
+rem *** 1. Copy current Arbortext document (XML or SGML) to appropriate Honeywell XSL-FO "XML_INPUT" folder
+copy %1 "..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\XML_INPUT"
+copy %2 "..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\XML_INPUT\graphics"
+
+rem *** Delete "filename.xml.CONSOLIDATED.xml" after copy steps complete ***
+del %1
+
+
+rem *** 2. RUN XSL-FO process: "..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER\RUN_S1000D.bat"
+cd "..\..\..\Honeywell_XSL-FO\S1000D_EM_DRIVER"
+cls
+call RUN_S1000D_EM.bat
+
+rem *** 3. Copy final PDF to original document directory (similar to Arbortext output)
+rem cd PDF_OUTPUT
+rem copy %3 %4
+
+cd PDF_OUTPUT
+rem *** Rename final PDF (stripping out "CONSOLIDATED" filename concatenation
+copy %3 %6
+copy %6 %4
+
+rem *** Delete "*.xml.CONSOLIDATED.pdf"
+del %3
+
+
+
+rem *** 4. Change to original document directory and open final PDF
+rem ***    NOTE: - DOS window won't close until PDF reader closed
+rem              - using ampersand at end of "sh" command from ACL separates the Arborext lock, 
+rem                so no longer an issue
+cd %4
+
+rem *** S1000D final PDF has been renamed to strip out "CONSOLIDATED" and match original XML filename
+rem %3
+%6
+
+rem *** CV - open Windows Explorer instead?
+rem explorer.exe %4
+
+rem pause

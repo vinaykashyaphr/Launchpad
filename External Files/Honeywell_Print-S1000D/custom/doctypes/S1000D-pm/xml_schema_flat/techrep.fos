@@ -1,0 +1,149 @@
+<!--Arbortext, Inc., 1988-2010, v.4002-->
+<!DOCTYPE OUTSPEC PUBLIC "-//ArborText//DTD OUTPUT SPEC MIL-PRF-28001 REV B AMEND 1 19961231//EN" [
+<!ENTITY techrep PUBLIC "-//Arbortext::dist//TEXT FOSI Common Element" "eic_techrep_iss4.ent">
+<!ENTITY Cust_logo SYSTEM "Cust_logo.tif" NDATA tiff>
+<!ENTITY Cust_logo_A4 SYSTEM "Cust_logo_A4.tif" NDATA tiff>
+<!ENTITY applic_icon SYSTEM "applic.gif" NDATA gif>
+<!ENTITY ar_icon SYSTEM "arrow.gif" NDATA gif>
+<!ENTITY arblu_icon SYSTEM "arrow_blu.gif" NDATA gif>
+<!ENTITY arblu_slim_icon SYSTEM "arrow_blu_slim.gif" NDATA gif>
+<!ENTITY CapGrp SYSTEM "CapGrp.gif" NDATA gif>
+<!ENTITY Case SYSTEM "Case.gif" NDATA gif>
+<!ENTITY Caution_icon SYSTEM "InmedCaution.gif" NDATA gif>
+<!ENTITY change SYSTEM "Change.gif" NDATA gif>
+<!ENTITY Cyan SYSTEM "Cyan.gif" NDATA gif>
+<!ENTITY datarest_icon SYSTEM "blue.gif" NDATA gif>
+<!ENTITY Dot_icon SYSTEM "Dot.gif" NDATA gif>
+<!ENTITY grey_icon SYSTEM "grey.gif" NDATA gif>
+<!ENTITY Note_icon SYSTEM "InmedNote.gif" NDATA gif>
+<!ENTITY qa_icon SYSTEM "orange.gif" NDATA gif>
+<!ENTITY sec_icon SYSTEM "security.gif" NDATA gif>
+<!ENTITY techstd_icon SYSTEM "purple.gif" NDATA gif>
+<!ENTITY Comp_logo SYSTEM "Logo_spacer.tif" NDATA tiff>
+<!ENTITY Comp_logo_A4 SYSTEM "Logo_spacer_A4.tif" NDATA tiff>
+<!ENTITY Warning_icon SYSTEM "InmedWarning.gif" NDATA gif>
+<!NOTATION gif SYSTEM>
+<!ENTITY WaterMark_Draft_SVG SYSTEM "Draft_WaterMark.svg" NDATA svg>
+<!ENTITY WaterMark_Demo_SVG SYSTEM "Demo_WaterMark.svg" NDATA svg>
+<!ENTITY WaterMark_Confid_SVG SYSTEM "Confid_WaterMark.svg" NDATA svg>
+<!NOTATION svg SYSTEM>
+<!ENTITY WaterMark_Confid_PS SYSTEM "ConfidWaterMark.eps" NDATA eps>
+<!ENTITY WaterMark_Demo_PS SYSTEM "DemoWaterMark.eps" NDATA eps>
+<!ENTITY WaterMark_Draft_PS SYSTEM "DraftWaterMark.eps" NDATA eps>
+<!NOTATION eps SYSTEM>
+<!ENTITY eic_issue_4 PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_issue_4.ent">
+<!ENTITY applic1 PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_applic_iss4_1a.ent">
+<!ENTITY applic2 PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_applic_iss4_2.ent">
+<!ENTITY base PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_base_iss4.ent">
+<!ENTITY brex PUBLIC "-//Arbortext::dist//TEXT FOSI Common Pagesets Vers 1//EN" "eic_brex_iss4.ent">
+<!ENTITY cdpgs_pages PUBLIC "-//Arbortext::dist//TEXT FOSI Common Pagesets Vers 1//EN" "cdpgs_pages.ent">
+<!ENTITY paraxreftxt PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "att_paraxreftxt.ent">
+<!ENTITY changeidstatus PUBLIC "-//Inmedius//FOSI Change Attribute Entity Edit Issue 4.0//EN" "att_change_iss4.ent">
+<!ENTITY cntrs PUBLIC "-//Arbortext::dist//TEXT FOSI Common Counters Vers 1//EN" "ctr_counters.ent">
+<!ENTITY common PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_common_iss4.ent">
+<!ENTITY content PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_content_iss4.ent">
+<!ENTITY datarest PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_datarest_iss4.ent">
+<!ENTITY dmc PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_dmc_iss4.ent">
+<!ENTITY docdefaults PUBLIC "-//Arbortext::dist//TEXT FOSI Common Defaults Vers 1//EN" "doc_defaults.ent">
+<!ENTITY eic_common PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_common_fosi_iss4.ent">
+<!ENTITY eic_common_dm PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_common_dm_fosi_iss4.ent">
+<!ENTITY eic_content_simple PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "content_simple_iss4.ent">
+<!ENTITY eic_dmc_ext PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_dmc_ext_iss4.ent">
+<!ENTITY eic_rdf_tags PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_rdf_tags_iss4.ent">
+<!ENTITY emph PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_emph_iss4.ent">
+<!ENTITY figures PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_figures_iss4.ent">
+<!ENTITY hotspot PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_hotspot_iss4.ent">
+<!ENTITY flt_headers PUBLIC "-//Arbortext::dist//TEXT FOSI Common Floatlocs Vers 1//EN" "flt_headers.ent">
+<!ENTITY ftnote-desc PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_ftnote.desc_iss4.ent">
+<!ENTITY headfoot PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_headfoot.ent">
+<!ENTITY hyp_rules PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "hyp_rules.ent">
+<!ENTITY inlinespecialdata PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_inlinespecialdata_iss4.ent">
+<!ENTITY langpseuds PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stringdecls Vers 1//EN" "eic_langpseuds.ent">
+<!ENTITY leaders PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "leaders.ent">
+<!ENTITY lists PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_lists_iss4.ent">
+<!ENTITY note_rules PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "note_rules_iss4.ent">
+<!ENTITY quantity PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_quantity_iss4.ent">
+<!ENTITY status PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_status_iss4.ent">
+<!ENTITY status-brexref PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_status-brexref_iss4.ent">
+<!ENTITY status_common PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_status_common_iss4.ent">
+<!ENTITY strvariables PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stringdecls Vers 1//EN" "str_strings_iss4.ent">
+<!ENTITY styconfig PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stylesets Vers 1//EN" "sty_config.ent">
+<!ENTITY stygeneral PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stylesets Vers 1//EN" "sty_general.ent">
+<!ENTITY styheaders PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stylesets Vers 1//EN" "sty_headers.ent">
+<!ENTITY stylists PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stylesets Vers 1//EN" "sty_lists.ent">
+<!ENTITY stytext PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stylesets Vers 1//EN" "sty_text.ent">
+<!ENTITY vstyles PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "eic_vstyles_iss4.ent">
+<!ENTITY watermarks PUBLIC "-//Arbortext::dist//TEXT FOSI Common Elements Vers 1//EN" "psu_watermarks.ent">
+<!ENTITY xreflabels PUBLIC "-//Arbortext::dist//TEXT FOSI Common Stringdecls Vers 1//EN" "eic_xreflabels.ent">
+<!ENTITY randlist PUBLIC "-//Arbortext::dist//TEXT FOSI Common Defaults Vers 1//EN" "att_randlist_iss4.ent">
+<!ENTITY att_wc_refs SYSTEM "att_wc_refs.ent">
+]>
+<?APT StylesheetID Title="S1000D Issue 4 Change 1xs-Tech repo FOSI" CompositionTypes="htmlfile,print,pdf">
+<!-- © Inmedius Ltd 2011. All rights Reserved -->
+<!-- S1000D Issue 4 Change 1xs-Tech repo FOSI -->
+<outspec><?Pub Lcl _label="Adept v8.0">
+<rsrcdesc softkeepsline="1" softkeepspage="1" dfltlayoutconfig="rigid"><?Pub Lcl _id="f1">&hyp_rules;
+&leaders;
+&cntrs;
+&strvariables;
+&flt_headers;
+</rsrcdesc>
+<pagedesc>&cdpgs_pages;
+</pagedesc>
+<styldesc>&styconfig;
+&stytext;
+&styheaders;
+&stylists;
+&stygeneral;
+<docdesc><?Pub Lcl _id="f1">&docdefaults;
+</docdesc>&eic_issue_4;
+&eic_rdf_tags;
+&eic_dmc_ext;
+<!--DTD Elements-->
+&techrep;
+&quantity;
+&lists;
+&hotspot;
+&figures;
+&eic_common_dm;
+&common;
+&eic_common;
+&headfoot;
+&base;
+&watermarks;
+&applic1;
+&applic2;
+&status;
+&status-brexref;
+&status_common;
+&datarest;
+&dmc;
+&content;
+&brex;
+&emph;
+&eic_content_simple;
+&inlinespecialdata;
+&vstyles;
+<e-i-c gi="note"><?Pub Dtl>
+<charlist inherit="1" charsubsetref="TypeBasic SpaceBeforeMedium"><?Pub Dtl>
+<indent inherit="1" leftind="@" firstln="*">
+<textbrk startln="0" endln="1">
+<reset resetlist="NoteHeader.txt"></charlist>
+<!--Change here...-->
+&changeidstatus;
+<!--/-->
+&note_rules;
+</e-i-c>
+<e-i-c gi="notePara"><?Pub Dtl>
+<charlist inherit="1" charsubsetref="Block Sty_space_para_note"><?Pub Dtl>
+<indent inherit="1" leftind="@+7mm" firstln="*"></charlist>&changeidstatus;
+</e-i-c>
+<!--Language pseuds-->
+&langpseuds;
+<!-- Xref labels -->
+&xreflabels;
+</styldesc><?Pub Caret 28>
+<ftndesc>&ftnote-desc;
+</ftndesc>
+</outspec>
+<?Pub *0000008001>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Arbortext, Inc., 1988-2009, v.4002-->
+<!DOCTYPE alias-map PUBLIC "-//Arbortext//DTD Alias Map::20000307//EN" "aliasmap.dtd" [
+<!ENTITY global-value-list SYSTEM "global-value-list.ent">
+<!ENTITY global-attribute-list SYSTEM "global-attribute-list.ent">
+]>
+<alias-map>
+<element-list><element><name></name></element></element-list>
+&global-attribute-list;
+&global-value-list;
+</alias-map>

@@ -1,0 +1,152 @@
+Package sCata;
+
+function catalogue_ATA() {
+  	a = response("This Print Driver is able to publish following S1000D documents: \n\nCMM\nFMM\nIRM\nORIM\nIM\nSDIM\nSDOM\nSPM\nACMM\nIPC\nGEM\n\nIf you need to edit please use \"Inmedius\"\n\n                                     Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("catalogpath", "\\\\OTFS01\\Folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\PRINT DRIVERS\\Sonovision_ATA\\custom\\doctypes;\\\\OTFS01\\Folders\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "\\\\OTFS01\\Folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\PRINT DRIVERS\\Sonovision_ATA\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics");
+		write_preferences()
+	}
+}
+
+function catalogue_AB() {
+  	a = response("This print is able to publish following S1000D documents: \n\nCMP\n\nIf you need to edit please use \"Inmedius\"\n\n                                    Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("catalogpath", "\\\\OTFS01\\Folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\PRINT DRIVERS\\Sonovision_AB\\custom\\doctypes;C:\\Sonovision_AB\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\doctypes;C:\\ProgramData\\inmedius\\authorpro\\application\\doctypes\\authorPro;C:\\ProgramData\\inmedius\\authorpro\\application\\doctypes\\authorPro-xs;C:\\Users\\smainuddin\\inmedius\\authorPro\\doctypes;C:\\Program Files (x86)\\Inmedius\\common\\doctypes");
+		_preferences::set("graphicspath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		write_preferences()
+	}
+}
+
+function catalogue_TEST_AB() {
+	a = response("**DO NOT USE UNLESS STRICTLY TOLD TO DO SO**\n\n                                   Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("catalogpath", "C:\\Sonovision_AB\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes;C:\\Program Files (x86)\\Arbortext\\Editor\\doctypes;C:\\ProgramData\\inmedius\\authorpro\\application\\doctypes\\authorPro;C:\\ProgramData\\inmedius\\authorpro\\application\\doctypes\\authorPro-xs;C:\\Users\\smainuddin\\inmedius\\authorPro\\doctypes;C:\\Program Files (x86)\\Inmedius\\common\\doctypes");
+		_preferences::set("graphicspath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		write_preferences()
+	}
+}
+
+function catalogue_EM() {
+  	a = response("This print is able to publish following S1000D documents: \n\nMM\nEM\nLMM\nHMM\nEIPC\nOHM\nEngine-SPM\n\nIf you need to edit please use \"Inmedius\"\n\n                                     Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("catalogpath", "\\\\OTFS01\\Folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\PRINT DRIVERS\\Sonovision_EM\\custom\\doctypes;\\\\OTFS01\\Folders\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "\\\\OTFS01\\Folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\PRINT DRIVERS\\Sonovision_EM\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics");
+		write_preferences()
+    }
+}
+
+function catalogue_inmedius() {
+  	a = response("This is to Edit S1000D Documents\n\n***Would you like to open a new instance of Arbortext?***\n\n                                     Continue?\n ", '&Yes', '&No', '&Cancel');
+	if (a == 1){
+		_preferences::set("catalogpath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes");
+		write_preferences();
+		sh "V:\500\00-Printing-Tools\Honeywell_Print-client\Arbortext-HW_Print-client - NEW_Inmedius.bat"
+	}
+	else if (a == 2) {
+		_preferences::set("catalogpath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes");
+		write_preferences();
+		window_sys_close(0)
+		sh "taskkill /IM cmd.exe"
+		sh "V:\500\00-Printing-Tools\Honeywell_Print-client\Arbortext-HW_Print-client - Inmedius.bat"
+	} 
+}
+
+
+function catalogue_FOprint() {
+  	a = response("This Print Driver is able to Publish: \n\nATA 2200 XML\n\n    Which Arbortext Would You Like to Start?\n ", '&Editor', '&Styler', '&Cancel');
+	if (a == 1){
+		_preferences::set("ditapath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs\\learningSamples");
+		_preferences::set("catalogpath", "V:\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\doctypes;C:\\Sonovision_ATA\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "V:\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\graphics;C:\\Honeywell_Print\\custom\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		_preferences::set("entitypath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\entities;C:\\Program Files\\PTC\\Arbortext Editor\\entities");
+		write_preferences()
+		source "V:\500\00-Printing-Tools\Honeywell_Print\custom\init\menu.acl" 
+		window_sys_close(0)
+		sh "taskkill /IM cmd.exe"
+		sh "V:\500\00-Printing-Tools\Honeywell_Print-client\Arbortext-HW_Print-client_Edit.bat"
+	}
+	else if (a == 2) {
+		_preferences::set("ditapath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs\\learningSamples");
+		_preferences::set("catalogpath", "V:\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\doctypes;C:\\Sonovision_ATA\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "V:\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\graphics;C:\\Honeywell_Print\\custom\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		_preferences::set("entitypath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\entities;C:\\Program Files\\PTC\\Arbortext Editor\\entities");
+		write_preferences()
+		source "V:\500\00-Printing-Tools\Honeywell_Print\custom\init\menu.acl" 
+		window_sys_close(0)
+		sh "taskkill /IM cmd.exe"
+		sh "V:\500\00-Printing-Tools\Honeywell_Print-client\Arbortext-HW_Print-client.bat"
+	}
+}
+function catalogue_DFOprint() {
+	a = response("**DO NOT USE UNLESS STRICTLY TOLD TO DO SO**\n\n                                   Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("ditapath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs\\learningSamples");
+		_preferences::set("catalogpath", "V:\\500\\01-Test Printing\\Honeywell_Print\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "V:\\500\\01-Test Printing\\Honeywell_Print\\custom\\doctypes\\entities\\graphic;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		_preferences::set("entitypath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\entities;C:\\Program Files\\PTC\\Arbortext Editor\\entities");
+		write_preferences();
+		source "V:\\500\\01-Test-Printing\\Honeywell_Print-S1000D\\custom\\init\\menu.acl"
+		window_sys_close(0)
+		sh "taskkill /IM cmd.exe"
+		sh "V:\500\00-Printing-Tools\Honeywell_Print-client\Arbortext-HW_Print-client.bat"
+	 }
+}
+
+function catalogue_TEST_ATA() {
+	a = response("**DO NOT USE UNLESS STRICTLY TOLD TO DO SO**\n\n                                   Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("catalogpath", "C:\\Sonovision_ATA\\custom\\doctypes;\\\\OTFS01\\Folders\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "C:\\Sonovision_ATA\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics");
+		write_preferences()
+	}
+}
+
+function catalogue_TEST_EM() {
+	a = response("**DO NOT USE UNLESS STRICTLY TOLD TO DO SO**\n\n                                   Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("catalogpath", "C:\\Sonovision_EM\\custom\\doctypes;\\\\OTFS01\\Folders\\500\\00-Printing-Tools\\Honeywell_Print\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "C:\\Sonovision_EM\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\custom\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files (x86)\\Arbortext\\Editor\\graphics;C:\\Program Files (x86)\\Inmedius\\authorPro\\application\\graphics");
+		write_preferences()
+	}
+}
+
+function catalogue_S1000DFOprint() {
+  	a = response("This Print Driver is able to publish S1000D documents: \n\nIf you need to edit please use \"Inmedius\"\n\n            Which Arbortext Would You Like to Start?\n ", '&Editor', '&Styler', '&Cancel');
+	if (a == 1){
+		_preferences::set("ditapath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs\\learningSamples");
+		_preferences::set("catalogpath", "V:\\500\\00-Printing-Tools\\Honeywell_Print-S1000D\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "V:\\500\\00-Printing-Tools\\Honeywell_Print-S1000D\\custom\\doctypes\\entities\\graphic;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		_preferences::set("entitypath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\entities;C:\\Program Files\\PTC\\Arbortext Editor\\entities");
+		write_preferences();
+		window_sys_close(0)
+		sh "taskkill /IM cmd.exe"
+		sh "V:\500\00-Printing-Tools\Honeywell_Print-S1000D-client\Arbortext-HW_Print-client_Edit.bat"
+	}
+	else if (a == 2) {
+		_preferences::set("ditapath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs\\learningSamples");
+		_preferences::set("catalogpath", "V:\\500\\00-Printing-Tools\\Honeywell_Print-S1000D\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "V:\\500\\00-Printing-Tools\\Honeywell_Print-S1000D\\custom\\doctypes\\entities\\graphic;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		_preferences::set("entitypath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\entities;C:\\Program Files\\PTC\\Arbortext Editor\\entities");
+		write_preferences();
+		window_sys_close(0)
+		sh "taskkill /IM cmd.exe"
+		sh "V:\500\00-Printing-Tools\Honeywell_Print-S1000D-client\Arbortext-HW_Print-client.bat"	
+	}
+}
+
+function catalogue_S1000DFOprintDesk() {
+	a = response("**DO NOT USE UNLESS STRICTLY TOLD TO DO SO**\n\n                                   Continue?\n ", '&Yes', '&No');
+	if (a == 1){
+		_preferences::set("ditapath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\ditarefs\\learningSamples");
+		_preferences::set("catalogpath", "C:\\Honeywell_Print-S1000D\\custom\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\doctypes;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\doctypes");
+		_preferences::set("graphicspath", "C:\\Honeywell_Print-S1000D\\custom\\doctypes\\entities\\graphic;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.sma\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.ptc.arbortext.techinfo\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\graphics\\learningSamples;C:\\Program Files\\PTC\\Arbortext Editor\\adapters\\com.ptc.prowt.arbortext\\graphics;C:\\Program Files\\PTC\\Arbortext Editor\\graphics");
+		_preferences::set("entitypath", "C:\\Program Files\\PTC\\Arbortext Editor\\application\\com.arbortext.dita\\entities;C:\\Program Files\\PTC\\Arbortext Editor\\entities");
+		write_preferences();
+		window_sys_close(0)
+		sh "taskkill /IM cmd.exe"
+		sh "C:\Honeywell_Print-S1000D\Arbortext-HW_Print.bat"
+	}
+}
+
+

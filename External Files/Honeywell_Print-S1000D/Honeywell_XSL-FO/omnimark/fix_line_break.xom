@@ -1,0 +1,161 @@
+; Correct Arbortext line breaks across tags that cause problems for scripts expecting everything on one line
+
+cross-translate
+
+global stream s-in-tag initial {"NO"}
+
+global stream s-in-colwidth initial {"NO"}
+
+global stream s-in-cmm initial {"NO"}
+global stream s-in-ftnote initial {"NO"}
+
+
+; Remove path to local MasterTextEntities (which shouldn't really be used as it has same folder name as file and confuses the later cleanup script)
+find "C:\Honeywell_Print\Honeywell_XSL-FO\MasterTextEntities\"
+  output ""
+
+; More general fix
+; (e.g. "C:\Users\h279582\Desktop\CMMDemo\Honeywell_Print-2018.08.17\Honeywell_Print\Honeywell_XSL-FO\MasterTextEntities\MasterTextEntities.xml")
+find "Honeywell_Print\Honeywell_XSL-FO\MasterTextEntities\"
+  output ""
+
+
+; Bizarre PI breaks (and must not generate extra space when removing line break)
+find "?"=one "%n"+ ">"=two when s-in-tag is equal "YES"
+  set s-in-tag to "NO"
+  output "%x(one)%x(two)"
+
+find "%n"+ "?"=one ">"=two when s-in-tag is equal "YES"
+  set s-in-tag to "NO"
+  output "%x(one)%x(two)"
+
+
+
+; *******************************************************************
+; Sonovision update (2019.03.01) 
+; - entities within ftnote are being lost, so protect them and restore just prior to PDF rendering
+; - CMM-only (requires two passes of this same script)
+
+find "DOCTYPE cmm"=doctype
+  set s-in-cmm to "YES"
+  output "%x(doctype)"
+
+find "ftnote "=tag
+  set s-in-ftnote to "YES"
+  output "%x(tag)"
+  
+find "/ftnote"=tag
+  set s-in-ftnote to "NO"
+  output "%x(tag)"
+
+; NOTE: - can't globally protect all entity names as these will no longer be valid if just stamped back into FO
+;       - can only protect specific entities (add to list as needed)
+; First pass - protect entity
+;find "&" (letter or digit)+=entity ";" when s-in-ftnote is equal "YES" and s-in-cmm is equal "YES"
+;  output "[###ENTITY###%x(entity)###ENTITY###]"
+
+; Second pass - reset entity
+;find "[###ENTITY###" (letter or digit)+=entity "###ENTITY###]"
+;  output "&%x(entity);"
+
+
+; First pass - protect Delta entity (Dgr used interchangeably)
+find "&" ("Delta" or "Dgr")=entity ";" when s-in-ftnote is equal "YES" and s-in-cmm is equal "YES"
+  output "[###ENTITY###%x(entity)###ENTITY###]"
+
+; Second pass - reset entity
+;find "[###ENTITY###" ("Delta" or "Dgr") "###ENTITY###]"
+find  ("[###ENTITY###Delta###ENTITY###]" or "[###ENTITY###Dgr###ENTITY###]")
+  ;output "&#916;" ;(entity - doesn't work when added to FO)
+  ;output "%916#"  ;(character - too high for Omnimark)
+  ;output "Δ" ;(FO character)
+  ; Note: the Delta character must be "bold" for some reason, otherwise appears as box (unknown character) in final PDF
+  output "<fo:inline font-weight=%"bold%">Δ</fo:inline>" ; (FO inline character bold)
+
+
+
+; *******************************************************************
+
+
+  
+; Collect split tag into single line and add space
+find "<"=tag
+  set s-in-tag to "YES"
+  output "%x(tag)"
+
+find ("%n"+ ">") when s-in-tag is equal "YES"
+  set s-in-tag to "NO"
+  output ">"
+
+find "%n"+ when s-in-tag is equal "YES"
+  output " "
+
+find ">"=tag when s-in-tag is equal "YES"  
+  set s-in-tag to "NO"
+  output "%x(tag)"
+
+
+; ***********************************************************
+; Misc. white-space introduced after XSLT transformations 
+find "%n"+ "</fo:basic-link>"=tag
+  output "%x(tag)" 
+
+find "%n"+ ")</fo:block></fo:basic-link>"=tag
+  output "%x(tag)" 
+
+; Even dangling period in middle of partially generated sentence can introduce erroneous white-space
+find "%n"+ "."=tag
+  output "%x(tag)" 
+  
+
+  
+; ***********************************************************
+; Suppress @sortas attribute (added to source SGML by Arbortext ACL script for use with FOSI, but messes up XSL-FO process when sorting Equipment Designator lists)
+find " "? "sortas=%"" [any except "%""]* "%""
+  output ""
+
+
+; ***********************************************************
+; Sometimes @colwidth specified incorrectly
+; e.g. colwidth="1.5 in." should be colwidth="1.5in"
+
+;find "colwidth="=tag
+;  set s-in-colwidth to "YES"
+;  output "%x(tag)"
+;
+;find "%""=tag when s-in-colwidth is equal "YES"
+;  set s-in-colwidth to "NO"
+;  output "%x(tag)"
+;
+;find " "+ "in" "."? when s-in-colwidth is equal "YES"
+;  output "in"
+
+; NOTE: - already "s-in-tag" and not detecting @colwidth
+;       - must be specific with closing quotation (don't want to find any other "in" strings
+find " "+ "in" "."? "%"" when s-in-tag is equal "YES"
+  output "in%""
+
+; ***********************************************************
+  
+
+
+; ***********************************************************
+; Replace some deeply nested PIs which were protected as text strings
+find "[***NEWLINE***]"
+  output "<fo:block color=%"#FFFFFF%">.</fo:block>"
+  
+find "[***PAGEBREAK***]"
+  output "<fo:block break-after=%"page%"/>"
+  
+
+; ***********************************************************
+; Rare case where SGML source file has CDATA inside entity declaration
+; e.g.
+; <!ENTITY sb-type CDATA "modification">
+; should be
+; <!ENTITY sb-type "modification">
+; otherwise will fail when converted to XML
+find " CDATA "
+  output " "
+
+  

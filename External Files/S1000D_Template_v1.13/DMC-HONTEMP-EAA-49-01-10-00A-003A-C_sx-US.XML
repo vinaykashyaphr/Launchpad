@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!ENTITY EquipTerm "LRU">
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>TRANSMITTAL INFORMATION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<!--NOTE TO WRITER:	Use this statement when an OHM is being revised and is changed to a CMM format using the CMM DTD.-->
+<para>THIS CMM NN-NN-NN REPLACES THE OHM NN-NN-NN.</para>
+<!--NOTE TO WRITER:	Use the following statement if applicable.-->
+<para>THIS CMM REPLACES CMM/OHM NN-NN-NN.</para>
+<!--NOTE TO WRITER:	Choose one of the following statements.-->
+<para>TO HOLDERS OF &EquipTerm; CMM ATA No. **ATA Number** ISSUED
+FOR USE IN SUPPORT OF THE FOLLOWING:</para>
+<para>THIS IS AN INITIAL RELEASE OF &EquipTerm; CMM ATA No. **ATA
+Number** AND IS ISSUED FOR USE IN SUPPORT OF THE FOLLOWING:</para>
+<para><internalRef internalRefId="cmm1187386836123750820"
+internalRefTargetType="irtt02"></internalRef> shows the applicable
+components.</para>
+<table id="cmm1187386836123750820">
+<title>Applicable Components</title>
+<tgroup cols="2"><colspec colname="col1" colwidth="3.36in"/><colspec
+colname="col2" colwidth="3.36in"/><thead><row>
+<entry valign="bottom">
+<para>Component PN</para>
+</entry>
+<entry valign="bottom">
+<para>Nomenclature</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+</row></tbody></tgroup></table>
+<para><emphasis emphasisType="em01">Revision History</emphasis></para>
+<para>
+<dmRef referredFragment="cmm1187389315123998562"><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef> shows
+the applicable components.</para>
+<table id="cmm1187389315123998562">
+<title>Applicable Components</title>
+<!--NOTE TO WRITER:	Select either APU or Engine.
+Select the appropriate wording for the applicable manual.-->
+<tgroup cols="2"><colspec colname="col1" colwidth="3.38in"/><colspec
+colname="col2" colwidth="3.38in"/><thead><row>
+<entry valign="bottom">
+<para>Component PN</para>
+</entry>
+<entry valign="bottom">
+<para>APU/Engine</para>
+<para>Model Number</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+</row></tbody></tgroup></table>
+<para>
+<dmRef referredFragment="cmm1187386988123765960"><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef> shows
+the applicable components.</para>
+<table id="cmm1187386988123765960">
+<title>Applicable Components</title>
+<tgroup cols="2"><colspec colname="col1" colwidth="3.38in"/><colspec
+colname="col2" colwidth="3.38in"/><thead><row>
+<entry valign="bottom">
+<para>Component PN</para>
+</entry>
+<entry valign="bottom">
+<para>Customer PN</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+</row></tbody></tgroup></table>
+<para>
+<dmRef referredFragment="cmm1187387014123768484"><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef> shows
+the applicable components.</para>
+<table id="cmm1187387014123768484">
+<title>Applicable Components</title>
+<!--NOTE TO WRITER:	Select either APU or Engine.
+Select the appropriate wording for the applicable manual.-->
+<tgroup cols="3"><colspec colname="col1" colwidth="2.25in"/><colspec
+colname="COLSPEC1" colwidth="2.25in"/><colspec colname="col2"
+colwidth="2.25in"/><thead><row>
+<entry valign="bottom">
+<para>Component PN</para>
+</entry>
+<entry valign="bottom">
+<para>Customer PN</para>
+</entry>
+<entry valign="bottom">
+<para>APU/Engine</para>
+<para>Model Number</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+</row></tbody></tgroup></table>
+<para>
+<dmRef referredFragment="cmm1187387042123771318"><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef> shows
+the applicable components.</para>
+<table id="cmm1187387042123771318">
+<title>Applicable Components</title>
+<!--NOTE TO WRITER:	Select either APU or Engine.
+Select the appropriate wording for the applicable manual.-->
+<tgroup cols="4"><colspec colname="col1" colwidth="1.69in"/><colspec
+colname="COLSPEC1" colwidth="1.69in"/><colspec colname="col2"
+colwidth="1.69in"/><colspec colname="COLSPEC2" colwidth="1.69in"/>
+<thead><row>
+<entry valign="bottom">
+<para>Component PN</para>
+</entry>
+<entry valign="bottom">
+<para>Customer PN</para>
+</entry>
+<entry valign="bottom">
+<para>APU/Engine PN</para>
+</entry>
+<entry valign="bottom">
+<para>APU/Engine</para>
+<para>Model Number</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+<entry>
+<para></para>
+</entry>
+</row></tbody></tgroup></table>
+<para>
+<dmRef referredFragment="cmm112481423525354226"><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef> shows
+the revision history of this CMM.</para>
+<table frame="all" id="cmm112481423525354226" orient="port"
+tabstyle="sm">
+<title>Revision History</title>
+<tgroup cols="2" colsep="0" rowsep="1"><colspec colname="col1"
+colwidth="2.53in"/><colspec colname="col2" colwidth="4.29in"/><thead>
+<row>
+<entry colsep="1" valign="bottom">
+<para>Revision Number</para>
+</entry>
+<entry colsep="1" valign="bottom">
+<para>Revision Date</para>
+</entry>
+</row></thead><tbody><row>
+<entry colsep="1" valign="top">
+<para>0</para>
+</entry>
+<entry colsep="1" valign="top">
+<para>DD Mmm YYYY</para>
+</entry>
+</row></tbody></tgroup></table>
+<table id="t007">
+<title>Revision History</title>
+<tgroup cols="2"><colspec colname="col1" colwidth="3.36in"/><colspec
+colname="col2" colwidth="3.36in"/><thead><row>
+<entry>
+<para>Revision Number</para>
+</entry>
+<entry>
+<para>Revision Date</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>0</para>
+</entry>
+<entry>
+<para>DD Mmm YYYY (Volume I)</para>
+</entry>
+</row><row>
+<entry>
+<para>1</para>
+</entry>
+<entry>
+<para>DD Mmm YYYY (Volume I)</para>
+</entry>
+</row><row>
+<entry>
+<para>0</para>
+</entry>
+<entry>
+<para>DD Mmm YYYY (Volume II)</para>
+</entry>
+</row><row>
+<entry>
+<para>2</para>
+</entry>
+<entry>
+<para>DD Mmm YYYY (Volume I)</para>
+</entry>
+</row><row>
+<entry>
+<para>3</para>
+</entry>
+<entry>
+<para>DD Mmm YYYY (Combined)</para>
+</entry>
+</row><row>
+<entry>
+<para>4</para>
+</entry>
+<entry>
+<para>DD Mmm YYYY</para>
+</entry>
+</row></tbody></tgroup></table>
+<!--NOTE TO WRITER:	If multiple volumes are being combined into a single volume, include the following statement.-->
+<para>This CMM revision combines Volumes x, x, and x (or Volumes x
+and x) into a single volume manual. Please discard the previous revisions
+and replace with this single volume.</para>
+<!--NOTE TO WRITER: 	Highlights paragraph set for a complete revision. Delete paragraph on Temporary Revisions if not applicable.-->
+<para>This revision is a full replacement. All changed pages have
+a new date, as identified in the List of Effective Pages. Revision
+bars identify the changed data. A revision bar adjacent to the Fig./Item
+column identifies changes in the Detailed Parts List. See Transmittal
+information for history of revisions to this CMM.</para>
+<para>Remove and discard all pages of the manual and replace them
+with the attached pages. Write the revision number, revision date,
+and replacement date on the Record of Revisions page.</para>
+<para>Remove and discard all Temporary Revision pages in this manual.
+Write the date you remove the Temporary Revision from the manual on
+the Record of Temporary Revisions page.</para>
+<!--NOTE TO WRITER: 	Highlights paragraph set for a partial revision. Delete paragraph on Temporary Revisions if not applicable.-->
+<para>This revision replaces some data in the manual. All changed
+pages have a new date, as identified in the List of Effective Pages.
+Revision bars identify the changed data. A revision bar adjacent to
+the Fig./Item column identifies changes in the Detailed Parts List.
+See Transmittal information for history of revisions to this CMM.</para>
+<para>Put the changed pages in the manual and remove and discard all
+replaced pages. Write the revision number, revision date, and replacement
+date on the Record of Revisions page.</para>
+<para>Remove and discard all Temporary Revision pages in this manual.
+Write the date you remove the Temporary Revision from the manual on
+the Record of Temporary Revisions page.</para>
+<!--NOTE TO WRITER: 	Highlights of revision.-->
+<para>Revision bars mark the technical data that changed in this revision;
+those changes are described in the Table of Highlights. Editorial
+changes are not marked with a revision bar.</para>
+<!--NOTE TO WRITER: 	Highlights must reflect all technical changes. Be specific in telling reader where and what changed. For example: Revised value in Step 1.A.(1) from 1814 to 1912 Hz.-->
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

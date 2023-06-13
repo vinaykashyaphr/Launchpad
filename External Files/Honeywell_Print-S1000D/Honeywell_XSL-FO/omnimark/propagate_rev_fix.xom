@@ -1,0 +1,51 @@
+; Sometimes the propagated rev markers need to be moved some more
+
+cross-translate
+
+global stream s-in-table initial {"NO"}
+global stream s-rev-bar-in-table initial {"NO"}
+
+; *******************************************************************************************************
+; (PASS 1 - before "Shift-F6" script)
+; REV bars were not appearing in generated PDF table because neeed to be moved inside the "para" tags
+find "<?Pub _rev?><para><std>"
+  output "<para><?Pub _rev?><std>"
+
+find "</std></para><?Pub /_rev?>"
+  output "</std><?Pub /_rev?></para>"
+
+  
+; *******************************************************************************************************
+; (PASS 2 - after "Shift-F6" script)
+; REV bars not appearing in generated table "Not applicable" rows
+find "<table "=tag
+  set s-in-table to "YES"
+  output "%x(tag)"
+
+find "</table>"=tag
+  set s-in-table to "NO"
+  set s-rev-bar-in-table to "NO"
+  output "%x(tag)"
+
+find "<?Pub _rev?>"=tag when s-in-table is equal "YES"
+  set s-rev-bar-in-table to "YES"
+  output "%x(tag)"
+  
+; e.g. <row><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry></row>
+find "<row><entry><para>Not applicable</para></entry>" 
+     ("<entry><para>Not applicable</para></entry>"* "</row>")=row-end 
+     when s-rev-bar-in-table is equal "YES"
+
+  output "<row><entry><?Pub _rev?><para>Not applicable</para><?Pub /_rev?></entry>%x(row-end)"
+
+
+find "<row>" "%n"* "<entry><para>Number</para></entry>" "%n"* "<entry><para>Description</para></entry>"
+     "%n"* "<entry><para>Source</para></entry>" "%n"* "</row>"
+     when s-rev-bar-in-table is equal "YES"
+
+  output "<row><entry><?Pub _rev?><para>Number</para><?Pub /_rev?></entry><entry><para>Description</para></entry><entry><para>Source</para></entry></row>"
+     
+
+  
+  
+  

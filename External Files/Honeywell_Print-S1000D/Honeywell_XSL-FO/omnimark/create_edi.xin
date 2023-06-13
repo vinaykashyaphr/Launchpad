@@ -1,0 +1,77 @@
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+macro fo-table-columns is
+     '<fo:table-column column-number="1" column-width="1.25in"/>'_
+     '<fo:table-column column-number="2" column-width=".33in"/>'_
+     '<fo:table-column column-number="3" column-width=".15in"/>'_
+     '<fo:table-column column-number="4" column-width=".5in"/>'_
+     '<fo:table-column column-number="5" column-width="1.25in"/>'_
+     '<fo:table-column column-number="6" column-width="1.25in"/>'_
+     '<fo:table-column column-number="7" column-width=".33in"/>'_
+     '<fo:table-column column-number="8" column-width=".15in"/>'_
+     '<fo:table-column column-number="9" column-width=".5in"/>'_
+     '<fo:table-column column-number="10" column-width="1in"/>'
+macro-end
+
+macro start-edi-table is
+	'<fo:block font-weight="bold" font-size="13pt">Equipment Designator Index</fo:block>'_
+   '<fo:table border-bottom="solid 1pt black" border-top="none" border-left="none" border-right="none" page-break-after="always" padding-before="6pt">' || fo-table-columns || '<fo:table-header font-size="10pt" padding-before="2pt" padding-after="2pt">'_
+       '<fo:table-row border-top="solid 1pt black" border-bottom="solid 1pt black" border-left="none" border-right="none">'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>EQUIPMENT</fo:block>'_
+           '<fo:block>DESIGNATOR</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="center" number-columns-spanned="3" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>FIG.</fo:block>'_
+           '<fo:block>ITEM</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>GEOGRAPHIC</fo:block>'_
+           '<fo:block>LOCATION</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>EQUIPMENT</fo:block>'_
+           '<fo:block>DESIGNATOR</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="center" number-columns-spanned="3" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>FIG.</fo:block>'_
+           '<fo:block>ITEM</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>GEOGRAPHIC</fo:block>'_
+           '<fo:block>LOCATION</fo:block>'_
+         '</fo:table-cell>'_
+       '</fo:table-row>'_
+     '</fo:table-header>'_
+     '<fo:table-body font-size="10pt" padding-before="6pt">'
+macro-end
+
+macro end-edi-table is
+     '</fo:table-body>'_
+   '</fo:table>'
+macro-end
+
+macro empty-cells is
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'
+macro-end
+
+macro empty-row is
+     '<fo:table-row font-size="3pt">'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '</fo:table-row>'
+macro-end

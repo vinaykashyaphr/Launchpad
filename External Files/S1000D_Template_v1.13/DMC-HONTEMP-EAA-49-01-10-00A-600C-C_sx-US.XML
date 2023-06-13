@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/proced.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="600" infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>REPAIR</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><procedure><preliminaryRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+<reqSupportEquips>
+<noSupportEquips/></reqSupportEquips>
+<reqSupplies>
+<noSupplies/></reqSupplies>
+<reqSpares>
+<noSpares/></reqSpares>
+<reqSafety>
+<noSafety/></reqSafety>
+</preliminaryRqmts>
+<mainProcedure>
+<proceduralStep><title>References for Repair</title>
+<proceduralStep>
+<para>These references show where to find repair data that is located
+in other sections of this manual and in other manuals. The data in
+other sections of this manual is necessary for repair of the LRU and its primary subassemblies. The data in other
+manuals gives procedures that are not included in this manual.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Refer to
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="050" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> for reference drawings for the LRU
+and its primary subassemblies. The drawings give data about:<randomList>
+<listItem><para>Buswires</para>
+</listItem>
+<listItem><para>Consumable materials</para>
+</listItem>
+<listItem><para>Component layout</para>
+</listItem>
+<listItem><para>Component termination</para>
+</listItem>
+<listItem><para>Cut runs</para>
+</listItem>
+<listItem><para>Schematic diagrams.</para>
+</listItem>
+</randomList></para>
+</proceduralStep>
+<proceduralStep>
+<para>Refer to
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="050" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> for wire list tables and for harness, cable, and lead assemblies.
+The tables give data about wire:<randomList>
+<listItem><para>Terminations</para>
+</listItem>
+<listItem><para>Type</para>
+</listItem>
+<listItem><para>Size (AWG)</para>
+</listItem>
+<listItem><para>Color.</para>
+</listItem>
+</randomList></para>
+</proceduralStep>
+<proceduralStep>
+<para>Refer to
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="711" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> for:<randomList>
+<listItem><para>Component clearance</para>
+</listItem>
+<listItem><para>Maximum component height</para>
+</listItem>
+<listItem><para>Maximum lead length</para>
+</listItem>
+<listItem><para>Torque limits.</para>
+</listItem>
+</randomList></para>
+</proceduralStep>
+<proceduralStep>
+<para>Refer to
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="T" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> for:<randomList>
+<listItem><para>Figure and item numbers</para>
+</listItem>
+<listItem><para>Subassembly and component locations</para>
+</listItem>
+<listItem><para>Correct part numbers</para>
+</listItem>
+<listItem><para>Correct quantities.</para>
+</listItem>
+</randomList></para>
+</proceduralStep>
+<proceduralStep>
+<para>Refer to Standard Practices Manual XXXXXXXX. Standard repair
+procedures are shop repairs that use the same procedures on many types
+of assemblies. Use the standard repair procedures and approved local
+shop procedures.</para>
+</proceduralStep>
+</proceduralStep>
+</mainProcedure>
+<closeRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+</closeRqmts>
+</procedure></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

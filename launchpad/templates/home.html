@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+	<!--<h1 class="homepage_title">GET READY FOR TAKEOFF</h1>-->
+	<h2 class="homepage_title">Welcome to Launchpad!</h2>
+	
+	<div class="container">
+			<p class="horiz_align"><a class="button_one button_two" id="data_conversion" href="{{ url_for('data_conversion') }}">Data Conversion</a></p>
+			<p class="horiz_align"><a class="button_one button_two" id="technical_writing" href="{{ url_for('technical_writing') }}">Technical Writing</a></p>
+	</div>
+</div>
+{% endblock %}

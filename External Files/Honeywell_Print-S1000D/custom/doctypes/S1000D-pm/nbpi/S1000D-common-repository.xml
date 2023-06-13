@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ********************************************************************* -->
+<!-- *** DEPRECATED - June 26, 2013
+
+                    - this config file is no longer required
+
+                    - now use XQuery process to find the repositories 
+                      by querying the entire collection of XML
+                      inside root of S1000D zip file  
+
+                    - no longer need to specify root-filename 
+                      (e.g. "DMC-S1000DBIKE-AAA-00-00-00-00AA-00GA-A")
+                      or full filename
+                      (e.g. "DMC-S1000DBIKE-AAA-00-00-00-00AA-00GA-A_001-00_EN-US.xml")
+                      or use generic names
+                      (e.g. "warnings.xml")
+                      
+                    - the common repository items will copied into the combined PMC
+                      by XSLT lookup of XQuery generated "S1000D-repositories.xml" file,
+                      rather than trying to cross-reference with this static config file
+                      
+                      *** -->
+
+<!-- ********************************************************************* -->
+
+
+
+
+<!-- [*** CONFIGURATION FILE ***] -->
+
+<!-- NOTE: - common repository files will appear in the zip with filenames containing extra version information
+           - this is a lookup file containing the root filenames for the various repository files
+             that should be consistent with every generated S1000D zip
+
+           - for example, "warningRepository" will have root-filename="DMC-S1000DBIKE-AAA-00-00-00-01AA-012A-A"
+             and may be found after lookups in "S1000D-dir.xml" as:
+
+             "DMC-S1000DBIKE-AAA-00-00-00-01AA-012A-A_001-00_EN-US.xml"
+
+           - keeping the "crossRefTable" config in this file, for now
+
+             -->
+
+<common>
+
+ <!-- Repository XML files -->
+ <!--
+ <repository name="warningRepository"
+             root-filename="warnings.xml"/>
+             -->
+
+ <!--
+ <repository name="cautionRepository"
+             root-filename="cautions.xml"/>
+             -->
+
+ <!--
+ <repository name="partRepository"
+             root-filename="DMC-S1000DBIKE-AAA-00-00-00-00AA-00GA-A_001-00_EN-US.xml"/>
+             -->
+
+ <!--
+ <repository name="enterpriseRepository"
+             root-filename="enterprise.xml"/>
+             -->
+
+ <!--
+ <repository name="supplyRepository"
+             root-filename="supplies.xml"/>
+             -->
+
+ <!--
+ <repository name="toolRepository"
+             root-filename="tools.xml"/>
+             -->
+
+
+ <!-- Cross-reference table XML files -->
+
+ <!-- PCT -->
+ <!--
+ <crossreftable name="productCrossRefTable"
+                root-filename="DMC-HON59364-A-21-51-59-01A-00PA-C_000-02_sx-US.xml"/>
+                -->
+
+ <!-- CCT -->
+ <!--
+ <crossreftable name="condCrossRefTable"
+                root-filename="DMC-HON59364-A-21-51-59-01A-00WA-C_000-03_sx-US.xml"/>
+                -->
+
+ <!-- ACT -->
+ <!--
+ <crossreftable name="applicCrossRefTable"
+                root-filename="DMC-HON59364-A-21-51-59-01A-00WA-C_000-03_sx-US.xml"/>
+                -->
+
+ <!-- ACT catalog -->
+ <!--
+ <crossreftable name="applicCrossRefTableCatalog"
+                root-filename="DMC-HON59364-A-21-51-59-01A-00WA-C_000-03_sx-US.xml"/>
+                -->
+
+</common>

@@ -1,0 +1,96 @@
+define function striprev
+	(modifiable stream a
+  ) as
+  	local stream b
+  	open b as buffer
+  	
+	repeat scan a
+		match ul "<?Pub _rev?>"
+		match ul "<?Pub /_rev?>"
+		match "%n"
+		match any=>c
+			put b "%x(c)"
+	again
+	close b
+	set a to "%g(b)"
+  return
+
+ define function caselessquicksort
+           modifiable  stream   a
+     from  value       counter  l     optional initial {1}
+     to    value       counter  r-opt optional
+  as
+     ;
+     ; Local variables
+     ;
+     local counter i
+     local counter j
+     local counter r
+     local stream x
+     local stream upperx
+     local stream ai
+     local stream upperi
+     local stream aj
+     local stream upperj
+     local stream w
+     local stream v
+     
+
+     ;
+     ; Initialize variables
+     ;
+     do when r-opt is specified
+        set r to r-opt
+     else
+        set r to (number of a)
+     done
+     set i to l
+     set j to r
+     set x to a@((i+j)/2)
+     set key of x to key of a@((i+j)/2)
+
+     repeat
+        set upperx to "%ug(x)"
+        striprev(upperx)
+        repeat
+           set ai to a@i
+           set upperi to "%ug(ai)"
+           striprev(upperi)
+           do when upperi < upperx
+              increment i
+           else
+              exit
+           done
+        again
+        repeat
+           set aj to a@j
+           set upperj to "%ug(aj)"
+           striprev(upperj)
+           do when upperx < upperj
+              decrement j
+           else
+              exit
+           done
+        again
+        do when i <= j
+           set w to a@i
+           set key of w to key of a@i
+           set key of v to key of a@j
+           remove key of a@j
+           set a@i to a@j
+           set key of a@i to key of v
+           set a@j to w
+           set key of a@j to key of w
+           increment i
+           decrement j
+        done
+
+        exit when i > j
+     again
+
+     ;
+     ; Recurse
+     ;
+     caselessquicksort a from l to j when l < j
+     caselessquicksort a from i to r when i < r
+  return

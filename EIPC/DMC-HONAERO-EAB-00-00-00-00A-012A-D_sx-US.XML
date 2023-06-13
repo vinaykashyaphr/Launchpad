@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A"
+infoCode="012" infoCodeVariant="A" itemLocationCode="D"
+modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0"
+systemCode="00" systemDiffCode="EAB"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>LRU</techName><infoName>Safety Advisory</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="99193">
+</responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="AAA"/></dmRefIdent>
+</dmRef></brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Safety Advisory</title>
+</levelledPara><?Pub Caret -2?>
+<levelledPara><para>WARNING: BEFORE THE MATERIALS CALLED OUT IN THIS
+PUBLICATION ARE USED, KNOW THE HANDLING, STORAGE AND DISPOSAL PRECAUTIONS
+RECOMMENDED BY THE MANUFACTURER OR SUPPLIER. FAILURE TO OBEY THE MANUFACTURERS’
+OR SUPPLIERS’ RECOMMENDATIONS CAN RESULT IN PERSONAL INJURY
+OR DISEASE.</para>
+</levelledPara>
+<levelledPara><para>This publication describes physical and chemical
+processes which can make it necessary to use chemicals, solvents,
+paints, and other commercially available materials. The user of this
+publication must get the Material Safety Data Sheets (OSHA Form 174
+or equivalent) from the manufacturers or suppliers of the materials
+to be used. The user must know the manufacturer/supplier data and
+obey the procedures, recommendations, warnings and cautions set forth
+for the safe use, handling, storage, and disposal of the materials.</para>
+</levelledPara>
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

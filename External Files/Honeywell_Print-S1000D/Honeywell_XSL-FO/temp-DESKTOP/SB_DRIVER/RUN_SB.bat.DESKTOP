@@ -1,0 +1,15 @@
+@echo off
+
+del TEMP\run.log
+
+rem BatchRender_LocalGraphics.bat >> run.log 2>&1
+
+cls
+
+echo Rendering SB XSL-FO...
+
+call DRIVER_SB.bat >> TEMP\run.log 2>&1
+
+echo Finished
+
+rem pause

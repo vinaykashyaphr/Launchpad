@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href='https://fonts.googleapis.com/css?family=Montserrat|Montserrat+Subrayada' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet'>
+		<meta charset='utf-8'/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% block head %}
+			<title>{% block title %}{{ title }}{% endblock %} - LaunchPad</title>
+			
+			<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
+			<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+			<!--
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			-->
+			{% block css %}{% endblock %}
+		{% endblock %}
+	</head>
+	{% block body %}
+	<body>
+		<header>
+			{% block header %}		
+				<div class='flex_banner'>
+					<div class='banner_element'>
+						<a href='https://sonovisioncanada.com' target='_blank'><img class="logo_img" src="/static/images/Sono (White).png"></a>
+					</div>
+					<div class='banner_element'>
+						<h1><a href="{{ url_for('home') }}">LAUNCHPAD</a></h1>
+					</div>
+					<div class='banner_element'>
+						
+					</div>					
+				</div>	
+				
+				<div class='flex_container'>
+					{% if not current_user.is_anonymous %}
+						<div class='flex_element'><h3>Welcome, {{ current_user.fname }}</h3></div>	
+						<!-- for arriving on the page -->
+						{% if current_user.get_user_type() == 'conv' %}
+							<div class='flex_element'><a href="{{ url_for('data_conversion') }}">Data Conversion</a></div>
+						{% elif current_user.get_user_type() == 'tw' %}
+							<div class='flex_element'><a href="{{ url_for('technical_writing') }}">Technical Writing</a></div>
+						<!-- for on other pages after leaving the page -->
+						{% elif request.cookies.get(current_user.username) == 'conv' %}
+							<div class='flex_element'><a href="{{ url_for('data_conversion') }}">Data Conversion</a></div>
+						{% elif request.cookies.get(current_user.username) == 'tw' %}
+							<div class='flex_element'><a href="{{ url_for('technical_writing') }}">Technical Writing</a></div>
+						{% else %}
+							<div class='flex_element'><a href="{{ url_for('home') }}">Home</a></div>
+						{% endif %}				
+						<div class='flex_element'><a href="{{ url_for('change_pass') }}">Change Password</a></div>
+						<div class='flex_element'><a target='_blank' href="http://www.sonovisioncanada.com/emp-only/">Sonovision QMS</a></div>	
+						
+							<div class='flex_element'><a href="{{ url_for('messages') }}">Messages
+								<span class='badge'{% if current_user.count_unread_messages() == 0 %}style='display:none;'{% endif %}>{{current_user.count_unread_messages()}}</span></a></div>	
+							
+						{% if current_user.admin %}	
+							<div class='flex_element'><a href="{{ url_for('admintools') }}">Admin Tools</a></div>
+							<div class='flex_element'><a href="{{ url_for('log_manager') }}">Log Manager</a></div>											
+						{% endif %}
+						<div class='flex_element'><a href="{{ url_for('logout') }}">Logout</a></div>
+					{% endif %}
+				</div>			
+			{% endblock %}			
+		</header>
+		<main>
+			<div id="main">
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					<ul class=flashes id=message_box>
+					{% for message in messages %}
+						<li class=error><span style="float: right;cursor: pointer;" onclick='remove(this)'>x</span>{{ message }}</li>
+					{% endfor %}
+					</ul>
+				{% endif %}
+			{% endwith %}
+			{% block content %}{% endblock %}
+			</div>
+		</main>
+		<footer>
+			{% block footer %}
+			<div class='foot_paragraph'>
+				<p>&copy; 2019 Sonovision Canada Inc. All rights reserved.</p>
+				<p>This program/application and all related content are the copyright of Sonovision Canada Inc. Unless expressly permitted, you may not modify, copy, distribute, transmit, store, publicly display, perform, reproduce, publish, license, create derivative works from, transfer or sell any information, software products or services, in whole or in part, obtained from the program/application and its contents without prior written consent from Sonovision Canada Inc.</p>
+				<a class='footer_link' href="{{ url_for('version') }}">Version 0.10.0</a>
+			</div>				
+			{% endblock %}
+		</footer>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+	<script type="text/javascript">
+		var directory_lifetime = '{{ directory_lifetime }}';
+		var file_delete_url = '{{ url_for("delete_files", directory=-1) }}';
+		var current_user = '{{ current_user.username }}';
+		var namespace = '/'; // change to an empty string to use the global namespace
+		var conv_socket = io();
+
+		function remove(obj){
+			$(obj).parent().remove();
+		}
+
+		conv_socket.on('disconnect', function() {
+			console.log('Disconnected');
+			conv_socket.emit('leave', {user : current_user})
+		});
+
+		conv_socket.on('connect', function() {
+			console.log('Connected');
+			conv_socket.emit('join', {user : current_user});
+		});
+
+		conv_socket.on('message', function( data ){
+			console.log("Received new message!");
+			$('.badge').show();
+			$('.badge').text(data.unread);
+		});
+
+		// conv_socket.on('ping', function(){
+		// 	console.log("Received ping. Pong!")
+		// });
+	</script>
+	{% block scripts %}{% endblock %}
+
+	</body>
+	{% endblock %}
+</html>

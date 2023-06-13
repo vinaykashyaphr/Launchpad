@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE DocumentTypeConfiguration PUBLIC "-//Arbortext//DTD Document Type Configuration 2.0//EN"
+ "dcfdtd.dtd" [
+<!ENTITY activex PUBLIC "-//Arbortext//TEXT AXControl Document Type Configuration 1.0//EN" "">
+<!ENTITY % strings PUBLIC "-//Arbortext//ENTITIES Document Type Configuration Translated Strings 1.0//EN" "../../lib/dcf_strings.ent">
+%strings;
+]>
+<DocumentTypeConfiguration>
+<Options langAttribute="lang"></Options>
+<NewDialog>
+<New category="DocBook" description="Arbortext XML DocBook V4.0"
+sampleFile="demo.xml" templateFile="template.xml"/></NewDialog>
+<ElementOptions>
+<ElementOption allowSpellChecking="no" element="abbrev"/>
+<ElementOption category="division" element="abstract"/>
+<ElementOption allowSpellChecking="no" element="acronym"/>
+<ElementOption category="division" element="appendix"
+webComposePageBoundary="yes"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="arg"/>
+<ElementOption category="division" element="article"/>
+<ElementOption allowSpellChecking="no" element="artpagenums"/>
+<ElementOption allowSpellChecking="no" element="authorinitials"/>
+<ElementOption category="division" element="bibliodiv"/>
+<ElementOption category="division" element="bibliography"/>
+<ElementOption category="division" element="blockquote"/>
+<ElementOption category="division" element="book"
+webComposePageBoundary="yes"/>
+<ElementOption element="bookinfo" webComposePageBoundary="yes"/>
+<ElementOption category="division" element="caution"/>
+<ElementOption category="division" element="chapter" primary="yes"
+webComposePageBoundary="yes"/>
+<ElementOption allowCharacterSubstitution="no" element="cmdsynopsis"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="command"/>
+<ElementOption allowSpellChecking="no" element="computeroutput"/>
+<ElementOption allowSpellChecking="no" element="contractnum"/>
+<ElementOption allowSpellChecking="no" element="database"/>
+<ElementOption category="division" element="dedication"
+webComposePageBoundary="yes"/>
+<ElementOption allowSpellChecking="no" element="descrForPart"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="email"/>
+<ElementOption allowSpellChecking="no" element="envar"/>
+<ElementOption allowSpellChecking="no" category="division"
+element="equation"/><?Pub Caret -2?>
+<ElementOption allowSpellChecking="no" element="errorcode"/>
+<ElementOption category="division" element="example"/>
+<ElementOption category="division" element="figure"/>
+<ElementOption allowSpellChecking="no" element="filename"/>
+<ElementOption element="footnote" spellCheckingNewWord="yes"/>
+<ElementOption category="division" element="formalpara"/>
+<ElementOption allowSpellChecking="no" element="funcdef"/>
+<ElementOption allowCharacterSubstitution="no"
+element="funcsynopsisinfo"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="function"/>
+<ElementOption category="division" element="glossary"
+webComposePageBoundary="yes"/>
+<ElementOption category="division" element="glossdiv"/>
+<ElementOption category="division" element="glossentry"/>
+<ElementOption element="holder" spellCheckingNewWord="yes"/>
+<ElementOption allowSpellChecking="yes" element="itemIdentData"
+spellCheckingNewWord="yes"/>
+<ElementOption category="division" element="important"/>
+<ElementOption category="division" element="index"
+webComposePageBoundary="yes"/>
+<ElementOption category="division" element="indexdiv"/>
+<ElementOption element="indexterm" spellCheckingNewWord="yes"/>
+<ElementOption allowSpellChecking="no" element="informalequation"/>
+<ElementOption allowSpellChecking="no" element="inlinemediaobject"/>
+<ElementOption allowSpellChecking="no" element="invpartnumber"/>
+<ElementOption allowSpellChecking="no" element="isbn"/>
+<ElementOption allowSpellChecking="no" element="issn"/>
+<ElementOption allowSpellChecking="no" element="issuenum"/>
+<ElementOption element="itemizedlist" listType="block"/>
+<ElementOption category="division" element="legalnotice"/>
+<ElementOption element="listitem" listType="item"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="literal"/>
+<ElementOption allowCharacterSubstitution="no" element="literallayout"/>
+<ElementOption allowSpellChecking="no" element="manvolnum"/>
+<ElementOption allowSpellChecking="no" element="markup"/>
+<ElementOption element="member" listType="item"/>
+<ElementOption category="division" element="note"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="option"/>
+<ElementOption element="orderedlist" listType="block"/>
+<ElementOption allowSpellChecking="no" element="pagenums"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="parameter"/>
+<ElementOption category="division" element="part"
+webComposePageBoundary="yes"/>
+<ElementOption category="division" element="partintro"/>
+<ElementOption allowSpellChecking="yes" element="partKeyword"
+spellCheckingNewWord="yes"/>
+<ElementOption allowSpellChecking="no" element="pob"/>
+<ElementOption allowSpellChecking="no" element="postcode"/>
+<ElementOption category="division" element="preface"
+webComposePageBoundary="yes"/>
+<ElementOption element="primary" spellCheckingNewWord="yes"/>
+<ElementOption category="division" element="procedure" listType="block"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="programlisting"/>
+<ElementOption category="division" element="refentry"/>
+<ElementOption category="division" element="reference"/>
+<ElementOption category="title" element="refmeta"/>
+<ElementOption category="division" element="refsect1"/>
+<ElementOption category="division" element="refsect2"/>
+<ElementOption category="division" element="refsect3"/>
+<ElementOption category="division" element="refsynopsisdiv"/>
+<ElementOption allowCharacterSubstitution="no" element="replaceable"/>
+<ElementOption allowCharacterSubstitution="no" element="screen"/>
+<ElementOption element="secondary" spellCheckingNewWord="yes"/>
+<ElementOption category="division" element="sect1" primary="yes"
+webComposePageBoundary="yes"/>
+<ElementOption category="division" element="sect2" primary="yes"/>
+<ElementOption category="division" element="sect3" primary="yes"/>
+<ElementOption category="division" element="sect4" primary="yes"/>
+<ElementOption category="division" element="sect5" primary="yes"/>
+<ElementOption category="division" element="section"/>
+<ElementOption category="division" element="simplesect"/>
+<ElementOption category="division" element="set"/>
+<ElementOption category="division" element="setindex"/>
+<ElementOption allowSpellChecking="no" element="sgmltag"/>
+<ElementOption allowSpellChecking="yes" element="shortName"
+spellCheckingNewWord="yes"/>
+<ElementOption category="division" element="sidebar"/>
+<ElementOption element="simplelist" listType="block"/>
+<ElementOption element="state" spellCheckingNewWord="yes"/>
+<ElementOption element="step" listType="item"/>
+<ElementOption element="substeps" listType="block"/>
+<ElementOption allowCharacterSubstitution="no" element="synopsis"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="systemitem"/>
+<ElementOption category="division" element="table"/>
+<ElementOption category="division" element="tip"/>
+<ElementOption category="title" element="title"/>
+<ElementOption allowSpellChecking="no" element="userinput"/>
+<ElementOption category="division" element="variablelist"/>
+<ElementOption category="division" element="varlistentry"/>
+<ElementOption allowSpellChecking="no" element="varname"/>
+<ElementOption allowSpellChecking="no" element="volumenum"/>
+<ElementOption category="division" element="warning"/></ElementOptions>
+<AttributeOptions>
+<AttributeOption attribute="security" profiling="yes"/>
+<AttributeOption attribute="os" profiling="yes"/>
+<AttributeOption attribute="userlevel" profiling="yes"/>
+<AttributeOption attribute="arch" profiling="yes"/></AttributeOptions>
+<Display>
+<Icon characterNumber="16" characterNumberLocal="15"
+characterSet="ati_tag" id="para"/>
+<Icon characterNumber="18" characterNumberLocal="17"
+characterSet="ati_tag" id="endpara"/>
+<ElementDisplay element="abstract" partialTagModeDisplay="full"/>
+<ElementDisplay element="anchor" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="appendix" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="area" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="article" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="authorgroup" partialTagModeDisplay="full"/>
+<ElementDisplay element="beginpage" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="bibliodiv" partialTagModeDisplay="full"/>
+<ElementDisplay element="bibliography" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="blockquote" partialTagModeDisplay="full"/>
+<ElementDisplay element="book" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="bookinfo" partialTagModeDisplay="full"/>
+<ElementDisplay element="calloutlist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="caution" partialTagModeDisplay="full"/>
+<ElementDisplay element="chapter" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="cmdsynopsis" newline="yes" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="cmdsynopsis" newline="yes" pair="end"/>
+<ElementDisplay element="co" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="colspec" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="dedication" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="equation" partialTagModeDisplay="full"/>
+<ElementDisplay element="example" partialTagModeDisplay="full"/>
+<ElementDisplay element="figure" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="footnoteref" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="funcsynopsis" newline="yes" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="funcsynopsis" newline="yes" pair="end"/>
+<ElementDisplay element="glossary" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="glossdiv" partialTagModeDisplay="full"/>
+<ElementDisplay element="glossentry" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="glosslist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="graphic" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="important" partialTagModeDisplay="full"/>
+<ElementDisplay element="index" newline="yes" noTagModePrompt="no"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="indexdiv" partialTagModeDisplay="full"/>
+<ElementDisplay element="inlinegraphic" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="itemizedlist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="legalnotice" partialTagModeDisplay="full"/>
+<ElementDisplay element="literallayout" newline="yes" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="literallayout" newline="yes" pair="end"/>
+<ElementDisplay element="msgentry" partialTagModeDisplay="full"/>
+<ElementDisplay element="msgset" partialTagModeDisplay="full"/>
+<ElementDisplay element="note" partialTagModeDisplay="full"/>
+<ElementDisplay element="orderedlist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="para" pair="start" partialTagModeIcon="para"/>
+<ElementDisplay element="para" pair="end" partialTagModeIcon="endpara"/>
+<ElementDisplay element="part" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="partintro" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="preface" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="procedure" partialTagModeDisplay="full"/>
+<ElementDisplay element="programlisting" newline="yes" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="programlisting" newline="yes" pair="end"/>
+<ElementDisplay element="programlistingco" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="quote" partialTagModeDisplay="none"/>
+<ElementDisplay element="refentry" partialTagModeDisplay="full"/>
+<ElementDisplay element="reference" partialTagModeDisplay="full"/>
+<ElementDisplay element="refmeta" partialTagModeDisplay="full"/>
+<ElementDisplay element="refnamediv" partialTagModeDisplay="full"/>
+<ElementDisplay element="refsect1" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="refsect2" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="refsect3" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="refsynopsisdiv" partialTagModeDisplay="full"/>
+<ElementDisplay element="revhistory" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="sbr" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="screen" newline="yes" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="screen" newline="yes" pair="end"/>
+<ElementDisplay element="sect1" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="sect2" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="sect3" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="sect4" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="sect5" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="segmentedlist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="set" newline="yes" partialTagModeDisplay="full"/>
+<ElementDisplay element="setindex" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="sidebar" partialTagModeDisplay="full"/>
+<ElementDisplay element="simplelist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="spanspec" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="synopsis" newline="yes"/>
+<ElementDisplay element="table" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="tip" partialTagModeDisplay="full"/>
+<ElementDisplay element="toc" noTagModePrompt="no"/>
+<ElementDisplay element="varargs" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="variablelist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="varlistentry" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="void" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="warning" partialTagModeDisplay="full"/>
+<ElementDisplay element="xref" pair="start"
+partialTagModeDisplay="partial"/></Display>
+<Specials>
+<Graphic element="inlinegraphic" entity="entityref" filename="fileref"
+horizScale="scale" inline="yes" reproDepth="depth" reproWidth="width"
+scaleToFit="scalefit" vertScale="scale"/>
+<Graphic element="graphic" entity="entityref" filename="fileref"
+horizScale="scale" reproDepth="depth" reproWidth="width"
+scaleToFit="scalefit" vertScale="scale"/>
+<Graphic element="imagedata" entity="entityref" filename="fileref"
+horizScale="scale" reproDepth="depth" reproWidth="width"
+scaleToFit="scalefit" vertScale="scale"/>
+<Link element="ulink" uri="url"/>
+<Link element="link" idref="linkend"/>
+<Link element="glossterm" idref="linkend"/>
+<Target element="anchor"/>
+<Paragraph element="para"/>
+<Paragraph element="member"/>&activex;
+</Specials>
+<ContextTransformations>
+<InsertAroundToFix>
+<ElementListItem element="para"/>
+<ElementListItem element="member"/>
+<ElementListItem element="term"/>
+<ElementListItem element="equation"/>
+<ElementListItem element="inlineequation"/></InsertAroundToFix>
+<Substitutions element="appendix">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="glossary"/>
+<ElementListItem element="section"/></Substitutions>
+<Substitutions element="appendixinfo">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="glossaryinfo"/>
+<ElementListItem element="sectioninfo"/></Substitutions>
+<Substitutions element="bridgehead">
+<ElementListItem element="title"/></Substitutions>
+<Substitutions element="chapter">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="section"/>
+<ElementListItem element="simplesect"/>
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="chapterinfo">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="sectioninfo"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="glossary">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="appendix"/>
+<ElementListItem element="section"/></Substitutions>
+<Substitutions element="glossaryinfo">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="appendixinfo"/>
+<ElementListItem element="sectioninfo"/></Substitutions>
+<Substitutions element="glossdef">
+<ElementListItem element="listitem"/></Substitutions>
+<Substitutions element="glossterm">
+<ElementListItem element="term"/></Substitutions>
+<Substitutions element="member">
+<ElementListItem element="para"/>
+<ElementListItem element="listitem"/></Substitutions>
+<Substitutions element="para">
+<ElementListItem element="member"/></Substitutions>
+<Substitutions element="part">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="section"/>
+<ElementListItem element="simplesect"/>
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="partinfo">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="sectioninfo"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="refsect1">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="appendix"/>
+<ElementListItem element="glossary"/>
+<ElementListItem element="section"/></Substitutions>
+<Substitutions element="refsect1info">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="appendixinfo"/>
+<ElementListItem element="glossaryinfo"/>
+<ElementListItem element="sectioninfo"/></Substitutions>
+<Substitutions element="refsect2">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="appendix"/>
+<ElementListItem element="glossary"/>
+<ElementListItem element="section"/></Substitutions>
+<Substitutions element="refsect2info">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="appendixinfo"/>
+<ElementListItem element="glossaryinfo"/>
+<ElementListItem element="sectioninfo"/></Substitutions>
+<Substitutions element="refsect3">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="appendix"/>
+<ElementListItem element="glossary"/>
+<ElementListItem element="section"/></Substitutions>
+<Substitutions element="refsect3info">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="appendixinfo"/>
+<ElementListItem element="glossaryinfo"/>
+<ElementListItem element="sectioninfo"/></Substitutions>
+<Substitutions element="sect1">
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="section"/>
+<ElementListItem element="simplesect"/>
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="sect1info">
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="sectioninfo"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="sect2">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="section"/>
+<ElementListItem element="simplesect"/>
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="sect2info">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="sectioninfo"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="sect3">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="section"/>
+<ElementListItem element="simplesect"/>
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="sect3info">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="sectioninfo"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="sect4">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="section"/>
+<ElementListItem element="simplesect"/>
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="sect4info">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="sectioninfo"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="sect5">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="section"/>
+<ElementListItem element="simplesect"/>
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="sect5info">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="sectioninfo"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="section">
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="part"/>
+<ElementListItem element="refsect1"/>
+<ElementListItem element="refsect2"/>
+<ElementListItem element="refsect3"/>
+<ElementListItem element="appendix"/>
+<ElementListItem element="simplesect"/></Substitutions>
+<Substitutions element="sectioninfo">
+<ElementListItem element="sect1info"/>
+<ElementListItem element="sect2info"/>
+<ElementListItem element="sect3info"/>
+<ElementListItem element="sect4info"/>
+<ElementListItem element="sect5info"/>
+<ElementListItem element="chapterinfo"/>
+<ElementListItem element="partinfo"/>
+<ElementListItem element="refsect1info"/>
+<ElementListItem element="refsect2info"/>
+<ElementListItem element="refsect3info"/>
+<ElementListItem element="appendixinfo"/></Substitutions>
+<Substitutions element="simplesect">
+<ElementListItem element="formalpara"/></Substitutions>
+<Substitutions element="term">
+<ElementListItem element="glossterm"/></Substitutions>
+<Substitutions element="title">
+<ElementListItem element="bridgehead"/></Substitutions>
+<Substitutions element="varlistentry">
+<ElementListItem element="glossentry"/></Substitutions>
+<InsertAutoWithin element="glossary" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:title></axdocbook:title><InsertAutoSelection/><InsertAutoCaret
+/></InsertAutoWithin>
+<InsertAutoWithin element="indexterm" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:primary><InsertAutoSelection/><InsertAutoCaret/></axdocbook:primary
+></InsertAutoWithin>
+<InsertAutoWithin element="listitem" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:para><InsertAutoSelection/><InsertAutoCaret/></axdocbook:para
+></InsertAutoWithin>
+<InsertAutoWithin element="refentry" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:refmeta><InsertAutoSelection/><InsertAutoCaret/></axdocbook:refmeta
+></InsertAutoWithin>
+<InsertAutoWithin element="sidebar" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:title></axdocbook:title><InsertAutoSelection/><InsertAutoCaret
+/></InsertAutoWithin>
+<InsertAutoWithin element="step" xmlns:axdocbook="axdocbook.dtd"><axdocbook:para
+><InsertAutoSelection/><InsertAutoCaret/></axdocbook:para></InsertAutoWithin>
+</ContextTransformations>
+<TextStyles>
+<Bold attribute="role" attributeValue="bold" element="emphasis"/>
+<Underline attribute="role" attributeValue="underline"
+element="emphasis"/>
+<Italic attribute="role" attributeValue="italic" element="emphasis"/>
+<Superscript element="superscript"/>
+<Subscript element="subscript"/>
+<SmallCaps attribute="role" attributeValue="smallcaps"
+element="emphasis"/></TextStyles>
+<Lists>
+<Bulleted>
+<Block element="itemizedlist"/>
+<Item element="listitem"/></Bulleted>
+<Numbered>
+<Block element="orderedlist"/>
+<Item element="listitem"/></Numbered>
+</Lists>
+<SmartInsert>
+<Category title="&Admonition;">
+<ElementListItem element="caution"/>
+<ElementListItem element="important"/>
+<ElementListItem element="note"/>
+<ElementListItem element="tip"/>
+<ElementListItem element="warning"/></Category>
+<Category title="&Base;">
+<ElementListItem element="anchor"/></Category>
+<Category title="&Compound;">
+<ElementListItem element="msgset"/>
+<ElementListItem element="procedure"/>
+<ElementListItem element="qandaset"/>
+<ElementListItem element="sidebar"/></Category>
+<Category title="&Description;">
+<ElementListItem element="abstract"/>
+<ElementListItem element="authorblurb"/>
+<ElementListItem element="epigraph"/></Category>
+<Category title="&Division;">
+<ElementListItem element="appendix"/>
+<ElementListItem element="chapter"/>
+<ElementListItem element="glossary"/>
+<ElementListItem element="preface"/>
+<ElementListItem element="sect1"/>
+<ElementListItem element="sect2"/>
+<ElementListItem element="sect3"/>
+<ElementListItem element="sect4"/>
+<ElementListItem element="sect5"/></Category>
+<Category title="&DocumentInformation;">
+<ElementListItem element="author"/>
+<ElementListItem element="authorinitials"/>
+<ElementListItem element="corpauthor"/>
+<ElementListItem element="modespec"/>
+<ElementListItem element="othercredit"/>
+<ElementListItem element="productname"/>
+<ElementListItem element="productnumber"/>
+<ElementListItem element="revhistory"/></Category>
+<Category title="&Formal;">
+<ElementListItem element="equation"/>
+<ElementListItem element="example"/>
+<ElementListItem element="figure"/>
+<ElementListItem element="table"/></Category>
+<Category title="&General;">
+<ElementListItem element="abbrev"/>
+<ElementListItem element="acronym"/>
+<ElementListItem element="anchor"/>
+<ElementListItem element="bridgehead"/>
+<ElementListItem element="citation"/>
+<ElementListItem element="citerefentry"/>
+<ElementListItem element="citetitle"/>
+<ElementListItem element="emphasis"/>
+<ElementListItem element="firstterm"/>
+<ElementListItem element="footnote"/>
+<ElementListItem element="foreignphrase"/>
+<ElementListItem element="glossterm"/>
+<ElementListItem element="highlights"/>
+<ElementListItem element="phrase"/>
+<ElementListItem element="quote"/>
+<ElementListItem element="remark"/>
+<ElementListItem element="subscript"/>
+<ElementListItem element="superscript"/>
+<ElementListItem element="trademark"/>
+<ElementListItem element="wordasword"/></Category>
+<Category title="&Graphic;">
+<ElementListItem element="graphic"/>
+<ElementListItem element="inlinegraphic"/>
+<ElementListItem element="imagedata"/></Category>
+<Category title="&Index;">
+<ElementListItem element="indexterm"/></Category>
+<Category title="&Informal;">
+<ElementListItem element="address"/>
+<ElementListItem element="blockquote"/>
+<ElementListItem element="graphic"/>
+<ElementListItem element="graphicco"/>
+<ElementListItem element="informalequation"/>
+<ElementListItem element="informalexample"/>
+<ElementListItem element="informalfigure"/>
+<ElementListItem element="informaltable"/>
+<ElementListItem element="mediaobject"/>
+<ElementListItem element="mediaobjectco"/></Category>
+<Category title="&Inline;">
+<ElementListItem element="inlineequation"/>
+<ElementListItem element="inlinegraphic"/></Category>
+<Category title="&LineSpecific;">
+<ElementListItem element="literallayout"/>
+<ElementListItem element="programlisting"/>
+<ElementListItem element="programlistingco"/>
+<ElementListItem element="screen"/>
+<ElementListItem element="screenco"/>
+<ElementListItem element="screenshot"/></Category>
+<Category title="&Link;">
+<ElementListItem element="link"/>
+<ElementListItem element="olink"/>
+<ElementListItem element="ulink"/></Category>
+<Category title="&Lists;">
+<ElementListItem element="calloutlist"/>
+<ElementListItem element="glosslist"/>
+<ElementListItem element="itemizedlist"/>
+<ElementListItem element="orderedlist"/>
+<ElementListItem element="segmentedlist"/>
+<ElementListItem element="simplelist"/>
+<ElementListItem element="variablelist"/></Category>
+<Category title="&Paragraph;">
+<ElementListItem element="formalpara"/>
+<ElementListItem element="para"/>
+<ElementListItem element="simpara"/></Category>
+<Category title="&Reference;">
+<ElementListItem element="footnoteref"/>
+<ElementListItem element="xref"/></Category>
+<Category title="&Synopsis;">
+<ElementListItem element="classsynopsis"/>
+<ElementListItem element="cmdsynopsis"/>
+<ElementListItem element="constructorsynopsis"/>
+<ElementListItem element="destructorsynopsis"/>
+<ElementListItem element="fieldsynopsis"/>
+<ElementListItem element="funcsynopsis"/>
+<ElementListItem element="methodsynopsis"/>
+<ElementListItem element="synopsis"/></Category>
+<Category title="&Technical;">
+<ElementListItem element="accel"/>
+<ElementListItem element="action"/>
+<ElementListItem element="application"/>
+<ElementListItem element="classname"/>
+<ElementListItem element="command"/>
+<ElementListItem element="computeroutput"/>
+<ElementListItem element="database"/>
+<ElementListItem element="email"/>
+<ElementListItem element="envar"/>
+<ElementListItem element="errorcode"/>
+<ElementListItem element="errorname"/>
+<ElementListItem element="errortype"/>
+<ElementListItem element="exceptionname"/>
+<ElementListItem element="filename"/>
+<ElementListItem element="function"/>
+<ElementListItem element="guibutton"/>
+<ElementListItem element="guiicon"/>
+<ElementListItem element="guilabel"/>
+<ElementListItem element="guimenu"/>
+<ElementListItem element="guimenuitem"/>
+<ElementListItem element="guisubmenu"/>
+<ElementListItem element="hardware"/>
+<ElementListItem element="interface"/>
+<ElementListItem element="interfacename"/>
+<ElementListItem element="keycap"/>
+<ElementListItem element="keycode"/>
+<ElementListItem element="keycombo"/>
+<ElementListItem element="keysym"/>
+<ElementListItem element="literal"/>
+<ElementListItem element="markup"/>
+<ElementListItem element="medialabel"/>
+<ElementListItem element="menuchoice"/>
+<ElementListItem element="methodname"/>
+<ElementListItem element="mousebutton"/>
+<ElementListItem element="msgtext"/>
+<ElementListItem element="ooclass"/>
+<ElementListItem element="ooexception"/>
+<ElementListItem element="oointerface"/>
+<ElementListItem element="option"/>
+<ElementListItem element="optional"/>
+<ElementListItem element="parameter"/>
+<ElementListItem element="prompt"/>
+<ElementListItem element="property"/>
+<ElementListItem element="replaceable"/>
+<ElementListItem element="returnvalue"/>
+<ElementListItem element="sgmltag"/>
+<ElementListItem element="structfield"/>
+<ElementListItem element="structname"/>
+<ElementListItem element="symbol"/>
+<ElementListItem element="systemitem"/>
+<ElementListItem element="token"/>
+<ElementListItem element="type"/>
+<ElementListItem element="userinput"/></Category>
+</SmartInsert>
+<Profiling config="axdocbook.pcf"/>
+<FrameSets>
+<FrameSet description="default" location="default"/></FrameSets>
+<PasteOptions><PasteElement category="primary_division"
+element="chapter"/><PasteElement category="primary_division_title"
+element="title"/><PasteElement category="primary_table_wrapper"
+element="informaltable"/></PasteOptions></DocumentTypeConfiguration>

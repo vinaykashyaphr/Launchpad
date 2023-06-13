@@ -1,0 +1,30 @@
+# hw_init.acl
+#
+# Based on haesinit.acl, but updated to just use the functions we need for the new Honeywell
+# print application.
+#
+# Richard Steadman
+# Tuesday, November 21, 2017
+
+package hw_init;
+
+# filePresent: checks if file is present in directory
+# Previously used to check if various ACL files were available, but in our case we're only loading
+# one, and it must be there. Keep for future reference anyway.
+
+function filePresent(dir, file) {  
+     return java_static("dateadjust.dateAdjuster", "isFilePresent", $dir, $file);  
+}
+
+# Load the script to adjust dates for the LEP etc.
+source revData.acl;
+
+message "Adding revdata::ur hook";
+
+#add_hook("userulehook", "revdata::ur");
+# RS: "work-around" callback from PTC as a substitute for the seemingly broken "add_hook"
+userule_add_callback(0, 0, "revdata::ur");
+
+# RS: This is used in generating the EDI, to write the pseudo-attribute "sortas" on the rdi
+# element, using the Java function getIndentedRDI.
+add_hook("writetexhook", "revdata::startpreviewhook");

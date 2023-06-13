@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    table.bottomBorder { 
+        border-collapse: collapse; 
+    }
+    table.bottomBorder td, 
+    table.bottomBorder th { 
+        border-bottom: 1px solid black; 
+        padding: 10px; 
+        text-align: left;
+    }
+    table.bottomBorder tr:hover {
+            background-color: #6dd0fd;
+    }
+</style>
+	<div class="container">
+        <h2>Checklist Logs</h2>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div>
+
+                <div>
+                    <p>
+                        {{ form.job_no.label }}<br>
+                        {{ form.job_no() }}<br>
+                    </p>
+                    <p>{{ form.submit(class="button_one") }}</p>
+                    <p>{{ form.export(class="button_one") }}</p>
+                </div>
+                <div>
+                    <p>
+                        {{ data_conversion_logs | safe }}
+                    </p>
+                    <p>
+                        {{ writer_logs | safe }}
+                    </p>
+                    <p>
+                        {{ illustration_logs | safe }}
+                    </p>
+                    <p>
+                        {{ editor_logs | safe }}
+                    </p>
+                    <p>
+                        {{ qa_logs | safe }}
+                    </p>
+                    <p>
+                        {{ final_delivery_logs | safe }}
+                    </p>
+                    <p>
+                        {{ dpmo_logs | safe }}
+                    </p>
+                    <p>
+                        {{ translation_logs | safe }}
+                    </p>
+                </div>
+            </div>
+        </form>
+
+{% endblock %}

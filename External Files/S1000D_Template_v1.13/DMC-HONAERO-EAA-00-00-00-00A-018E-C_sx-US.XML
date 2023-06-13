@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!NOTATION tif SYSTEM "tiff">
+]>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>INTRODUCTION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Illustration</title>
+<levelledPara><para>Some of the exploded view illustrations shown
+in the <dmRef authorityName="ILLUSTRATED PARTS LIST"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="T" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> section
+are also referenced in the <dmRef authorityName="DISASSEMBLY"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="500" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef>, <dmRef authorityName="CLEANING"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="250" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef>, <dmRef
+authorityName="INSPECTION/CHECK"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="300" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef>, <dmRef
+authorityName="REPAIR"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="600" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef>, <dmRef
+authorityName="ASSEMBLY"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="700" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef>, and/or <dmRef
+authorityName="FITS AND CLEARANCES"><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="711" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> sections of this manual. </para>
+</levelledPara>
+<levelledPara><para>Illustrations that support the individual items
+are shown by the item nomenclature, and in parenthesis, the item number
+followed by the basic figure number, i.e. washer (90, IPL Figure 1).
+Item numbers refer to the same IPL figure until a different IPL figure
+is specified.</para>
+</levelledPara>
+<levelledPara><para>Supplemental illustrations use a suffix number
+to the basic figure number. For example, if Figure 501-5 is used,
+it signifies that it is an illustration of the item identified by
+index number 5 in Figure 501.</para>
+</levelledPara>
+<levelledPara><para>If a code symbol (Code _____), part number, or
+Service Bulletin Number (Pre SB _____ or Post SB _____) is before
+the illustration title, it is applicable to a specific unit.</para>
+</levelledPara>
+<levelledPara><para>Illustrations with no specific designation are
+applicable to all units.</para>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

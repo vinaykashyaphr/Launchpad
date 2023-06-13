@@ -1,0 +1,177 @@
+Package Doc_type;
+global booktype, Vbooktype = 0;
+
+function Print_doc_type() {
+	while(1) {
+		type = 0;
+		correct = 0;
+		readvar  -title  "Please enter the document type of this book (i.e CMM, EIPC, MM etc.)" \
+		-prompt "Enter the Document Type Here (Enter 'Help' for Options)" type;
+		type = tolower(type);
+		if (type == 'cmm'){
+			$booktype = 'CMM';
+			$Vbooktype = 'CMM';
+			correct = 1;
+		}
+		if (type == 'fmm'){
+			$booktype = 'CMM';
+			$Vbooktype = 'FMM';	
+			correct = 1;
+		}
+		if (type == 'irm'){
+			$booktype = 'CMM';
+			$Vbooktype = 'IRM';
+			correct = 1;
+		}
+		if (type == 'orim'){
+			$booktype = 'CMM';
+			$Vbooktype = 'IRM';
+			correct = 1;
+		}
+		if (type == 'spm'){
+			a = response('Does this book have multiple ATA numbers throughout?', '&Yes', '&No');
+			if (a == 1){
+				$booktype = 'EM';
+				$Vbooktype = 'SPM';
+
+				correct = 1;
+			}
+			else {
+				$booktype = 'CMM';
+				$Vbooktype = 'SPM';
+				correct = 1;
+			}
+		}
+		if (type == 'acmm'){
+			$booktype = 'CMM';
+			$Vbooktype = 'ACMM';
+			correct = 1;
+		}
+		if (type == 'ipc'){
+			$booktype = 'CMM';
+			$Vbooktype = 'IPC';
+			correct = 1;
+		}
+		if (type == 'gem'){
+			$booktype = 'CMM';
+			$Vbooktype = 'GEM';
+			correct = 1;
+		}
+		if (type == 'mm'){
+			a = response('Does this book have multiple ATA numbers throughout?', '&Yes', '&No');
+			if (a == 1){
+				$booktype = 'EM';
+				$Vbooktype = 'MM';
+				correct = 1;
+			}
+			else {
+				$booktype = 'CMM';
+				$Vbooktype = 'MM';
+				correct = 1;
+			}	
+		}
+		if (type == 'ohm'){
+			a = response('Does this book have multiple ATA numbers throughout?', '&Yes', '&No');
+			if (a == 1){
+				$booktype = 'EM';
+				$Vbooktype = 'OHM';
+
+				correct = 1;
+			}
+			else {
+				$booktype = 'CMM';
+				$Vbooktype = 'OHM';
+				correct = 1;
+			}
+		}
+		if (type == 'line mm'){
+			$booktype = 'CMM';
+			$Vbooktype = 'Line MM';
+			correct = 1;
+		}
+		if (type == 'em'){
+			$booktype = 'EM';
+			$Vbooktype = 'EM';
+			correct = 1;
+		}
+		if (type == 'lmm'){
+			$booktype = 'EM';
+			$Vbooktype = 'LMM';	
+			correct = 1;
+		}
+		if (type == 'hmm'){
+			$booktype = 'EM';
+			$Vbooktype = 'HMM';	
+			correct = 1;
+		}
+		if (type == 'amm'){
+			$booktype = 'EM';
+			$Vbooktype = 'AMM';	
+			correct = 1;
+		}
+		if (type == 'sdom'){
+			$booktype = 'SDOM';
+			$Vbooktype = 'SDOM';
+			correct = 1;
+		}
+		if (type == 'im'){
+			$booktype = 'SDOM';
+			$Vbooktype = 'IM';	
+			correct = 1;
+		}
+		if (type == 'sdim'){
+			$booktype = 'SDOM';
+			$Vbooktype = 'SDIM';
+			correct = 1;
+		}
+		if (type == 'eipc'){
+			$booktype = 'EIPC';
+			$Vbooktype = 'EIPC';
+			correct = 1;
+		}
+		if (type =='help'){
+			sh "\\otfs01\Folders\500\500 - Catch All\TECHWRITE\Shawn\ARBORTEXT TEMPLATE DATA\References\Open_PDF.bat"
+		}
+		if (type == 0){
+			return 1;
+		}	
+		if (Vbooktype != 0 && correct == 1){
+			break;
+		}
+	}
+}
+
+function add_pub_ref() {
+	#Variable Declaration
+	local o = oid_first(current_doc());
+	local name;
+	
+	#Main Code
+	while (oid_valid($o) == 1) {						#This finds the externalPubCode tag
+		$o = oid_forward($o);
+		$name = oid_name($o);
+		if ($name == 'externalPubCode'){
+			goto_oid($o, -2)
+			check = oid_attr($o, "pubCodingScheme");
+			if (check != 'manualType'){
+				$a = Print_doc_type();
+				if ($a != 1){
+					it externalPubCode;
+					oid_modify_attr(oid_caret(), "pubCodingScheme", "manualType");
+					insert_string($booktype);
+					goto_oid(oid_caret(), -3);
+					it externalPubCode;
+					oid_modify_attr(oid_caret(), "pubCodingScheme", "variantType");
+					insert_string($Vbooktype);
+					break;
+				}
+				else {
+					break;
+				}
+			}
+			else {
+				break;
+			}
+		}
+	}
+}

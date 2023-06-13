@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+	<h2 class="homepage_title">Checklists</h2>
+    <h2>Checklist Creation:</h2>
+	<div>
+			<p><a class="button_one button_two" id="job_search" href="{{ url_for('job_search') }}">Checklists</a></p>
+    </div>
+    <h2>Checklist Metrics:</h2>
+	<div>
+			<p><a class="button_one button_two" id="checklist_manager" href="{{ url_for('checklist_manager') }}">View and Export Checklists</a></p>
+			<p><a class="button_one button_two" id="dpmo_manager" href="{{ url_for('dpmo_manager') }}">DPMO Metrics</a></p>
+			<p><a class="button_one button_two" id="checklist_logs" href="{{ url_for('checklist_logs') }}">Checklist Logs</a></p>	
+	</div>
+</div>
+{% endblock %}

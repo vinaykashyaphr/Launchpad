@@ -1,0 +1,217 @@
+Package Hybrid;
+
+function addCodes (oid, code, search, oidName) {
+	local Task = 0, sTask = 0, string;
+	oid = oid_forward(oid);
+	Task = 0;
+	string = search."-99F-80".Task."-A01";
+	oid_modify_attr(oid, "authorityDocument", string);
+	for (x = 0; x<= 1000; x++){
+		oid = oid_forward(oid);
+		if (oid_name(oid) == "pmEntry") {
+			Task = Task + 1;
+			if (Task >= 10){
+				string = search."-".code."-8".Task."-A01";
+			}else{
+				string = search."-".code."-80".Task."-A01";
+			}
+			oid_modify_attr(oid, "authorityDocument", string);
+		}
+		else if (oid_name(oid) == "dmRef"){
+			sTask = sTask + 1;
+			if (sTask >= 10){
+				string = search."-".code."-0".sTask."-A01";
+			}else{
+				string = search."-".code."-00".sTask."-A01";
+			}
+			oid_modify_attr(oid, "authorityDocument", string);
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "procedure"){
+				sTask = 0;
+			}
+		}		
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == oidName){
+				break;
+			}
+		}
+	}
+}
+
+function INTROcodes(search){
+	local oid, Task = 0, sTask = 0, string, temp = 0;;
+	oid = oid_first(current_doc());
+	while(oid_valid(oid) == 1){
+		oid = oid_forward(oid);
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "special tools, fixtures, equipment, and consumables"){
+				Task = Task + 1;
+				for (x = 0; x <= 100; x++){
+					if (Task >= 10){
+						string = search."-99C"."-8".Task."-A01";
+					}else{
+						string = search."-99C"."-80".Task."-A01";
+					}
+					if (oid_name(oid_backward(oid)) == "pmEntry"){
+						oid_modify_attr(oid_backward(oid), "authorityDocument", string);
+					}
+					if (oid_name(oid) == "dmRef"){
+						temp = 1;
+						sTask = sTask + 1;
+						if (sTask >= 10){
+							string = search."-99C"."-0".sTask."-A01";
+						}else{
+							string = search."-99C"."-00".sTask."-A01";
+						}
+						oid_modify_attr(oid, "authorityDocument", string);
+					}
+					if (temp == 1){
+						break;
+					}					
+					oid = oid_forward(oid);
+				}				
+			}else if (trim(tolower(oid_content(oid))) == "planning data"){
+				if (trim(tolower(oid_content(oid))) == "planning data"){
+					Task = Task + 1;
+					for (x = 0; x <= 100; x++){
+						if (Task >= 10){
+							string = search."-99C"."-8".Task."-A01";
+						}else{
+							string = search."-99C"."-80".Task."-A01";
+						}
+						if (oid_name(oid_backward(oid)) == "pmEntry"){
+							oid_modify_attr(oid_backward(oid), "authorityDocument", string);
+						}
+						if (oid_name(oid) == "dmRef"){
+							sTask = sTask + 1;
+							if (sTask >= 10){
+								string = search."-99C"."-0".sTask."-A01";
+							}else{
+								string = search."-99C"."-00".sTask."-A01";
+							}
+							oid_modify_attr(oid, "authorityDocument", string);
+						}
+						if (oid_name(oid)=="pmEntry"){
+							break;
+						}					
+						oid = oid_forward(oid);
+					}
+				}
+			}	
+		}			
+	}
+
+}
+
+function ATAcodes(){
+	local search, oid, Task = 0, sTask = 0, string, name;
+
+	readvar -title "TASK CODE GENERATOR" \
+			-prompt "Please enter ATA number (FORMAT xx-xx-xx)" search; 
+	oid = oid_first(current_doc());
+	while (oid_valid(oid)== 1){
+		oid = oid_forward(oid);
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "introduction"){
+				name = "description and operation";
+				addCodes(oid,"99F",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(trim(tolower(oid_content(oid)))) == "description and operation"){			
+				name = "testing and fault isolation";			
+				addCodes(oid,"870",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "testing and fault isolation"){
+				name = "schematic and wiring diagrams";			
+				addCodes(oid,"700",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "schematic and wiring diagrams"){		
+				name = "disassembly";			
+				addCodes(oid,"878",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "disassembly"){	
+				name = "cleaning";
+				addCodes(oid,"000",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "cleaning"){
+				name = "inspection/check";			
+				addCodes(oid,"100",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "inspection/check"){	
+				name = "repair";			
+				addCodes(oid,"200",search, name);
+			}
+		}	
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "repair"){	
+				name = "assembly";
+				addCodes(oid,"300",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "assembly"){
+				name = "fits and clearances";			
+				addCodes(oid,"400",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "fits and clearances"){
+				name = "special tools, fixtures, equipment, and consumables";			
+				addCodes(oid,"800",search, name);
+			}
+		}	
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "special tools, fixtures, equipment, and consumables"){
+				name = "storage";				
+				addCodes(oid,"840",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (index(trim(tolower(oid_content(oid))),"storage") != 0){
+				name = "illustrated parts list";			
+				addCodes(oid,"550",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "illustrated parts list" || trim(tolower(oid_content(oid))) == "illustrated part list"){				
+				addCodes(oid,"950",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "removal"){
+				name = "installation";			
+				addCodes(oid,"010",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "installation"){
+				name = "servicing";			
+				addCodes(oid,"410",search, name);
+			}
+		}
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (trim(tolower(oid_content(oid))) == "servicing"){	
+				name = "rework";			
+				addCodes(oid,"610",search, name);
+			}
+		}	
+		if (oid_name(oid)=="pmEntryTitle"){
+			if (index(trim(tolower(oid_content(oid))),"rework") != 0){				
+				addCodes(oid,"840",search, name);
+			}
+		}		
+	}
+	INTROcodes(search);
+}

@@ -1,0 +1,355 @@
+process
+
+; This script adjusts the page numbers for foldout tables.
+; Prior to running this script, table foldout pages have page numbers that look like this:
+; "Page 41/TFP", followed by "Page 42/TFP" for the second page of the foldout table, etc.
+; This needs to be updated to be "Page 41/42" followed by "Page 43/44".
+
+submit #main-input
+
+global stream GsDebug initial {""}
+global stream GsFilename initial {''}
+global stream GsTOCTracker initial {""}
+global stream GsPagePrefix initial {''}
+global integer GiPrevPgnbr
+global integer GiTFPnumber initial {'0'} ;Use this to keep track of the TFP's (first TFP, second TFP, etc.). This is for TOC tracking.
+global switch GxTFP initial {false} ;Only need to renumber pages if there was a table foldout.
+global switch GxCont
+
+;==================================================
+
+	;Stopped at pgblk 16000. 17000+ are appendices. Add appendix handling, if needed, at a later date.
+	macro start-pgblk-nbr is
+		('1'|'1001'|'2001'|'3001'|'4001'|'5001'|'6001'|'7001'|'8001'|'9001'|'10001'|'11001'|'12001'|'13001'|'14001'|'15001'|'16001')
+	macro-end
+
+;==================================================
+
+	macro pages-to-ignore is
+		('TI-'|'RR-'|'RTR-'|'SBL-'|'LEP-'|'TC-')
+	macro-end
+
+;==================================================
+
+	;update-page-tag(LsPageTag, LPageValue, LiOffsetX)
+	define function update-page-tag(modifiable stream orig-string, value stream new-page, value integer offset-x) as
+		local stream LsUpdatedString
+		open LsUpdatedString as buffer
+			using output as LsUpdatedString do
+				repeat scan orig-string
+					match ul white-space+ 'value="' [any except '"']*=>val '"'
+						output ' value="%g(new-page)"'
+						put GsDebug 'changed page "%x(val)" to "%g(new-page)"%n'
+					match ul white-space+ 'x="' [any except '"']*=>val '"'
+						output ' x="' || 'd' format val - offset-x || '"'
+						put GsDebug 'changed x="%x(val)" to x="' || 'd' format val - offset-x || '"%n'
+					match any=>char
+						output char
+				again
+			done
+		close LsUpdatedString
+		set orig-string to LsUpdatedString
+	
+;==================================================
+
+	define integer function get-x-offset(value stream page-value,
+	                                     value stream old-page-value, 
+	                                     value stream other-offset optional ;Used to tweak offset if needed (a little more/less depending on context)
+	                                    ) as
+		local integer LiCharWidth initial {'5560'} ;original value: 5560
+		local integer LiCharCount initial {'0'}
+		local integer LiOldCharCount initial {'0'}
+		local integer LiOtherOffset initial {'0'}
+		;Count chars in page-value
+		repeat scan page-value
+			match any
+				increment LiCharCount
+		again
+		;Count chars in old-page-value
+		repeat scan old-page-value
+			match any
+				increment LiOldCharCount
+		again
+		;Figure out additional (other) offset.
+		do when other-offset is specified
+			put GsDebug 'Calculating additional (other) offset. (CODE: %g(other-offset))%n'
+			put GsDebug 'Base character width: %d(LiCharWidth).%n'
+			do scan other-offset
+				match 'TFP-INTRO'	;Table Foldout Page in INTRO
+					set LiOtherOffset to LiCharWidth / 4
+				match 'GFP-INTRO'	;Graphic Foldout Page in INTRO
+					set LiOtherOffset to (LiCharWidth / 4) - (LiCharWidth / 2)	;Should be negative 1/4 character.
+				match 'TFP-PREFIX'			;Table Foldout Page with prefix
+					;set LiOtherOffset to LiCharWidth / 2								;Should be 1 character.
+					; RS: This seems to shift left a little too much; try 3/4 width.
+					set LiOtherOffset to (LiCharWidth * 3) / 4
+				match 'TFP'			;Table Foldout Page *not* in INTRO (maybe with prefix)
+					set LiOtherOffset to LiCharWidth / 2								;Should be 1 character.
+			done
+			put GsDebug 'additional (other) offset: %d(LiOtherOffset)%n'
+		done
+		put GsDebug 'Characters in page-value "%g(page-value)": %d(LiCharCount)%n'
+		put GsDebug 'Characters in old-page-value "%g(old-page-value)": %d(LiOldCharCount)%n'
+		set LiCharCount to LiCharCount - LiOldCharCount
+		put GsDebug 'X offset (pre other-offset): ' || 'd' format LiCharCount * LiCharWidth || '%n' when other-offset is specified
+		put GsDebug 'X offset: ' || 'd' format LiCharCount * LiCharWidth - LiOtherOffset || '%n'
+		return LiCharCount * LiCharWidth - LiOtherOffset
+
+;==================================================
+
+
+find '<xep:page'=>val
+	output val
+	deactivate GxCont
+
+find '<xep:text value="(Cont)"'=>val
+	output val
+	activate GxCont
+
+;Ignore pages that will never have foldouts.
+find (('<xep:text value="EFFECTIVITY"' any-text+ '%n' white-space*)
+      ('<xep:text value="Page "' any-text+ '%n' white-space*)
+      ('<xep:text value="' pages-to-ignore '"' [any-text except '>']+ '>' white-space*))=>ignore-page
+	output ignore-page
+
+
+; ******************************************************************************
+; The section of each page in the xep file that contains the page number currently looks
+; like this (from an SDOM example with page number prefixes and table foldout):
+;
+;      <xep:text value="Page " x="508190" y="41535" width="26130"/>
+;      <xep:text value="1-" x="534320" y="41535" width="8890"/>
+;      <xep:text value="41" x="543210" y="41535" width="11120"/>
+;      <xep:text value="/TFP" x="554330" y="41535" width="21670"/>
+;      <xep:text value="EFFECTIVITY" x="79200" y="46535" width="63900"/>
+;
+; or for Introduction pages (without a table foldout page):
+;
+;      <xep:text value="Page INTRO-" x="467630" y="38655" width="60570"/>
+;      <xep:text value="16" x="528200" y="38655" width="11120"/>
+;      <xep:text value="EFFECTIVITY" x="42520" y="43655" width="63900"/>
+;
+; or for regular pages (with a page prefix):
+;
+;      <xep:text value="Page 1-" x="521526" y="38655" width="35020"/>
+;      <xep:text value="23" x="556546" y="38655" width="11120"/>
+;      <xep:text value="EFFECTIVITY" x="70866" y="43655" width="63900"/>
+;
+; or for regular pages (with a double page prefix):
+;
+;      <xep:text value="Page 2-1-" x="512636" y="38655" width="43910"/>
+;      <xep:text value="47" x="556546" y="38655" width="11120"/>
+;      <xep:text value="EFFECTIVITY" x="70866" y="43655" width="63900"/>
+;
+; In regular CMM, the EFFECTIVITY might occur after a couple more lines:
+;
+;      <xep:text value="Page " x="522640" y="41535" width="26130"/>
+;      <xep:text value="5" x="548770" y="41535" width="5560"/>
+;      <xep:text value="/TFP" x="554330" y="41535" width="21670"/>
+;      <xep:font family="Arial" weight="700" style="normal" variant="normal" size="24000"/>
+;      <xep:text value="49-61-12" x="342576" y="28284" width="96048"/>
+;      <xep:font family="Arial" weight="400" style="normal" variant="normal" size="10000"/>
+;      <xep:text value="EFFECTIVITY" x="79200" y="46535" width="63900"/>
+;
+; ******************************************************************************
+
+
+; Match the page number section and parse its contents into variables.
+find (
+       ; Find the xep:text line with "Page", possibly with an "INTRO-" or IM/SDIM/SDOM prefix ("A-", "1-", or "2-1-")
+       ('<xep:text value="Page ' ('INTRO-')? => intro-page ( (letter '-') | (digit+ '-' digit+ '-') | (digit+ '-') )? => page-number-prefix1 '"' any-text+ '%n' white-space*) => page-tag
+	   
+	   ; The next xep:text line should be the page number or a page number prefix (for IM/SDIM/SDOM).
+	   ; A page number prefix looks like this: "A-", "1-", or "2-1-".
+	   ; (TODO: The prefix might be split into more than one line)
+	   ;('<xep:text value="' ( (letter '-') | (digit+ '-' digit+ '-') | (digit+ '-') )? => page-number-prefix2 '"' [any-text except '>']+ '>' '%n' white-space*) ? => page-number-prefix-tag
+	   
+	   ; UPDATE: prefix might also include "INTRO-" (or similar) 
+	   ('<xep:text value="' ( (letter+ '-') | (digit+ '-' digit+ '-') | (digit+ '-') )? => page-number-prefix2 '"' [any-text except '>']+ '>' '%n' white-space*) ? => page-number-prefix-tag
+	   
+	   ; The next xep:text line should be the page number, and should be an integer. It's a required line.
+	   ; UPDATE: It may be a point page too, so allow any text instead of just digits (it will be parsed below).
+	   ('<xep:text value="' [any except '"']+ => pgnbr '"' any-text+ '%n' white-space*) => page-number-tag
+	   
+	   ; Check for the optional special table foldout text ("/TFP")
+	   ('<xep:text value="/TFP"' any-text+ '%n' white-space*)? => tfp
+	   
+       ; Optional graphic foldout slash page text
+       (
+          ('<xep:text value="/"' any-text+ '%n' white-space*) => slash-tag
+          ('<xep:text value="' [any except '"']+=>slash-pgnbr '"' any-text+ '%n' white-space*) => slash-page-number-tag
+       )? => graphic-foldout
+       
+	   ; The EFFECTIVITY line may not come directly after, so make it optional for now (ideally, we'd like to
+	   ; say it should follow within a few lines... TODO)
+       ('<xep:text value="EFFECTIVITY"' any-text+ '%n' white-space*)? => eff-tag
+	   
+	  ) => all-tags
+	  
+	local stream LsPageTag
+	local stream LsPageValue
+	local stream LsOldPageValue
+	local integer LiCurrPgnbr
+	local integer LiOffsetX
+	local integer LiOldPgnbr
+	local switch LxPageIsFoldout initial {false} ;Add slash page if current page is a foldout (either table or graphic foldout).
+	local switch LxPointPage initial {false}
+	
+	set LsPageTag to page-tag
+	
+	put GsDebug 'Extracted page number: %x(pgnbr)%n'
+
+	;Check to see if this is a Table Foldout Page.
+	do when tfp != ''
+		activate GxTFP
+		put GsDebug 'Activated GxTFP%n'
+		activate LxPageIsFoldout
+		put GsDebug 'Activated LxPageIsFoldout%n'
+		increment GiTFPnumber  ; keeps track of the number of the foldout table (1st, 2nd, etc.)
+		
+	;Check to see if this is the start of a new pageblock.
+	else when pgnbr = start-pgblk-nbr
+		deactivate GxTFP
+		put GsDebug 'Deactivated GxTFP at start of pageblock%n'
+		set GsPagePrefix to ''
+		put GsDebug 'reset GsPagePrefix to ""%n'
+	done
+	
+	; Check to see if this is an INTRO page.
+	do when intro-page != ''
+		set GsPagePrefix to 'INTRO-'
+		put GsDebug 'set GsPagePrefix to "INTRO-"%n'
+	done
+	
+	; Check if there's a page number prefix
+	;do when page-number-prefix-tag != ''
+	do when page-number-prefix1 != ''
+		set GsPagePrefix to page-number-prefix1
+		put GsDebug 'set GsPagePrefix to "%x(page-number-prefix1)"%n'
+	done
+	do when page-number-prefix-tag != ''
+		set GsPagePrefix to page-number-prefix2
+		put GsDebug 'set GsPagePrefix to "%x(page-number-prefix2)"%n'
+	done
+	
+	; Check to see if this is a point page. (set page prefix)
+	; [Hopefully there aren't also point pages in IM/SDIM/SDOM with their own prefixes]
+	do scan pgnbr
+		match digit+=>prefix '.' digit+=>actual-page
+			activate LxPointPage
+			set GsPagePrefix to prefix
+			put GsDebug 'set GsPagePrefix to "%x(prefix)" (point page)%n'
+			set LiCurrPgnbr to actual-page
+			put GsDebug 'set LiCurrPgnbr to %d(LiCurrPgnbr) (point page)%n'
+	done
+
+	;Check to see if this is a graphic foldout.
+	do when graphic-foldout != ''
+		activate LxPageIsFoldout
+		put GsDebug 'Activated LxPageIsFoldout%n'
+	done
+	
+	;Leave everything as-is if there hasn't been a Table Foldout Page in this pageblock.
+	do when not GxTFP
+		do when not LxPointPage
+			set LiCurrPgnbr to pgnbr
+			put GsDebug 'set LiCurrPgnbr to %d(LiCurrPgnbr)%n'
+			;set GiPrevPgnbr to pgnbr
+			;put GsDebug 'set GiPrevPgnbr to %d(LiCurrPgnbr)%n'
+		done
+		output all-tags
+		put GsDebug 'Output all-tags.%n'
+	else
+		;Get current page number (one more than the last one).
+		set LiCurrPgnbr to GiPrevPgnbr + 1
+		put GsDebug 'set LiCurrPgnbr to GiPrevPgnbr + 1: %d(LiCurrPgnbr)%n'
+		
+		;Build new page number string. (include 'INTRO-' prefix and slash numbers)
+		set LsPageValue to 'Page'
+		set LsPageValue to '%g(LsPageValue)s' when LxPageIsFoldout
+		set LsPageValue to '%g(LsPageValue) %g(GsPagePrefix)%d(LiCurrPgnbr)'
+		set LsPageValue to '%g(LsPageValue)/%g(GsPagePrefix)' || 'd' format LiCurrPgnbr + 1 when LxPageIsFoldout
+		
+		put GsDebug 'LsPageValue: "%g(LsPageValue)"%n'
+		
+		;Build old page number string to help calculate offset.
+		set LiOldPgnbr to pgnbr
+		put GsDebug 'LiOldPgnbr = %d(LiOldPgnbr)%n'
+		set LsOldPageValue to 'Page'
+		do when tfp != ''
+			;set LsOldPageValue to '%g(LsOldPageValue) INTRO-%x(pgnbr)/TFP' when GxTFP and LxPageIsFoldout
+			set LsOldPageValue to '%g(LsOldPageValue) %g(GsPagePrefix)%x(pgnbr)/TFP' when GxTFP and LxPageIsFoldout
+			;put GsDebug 'WR-Test-1 - %g(LsOldPageValue)%n'
+		else
+			set LsOldPageValue to '%g(LsOldPageValue) %g(GsPagePrefix)%x(pgnbr)' when GxTFP and LxPageIsFoldout
+			;put GsDebug 'WR-Test-2 - %g(LsOldPageValue)%n'
+		done
+		set LsOldPageValue to '%g(LsOldPageValue)/%x(slash-pgnbr)' when graphic-foldout != ''
+		;put GsDebug 'WR-Test-3 - %g(LsOldPageValue)%n'
+		do when tfp != ''
+			set LsOldPageValue to '%g(LsOldPageValue) %x(pgnbr)' when GxTFP and not LxPageIsFoldout and graphic-foldout = ''
+			;put GsDebug 'WR-Test-4 - %g(LsOldPageValue)%n'
+		else
+			set LsOldPageValue to '%g(LsOldPageValue) %g(GsPagePrefix)%x(pgnbr)' when GxTFP and not LxPageIsFoldout and graphic-foldout = ''
+			;put GsDebug 'WR-Test-5 - %g(LsOldPageValue)%n'
+		done
+		
+		put GsDebug 'LsOldPageValue: "%g(LsOldPageValue)"%n'
+		
+		;Get x-offset value
+		;set LiOffsetX to get-x-offset(LsPageValue,LsOldPageValue)
+		do when GsPagePrefix = 'INTRO-' and tfp != ''
+			put GsDebug 'getting x-offset for Table Foldout Page in INTRO%n  LsPageValue = %g(LsPageValue)%n  LsOldPageValue = %g(LsOldPageValue)%n'
+			set LiOffsetX to get-x-offset(LsPageValue,LsOldPageValue,'TFP-INTRO')
+		else when GsPagePrefix != '' and tfp != ''
+			put GsDebug 'getting x-offset for Table Foldout Page with prefix%n'
+			set LiOffsetX to get-x-offset(LsPageValue,LsOldPageValue,'TFP-PREFIX')
+		else when GsPagePrefix = 'INTRO-' and graphic-foldout != ''
+			put GsDebug 'getting x-offset for Graphic Foldout Page in INTRO%n'
+			set LiOffsetX to get-x-offset(LsPageValue,LsOldPageValue,'GFP-INTRO')
+		else when GsPagePrefix != '' and graphic-foldout != ''
+			put GsDebug 'getting x-offset for Graphic Foldout Page with prefix%n'
+			set LiOffsetX to get-x-offset(LsPageValue,LsOldPageValue,'GFP')
+		else when GsPagePrefix = '' and tfp != ''
+			put GsDebug 'getting x-offset for Table Foldout Page *not* in INTRO%n'
+			set LiOffsetX to get-x-offset(LsPageValue,LsOldPageValue,'TFP')
+		else
+			put GsDebug 'getting default x-offset%n'
+			set LiOffsetX to get-x-offset(LsPageValue,LsOldPageValue)
+		done
+		
+		; Update page tag (value and x attributes)
+		update-page-tag(LsPageTag, LsPageValue, LiOffsetX)
+		
+		; Output eff tag and updated page tag. (The remaining tags aren't needed
+		; since all of the text is combined into the updated page tag).
+		output LsPageTag || eff-tag
+	done
+	
+	;Track TOC (only needed on TFP pages and only need the first page number)
+	do when GxTFP
+		do when tfp = '/TFP'
+			do when not GxCont
+				put GsTOCTracker '%x(pgnbr)-TFP,%g(GsPagePrefix)%d(LiCurrPgnbr)%n'
+				put GsDebug 'GsTOCTracker: %x(pgnbr)-TFP,%g(GsPagePrefix)%d(LiCurrPgnbr)%n'
+			else
+				decrement GiTFPnumber
+				put GsDebug 'GsTOCTracker: IGNORED BECAUSE IT LOOKS LIKE A CONTINUED TABLE%n'
+			done
+		else
+			put GsTOCTracker '%g(GsPagePrefix)%x(pgnbr),%g(GsPagePrefix)%d(LiCurrPgnbr)%n'
+			put GsDebug 'GsTOCTracker: %g(GsPagePrefix)%x(pgnbr),%g(GsPagePrefix)%d(LiCurrPgnbr)%n' 
+		done
+	done
+	;Save last page number
+	set GiPrevPgnbr to LiCurrPgnbr
+	increment GiPrevPgnbr when LxPageIsFoldout
+	put GsDebug 'GiPrevPgnbr is %d(GiPrevPgnbr)%n'
+
+process-start
+	open GsDebug as file '%g(GsFilename)_foldout_pages_debug.txt'
+	open GsTOCTracker as file '%g(GsFilename)_foldout_pages_toc-tracker.txt'
+	
+process-end
+	close GsTOCTracker
+	close GsDebug

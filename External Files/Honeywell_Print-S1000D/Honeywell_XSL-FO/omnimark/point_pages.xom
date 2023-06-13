@@ -1,0 +1,133 @@
+process
+
+submit #main-input
+
+;      <xep:text value="EFFECTIVITY" x="48740" y="56530" width="63800"/>
+;      <xep:text value="Page" x="473950" y="44530" width="23340"/>
+;      <xep:text value="2998.2" x="500060" y="44530" width="22240"/>
+
+global stream GsDebug initial {''}
+global stream GsFilename initial {''}
+global stream GsTOCTracker initial {''}
+global stream GsPgblkStartNumber initial {'1'}
+global integer GiPrevPage initial {0}
+global integer GiPointPage initial {0}
+global integer GiPointPageBase initial {0}
+global switch GxPointPages initial {false}
+
+;Stopped at pgblk 16000. 17000+ are appendices. Add appendix handling, if needed, at a later date.
+macro start-pointpg-nbr is
+	('999'|'1999'|'2999'|'3999'|'4999'|'5999'|'6999'|'7999'|'8999'|'9999'|'10999'|'11999'|'12999'|'13999'|'14999'|'15999'|'16999')
+macro-end
+
+define function add-point-page(modifiable stream orig-string) as
+	local stream LsUpdatedString
+	open LsUpdatedString as buffer
+		using output as LsUpdatedString do
+			repeat scan orig-string
+				match ul white-space+ 'value="' [any except '"']*=>val '"'
+					increment GiPointPage
+					output ' value="%d(GiPointPageBase).%d(GiPointPage)"'
+					put GsDebug '%t changed page "%x(val)" to "%d(GiPointPageBase).%d(GiPointPage)"%n'
+					put GsTOCTracker '%x(val),%d(GiPointPageBase).%d(GiPointPage)%n'
+				match any=>char
+					output char
+			again
+		done
+	close LsUpdatedString
+	set orig-string to LsUpdatedString
+
+define function offset-x(modifiable stream orig-string, value stream point-page) as
+	local stream LsUpdatedString
+	local integer LiChars initial {0}
+	repeat scan point-page
+		match any
+			increment LiChars
+	again
+	open LsUpdatedString as buffer
+		using output as LsUpdatedString do
+			repeat scan orig-string
+				match ul white-space+ 'x="' [any except '"']*=>val '"'
+					local integer LiNewVal
+					set LiNewVal to val - ((5560 * LiChars) + 2780)
+					output ' x="%d(LiNewVal)"'
+					put GsDebug '%t%tchanged "x" attribute from "%x(val)" to "%d(LiNewVal)" (characters in point-page: %d(LiChars))%n'
+				match any=>char
+					output char
+			again
+		done
+	close LsUpdatedString
+	set orig-string to LsUpdatedString
+	
+;*** ADD SUPPORT FOR FOLDOUTS ***
+;Does not handle any page numbering with a "prefix". (Example: TI-, RR-, INTRO-, etc.)
+
+
+; Find the pgblkst marker and set the number value to a global stream.
+; Do not output the result so that the marker will not appear in the final PDF.
+find (
+     ; RS: Can be linebreaks in the font tag, so altered search to ((lookahead not ">") any)
+     ('<xep:font family="Arial"' ((lookahead not ">") any)* '>%n' white-space*)
+     ('<xep:gray-color gray="1.0"' any-text+ '%n' white-space*)
+     ('<xep:text value="pgblkst' digit+=>pgblkst '"' any-text+ '%n' white-space*)
+     )=>startPageMarker
+     set GsPgblkStartNumber to pgblkst
+     put GsDebug '%g(GsPgblkStartNumber)'
+     
+
+; Sonovision update (2018.12.13)
+; - recent changes to re-position location of "EFFECTIVITY" lower on the page 
+;   is now sometimes causing it to be missing from this pattern
+; - make it a (...)* (zero or many) as it's not really used for triggering the "/TFP" variable replacement
+;find ('<xep:text value="EFFECTIVITY"' any-text+ '%n' white-space*)=>eff-tag 
+
+find ('<xep:text value="EFFECTIVITY"' any-text+ '%n' white-space*)*=>eff-tag 
+     ('<xep:text value="Page "' any-text+ '%n' white-space*)=>page-tag
+     ('<xep:text value="'digit+=>pgnbr '"' any-text+ '%n' white-space*)=>page-number-tag
+     (
+     ('<xep:text value="/"' [any except '>']+ '>' white-space*)=>slash-tag
+     ('<xep:text value="'digit+=>foldout-pgnbr '"' any-text+ '%n' white-space*)=>foldout-page-number-tag
+     )?
+    
+	local stream LsPageTag ;need to offset-x
+	local stream LsPageNumberTag
+	local stream LsSlashTag initial {'NA'} ;need to offset-x
+	local stream LsFoldoutPageNumberTag initial {'NA'}
+	local switch LxFoldout initial {false}
+	set LsPageTag to page-tag
+	set LsPageNumberTag to page-number-tag
+	set LsSlashTag to slash-tag when slash-tag is specified
+	set LsFoldoutPageNumberTag to foldout-page-number-tag when foldout-page-number-tag is specified
+	activate LxFoldout when LsSlashTag != 'NA'
+	do when pgnbr = start-pointpg-nbr and not GxPointPages ;Added "and not GxPointPages" for point pages over 999.
+		activate GxPointPages
+		set GiPointPageBase to pgnbr - 1
+		set GiPointPage to 0
+		put #error and GsDebug 'Starting point-page output for page number "%x(pgnbr)".%n'
+	else when pgnbr = GsPgblkStartNumber and GxPointPages
+			deactivate GxPointPages
+			put #error and GsDebug 'Stopping point-page output for page number "%x(pgnbr)". Found new pageblock %g(GsPgblkStartNumber).%n'
+	done
+	do when GxPointPages
+		add-point-page(LsPageNumberTag)							;Must be run before changing "x" attribute value (offset-x) so that the current point-page number (GiPointPage) is correct.)
+		offset-x(LsPageNumberTag, '%d(GiPointPage)')			;update "x" value in LsPageNumberTag
+		offset-x(LsPageTag, '%d(GiPointPage)')					;update "x" value in LsPageTag
+		do when LxFoldout
+			add-point-page(LsFoldoutPageNumberTag)
+			offset-x(LsFoldoutPageNumberTag, '%d(GiPointPage)')
+			offset-x(LsSlashTag, '%d(GiPointPage)')
+			offset-x(LsPageNumberTag, '%d(GiPointPage)')
+			offset-x(LsPageTag, '%d(GiPointPage)')
+		done
+	done
+	output eff-tag || LsPageTag || LsPageNumberTag
+	output LsSlashTag || LsFoldoutPageNumberTag when LxFoldout
+	set GiPrevPage to pgnbr
+	
+process-start
+	open GsDebug as file '%g(GsFilename)_point_pages_debug.txt'
+	open GsTOCTracker as file '%g(GsFilename)_point_pages_toc-tracker.txt'
+	
+process-end
+	close GsTOCTracker
+	close GsDebug

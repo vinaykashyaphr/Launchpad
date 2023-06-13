@@ -1,0 +1,54 @@
+<!-- iso-grk1.ent produced by Norman Walsh for the XML version of DocBook -->
+
+<!-- Derived from the corresponding ISO 8879 standard entity set
+     and the Unicode character mappings provided by Sebastian Rahtz -->
+
+<!ENTITY agr	"&#38;#x03B1;"> <!--  -->
+<!ENTITY Agr	"&#38;#x0391;"> <!-- GREEK CAPITAL LETTER ALPHA -->
+<!ENTITY bgr	"&#38;#x03B2;"> <!-- GREEK SMALL LETTER BETA -->
+<!ENTITY Bgr	"&#38;#x0392;"> <!-- GREEK CAPITAL LETTER BETA -->
+<!ENTITY ggr	"&#38;#x03B3;"> <!-- GREEK SMALL LETTER GAMMA -->
+<!ENTITY Ggr	"&#38;#x0393;"> <!-- GREEK CAPITAL LETTER GAMMA -->
+<!ENTITY dgr	"&#38;#x03B4;"> <!-- GREEK SMALL LETTER DELTA -->
+<!ENTITY Dgr	"&#38;#x0394;"> <!-- GREEK CAPITAL LETTER DELTA -->
+<!ENTITY egr	"&#38;#x03B5;"> <!--  -->
+<!ENTITY Egr	"&#38;#x0395;"> <!-- GREEK CAPITAL LETTER EPSILON -->
+<!ENTITY zgr	"&#38;#x03B6;"> <!-- GREEK SMALL LETTER ZETA -->
+<!ENTITY Zgr	"&#38;#x0396;"> <!-- GREEK CAPITAL LETTER ZETA -->
+<!ENTITY eegr	"&#38;#x03B7;"> <!-- GREEK SMALL LETTER ETA -->
+<!ENTITY EEgr	"&#38;#x0397;"> <!-- GREEK CAPITAL LETTER ETA -->
+<!ENTITY thgr	"&#38;#x03B8;"> <!--  -->
+<!ENTITY THgr	"&#38;#x0398;"> <!-- GREEK CAPITAL LETTER THETA -->
+<!ENTITY igr	"&#38;#x03B9;"> <!-- GREEK SMALL LETTER IOTA -->
+<!ENTITY Igr	"&#38;#x0399;"> <!-- GREEK CAPITAL LETTER IOTA -->
+<!ENTITY kgr	"&#38;#x03BA;"> <!-- GREEK SMALL LETTER KAPPA -->
+<!ENTITY Kgr	"&#38;#x039A;"> <!-- GREEK CAPITAL LETTER KAPPA -->
+<!ENTITY lgr	"&#38;#x03BB;"> <!-- GREEK SMALL LETTER LAMDA -->
+<!ENTITY Lgr	"&#38;#x039B;"> <!-- GREEK CAPITAL LETTER LAMDA -->
+<!ENTITY mgr	"&#38;#x03BC;"> <!-- GREEK SMALL LETTER MU -->
+<!ENTITY Mgr	"&#38;#x039C;"> <!-- GREEK CAPITAL LETTER MU -->
+<!ENTITY ngr	"&#38;#x03BD;"> <!-- GREEK SMALL LETTER NU -->
+<!ENTITY Ngr	"&#38;#x039D;"> <!-- GREEK CAPITAL LETTER NU -->
+<!ENTITY xgr	"&#38;#x03BE;"> <!-- GREEK SMALL LETTER XI -->
+<!ENTITY Xgr	"&#38;#x039E;"> <!-- GREEK CAPITAL LETTER XI -->
+<!ENTITY ogr	"&#38;#x03BF;"> <!-- GREEK SMALL LETTER OMICRON -->
+<!ENTITY Ogr	"&#38;#x039F;"> <!-- GREEK CAPITAL LETTER OMICRON -->
+<!ENTITY pgr	"&#38;#x03C0;"> <!-- GREEK SMALL LETTER PI -->
+<!ENTITY Pgr	"&#38;#x03A0;"> <!-- GREEK CAPITAL LETTER PI -->
+<!ENTITY rgr	"&#38;#x03C1;"> <!-- GREEK SMALL LETTER RHO -->
+<!ENTITY Rgr	"&#38;#x03A1;"> <!-- GREEK CAPITAL LETTER RHO -->
+<!ENTITY sgr	"&#38;#x03C3;"> <!-- GREEK SMALL LETTER SIGMA -->
+<!ENTITY Sgr	"&#38;#x03A3;"> <!-- GREEK CAPITAL LETTER SIGMA -->
+<!ENTITY sfgr	"&#38;#x03C2;"> <!--  -->
+<!ENTITY tgr	"&#38;#x03C4;"> <!-- GREEK SMALL LETTER TAU -->
+<!ENTITY Tgr	"&#38;#x03A4;"> <!-- GREEK CAPITAL LETTER TAU -->
+<!ENTITY ugr	"&#38;#x03C5;"> <!-- GREEK SMALL LETTER UPSILON -->
+<!ENTITY Ugr	"&#38;#x03A5;"> <!--  -->
+<!ENTITY phgr	"&#38;#x03C6;"> <!-- GREEK SMALL LETTER PHI -->
+<!ENTITY PHgr	"&#38;#x03A6;"> <!-- GREEK CAPITAL LETTER PHI -->
+<!ENTITY khgr	"&#38;#x03C7;"> <!-- GREEK SMALL LETTER CHI -->
+<!ENTITY KHgr	"&#38;#x03A7;"> <!-- GREEK CAPITAL LETTER CHI -->
+<!ENTITY psgr	"&#38;#x03C8;"> <!-- GREEK SMALL LETTER PSI -->
+<!ENTITY PSgr	"&#38;#x03A8;"> <!-- GREEK CAPITAL LETTER PSI -->
+<!ENTITY ohgr	"&#38;#x03C9;"> <!-- GREEK SMALL LETTER OMEGA -->
+<!ENTITY OHgr	"&#38;#x03A9;"> <!-- GREEK CAPITAL LETTER OMEGA -->

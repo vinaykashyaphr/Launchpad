@@ -1,0 +1,7 @@
+#
+# © Inmedius 2012. All rights Reserved
+#
+
+source authorpro_step_numbering.acl
+authorpro_common::open_document_cmds();
+

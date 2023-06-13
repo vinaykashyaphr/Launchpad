@@ -1,0 +1,241 @@
+@echo off
+
+rem *** S1000D prototype - using DESKTOP paths (must be updated to NETWORK configuration later) ***
+
+rem *** Path Configuration ***
+call ..\environment.bat
+
+echo ==========================
+echo *** Parameters Setting ***
+echo ==========================
+rem *** S1000D already includes "graphics" path inside combined TEMP file ***
+set params="IMAGES_DIR=file:///%WorkPath%/images/" "GRAPHICS_DIR=file:///%WorkPath%/S1000D_EM_DRIVER/XML_INPUT" "WorkPath=file:///%WorkPath%/S1000D_EM_DRIVER"
+set XSL_PATH="%WorkPath%\S1000D_EM_XSL"
+
+REM rem *********************************************************************
+REM rem *********************************************************************
+REM rem *********************************************************************
+REM 
+REM echo ==========================
+REM echo *** CGM Conversion     ***
+REM echo ==========================
+REM 
+REM rem *** Larson "CGM to Vector" command line testing ***
+REM rem NOTE: - should be set in "environment.bat" 
+REM rem       - not sure if must be installed on user's system, or can reside as generic ".\applications\Larson\*.*"
+REM rem       - supports CGM conversion to PDF, EPS, SVG
+REM rem         (XEP processing having best results using PDF image)
+REM set LARSON_CMD="C:\Program Files (x86)\Larson Software Technology\Larson CGM to Vector\cgm2vector.exe"
+REM 
+REM rem *** NOTE: this is how to specify path to graphics (DESKTOP BAT file)
+REM set CGM_GRAPHICS_DIR=%WorkPath%\S1000D_EM_DRIVER\XML_INPUT\graphics
+REM 
+REM 
+REM %LARSON_CMD% "%CGM_GRAPHICS_DIR%" -out "%CGM_GRAPHICS_DIR%" -o -pdf
+REM %LARSON_CMD% "%CGM_GRAPHICS_DIR%" -out "%CGM_GRAPHICS_DIR%" -o -svg
+REM %LARSON_CMD% "%CGM_GRAPHICS_DIR%" -out "%CGM_GRAPHICS_DIR%" -o -eps
+REM 
+REM rem *********************************************************************
+REM rem *********************************************************************
+REM rem *********************************************************************
+
+
+echo ====================
+echo *** Start Render ***
+echo ====================
+
+for %%a in ("XML_INPUT\*.xml") do (
+
+	echo PROCESSING: XML_INPUT\%%~na%%~xa
+	
+	echo ===================================
+	echo 0   *** Deleting existing files ***
+	echo ===================================
+	IF EXIST PDF_OUTPUT\%%~na* DEL /F PDF_OUTPUT\%%~na*
+	del TEMP\*.* /F /Q
+	REM NOTE: This generates a warning that it can't delete run.log, which is being output by this process.
+	REM for %i in (TEMP\*) do if not "%~i" == run.log del "%i"
+	REM FOR %%f IN (TEMP\*) DO IF NOT "%%~nf%%~xf" == run.log DEL /Q "%%~nf%%~xf"
+	copy pm_cmb.xsd TEMP > nul 2>&1
+	copy pm_calstblx.mod TEMP > nul 2>&1
+
+	echo =======================
+	echo 1   *** Cleanup XML ***
+	echo =======================
+rem		 Character code check and editor cleanup
+
+	%omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\char_font_fix.xom" -of "TEMP\%%~na_FIXED_CHAR.xml" -log "TEMP\%%~na_char_font_fix_pass_1.err"
+	%omnimark% "TEMP\%%~na_FIXED_CHAR.xml" -sb "%RenderPath%\omnimark\pre_process.xom" -of "TEMP\%%~na_PRE-PROCESSED.xml" -log "TEMP\%%~na_pre_process.err"
+
+	echo ==========================================
+	echo 2   *** Fixing Processing Instructions ***
+	echo ==========================================
+rem		 Remove arbortext pi, resolve nested rev markup pi, transform style pi to elements.
+	%omnimark% "TEMP\%%~na_PRE-PROCESSED.xml" -sb "%RenderPath%\omnimark\fix_pi.xom" -of "TEMP\%%~na_FIXED_PI.xml" -log "TEMP\%%~na_fix_pi.err"
+
+	echo ==========================
+	echo 3   *** Updating GNBRs ***
+	echo ==========================
+rem		 Update graphic attributes to point to graphic files
+	%omnimark% "TEMP\%%~na_FIXED_PI.xml" -sb "%RenderPath%\omnimark\update_gnbrs.xom" -of "TEMP\%%~na_UPDATED_GNBRs.xml" -d GsGraphicsDir "%WorkPath%/S1000D_EM_DRIVER/XML_INPUT/graphics" -log "TEMP\%%~na_update_gnbrs.err"
+
+	echo ======================
+	echo 4   *** Create EDI ***
+	echo ======================
+
+rem %omnimark% "TEMP\%%~na_UPDATED_GNBRs.xml" -sb "%RenderPath%\omnimark\create_edi.xom" -log "TEMP\%%~na_create_edi.err" -of "TEMP\edi_tables.xml"
+
+rem *** Injecting additional wrapper markup into "*UPDATED_GNBRs_S1000D.xml" to be used only for EDI generation
+rem     (this is a temp file which does not need to be cleaned up)
+%omnimark% "TEMP\%%~na_UPDATED_GNBRs.xml" -sb "%RenderPath%\omnimark\prep_edi_S1000D.xom" -of "TEMP\%%~na_UPDATED_GNBRs_S1000D.xml" -log "TEMP\%%~na_prep_edi_S1000D.err"
+%omnimark% "TEMP\%%~na_UPDATED_GNBRs_S1000D.xml" -sb "%RenderPath%\omnimark\create_edi_S1000D.xom" -log "TEMP\%%~na_create_edi.err" -of "TEMP\edi_tables.xml"
+
+
+	echo =======================
+	echo 5   *** Propagating Rev ***
+	echo =======================
+rem		 Relocate rev markup to simplify transform
+	%omnimark% "TEMP\%%~na_UPDATED_GNBRs.xml" -sb "%RenderPath%\omnimark\propagate_rev.xom" -of "TEMP\%%~na_PROPAGATED_REV.xml" -log "TEMP\%%~na_propagate_rev.err"
+
+	echo ===================================
+	echo 6   *** Running Shift-F6 replacment ***
+	echo ===================================
+rem		 Generate acro/abbr list and tool/consumable tables if necessary
+REM	if exist "TEMP\gen2_shift-f6.txt" (
+REM		echo Running GEN-2 replacement
+REM		%omnimark% "TEMP\%%~na_PROPAGATED_REV.xml" -sb "%RenderPath%\omnimark\cmm_shift_f6_GEN2.xom" -of "TEMP\%%~na_sf6.xml" -d GsMainInput "TEMP\%%~na_PROPAGATED_REV.xml" -d GsLogName "TEMP\%%~na_shift-f6_GEN2_debug.txt" -log "TEMP\%%~na_shift-f6_GEN2.err"
+REM	) else (
+REM		echo Running original replacement
+REM		%omnimark% "TEMP\%%~na_PROPAGATED_REV.xml" -sb "%RenderPath%\omnimark\cmm_shift_f6.xom" -of "TEMP\%%~na_sf6.xml" -d GsMainInput "TEMP\%%~na_PROPAGATED_REV.xml" -d GsLogName "TEMP\%%~na_shift-f6_debug.txt" -log "TEMP\%%~na_shift-f6.err"
+REM	)
+
+	echo ======================
+	echo 7   *** Strip Tags ***
+	echo ======================
+rem		Strip elements used to generate acro/abbr and tool/consumable tables
+	%omnimark% "TEMP\%%~na_PROPAGATED_REV.xml" -sb "%RenderPath%\omnimark\strip_tags.xom" -of "TEMP\%%~na_STRIPPED_TAGS.xml" -log "TEMP\%%~na_strip_tags.err"
+
+	echo ==========================================
+	echo 8   *** Populating Required Attributes ***
+	echo ==========================================
+rem		 Generate attributes to authoring instance if needed
+	REM %omnimark% "TEMP\%%~na_STRIPPED_TAGS.xml" -sb "%RenderPath%\omnimark\hw_add_xml_attrs.xom" -d GsMainInput "TEMP\%%~na_STRIPPED_TAGS.xml" -of "TEMP\%%~na_POP-ATTRS.xml" -log "TEMP\%%~na_hw_add_xml_attrs.err"
+
+	echo ==============================
+	echo 9   *** Creating UPPER.xml ***
+	echo ==============================
+rem		 Transforms attributes and element names to uppercase [NOT NEEDED FOR S1000D]
+	REM %java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_POP-ATTRS.xml" "-xsl:%RenderPath%\shared\upperCase.xsl" "-o:TEMP\%%~na_UPPER%%~xa"
+	REM %java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_STRIPPED_TAGS.xml" "-xsl:%RenderPath%\shared\upperCase.xsl" "-o:TEMP\%%~na_UPPER%%~xa"
+
+	echo =====================================================
+	echo 10   *** XML to FO First Pass to collect LEP Data ***
+	echo =====================================================
+	%java_command% -cp %cp%;S1000DHelper.jar net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_STRIPPED_TAGS.xml" "-xsl:%XSL_PATH%\S1000D_EM.xsl" "-o:TEMP\%%~na_lep.fo" %params% "LEP_PASS=1"
+
+	REM Detect errors here to avoid the rest of the processing
+	REM echo %errorlevel%
+	REM if %errorlevel% neq 0 echo XSLT ERROR - EXITING DRIVER_S1000D.bat && exit /b %errorlevel%
+	REM NOTE: errorlevel is always 0 from Java
+	if NOT EXIST "TEMP\%%~na_lep.fo" echo XSLT ERROR DETECTED - EXITING DRIVER_S1000D.bat && exit
+
+	echo =================================
+	echo 10A   *** Strip fo:list-block ***
+	echo =================================
+rem		Remove elements used to render foldout and landscape tables
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lep.fo" "-xsl:%XSL_PATH%\strip_list-blocks.xsl" "-o:TEMP\%%~na_lep_stripped_list-block.fo"
+
+	echo =====================================================
+	echo 11   *** FO to XEP First Pass to collect LEP Data ***
+	echo =====================================================
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_lep_stripped_list-block.fo" -xep "TEMP\%%~na_lep.xep"
+
+	echo ===============================================================================
+	echo 12   *** Extract LEP data to XML file from first pagination pass of RenderX ***
+	echo ===============================================================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lep.xep" "-o:TEMP\%%~na_lepExtract.xml" "-xsl:%XSL_PATH%\lepExtract_EM.xsl"
+	
+	echo ====================================================
+	echo 13   *** Add Table Foldout Pages to LEP Extract ***
+	echo ====================================================
+	%omnimark% "TEMP\%%~na_lepExtract.xml" -sb "%RenderPath%\omnimark\lep_foldout_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_lepExtract_foldout-pages.xml" -log "TEMP\%%~na_lep_foldout_pages.err"
+
+	echo ======================================
+	echo 13A   *** Add Point Pages to LEP Extract ***
+	echo ======================================
+	%omnimark% "TEMP\%%~na_lepExtract_foldout-pages.xml" -sb "%RenderPath%\omnimark\lep_point_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_lepExtract_point-pages.xml" -log "TEMP\%%~na_lep_point_pages.err"
+	
+	echo ===============================================================================
+	echo 13B   *** First Render of LEP Pages for page count ***
+	echo ===============================================================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lepExtract_point-pages.xml" "-xsl:%XSL_PATH%\renderLep_EM.xsl" "-o:TEMP\%%~na_lepRender.fo" "LEP_PASS=1"
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_lepRender.fo" -xep "TEMP\%%~na_lepRender.xep"
+	
+	echo ===============================================================================
+	echo 13C   *** Second Render of LEP Pages for page count ***
+	echo ===============================================================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lepExtract_point-pages.xml" "-xsl:%XSL_PATH%\renderLep_EM.xsl" "-o:TEMP\%%~na_lepRender_2.fo" "LEP_RENDER_FILE=file:///%WorkPath%/S1000D_EM_DRIVER/TEMP/%%~na_lepRender.xep"
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_lepRender_2.fo" -xep "TEMP\%%~na_lepRender_2.xep"
+
+	echo ======================
+	echo 14   *** XML to FO ***
+	echo ======================
+
+%java_command% -cp %cp%;S1000DHelper.jar net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_STRIPPED_TAGS.xml" "-o:TEMP\%%~na.fo.ORIG" "-xsl:%XSL_PATH%\S1000D_EM.xsl" %params% "LEP_EXTRACT_FILE=file:///%WorkPath%/S1000D_EM_DRIVER/TEMP/%%~na_lepExtract_point-pages.xml" "LEP_RENDER_FILE=file:///%WorkPath%/S1000D_EM_DRIVER/TEMP/%%~na_lepRender_2.xep"
+%omnimark% "TEMP\%%~na.fo.ORIG" -sb "%RenderPath%\omnimark\char_font_fix.xom" -of "TEMP\%%~na.fo" -log "TEMP\%%~na_char_font_fix_pass_2.err" -d s-images-folder "file:///%WorkPath%/images/"
+
+	echo =================================
+	echo 14A   *** Strip fo:list-block ***
+	echo =================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na.fo" "-xsl:%XSL_PATH%\strip_list-blocks.xsl" "-o:TEMP\%%~na_stripped_list-block.fo"
+
+	echo ======================
+	echo 15   *** FO to XEP ***
+	echo ======================
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_stripped_list-block.fo" -xep "TEMP\%%~na.xep"
+
+	echo ==================================
+	echo 16   *** XEP to Re-ordered XEP ***
+	echo ==================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na.xep" "-o:TEMP\%%~na_2.xep" "-xsl:%XSL_PATH%\reorderPages_EM.xsl"
+
+	echo ============================
+	echo 17   *** Add Point Pages ***
+	echo ============================
+	%omnimark% "TEMP\%%~na_2.xep" -sb "%RenderPath%\omnimark\point_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_point-pages.xep" -log "TEMP\%%~na_point_pages.err"
+
+	echo ====================================
+	echo 18   *** Add Foldout Table Pages ***
+	echo ====================================
+	%omnimark% "TEMP\%%~na_2_point-pages.xep" -sb "%RenderPath%\omnimark\foldout_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_foldout-pages.xep" -log "TEMP\%%~na_foldout_pages.err"
+
+	echo ===============================
+	echo 19   *** Updating TOC Pages ***
+	echo ===============================
+	%omnimark% "TEMP\%%~na_2_foldout-pages.xep" -sb "%RenderPath%\omnimark\update_toc.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_updated-toc.xep" -log "TEMP\%%~na_update_toc.err"
+
+	echo =====================================
+	echo 20   *** Oversize Image Detection ***
+	echo =====================================
+	%omnimark% "TEMP\%%~na_2_updated-toc.xep" -sb "%RenderPath%\omnimark\oversize-image-check.xom" -of "TEMP\%%~na.junk" -d GsLogFileName "TEMP\oversize-image-check.log" -log "TEMP\%%~na_oversize_image_check.err"
+
+	echo ==================================
+	echo 21   *** Render XEP to PDF ***
+	echo ==================================
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -xep "TEMP\%%~na_2_updated-toc.xep" -pdf "PDF_OUTPUT\%%~na.pdf"
+
+
+echo ==================
+echo Date: %DATE%
+echo Time: %TIME%
+echo ==================
+
+echo ==================
+echo *** End Render ***
+echo ==================
+
+	rem *** Save document specific log files ***
+	copy "TEMP\oversize-image-check.log" "PDF_OUTPUT\%%~na-oversize-image-check.log"
+	copy "TEMP\run.log" "PDF_OUTPUT\%%~na-run.log"
+
+)

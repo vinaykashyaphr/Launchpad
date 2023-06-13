@@ -1,0 +1,342 @@
+process
+
+submit #main-input
+
+global integer GiRowCnt initial {1}
+global stream GsDebugFileName initial {"TEMP\create_edi_debug.txt"}; (full TEMP path provided on command line)
+global stream GsDebug initial {""}
+global stream GsCurrFig initial {""}
+global stream GsRDI variable
+global stream GsEdiCol1 variable
+global stream GsEdiCol2 variable
+global integer GiCurrEdiCol initial {1}
+global stream GsCurrPrefix variable initial {'' with ^ '0',
+                                             '' with ^ '1',
+                                             '' with ^ '2',
+                                             '' with ^ '3',
+                                             '' with ^ '4',
+                                             '' with ^ '5',
+                                             '' with ^ '6',
+                                             '' with ^ '7'}	;Stores the prefix for each indent. 0-7 corresponds to the possible @indent values. (Per ATA; Rockwell does not use 0.)
+
+ define function quicksort
+           modifiable  stream   a
+     from  value       counter  l     optional initial {1}
+     to    value       counter  r-opt optional
+  as
+     ;
+     ; Local variables
+     ;
+     local counter i
+     local counter j
+     local counter r
+     local stream x
+     local stream w
+     local stream v
+
+     ;
+     ; Initialize variables
+     ;
+     do when r-opt is specified
+        set r to r-opt
+     else
+        set r to (number of a)
+     done
+     set i to l
+     set j to r
+     set x to a@((i+j)/2)
+     set key of x to key of a@((i+j)/2)
+
+     repeat
+        repeat
+           do when (key of a@i) < (key of x)
+              increment i
+           else
+              exit
+           done
+        again
+        repeat
+           do when (key of x) < (key of a@j)
+              decrement j
+           else
+              exit
+           done
+        again
+        do when i <= j
+           set w to a@i
+           set key of w to key of a@i
+           set key of v to key of a@j
+           remove key of a@j
+           set a@i to a@j
+           set key of a@i to key of v
+           set a@j to w
+           set key of a@j to key of w
+           increment i
+           decrement j
+        done
+
+        exit when i > j
+     again
+
+     ;
+     ; Recurse
+     ;
+     quicksort a from l to j when l < j
+     quicksort a from i to r when i < r
+  return
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+macro fo-table-columns is
+     '<fo:table-column column-number="1" column-width="1.25in"/>'_
+     '<fo:table-column column-number="2" column-width=".33in"/>'_
+     '<fo:table-column column-number="3" column-width=".15in"/>'_
+     '<fo:table-column column-number="4" column-width=".5in"/>'_
+     '<fo:table-column column-number="5" column-width="1.25in"/>'_
+     '<fo:table-column column-number="6" column-width="1.25in"/>'_
+     '<fo:table-column column-number="7" column-width=".33in"/>'_
+     '<fo:table-column column-number="8" column-width=".15in"/>'_
+     '<fo:table-column column-number="9" column-width=".5in"/>'_
+     '<fo:table-column column-number="10" column-width="1in"/>'
+macro-end
+
+macro start-edi-table is
+	'<fo:block font-weight="bold" font-size="13pt">Equipment Designator Index</fo:block>'_
+   '<fo:table border-bottom="solid 1pt black" border-top="none" border-left="none" border-right="none" page-break-after="always" padding-before="6pt">' || fo-table-columns || '<fo:table-header font-size="10pt" padding-before="2pt" padding-after="2pt">'_
+       '<fo:table-row border-top="solid 1pt black" border-bottom="solid 1pt black" border-left="none" border-right="none">'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>EQUIPMENT</fo:block>'_
+           '<fo:block>DESIGNATOR</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="center" number-columns-spanned="3" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>FIG.</fo:block>'_
+           '<fo:block>ITEM</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>GEOGRAPHIC</fo:block>'_
+           '<fo:block>LOCATION</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>EQUIPMENT</fo:block>'_
+           '<fo:block>DESIGNATOR</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="center" number-columns-spanned="3" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>FIG.</fo:block>'_
+           '<fo:block>ITEM</fo:block>'_
+         '</fo:table-cell>'_
+         '<fo:table-cell text-align="left" padding-top="3pt" padding-bottom="3pt">'_
+           '<fo:block>GEOGRAPHIC</fo:block>'_
+           '<fo:block>LOCATION</fo:block>'_
+         '</fo:table-cell>'_
+       '</fo:table-row>'_
+     '</fo:table-header>'_
+     '<fo:table-body font-size="10pt" padding-before="6pt">'
+macro-end
+
+macro end-edi-table is
+     '</fo:table-body>'_
+   '</fo:table>'
+macro-end
+
+macro empty-cells is
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	'<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'
+macro-end
+
+macro empty-row is
+     '<fo:table-row font-size="3pt">'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '<fo:table-cell><fo:block>&#xA0;</fo:block></fo:table-cell>'_
+	  '</fo:table-row>'
+macro-end
+
+define stream function create-key(value stream rdi-with-prefix) as
+	local stream LsKey
+	open LsKey as buffer
+	repeat scan rdi-with-prefix
+		match letter+=>alph digit+=>nbr
+			local integer LiNbr
+			set LiNbr to nbr
+			put LsKey '%x(alph)%20fzd(LiNbr)'
+		match any=>char
+			put LsKey char
+	again
+	close LsKey
+	return LsKey
+	
+
+;Capture current figure number and reset prefixes (GsCurrPrefix).
+find ul ('<figure' [any except '>']+ '>')=>elem
+	do scan elem
+		match unanchored ul (white-space+ 'fignbr="' [any except '"']*=>val '"')=>attr
+			set GsCurrFig to val
+	done
+	;Can't 'clear' the shelf as this will remove the keys.
+	set GsCurrPrefix ^ '0' to ''
+	set GsCurrPrefix ^ '1' to ''
+	set GsCurrPrefix ^ '2' to ''
+	set GsCurrPrefix ^ '3' to ''
+	set GsCurrPrefix ^ '4' to ''
+	set GsCurrPrefix ^ '5' to ''
+	set GsCurrPrefix ^ '6' to ''
+	set GsCurrPrefix ^ '7' to ''
+	put GsDebug '*** FIGURE %g(GsCurrFig) ***%n'
+
+find (('<itemdata') upto ('</itemdata>') '</itemdata>')=>itemdata
+	local stream LsItemnbr
+	local stream LsIllusind initial {' '}
+	local stream LsKey
+	local integer LiIndent                 ;Current indent
+	local integer LiPrevIndent	initial {0} ;Previous indent
+	local switch LxDeleted initial {false}
+	local switch LxHasEqdes initial {false}
+	do scan itemdata
+		match ul ('<itemdata' [any except '>']+ '>')=>elem
+			do scan elem
+				match unanchored ul white-space+ 'delitem="1"'
+					activate LxDeleted
+			done
+	done
+	do when not LxDeleted
+		repeat scan itemdata
+			match ul (white-space+ 'indent="' [any except '"']*=>val '"')=>attr
+				set LiIndent to val
+				set LiPrevIndent to LiIndent - 1
+			match ul (white-space+ 'itemnbr="' [any except '"']*=>val '"')=>attr
+				set LsItemnbr to val
+			match ul (white-space+ 'illusind="0"')=>attr
+				;set LsIllusind to '-' ;REMOVED DASH PER MANTIS #18418
+			match (('<eqdes>') upto ('</eqdes>') '</eqdes>')=>eqdes
+				local stream LsRdi initial {''}
+				local stream LsRdiWithPrefix
+				local stream LsGeoloc initial {''}
+				activate LxHasEqdes
+				repeat scan eqdes
+					match ('<rdi>') upto ('</rdi>')=>rdi '</rdi>'
+						set LsRdi to rdi
+					match ('<geoloc>') upto ('</geoloc>')=>geoloc '</geoloc>'
+						set LsGeoloc to geoloc
+					match any
+				again
+				do when GsCurrPrefix has ^ '%d(LiPrevIndent)'
+					set GsCurrPrefix ^ '%d(LiIndent)' to GsCurrPrefix ^ '%d(LiPrevIndent)' || LsRdi
+				else
+					set GsCurrPrefix ^ '%d(LiIndent)' to LsRdi
+				done
+				set LsRdiWithPrefix to GsCurrPrefix ^ '%d(LiIndent)'
+				put GsDebug 'Item %g(LsItemnbr)%n'
+				put GsDebug '%tRDI: %g(LsRdi) (indent %d(LiIndent))%n'
+				put GsDebug '%tRDI W/PREFIX: ' || LsRdiWithPrefix || '%n'
+				put GsDebug '%tGEOLOC:       ' || LsGeoloc || '%n'
+				set LsKey to create-key(LsRdiWithPrefix)
+				;set new GsRDI ^ '%g(LsKey)-%g(GsCurrFig)-%g(LsItemnbr)' to '<edi-row><rd>%g(LsRdiWithPrefix)</rd><fig>%g(GsCurrFig)</fig><illusind>%g(LsIllusind)</illusind><itemnbr>%g(LsItemnbr)</itemnbr><geoloc>%g(LsGeoloc)</geoloc></edi-row>'
+				do when GsRDI hasnt ^ '%g(LsKey)-%g(GsCurrFig)-%g(LsItemnbr)'
+					set new GsRDI ^ '%g(LsKey)-%g(GsCurrFig)-%g(LsItemnbr)' to '<fo:table-cell text-align="left"><fo:block>%g(LsRdiWithPrefix)</fo:block></fo:table-cell>'_
+																								  '<fo:table-cell text-align="right"><fo:block>%g(GsCurrFig)</fo:block></fo:table-cell>'_
+																								  '<fo:table-cell text-align="right"><fo:block>%g(LsIllusind)</fo:block></fo:table-cell>'_
+																								  '<fo:table-cell text-align="left"><fo:block>%g(LsItemnbr)</fo:block></fo:table-cell>'_
+																								  '<fo:table-cell text-align="left"><fo:block>%g(LsGeoloc)</fo:block></fo:table-cell>'
+					put GsDebug '%tset new GsRDI ^ "%g(LsKey)-%g(GsCurrFig)-%g(LsItemnbr)" to "<edi-row><rd>%g(LsRdiWithPrefix)</rd><fig>%g(GsCurrFig)</fig><illusind>%g(LsIllusind)</illusind><itemnbr>%g(LsItemnbr)</itemnbr><geoloc>%g(LsGeoloc)</geoloc></edi-row>"%n'
+				else
+					put #error '[error] DUPLICATE RDI VALUE FOUND IN FIGURE %g(GsCurrFig) ITEM %g(LsItemnbr)!! (%g(LsRdi))%n'
+				done
+			match '</itemdata>'
+				do when not LxHasEqdes and LiPrevIndent >= 0
+					set GsCurrPrefix ^ '%d(LiIndent)' to GsCurrPrefix ^ '%d(LiPrevIndent)' when not LxHasEqdes and LiPrevIndent >= 0
+					put GsDebug 'Item %g(LsItemnbr) (indent="%d(LiIndent)") does not have an rdi.%n'
+				else when not LxHasEqdes
+					put GsDebug 'Item %g(LsItemnbr) (indent="%d(LiIndent)") does not have an rdi and previous indent would be < 0 (%d(LiPrevIndent)).%n'
+				done
+			match any
+		again
+	done
+
+find any
+
+process-start
+	; CV - TEMP is no longer a relative path location
+	;open GsDebug as file 'TEMP\create_edi_debug.txt'
+	open GsDebug as file GsDebugFileName
+	
+process-end
+	put GsDebug '%n%n********** SHELF OUTPUT **********%n%n'
+	do when number of GsRDI > 0
+		quicksort GsRDI
+		repeat over GsRDI
+			do when GiRowCnt <= 45
+				put GsDebug '%4fzd(GiRowCnt):%d(GiCurrEdiCol):' || GsRDI || '%n'
+			else
+				set GiRowCnt to 1
+				do when GiCurrEdiCol = 1
+					set GiCurrEdiCol to 2
+				else
+					set GiCurrEdiCol to 1
+				done
+				put GsDebug '%4fzd(GiRowCnt):%d(GiCurrEdiCol):' || GsRDI || '%n'
+			done
+			do when GiCurrEdiCol = 1
+				set new GsEdiCol1 to GsRDI
+			else
+				set new GsEdiCol2 to GsRDI
+			done
+			increment GiRowCnt
+		again
+		;Make sure shelves (columns) are the same size. (Col1 should always be >= Col2.)
+		do when number of GsEdiCol1 > number of GsEdiCol2
+			local integer LiCol1Cnt
+			local integer LiCol2Cnt
+			local integer LiExtraItems
+			local integer LiItemsOutput initial {0}
+			set LiCol1Cnt to number of GsEdiCol1
+			set LiCol2Cnt to number of GsEdiCol2
+			set LiExtraItems to LiCol1Cnt - LiCol2Cnt
+			put GsDebug 'col1 > col2 (%d(LiCol1Cnt) > %d(LiCol2Cnt))%n'
+			repeat
+				set new GsEdiCol2 to empty-cells
+				increment LiItemsOutput
+				exit when LiItemsOutput = LiExtraItems
+			again
+			set LiCol1Cnt to number of GsEdiCol1
+			set LiCol2Cnt to number of GsEdiCol2
+			put GsDebug 'col1 > col2 (%d(LiCol1Cnt) > %d(LiCol2Cnt))%n'
+		done
+		put GsDebug '%n%n********** TWO COLUMN OUTPUT **********%n%n'
+		set GiRowCnt to 1
+		put GsDebug and #main-output start-edi-table
+		put GsDebug and #main-output empty-row
+		repeat over GsEdiCol1 & GsEdiCol2
+			do when GiRowCnt <= 45
+				put GsDebug and #main-output '<fo:table-row>'
+				put GsDebug and #main-output GsEdiCol1 || GsEdiCol2
+				put GsDebug and #main-output '</fo:table-row>%n'
+			else
+				set GiRowCnt to 1
+				;put GsDebug '</edi-table>%n<edi-table>%n'
+				put GsDebug and #main-output empty-row || '%n'
+				put GsDebug and #main-output end-edi-table || '%n' || start-edi-table || '%n'
+				put GsDebug and #main-output empty-row || '%n'
+				put GsDebug and #main-output '<fo:table-row>'
+				put GsDebug and #main-output GsEdiCol1 || GsEdiCol2
+				put GsDebug and #main-output '</fo:table-row>%n'
+			done
+			increment GiRowCnt
+		again
+		put GsDebug and #main-output empty-row || '%n'
+		put GsDebug and #main-output end-edi-table
+	else
+		put GsDebug 'NO RDI ELEMENTS FOUND%n'
+	done	
+	close GsDebug

@@ -1,0 +1,64 @@
+# S1000D (XML) - combined PMC file
+
+function init() {};
+
+function init() {
+  
+  # S1000D (XML)  - disable (-active "0") FOSI output option(s)
+  
+  if ( menu_exists( '.Honeywell-Print.FOSI' ) ) {
+	
+	#menu_add ".Honeywell-Print.FOSI." "" -separator;
+	#menu_add ".Honeywell-Print.FOSI." "NOTE: S1000D (XML) not supported for FOSI output";
+	
+	menu_change ".Honeywell-Print.FOSI.PDF (final)" -active "0";
+	menu_change ".Honeywell-Print.FOSI.PDF (web final)" -active "0";
+
+	menu_change ".Honeywell-Print.FOSI.Watermark.PDF (draft)" -active "0";
+	menu_change ".Honeywell-Print.FOSI.Watermark.PDF (preliminary)" -active "0";
+	menu_change ".Honeywell-Print.FOSI.Watermark.PDF (validation)" -active "0";
+
+  }
+
+
+  # S1000D (XML) - disable (-active "0") default XSL-FO option(s)
+
+  if ( menu_exists( '.Honeywell-Print.XSL-FO.' ) ) {
+
+	menu_change ".Honeywell-Print.XSL-FO.PDF (final)" -active "0";
+
+	menu_change ".Honeywell-Print.XSL-FO.Watermark.PDF (draft)" -active "0";
+	menu_change ".Honeywell-Print.XSL-FO.Watermark.PDF (preliminary)" -active "0";
+	menu_change ".Honeywell-Print.XSL-FO.Watermark.PDF (validation)" -active "0";
+
+  }
+
+
+  # S1000D (XML) - enable (-active "1") S1000D XSL-FO option(s)
+
+  if ( menu_exists( '.Honeywell-Print.S1000D.' ) ) {
+
+	menu_change ".Honeywell-Print.S1000D.PDF (S1000D consolidated XML) (CMM)" -active "1";
+
+  }
+
+
+
+}
+
+# Initialize the application
+init();
+
+# Sonovision S1000D instance ACL script
+
+# CV - directory where schema located (e.g. "pm.xsd")
+#      (this is also where custom ACL, XSLT, etc. is located)
+global doc_type_dir = doc_type_dir();
+
+# CV - directory of current active "PM" root file opened from S1000D zip file
+global doc_dir = doc_dir();
+
+
+# CV - Change working directory to this document's current location 
+#      (e.g. unzipped S1000D package)
+cd "$doc_dir";

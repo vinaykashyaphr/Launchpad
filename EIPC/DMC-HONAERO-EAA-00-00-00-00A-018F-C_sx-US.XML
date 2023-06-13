@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd" xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>GAS TURBINE ENGINE</techName><infoName>Introduction</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="HON99193"><enterpriseName>HON99193</enterpriseName></responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic>
+<displayText>
+<simplePara>All</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<unverified/></qualityAssurance></dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>General</title>
+<levelledPara><para>The abbreviations are used in agreement with ASME Y14.38.</para>
+</levelledPara>
+<levelledPara><para>Acronyms and non-standard abbreviations used in this publication are as follows:</para>
+<table id="tab-0001">
+<title>List of Acronyms and Abbreviations</title>
+<tgroup cols="2">
+<?PubTbl tgroup dispwid="700.00px"?>
+<colspec colname="col1" colwidth="50.00*"/><colspec colname="col2" colwidth="50.00*"/><thead><row>
+<entry>
+<para>Term</para>
+</entry>
+<entry>
+<para>Full Term</para>
+</entry>
+</row></thead><tbody><row>
+<?PubTbl row rht="0.30in"?>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

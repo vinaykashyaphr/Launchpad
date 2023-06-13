@@ -1,0 +1,818 @@
+;===========================================================================
+;
+; Copyright (C) 1996 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  omhttp.xin - Omnimark HTTP internal function library
+;
+;  Version: 1.1.3
+;  Revised: 18 NOV 1999
+;  Change: Fixed user agent to check request instead of response
+;     - Added a space after the header name colon
+;     - Added default headers for request host and accept
+;
+;  Version: 1.1.2
+;  Revised: 03 NOV 1999
+;  Change: Added improvements supplied by David Kalnins
+;     - Removed '?' from GET when no search specified
+;     - Support for HEAD method
+;     - Validated Version 1.1.1 against David's proxy implemenation
+;     - Fixed search item with no value decoding
+;
+;  Version: 1.1.1
+;  Revised: 14 OCT 1999
+;  Change: Added proxy support
+;     - added proxy-host and proxy-port items to HTTPRequest
+;     - added HttpRequestSetProxy function
+;
+;  Version: 1.1
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;
+;  Version: 1.0.1
+;  Revised: 12 JAN 1999
+;
+;===========================================================================
+
+include-guard omhttp.xin
+include "omtcp.xin"
+
+; ---------------
+; library version
+; ---------------
+macro HttpLibraryVersion is 
+   "OMHTTP 1.1.3 Copyright (c) 1998-1999 OmniMark Technologies Corporation." 
+macro-end
+macro HttpLibraryName is "OmniMark OMHTTP/1.1.3" macro-end
+
+; --------------------------------------
+; allow Dos/Unix directory compatibility
+; --------------------------------------
+macro mhttp_dosdirdelim is "\" macro-end
+macro mhttp_unixdirdelim is "/" macro-end
+macro mhttp_dirdelim is mhttp_dosdirdelim|mhttp_unixdirdelim macro-end
+macro mhttp_httpdirdelim is "/" macro-end
+
+; ------------------------
+; standard line end marker
+; ------------------------
+macro mhttp_crlf is "%13#%10#" macro-end
+
+; ---------------------
+; weekday abbreviations
+; ---------------------
+macro weekday is ("Sun"|"Mon"|"Tue"|"Wed"|"Thu"|"Fri"|"Sat") macro-end
+
+; ------------------------------------------
+; RFC 1738 - Uniform Resource Locators (URL)
+; ------------------------------------------
+macro mhttp_ld is letter|digit macro-end
+macro mhttp_safe is "$-_.+" macro-end
+macro mhttp_extra is "!*'()," macro-end
+macro mhttp_unreserved is mhttp_ld|mhttp_safe|mhttp_extra macro-end
+macro mhttp_hex is ul[digit|"ABCDEF"] macro-end
+macro mhttp_escape is ( "%%" mhttp_hex{2} ) macro-end
+macro mhttp_uchar is ( [mhttp_unreserved] | mhttp_escape ) macro-end
+macro mhttp_search is ( mhttp_uchar | [";:@&="] )* macro-end
+macro mhttp_hsegment is ( mhttp_uchar | [";:@&="] )* macro-end
+macro mhttp_hpath is ( mhttp_hsegment (mhttp_dirdelim mhttp_hsegment)* )
+   macro-end
+macro mhttp_hostnumber is ( (digit+ "."){3} digit+ ) macro-end
+macro mhttp_toplabel is ( letter ( ["-"]* [mhttp_ld] )* ) macro-end
+macro mhttp_domainlabel is ( [mhttp_ld] ( ["-"]* [mhttp_ld] )* ) 
+   macro-end
+macro mhttp_hostname is ( (mhttp_domainlabel ".")* mhttp_toplabel ) 
+   macro-end
+macro mhttp_host is ( mhttp_hostname | mhttp_hostnumber ) macro-end
+macro mhttp_port is ( [digit]+ ) macro-end
+macro mhttp_hostport is ( mhttp_host ( ":" mhttp_port )? ) macro-end
+macro mhttp_urlpath is ( mhttp_hpath ( "?" mhttp_search )? ) macro-end
+macro mhttp_password is [ mhttp_uchar | ";?&=" ] macro-end
+macro mhttp_user is [ mhttp_uchar | ";?&=" ] macro-end
+macro mhttp_login is ( ( mhttp_user ( ":" mhttp_password )? )? 
+   mhttp_hostport ) macro-end
+macro mhttp_schemepart is ( "//" mhttp_login 
+   (mhttp_dirdelim mhttp_urlpath)? ) macro-end
+macro mhttp_scheme is [mhttp_ld|"+-."]+ macro-end
+macro mhttp_url is ( mhttp_scheme ":" mhttp_schemepart ) macro-end
+
+; -------------------------------------------------------------
+; define default shelf pseudo-datatype items and default values
+; -------------------------------------------------------------
+
+macro HTTPRequest token VarName is
+   stream VarName variable initial-size 10 initial
+      {  ""          with key "last-error",
+         ""          with key "proxy-host",
+         ""          with key "proxy-port",
+         ""          with key "host",
+         "80"        with key "port",
+         "GET"       with key "method",
+         "/"         with key "path",
+         "HTTP/1.0"  with key "http-version",
+         "1"         with key "cookie-version",
+         ""          with key "entity-body"
+      }     
+macro-end
+
+macro HTTPResponse token VarName is
+   stream VarName variable initial-size 5 initial
+      {  ""          with key "last-error",
+         "HTTP/1.0"  with key "http-version",
+         "200"       with key "status-code",
+         "OK"        with key "reason-phrase",
+         ""          with key "entity-body"
+      }
+macro-end
+
+
+; ------------------------------------------------
+; define some global object for the reset function
+; ------------------------------------------------
+
+global HTTPRequest   HTTP_RequestObject
+global HTTPResponse  HTTP_ResponseObject
+
+
+; --------------------------------
+; 1 Unpublished Internal Functions
+; --------------------------------
+
+
+;----
+; 1.1
+;----
+define function HttpObjectSetItem
+   (  modifiable stream ShelfVar,
+      value      stream KeyName,
+      value      stream KeyValue,
+      value      switch AppendMode optional initial { false }
+   )
+as
+   ; check if key exists
+   do when ShelfVar has key KeyName
+      do when length of ShelfVar^KeyName = 0 | !AppendMode
+         set ShelfVar^KeyName to KeyValue
+      else
+         reopen ShelfVar^KeyName
+         put ShelfVar^KeyName ",%g(KeyValue)"
+         close ShelfVar^KeyName 
+      done
+   else
+      set new ShelfVar^KeyName to KeyValue
+   done
+;return
+
+
+;----
+; 1.2
+;----
+define function HttpObjectResetItems
+               modifiable stream ShelfVar
+   object-type read-only  stream ObjectType
+as
+   clear ShelfVar
+   repeat over ObjectType
+      set new ShelfVar^(key of ObjectType) to ObjectType
+   again
+;return
+
+
+;----
+; 1.3
+;----
+define stream function HttpEscapeString
+         value stream Unsafe
+   allow value stream Allow optional initial { "" }
+as
+   local stream RetVal
+   open RetVal as buffer 
+
+   using output as RetVal
+   repeat scan Unsafe
+      match ( ( mhttp_uchar | [";:@"] )+ ) => safechars
+         output safechars
+      match any => charval
+         do when Allow matches unanchored charval
+            output charval
+         else
+            output "%%" || "16r2fzud" % binary charval
+         done
+   again
+   close RetVal
+return RetVal
+
+
+;----
+; 1.4
+;----
+define stream function HttpUnEscapeString
+         value stream Safe
+   plus-is-space value switch pspace optional initial {false}
+as
+   local stream RetVal
+   open RetVal as buffer 
+
+   using output as RetVal
+   repeat scan Safe
+      match (  [any except "%%+"]+ 
+            |  ("%%" lookahead !ul[digit|"ABCDEF"]{2})+ 
+            )  
+            => safechars
+         output safechars
+      match '+'
+         output ' ' when pspace
+         output '+' when not pspace
+      match "%%" ul[digit|"ABCDEF"]{2} => hexchar
+         output "b" % (hexchar base 16)
+   again
+   close RetVal
+return RetVal
+
+
+; -------------------------- 
+; 2 General Object Functions
+; -------------------------- 
+
+
+;----
+; 2.1
+;----
+define switch function HttpObjectIsInError
+   read-only stream HttpObject
+as
+return ( length of HttpObject^"last-error" > 0 )
+
+
+;----
+; 2.2
+;----
+define function HttpObjectGetStatusReport
+         read-only  stream HttpObject
+   into  modifiable stream Report
+as
+   clear Report
+   set new Report to HttpObject^"last-error" 
+         when length of HttpObject^"last-error" > 0
+;return
+
+
+;----
+; 2.3
+;----
+define function HttpObjectSetHeader
+               modifiable  stream   HttpObject
+   for         value       stream   HeaderName
+   to          value       stream   HeaderValue
+   append      value       switch   AppendMode optional initial { true }
+as
+   HttpObjectSetItem
+         ( HttpObject, "header-%lg(HeaderName)", HeaderValue, AppendMode )
+;return
+
+
+;----
+; 2.4
+;----
+define function HttpObjectSetCookieAttribute
+               modifiable  stream HttpObject
+   for         value       stream CookieName
+   attribute   value       stream AttrName
+   to          value       stream AttrValue
+as
+   ; verify cookie exists
+   do when HttpObject has key "cookies-%lg(CookieName)"
+      HttpObjectSetItem
+         (  HttpObject, 
+            "cookies-%lg(CookieName) %lg(AttrName)", 
+            AttrValue,
+            FALSE
+         )
+   else
+      set HttpObject^"last-error" to "The specified cookie does not exist."
+   done
+;return
+
+
+;----
+; 2.5
+;----
+define function HttpObjectSetCookieValue
+            modifiable  stream HttpObject
+   for      value       stream CookieName
+   to       value       stream CookieValue
+as
+   ; set cookie value and add default version type
+   HttpObjectSetItem
+         ( HttpObject, "cookies-%lg(CookieName)", CookieValue, FALSE )
+;return
+
+
+;----
+; 2.6
+;----
+define function HttpObjectGetHeaders
+            read-only   stream   HttpObject
+   into     modifiable  stream   Headers
+as
+   ; put header values onto receiver shelf after clearing
+   clear Headers
+   repeat over HttpObject
+      do scan key of HttpObject
+         match "header-" any+=>HeaderName
+            set new Headers^HeaderName to HttpObject
+      done
+   again
+;return
+
+
+;----
+; 2.7
+;----
+define function HttpObjectGetCookieAttributes
+            read-only   stream   HttpObject
+   for      value       stream   CookieName
+   into     modifiable  stream   CookieAttrs
+as
+   ; put cookie values onto receiver shelf after clearing
+   clear CookieAttrs
+   repeat over HttpObject
+      do scan key of HttpObject
+         match "cookies-%lg(CookieName)" white-space* any+=>AttrName
+            set new CookieAttrs^AttrName to HttpObject
+      done
+   again
+;return
+
+
+;----
+; 2.8
+;----
+define function HttpObjectGetCookieValues
+            read-only   stream   HttpObject
+   into     modifiable  stream   CookieValues
+as
+   ; put cookie values onto receiver shelf after clearing
+   clear CookieValues
+   repeat over HttpObject
+      do scan key of HttpObject
+         match "cookies-" [any except white-space]*=>CookieName 
+               white-space* value-end
+            set new CookieValues^CookieName to HttpObject
+      done
+   again
+;return
+
+   
+; -------------------
+; 3 Request Functions
+; -------------------
+
+
+;----
+; 3.1 
+;----
+define function HttpRequestSetFromUrl 
+            modifiable  stream Request
+   from     value       stream URL
+as
+   ; reset the shelf contents
+   HttpObjectResetItems Request object-type HTTP_RequestObject
+
+   ; decode the url and verify format
+   do scan URL
+      match ( mhttp_scheme=>scheme "://" )?
+            (  [any except ":@"]*=>user 
+               ( ":" [any except "@"]*=>password )? "@" 
+            )?
+            mhttp_host=>host ( ":" mhttp_port=>port )? 
+            (  ( ( [mhttp_dirdelim] [any except "?"]+ )=>path )?
+               ( "?" any+=>search )? 
+            )?
+         set Request^"host" to host when host is specified
+         set Request^"port" to port when port is specified
+         set Request^"path" to path when path is specified
+         do when search is specified
+            repeat scan search
+               match [any except "=&"]+=>searchkey
+                     "="? [any except "&"]*=>searchval "&"?
+                  HttpObjectSetItem
+                        ( Request, "search-"||searchkey, searchval )
+                     when searchval is specified
+            again
+         done
+      else
+         set Request^"last-error" to "Invalid URL."
+   done
+;return
+
+
+;----
+; 3.2 
+;----
+define function HttpRequestSetSearchItem
+         modifiable  stream   Request
+   for   value       stream   SearchName
+   to    value       stream   SearchValue
+as
+   HttpObjectSetItem( Request, "search-%lg(SearchName)", SearchValue )
+;return
+
+
+;----
+; 3.3
+;----
+define function HttpRequestGetSearchItems
+            read-only   stream   Request
+   into     modifiable  stream   SearchItems
+as
+   ; put search item values onto receiver shelf after clearing
+   clear SearchItems
+   repeat over Request
+      do scan key of Request
+         match "search-" any+=>SearchName
+            set new SearchItems^SearchName to Request
+      done
+   again
+;return
+
+
+;----
+; 3.4
+;----
+define function HttpRequestSetProxy
+            modifiable  stream   Request
+   host     value       stream   Host
+   port     value       counter  Port optional initial { 80 }
+as
+   ; set the request proxy server
+   do scan Host
+      match mhttp_host=>validhost
+         HttpObjectSetItem( Request, "proxy-host", validhost )
+         HttpObjectSetItem( Request, "proxy-port", "d" % Port )
+      else
+         set Request^"last-error" to "Invalid proxy host name."
+   done
+;return
+
+
+; --------------------
+; 4 Response Functions
+; --------------------
+
+
+;----
+; 4.1
+;----
+define function HttpResponseOutput modifiable stream Response
+as
+   ; local variables
+   local stream Cookies variable initial-size 0
+   local stream CookieAttrs variable initial-size 0
+
+   ; set the entity-body size header
+   HttpObjectSetHeader Response for "content-length" 
+         to ("d" % (length of Response^"entity-body"))
+
+   ; request line
+   output Response^"http-version"   || " "
+       || Response^"status-code"    || " "
+       || Response^"reason-phrase"  || mhttp_crlf
+
+   ; headers
+   repeat over Response
+      do scan key of Response
+         match "header-" any*=>HeaderName
+            output "%x(HeaderName):%g(Response)" || mhttp_crlf
+                  when (length of Response) > 0
+      done
+   again
+
+   ; output the default server name if not specified
+   output "server:" || HttpLibraryName || mhttp_crlf
+         when Response hasnt key "header-server"
+
+   ; cookies header
+   HttpObjectGetCookieValues Response into Cookies 
+   do when number of Cookies > 0
+      repeat over Cookies
+         output "set-cookie:" || key of Cookies || "=" 
+               || (HttpEscapeString Cookies)
+         HttpObjectGetCookieAttributes 
+                        Response 
+               for      key of Cookies 
+               into     CookieAttrs
+         repeat over CookieAttrs
+            output "; " || key of CookieAttrs
+            output "=%g(CookieAttrs)" when key of CookieAttrs != "secure"
+         again
+         output mhttp_crlf
+      again
+   done
+
+   ; entity body
+   output mhttp_crlf || Response^"entity-body"
+;return
+
+
+; -----------------------
+; 5 Transaction Functions
+; -----------------------
+
+   
+;----
+; 5.1
+;----
+define function HttpRequestSend
+            modifiable  stream  Request
+   into     modifiable  stream  Response
+   timeout  value       counter Timeout optional initial {10000}
+as
+   ; local variables
+   local TCPConnection Connection
+
+   ; clear the fields on the response
+   repeat over Response
+      set Response to ""
+   again
+
+   ; open the connection directly to target if proxy host not defined
+   do when length of Request^"proxy-host" = 0
+      set Connection to TCPConnectionOpen 
+            on Request^"host" at Request^"port" timeout Timeout
+   else
+      set Connection to TCPConnectionOpen 
+            on Request^"proxy-host" 
+            at Request^"proxy-port" 
+            timeout Timeout
+   done
+   
+   ; continue if successful connect
+   do when !(TCPConnectionIsInError Connection)
+
+      ; open connection for direct write of request message
+      local stream WriteToHost
+      open WriteToHost as TCPConnectionGetOutput Connection timeout Timeout
+      using output as WriteToHost
+      do
+         local stream Headers variable
+         local stream Cookies variable
+         local stream SearchItems variable
+         local stream Search
+         local stream GETSearch initial { "" }
+         local stream POSTSearch initial { "" }
+
+         ; handle the search
+         HttpRequestGetSearchItems Request into SearchItems
+         open Search as buffer
+         repeat over SearchItems
+            put Search HttpEscapeString ( key of SearchItems )
+                  || "="
+                  || HttpEscapeString SearchItems
+            put Search "&" when !#LAST
+         again
+         close Search
+
+         ; GET and POST handle search items differently
+         do when Request^"method" matches ul"POST"
+            local counter DataSize
+            set POSTSearch to Search
+            set DataSize to 
+                  length of POSTSearch + 
+                  length of Request^"entity-body"
+            HttpObjectSetHeader Request 
+                  for "content-length" 
+                  to "%d(DataSize)"
+         else when Request^"method" matches ul("GET"|"HEAD")
+            set GETSearch to "?%g(Search)" when length of Search > 0
+         done
+
+         ; request line
+         output Request^"method" || " " 
+         do when length of Request^"proxy-host" > 0
+            output "http://" || Request^"host"
+            output ":" || Request^"port" 
+                  when length of Request^"port" > 0
+         done
+         output HttpEscapeString Request^"path" allow "&=/" 
+               || GETSearch || " "
+               || Request^"http-version" || mhttp_crlf
+
+         ; headers
+         HttpObjectGetHeaders Request into Headers
+         repeat over Headers
+            output key of Headers || ": " || Headers || mhttp_crlf
+         again
+
+         ; use the default agent name if not specified
+         output "user-agent: " || HttpLibraryName || mhttp_crlf
+               when Request hasnt key "header-user-agent"
+
+         ; use the default accept if not specified
+         output "accept: *.*" || mhttp_crlf
+               when Request hasnt key "header-accept"
+
+         ; use the default host if not specified
+         output "host: " || Request^"host" || mhttp_crlf
+               when Request hasnt key "header-host"
+
+         ; cookies headers
+         HttpObjectGetCookieValues Request into Cookies 
+         do when number of Cookies > 0
+            output "Cookie:$Version=" || Request^"cookie-version"
+            repeat over Cookies
+               local stream CookieKey
+               set CookieKey to key of Cookies
+               output ",%g(CookieKey)=%g(Cookies)"
+               output ";$Path=" 
+                     || Request^"cookies-%g(CookieKey) path"
+                     when Request has key "cookies-%g(CookieKey) path"
+               output ";$Domain=" 
+                     || Request^"cookies-%g(CookieKey) domain"
+                     when Request has key "cookies-%g(CookieKey) domain"
+               output mhttp_crlf
+            again
+         done
+
+         ; entity body
+         output mhttp_crlf || POSTSearch || Request^"entity-body"
+         output mhttp_crlf when Request^"method" matches ul"POST"
+      done
+      close WriteToHost
+
+      ; continue if send was successful
+      do when !(TCPConnectionIsInError Connection)
+
+         ; reset the response shelf
+         HttpObjectResetItems Response object-type HTTP_ResponseObject
+
+         do scan TCPConnectionGetSource Connection timeout Timeout
+            match ((lookahead !mhttp_crlf) any)*=>status-line mhttp_crlf
+                  ((lookahead !(mhttp_crlf||mhttp_crlf)) any)*=>headers 
+                  mhttp_crlf mhttp_crlf any*=>body
+               do scan status-line
+                  match ( "HTTP/" digit+ "." digit+ )=>version 
+                        white-space* 
+                        digit{3}=>status white-space* 
+                        any-text*=>reason
+                     set Response^"http-version" to "%x(version)"
+                     set Response^"status-code" to "%x(status)"
+                     set Response^"reason-phrase" to "%x(reason)"
+               done
+               repeat scan headers
+                  match [any-text except ":"]*=>name ":" white-space* 
+                        any-text*=>val
+                     HttpObjectSetHeader Response for "%lx(name)" to val 
+                  match any
+               again
+               set Response^"entity-body" to body
+         done
+
+         ; decode the cookie components
+         do when Response has key "header-set-cookie"
+            local stream CurCookie
+            local stream CurAttr
+            repeat scan "," || Response^"header-set-cookie"
+               match "," white-space* [any except "="]+=>name "=" 
+                     white-space*
+                     [any except ";,"]*=>val
+                  set CurCookie to "%lx(name)"
+                  HttpObjectSetCookieValue Response for CurCookie to val
+               match ";" white-space* [any except "="]+=>name 
+                  set CurAttr to "%lx(name)"
+               match "=" white-space* (weekday ",")?
+                     [any except ";,"]*=>val
+                  HttpObjectSetCookieAttribute 
+                        Response 
+                        for CurCookie
+                        attribute CurAttr
+                        to "%x(val)"
+               match any
+            again
+            remove Response^"header-set-cookie"
+         done
+      done
+   done
+
+   ; communication error
+   do when (TCPConnectionIsInError Connection)
+      ; get TCP errors
+      local stream ErrReport variable
+      TCPConnectionGetStatusReport Connection into ErrReport
+      open Request^"last-error" as buffer
+      repeat over ErrReport
+         put Request^"last-error" ErrReport
+         put Request^"last-error" ", " when !#LAST
+      again
+      close Request^"last-error"
+   done
+;return
+
+
+;----
+; 5.2 
+;----
+define function HttpServiceAwaitRequest
+               value       TCPService    Service
+   receive     modifiable  stream        Request
+   connection  modifiable  TCPConnection Connection
+   timeout     value       counter       Timeout optional initial {10000}
+   decode-search-plus value switch Decode-Search-Plus optional initial {false}
+as
+   ; wait for a request
+   local stream SearchString initial {""}
+   set Connection to TCPServiceAcceptConnection Service
+
+   ; reset the request shelf
+   HttpObjectResetItems Request object-type HTTP_RequestObject
+
+   ; read the request line
+   do scan TCPConnectionGetLine Connection timeout Timeout
+      match [any except white-space]*=>method white-space* 
+            ( [any except "?"|white-space]*=>path )?
+            ( "?" [any except white-space]*=>search )? white-space*
+            ( "HTTP/" digit+ "." digit+ )=>version
+         set Request^"method" to "%ux(method)"
+         set Request^"path" to "%x(path)"
+         set Request^"http-version" to "%x(version)"
+         set SearchString to search when search is specified
+   done
+
+   ; read the headers
+   repeat scan TCPConnectionGetLine Connection 
+         multiline True timeout Timeout
+      match [any-text except ":"]*=>name ":" 
+            white-space* any-text*=>val mhttp_crlf*
+         HttpObjectSetHeader Request for "%lx(name)" to val 
+   again
+
+   ; read the entity body if specified
+   do when Request has key "header-content-length"
+      set Request^"entity-body" to TCPConnectionGetCharacters Connection
+            size    Request^"header-content-length"
+            timeout Timeout
+   done
+
+   ; flush the terminating CR on POST  
+   put #SUPPRESS TCPConnectionGetCharacters Connection timeout 0 
+         when Request^"method" = "POST"
+
+   ; decode the cookie components
+   do when Request has key "header-cookie"
+      do scan Request^"header-cookie"
+         match (ul"$version=" [any except ";,"]*=>version)? any*=>cookies
+            set Request^"cookie-version" to version 
+                  when version is specified
+            repeat scan cookies
+               match (";" | ","| white-space)*
+                     [any except "="]*=>name "=" [any except ";,"]*=>val
+                     (ul";$path="   [any except ";,"]+=>path)? 
+                     (ul";$domain=" [any except ";,"]+=>dom)?
+                  HttpObjectSetCookieValue Request for "%lx(name)" to val
+                  HttpObjectSetCookieAttribute Request for "%lx(name)" 
+                        attribute "path" to path when path is specified
+                  HttpObjectSetCookieAttribute Request for "%lx(name)" 
+                        attribute "domain" to dom when dom is specified
+               match any
+            again
+      done
+      remove Request^"header-cookie"
+   done
+
+   ; decode the search items
+   set SearchString to Request^"entity-body" 
+         when Request^"method" matches ul"POST"
+   repeat scan SearchString
+      match [any except "="]+=>SKey "="? [any except "&"]*=>SVal "&"?
+         HttpRequestSetSearchItem Request for SKey 
+               to HttpUnEscapeString SVal plus-is-space Decode-Search-Plus
+   again
+;return
+
+
+;----
+; 5.3
+;----
+define function HttpConnectionSendResponse
+               value       TCPConnection  Connection
+   send        modifiable  stream         Response
+   timeout     value       counter        Timeout optional initial {10000}
+as
+   local stream WriteToClient
+
+   ; open connection for direct write of response message
+   open WriteToClient as TCPConnectionGetOutput Connection timeout Timeout
+   using output as WriteToClient HttpResponseOutput Response
+   close WriteToClient
+;return

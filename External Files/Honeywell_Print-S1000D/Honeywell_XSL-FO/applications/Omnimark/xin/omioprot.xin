@@ -1,0 +1,120 @@
+;===========================================================================
+;
+; Copyright (C) 1998 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  omioprot.xin - OmniMark I/O Protocol API
+;
+;  Version: 1.0
+;  Revised: 04 AUG 1998
+;
+;  Version: 1.1
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;===========================================================================
+
+include-guard omioprot.xin
+declare function-library "omioprot"
+
+; IOProtocol objects can be used in conjunction with OmniMark External Source
+; and External Output objects to provide a multi-layered data sources or data
+; sinks respectively. The External Source or Output object provides the lower
+; level IO from or to the underlying transport layer respectively. A Protocol 
+; object filters the data passing through it on its way to the External Output
+; or External Source object. 
+; 
+; Protocol objects can be designed to packetize or transform data.
+; A packetization protocol object encodes a protocol for recognizing data 
+; from end-of-data for a particular transaction. For example, using 
+; "Control-Z" or some other pattern to signify the end of data.
+; 
+; A transforming protocol is one that applies certain transformation function
+; to the data such as encryption, compression, or dropping (noise removal).
+; 
+; Currently, the IOProtocol library support three standard packetization
+; protocols as described below.
+
+
+;===========================================================================
+declare opaque IOProtocol created by "IOProtocolCreator"
+;===========================================================================
+;
+; This version of the IOProtocol library does not allow you to directly
+; declare a global or local shelf of this opaque type. That is, an IOProtocol
+; object can only be returned from or passed to functions that return or take
+; this type.
+
+
+;===========================================================================
+define external stream function IOProtocolLibraryVersion
+as "IOProtocolLibraryVersion"
+;===========================================================================
+;
+; Returns the version string of the library. For example:
+;
+;    "OMIOPROT 1.0 Created by OmniMark Technologies Corporation, 1998"
+
+
+;===========================================================================
+define external switch function IOProtocolIsVersionCompatible
+as "IOProtocolIsVersionCompatible"
+;===========================================================================
+;
+; Returns TRUE if the IOProtocol library is compatible with this version
+; of OmniMark. It returns FALSE if this version of the library is designed 
+; for a newer version of OmniMark.
+;
+; Example:
+;
+; do unless IOProtocolIsVersionCompatible
+;    put #error "IOProtocol library is not compatible with this OmniMark"
+;    halt with 1
+; done
+
+
+;===========================================================================
+define external IOProtocol function IOProtocolSinglePacket
+as "IOProtocolSinglePacket"
+;===========================================================================
+;
+; Returns an IOProtocol object that implements the Single-Packet protocol.
+; In this protocol, data is packaged into a single length-encoded packet.
+; The packet is prefixed with its length. The length is the number of bytes
+; in the packet represented as a 32-bit network-ordered quantity.
+
+
+;===========================================================================
+define external IOProtocol function IOProtocolMultiPacket
+as "IOProtocolMultiPacket"
+;===========================================================================
+;
+; Returns an IOProtocol object that implements the Multi-Packet protocol.
+; In this protocol, data is packaged into multiple length-encoded mini
+; packets. Each mini packet is prefixed with its length. The length is the
+; number of bytes in the mini packet represented as a 32-bit network-ordered
+; quantity. End of data is indicated by a zero-length (magic) end packet.
+
+
+;===========================================================================
+define external IOProtocol function IOProtocolEndDelimited
+   value stream End-of-Data-Pattern
+as "IOProtocolEndDelimited"
+;===========================================================================
+;
+; Returns an IOProtocol object that implements the End-Delimited protocol.
+; In this protocol, End-of-Data is indicated by end-marking the data with 
+; the specified End-of-Data-Pattern. The End-of-Data-Pattern must not occur
+; in the data. Examples in common use, "\r\n.\r\n", "CONTROL-Z", etc.
+
+;===========================================================================

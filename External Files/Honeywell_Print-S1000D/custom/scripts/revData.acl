@@ -1,0 +1,598 @@
+package revdata;
+global firstpass=1;
+
+#------------------------------------------------------------------------
+# foliodate
+#
+# Evaluates contents of FOSI string variable finalpage.txt.  
+# (Finalpage.txt is a compilation of all rev dates found on a paticuar
+# page) Removes all but latest date and then converts from format
+# "YYYYMMDD" to "DD Month YYYY" and returns it to the FOSI for output
+#
+# Inputs        windoid, oid      of current element and finalpage.txt
+#-------------------------------------------------------------------------
+
+function foliodate(windowid, oid)
+{
+   local input=fosivar_value(windowid, "finaldate.txt", oid)
+   {
+    return java_static("dateadjust.dateAdjuster", "getFormattedDate", java_static("dateadjust.dateAdjuster", "getHighestDate", input));
+   }
+}
+
+#------------------------------------------------------------------------
+# ur (userule hook)
+#
+# Evaluates the Userule FOSI attribute for file manipulation.  
+# Replicates built-in processing for exporting and indexing (Userule 1 and 2).
+# Inputs: view_id, userule_id, userule_param, userule_oid, userule_value, 
+# userule_state, userule_doc_id of current oid
+#-------------------------------------------------------------------------
+
+function ur(view_id, userule_id, userule_param, userule_oid, userule_value, userule_state, userule_doc_id)
+{
+	#response("Inside revdata::ur; userule_value is: " . userule_value . "; oid_name(userule_oid): " . oid_name(userule_oid));
+
+	local otop, obot;
+	
+	# Switch current document to the userule document instance, and save the original document to restore later.
+	local savedoc = current_doc(userule_doc_id);
+
+	if (userule_value == 4 && userule_state < 3) {
+
+		#response("Inside revdata::ur - fix LEP; oid_name: " . oid_name(userule_oid));
+
+		local filename = "c:\\temp\\index1.sgm";
+		
+		write -ok -sgml -nopi -noheader $filename;
+		
+		# Java retrieves the highest date and changes to correct format (like "Apr 10, 2017").
+		# RS: Updated to use new version that changes multiple asterisks in the <lepchgsym.fmt> tag
+		# to a single asterisk. The asterisks are now output from the <revst>/<revend> tags, and
+		# there can be more than one on a page. The multiple asterisks are collected with the FOSI
+		# "FB" modifier on string variables (like the dates), which gets all of them set on the page.
+		
+		java_static("dateadjust.dateAdjusterNew", "getDate", $filename);
+
+		# Remove the original content of the userule document
+		otop = oid_first(userule_doc_id);
+		obot = oid_last(userule_doc_id);
+		goto_oid(otop);
+		mark begin;
+		goto_oid(obot);
+		mark end;
+		delete;
+		
+		# Read in the manipulated file.
+		read -nocc $filename;
+		
+		# Restore the original document
+		current_doc(savedoc);
+		
+		# Returning 1 means to insert the text in the output stream
+		return 1;
+	}
+
+	# This one is used to process the List of Acronyms and Abbreviations.
+	# The Java code sorts it and eliminates duplicates.
+	if (userule_value == 5 && userule_state < 3) {
+
+		local filename = "c:\\temp\\abbrev.sgm";
+		
+		write -ok -sgml -nopi -noheader $filename;
+		
+		java_static("dateadjust.dateAdjusterNew", "sortAbbrev", $filename);
+
+		# Remove the original content of the userule document
+		otop = oid_first(userule_doc_id);
+		obot = oid_last(userule_doc_id);
+		goto_oid(otop);
+		mark begin;
+		goto_oid(obot);
+		mark end;
+		delete;
+		
+		# Read in the manipulated file.
+		read -nocc $filename;
+		
+		# Restore the original document
+		current_doc(savedoc);
+		
+		# Returning 1 means to insert the text in the output stream
+		return 1;
+	}
+
+	# This one is used to process the tools and consumables tables.
+	# The Java code sorts it and eliminates duplicates.
+	if (userule_value == 6 && userule_state < 3) {
+
+		local filename = "c:\\temp\\tools.sgm";
+		
+		write -ok -sgml -nopi -noheader $filename;
+		
+		java_static("dateadjust.dateAdjusterNew", "dedupSpecialTable", $filename);
+
+		# Remove the original content of the userule document
+		otop = oid_first(userule_doc_id);
+		obot = oid_last(userule_doc_id);
+		goto_oid(otop);
+		mark begin;
+		goto_oid(obot);
+		mark end;
+		delete;
+		
+		# Read in the manipulated file.
+		read -nocc $filename;
+		
+		# Restore the original document
+		current_doc(savedoc);
+		
+		# Returning 1 means to insert the text in the output stream
+		return 1;
+	}
+
+	else if (userule_value == 1)
+	{
+		Local filename;
+		filename = "c:\\temp\\temp.sgm";
+		write -ok -sgml -nopi -noheader $filename;
+		current_doc(savedoc);
+		return -1;
+	}
+
+	else if (userule_value == 2)
+	{
+		indexproc(view_id, userule_id, userule_param);
+		current_doc(savedoc);
+		return 1;
+	}
+	
+	#response("Other userule value; returning -1");
+	return -1;
+}
+
+
+#-----------------------------------------------------------------
+# format_oidate
+#
+# Evaluates contents of attribute "oidate".  Converts from format
+# "YYYYMMDD" to "DD Month YYYY" and returns it to the FOSI for output
+#
+# Inputs        oid      oid of current element
+#-----------------------------------------------------------------
+ 
+function format_oidate(viewid, oid) {     
+   return java_static("dateadjust.dateAdjuster", "getFormattedDate", oid_attr(oid, "oidate"));
+}
+
+
+#-----------------------------------------------------------------
+# format_revdate
+#
+# Evaluates contents of attribute "revdate".  Converts from format
+# "YYYYMMDD" to "DD Month YYYY" and returns it to the FOSI for output
+#
+# Inputs        oid       oid of current element
+#-----------------------------------------------------------------
+ 
+function format_revdate(viewid, oid) {
+   return java_static("dateadjust.dateAdjuster", "getFormattedDate", oid_attr(oid, "revdate"));
+}
+
+#-----------------------------------------------------------------
+# getParts
+#
+# Evaluates contents of partinfo element, combines part numbers when
+# required, adds manufacturer name and returns value for use on
+# cover partinfo element.
+#
+# Inputs        doc_path
+#-----------------------------------------------------------------
+
+function getParts() {
+   local path = doc_path();
+   responseStr = java_static("dateadjust.dateAdjuster", "getParts", $path);
+    return responseStr;
+
+}
+
+#------------------------------------------------------------------------
+# function pnfontsize
+#
+# Works with getParts function by evaluating how many <mfr> and <pnr>
+# records are returned. Value is stored in pseudo attribute coverpn
+# which is evaluated by the FOSI to determine point size of part numbers 
+# on front cover. 
+#
+#------------------------------------------------------------------------
+
+function pnfontsize() {
+  local oid, oidval;
+  for ($oid=oid_first(); oid_valid($oid); $oid=oid_forward($oid)) {
+     goto_oid($oid);
+     if (oid_name($oid)=="partinfo") {
+         oidval = java_static("dateadjust.dateAdjuster", "getLines");
+         modify_tag coverpn=$oidval;
+     }
+  }
+}
+
+
+
+#------------------------------------------------------------------------
+# function (changePseudoAttribute)
+#
+# Finds rdi element in document, evaluates the content, and places a value  
+# in pseudo attribute (sortas).
+#-------------------------------------------------------------------------
+
+global pseudoCtr = 0;
+
+#--------------------------------------------------------------------------
+# RDISequenceReset
+#
+# Calls the resetRDISequence inside dateAdjuster class to construct the Indented Strings
+#-------------------------------------------------------------------------
+
+function RDISequenceReset(windowid, oid) {
+   local path = doc_path();
+   java_static("dateadjust.dateAdjuster", "resetRDISequence", $path);
+}
+
+
+#--------------------------------------------------------------------------
+# changePseudoAttribute
+#
+# This function parses through each OID searching for the sortas pseudo Attribute on the RDI tag.
+# After that, it returns the value of the correct idex value for that RDI.
+#---------------------------------------------------------------------------
+
+function changePseudoAttribute() {
+  message "in changePseudoAttribute";
+  local oid, oidval;
+  for ($oid=oid_first(); oid_valid($oid); $oid=oid_forward($oid)) {
+     goto_oid($oid);
+     if (oid_name($oid)=="rdi") {
+         oidval = java_static("dateadjust.dateAdjuster", "getIndentedRDI", $pseudoCtr++);
+		 #response("oidval: '" . $oidval . "'");
+         modify_tag sortas=$oidval;
+     }
+  }
+  pseudoCtr = 0;  # Reset Counter
+}
+
+global rdicounter;
+
+#-----------------------------------------------------------------------
+# RDICount
+#
+# Used to display NOT Applicable in case of no RDI tags inside sgml file
+#-----------------------------------------------------------------------
+
+function RDICount() {
+  local oid;
+  rdicounter=0;
+  for ($oid=oid_first(); oid_valid($oid); $oid=oid_forward($oid)) {
+     if (oid_name($oid)=="rdi") {
+         rdicounter++
+     }
+  }
+  if ($rdicounter == 0) {
+      return "NOT APPLICABLE"
+  }
+}
+
+#------------------------------------------------------------------------
+# getRDISeries
+# Returns the rdi values in a iplnom as a string of series and ranges
+# Called by FOSI
+#------------------------------------------------------------------------
+
+function getRDISeries(windowid, oid) {
+   local path = doc_path();
+   local retVal = java_static("dateadjust.dateAdjuster", "getRDI", $path);
+   return retVal;
+}
+
+#------------------------------------------------------------------------
+# RDIReset
+#
+# Called by FOSI To reset the dateAdjuster's File Read Index for Series And Ranges
+#------------------------------------------------------------------------
+
+function RDIReset() {
+   java_static("dateadjust.dateAdjuster", "resetRDI");
+   return 0;
+}
+
+global rdiCtr = 0;  # Counter used to call values from indent value arrays inside dateAdjuster class
+
+#-------------------------------------------------------------------------
+# getsortas
+#
+# Called by FOSI to get the indexed version of the Indented String.
+#-------------------------------------------------------------------------
+
+function getsortas(viewid, oid) {
+   return java_static("dateadjust.dateAdjuster", "getPseudoValue", oid_attr(oid, "sortas"));
+}
+
+#------------------------------------------------------------------------
+# writetexhook (startpreview)
+#
+# Runs changePseudoAttribute at time of format, preview, and print.  
+#-------------------------------------------------------------------------
+
+function startpreviewhook(command, final) {
+   RDICount();   # Reset the series and ranges
+   RDISequenceReset(0, 0);   # Reset the Indenting
+   changePseudoAttribute();  # Fill Pseudo Attribute sortas
+}
+
+
+#------------------------------------------------------------------------
+# isAbbrevTable
+#
+# Called from the table title e-i-c to test whether this is the
+# special List of Acronyms and Abbreviations, which we
+# will generate and suppress the original placeholder table.
+#
+# For now just performs a strict string comparison with "List of Acronyms
+# and Abbreviations"
+#
+# Returns "y" if it is, and "n" if not.
+#-------------------------------------------------------------------------
+
+function isAbbrevTable(window, oid) {
+	
+	local oids[];
+	local num_titles = oid_find_children(oid, oids, "title");
+	
+	if (num_titles == 0) {
+		return "n";
+	}
+	
+	local content = oid_content(oids[1]);
+	if (content == "List of Acronyms and Abbreviations") {
+		oid_modify_attr(oid, "tabstyle", "a-and-a");
+		return "y";
+	}
+	else {
+		return "n";
+	}
+}
+
+function isConsumablesTable(window, oid) {
+	
+	local oids[];
+	local num_titles = oid_find_children(oid, oids, "title");
+	
+	if (num_titles == 0) {
+		return "n";
+	}
+	
+	# TODO: (maybe) add condition that it should be the first or second table in
+	# the chapter?
+	local content = oid_content(oids[1]);
+	if (content == "Consumables") {
+		oid_modify_attr(oid, "tabstyle", "special");
+		return "y";
+	}
+	else {
+		return "n";
+	}
+}
+
+function isSpecialToolsTable(window, oid) {
+	
+	local oids[];
+	local num_titles = oid_find_children(oid, oids, "title");
+	
+	if (num_titles == 0) {
+		return "n";
+	}
+	
+	# TODO: (maybe) add condition that it should be the first or second table in
+	# the chapter?
+	local content = oid_content(oids[1]);
+	if (content == "Special Tools, Fixtures, and Equipment") {
+		# For now, may not need to distinguish the special tools from consumables
+		# for the added "tablstyle" attribute, since they will be handled the same.
+		oid_modify_attr(oid, "tabstyle", "special");
+		return "y";
+	}
+	else {
+		return "n";
+	}
+}
+
+function toolHasDescription(window, oid) {
+	
+	local oids[];
+	local tooldesc = oid_find_children(oid, oids, "tooldesc");
+	
+	if (tooldesc == 0) {
+		return "n";
+	}
+	
+	local content = oid_content(oids[1]);
+	if (content == "") {
+		return "n";
+	}
+	else {
+		return "y";
+	}
+}
+
+function hasCondesc(window, oid) {
+	
+	local oids[];
+	local desc = oid_find_children(oid, oids, "condesc");
+	
+	if (desc == 0) {
+		return "n";
+	}
+	
+	local content = oid_content(oids[1]);
+	if (content == "") {
+		return "n";
+	}
+	else {
+		return "y";
+	}
+}
+
+#------------------------------------------------------------------------
+# isGE17000
+#
+# Called from the pgblk elements to test whether the pgblknbr is greater or
+# equal to 17000. This is because the attribute is not considered a number
+# in the XML DTD, and so the usual FOSI #GE# operator can't be used.
+#
+# Returns "y" if it is, and "n" if not.
+#-------------------------------------------------------------------------
+
+function isGE17000(window, oid) {
+	
+	local pgblknbr = oid_attr(oid, "pgblknbr");
+	
+	if (pgblknbr >= 17000) {
+		return "y";
+	}
+	else {
+		return "n";
+	}
+}
+
+#------------------------------------------------------------------------
+# changeRevisionMarkers
+#
+# In XML, the revision markers that should generate the change bars (and
+# asterisks in the LEP) are represented by "_rev" processing instructions.
+#
+# Change these beginning and end PIs into singleton elements <revst/> and
+# <revend/> so that FOSI can use them to output the change markers and
+# LEP asterisks. FOSI can't use the PIs directly.
+#
+#-------------------------------------------------------------------------
+
+function changeRevisionMarkers(window, oid) {
+
+	local $pis[];
+	oid_find_children(oid_root(), $pis, "_rev");
+	
+	local i;
+	for (i = 1; i <= count($pis); i++) {
+		
+		goto_oid(pis[i],-2); # before start tag
+		insert("<revst/>");
+		
+		goto_oid(pis[i],-3); # after end tag
+		insert("<revend/>");
+		
+		#goto_oid(pis[i]); # after start tag
+		oid_delete(pis[i], 0x1); # delete only tag (not content)
+		
+		#break;
+	}
+}
+
+#------------------------------------------------------------------------
+# outputPartinfoTitle
+#
+# Called from the partinfo title e-i-c to test whether we should output the
+# title on the cover page.
+#
+# For now, if it's not in the first partinfo element, the answer is "n".
+#
+# Returns "y" if it should be output, and "n" if not.
+#-------------------------------------------------------------------------
+
+function outputPartinfoTitle(window, oid) {
+	
+	local partinfoParent = oid_parent(oid);
+	
+	if (partinfoParent == oid_null()) {
+		#response("No parent");
+		return "y";
+	}
+		
+	local prevSibling = oid_prev(partinfoParent);
+	
+	if (prevSibling == oid_null()) {
+		#response("No prevSibling");
+		return "y";
+	}
+	else {
+		local name = oid_name(prevSibling);
+		if (name == "partinfo") {
+			#response("prevSibling not partinfo");
+			return "n";
+		}
+		else {
+			#response("prevSibling name: " . name);
+			return "y"
+		}
+	}
+}
+
+#------------------------------------------------------------------------
+# isLongTitle
+#
+# Called from the pgblk title e-i-c to test whether the title is too long
+# to fit in two lines in the footer.
+#
+# Returns "y" if if it is, and "n" if not.
+#-------------------------------------------------------------------------
+
+function isLongTitle(window, oid) {
+	
+	local title = oid_content(oid);
+	
+	if (length(title) > 60) {
+		return "y";
+	}
+	else {
+		return "n";
+	}
+}
+
+#------------------------------------------------------------------------
+# isAfterSubhead
+#
+# Called from the lep-subhead2.fmt e-i-c to test whether it comes after
+# a lep-subhead.fmt.
+#
+# For some reason in the generated LEP context, the space added above
+# lep-subhead2.fmt becomes additive with the space below the subtitle
+# above, making too much space.
+#
+# So this is used to detect the context where we do not want to add extra
+# space above.
+#
+# Returns "y" if if it is, and "n" if not.
+#-------------------------------------------------------------------------
+
+function isAfterSubhead(window, oid) {
+	
+	local prevSibling = oid_prev(oid);
+	
+	if (prevSibling == oid_null()) {
+		#response("No prevSibling");
+		return "n";
+	}
+	else {
+		local name = oid_name(prevSibling);
+		if (name == "lep-subhead.fmt*" || name == "lep-subhead.fmt") {
+			#response("prevSibling not lep-subhead.fmt");
+			return "y";
+		}
+		else {
+			#response("prevSibling name: " . name);
+			return "n";
+		}
+	}
+}
+
+
+

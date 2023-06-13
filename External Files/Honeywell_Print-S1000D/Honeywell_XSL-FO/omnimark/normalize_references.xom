@@ -1,0 +1,23 @@
+; Normalize @key and @refid values
+
+cross-translate
+
+; Sonvovision update (2019.02.19)
+; - primarily seen in SB sometimes @key and @refid have mismatched cases that Arbortext allows, but XSLT treats as "Unmatched"
+; - force all to lowercase
+
+find ((" key=%"") or (" refid=%""))=attribute [any-text except "%""]*=id "%""
+  output "%x(attribute)%lx(id)%""
+  
+; "refint" sometimes targets @id
+find ((" id=%"") or (" ftnoteid=%""))=attribute [any-text except "%""]*=id "%""
+  output "%x(attribute)%lx(id)%""
+
+
+
+; Sonovision update (2019.06.17)
+; - simulate table centering by padding small left-aligned tables will depend all units in table be specified as "in" inches
+; - create a separate attribute which leaves only the number to make it easier for XSLT sum() function to work
+find ("colwidth=%"" (digit+ "."* digit*)=val "in%"")=colwidth
+  output "%x(colwidth) colwidth-number=%"%x(val)%""
+

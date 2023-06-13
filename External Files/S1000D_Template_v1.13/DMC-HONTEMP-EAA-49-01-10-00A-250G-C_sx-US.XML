@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY ICN-HNYWL-0000100000-001-01 SYSTEM "Graphics\ICN-HNYWL-0000100000-001-01.cgm" NDATA cgm>
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!NOTATION cgm SYSTEM "cgm">
+<!NOTATION tif SYSTEM "tif">
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/proced.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250" infoCodeVariant="G" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>CLEANING</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content>
+<warningsAndCautionsRef><warningRef id="warn-0001"
+warningIdentNumber="warn-0001"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></warningRef><cautionRef
+cautionIdentNumber="caut-0001" id="caut-0001"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef>
+<cautionRef cautionIdentNumber="caut-0002" id="caut-0002"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0003"
+id="caut-0003"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0004"
+id="caut-0004"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0005"
+id="caut-0005"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0006"
+id="caut-0006"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0007"
+id="caut-0007"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0008"
+id="caut-0008"><dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef></warningsAndCautionsRef>
+<procedure><preliminaryRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+<reqSupportEquips>
+<noSupportEquips/></reqSupportEquips>
+<reqSupplies>
+<noSupplies/></reqSupplies>
+<reqSpares>
+<noSpares/></reqSpares>
+<reqSafety>
+<noSafety/></reqSafety>
+</preliminaryRqmts>
+<mainProcedure>
+<proceduralStep><title>Standard Cleaning Practices</title>
+<proceduralStep cautionRefs="caut-0004">
+<para>Insert steps.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Insert steps. Refer to <internalRef internalRefId="f001"
+internalRefTargetType="irtt01"></internalRef>.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Refer to ATA No. 20-00-02/70-00-01, SPM for general cleaning
+instructions, preparation of cleaning solutions and for cleaning procedures.</para>
+</proceduralStep>
+<proceduralStep>
+<para>For protection of cleaned parts, refer to the instructions given
+in the SPM.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Clean component parts.</para>
+<proceduralStep>
+<para>Clean the parts with the specified procedures as shown in <internalRef
+internalRefId="t002" internalRefTargetType="irtt02"></internalRef
+>. When more than one procedure to clean a part is shown in the table,
+use only the procedure necessary to satisfactorily clean the part.</para>
+<note>
+<notePara>The alpha letters in <internalRef internalRefId="t002"
+internalRefTargetType="irtt02"></internalRef> refer to the alpha letter
+suffix for Method 203 as shown in ATA 20-00-02/70-00-01, SPM. (Example:
+Method A in <internalRef internalRefId="t002"
+internalRefTargetType="irtt02"></internalRef> refers to cleaning Method
+203A (Using Petroleum Solvent) in the SPM.)</notePara>
+</note>
+</proceduralStep>
+<proceduralStep>
+<para>Ball or roller bearing assemblies must be replaced or analyzed
+by a repair facility specializing in the repair of bearing assemblies.</para>
+<figure id="f001">
+<title>TBD Figure Title</title>
+<graphic id="f001g001" infoEntityIdent="ICN-HNYWL-0000100000-001-01">
+</graphic>
+<legend>
+<definitionList><definitionListItem>
+<listItemTerm>10</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>20</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>30</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>40</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>50</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>60</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>70</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>80</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>90</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>100</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>110</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>120</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>130</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>140</listItemTerm>
+<listItemDefinition></listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>-</listItemTerm>
+<listItemDefinition><para>NOT ILLUSTRATED</para>
+</listItemDefinition>
+</definitionListItem></definitionList>
+</legend>
+</figure>
+<table>
+<title>Dimensional Limits for <internalRef internalRefId="f001"
+internalRefTargetType="irtt01"></internalRef></title>
+<tgroup cols="4"><colspec colname="col1"/><colspec colname="col2"/>
+<colspec colname="col3"/><colspec colname="col4"/><thead><row>
+<entry>
+<para>References</para>
+</entry>
+<entry>
+<para>Limits Inches(mm)</para>
+</entry>
+<entry>
+<para>References</para>
+</entry>
+<entry>
+<para>Limits Inches(mm)</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>DIA A</para>
+</entry>
+<entry>
+<para>0.025 (6.35) MAXIMUM</para>
+</entry>
+<entry>
+<para>ANG D</para>
+</entry>
+<entry>
+<para>90 DEGREES MAXIMUM</para>
+</entry>
+</row><row>
+<entry>
+<para>DIM. A</para>
+</entry>
+<entry>
+<para>0.76 TO 0.78 (19.3 TO 19.8)</para>
+</entry>
+<entry>
+<para>DIA L</para>
+</entry>
+<entry>
+<para>0.025 (6.35)</para>
+</entry>
+</row><row>
+<entry>
+<para>DIM. B</para>
+</entry>
+<entry>
+<para>0.025 (6.35)</para>
+</entry>
+<entry>
+<para>RADIUS M</para>
+</entry>
+<entry>
+<para>0.025 (6.35)</para>
+</entry>
+</row><row>
+<entry>
+<para>CHAMFER C</para>
+</entry>
+<entry>
+<para>0.025 (6.35)</para>
+</entry>
+<entry>
+<para>DIM. R</para>
+</entry>
+<entry>
+<para>0.025 (6.35)</para>
+</entry>
+</row></tbody></tgroup></table>
+<table id="t002">
+<title>Cleaning Methods</title>
+<tgroup cols="16">
+<?PubTbl tgroup dispwid="756.00px"?>
+<colspec colname="col1" colwidth="3.02*"/><colspec colname="col2"
+colwidth="2.92*"/><colspec colname="COLSPEC1" colwidth="10.20*"/>
+<colspec colname="col3" colwidth="21.35pt"/><colspec colname="col4"
+colwidth="21.35pt"/><colspec colname="col5" colwidth="20.53pt"/>
+<colspec colname="col6" colwidth="21.35pt"/><colspec colname="col7"
+colwidth="21.35pt"/><colspec colname="col8" colwidth="20.53pt"/>
+<colspec colname="col9" colwidth="21.35pt"/><colspec colname="col10"
+colwidth="21.35pt"/><colspec colname="col11" colwidth="20.53pt"/>
+<colspec colname="col12" colwidth="21.35pt"/><colspec colname="col13"
+colwidth="21.35pt"/><colspec colname="col14" colwidth="20.53pt"/>
+<colspec colname="col15" colwidth="21.35pt"/><thead><row>
+<entry nameend="COLSPEC1" namest="col1"></entry>
+<entry nameend="col15" namest="col3">
+<para>Cleaning Methods &ndash; Refer to Method 203</para>
+</entry>
+</row><row>
+<entry nameend="COLSPEC1" namest="col1"></entry>
+<entry nameend="col15" namest="col3">
+<para>(Alpha Suffix) in SPM</para>
+</entry>
+</row><row>
+<entry>
+<para>IPL Figure No.</para>
+</entry>
+<entry>
+<para>Item No.</para>
+</entry>
+<entry>
+<para>Nomenclature</para>
+</entry>
+<entry>
+<para>A</para>
+</entry>
+<entry>
+<para>B</para>
+</entry>
+<entry>
+<para>C</para>
+</entry>
+<entry>
+<para>D</para>
+</entry>
+<entry>
+<para>E</para>
+</entry>
+<entry>
+<para>F</para>
+</entry>
+<entry>
+<para>G</para>
+</entry>
+<entry>
+<para>H</para>
+</entry>
+<entry>
+<para>I</para>
+</entry>
+<entry>
+<para>J</para>
+</entry>
+<entry>
+<para>K</para>
+</entry>
+<entry>
+<para>L</para>
+</entry>
+<entry>
+<para>M</para>
+</entry>
+</row></thead><tbody><row>
+<entry nameend="COLSPEC1" namest="col1">
+<para>All Standard Metallic Hardware</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry nameend="COLSPEC1" namest="col1">
+<para>Plumbing and Fittings</para>
+</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry>
+<para>X</para>
+</entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry nameend="COLSPEC1" namest="col1">
+<para>Electrical Components</para>
+</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry>
+<para>X</para>
+</entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry>
+<para>N</para>
+</entry>
+<entry>
+<para>NN</para>
+</entry>
+<entry>
+<para>XXXXXXXXXX</para>
+</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry>
+<para>N</para>
+</entry>
+<entry>
+<para>NNN</para>
+</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+</proceduralStep>
+</proceduralStep>
+</proceduralStep>
+</mainProcedure>
+<closeRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+</closeRqmts>
+</procedure></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

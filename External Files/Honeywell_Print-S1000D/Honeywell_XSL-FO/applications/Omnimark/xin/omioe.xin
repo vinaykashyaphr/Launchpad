@@ -1,0 +1,122 @@
+;===========================================================================
+;
+; Copyright (C) 1998 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  omioe.xin - I/O Exception opaque object
+;
+;  Version: 1.0
+;  Revised: 04 AUG 1998
+;
+;  Version: 1.1
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;===========================================================================
+
+include-guard omioe.xin
+declare function-library "omioe"
+
+;===========================================================================
+; Declare the I/O Exception opaque object for use with EXTERNAL
+; SOURCE and OUTPUT functions that (may) wish to provide a "soft"
+; recovery from I/O errors.
+;===========================================================================
+
+DECLARE OPAQUE io-exception CREATED BY "IOEXCreate"
+
+DEFINE EXTERNAL COUNTER FUNCTION get-exception-status
+       VALUE io-exception ex
+    AS "IOEXGetStatus_om"
+
+DEFINE EXTERNAL FUNCTION set-voluntary-end-exception
+       VALUE io-exception ex
+    AS "IOEXSetEOF_om"
+
+; The following OmniMark-usable macros define the different values that
+; an io-exception's status can contain.  Note that each value represents
+; a different bit in a bit vector, and that an io-exception's status can
+; have more than one bit set.
+
+MACRO IOException_MiscellaneousError  IS ("0001" BASE 16) MACRO-END
+MACRO IOException_ParameterError      IS ("0002" BASE 16) MACRO-END
+MACRO IOException_PreconnectError     IS ("0004" BASE 16) MACRO-END
+MACRO IOException_CreateResourceError IS ("0008" BASE 16) MACRO-END
+MACRO IOException_ConnectionError     IS ("0010" BASE 16) MACRO-END
+MACRO IOException_ReadError           IS ("0020" BASE 16) MACRO-END
+MACRO IOException_WriteError          IS ("0040" BASE 16) MACRO-END
+MACRO IOException_TerminationError    IS ("0080" BASE 16) MACRO-END
+MACRO IOException_OtherResourceError  IS ("0100" BASE 16) MACRO-END
+MACRO IOException_DataEncodingError   IS ("0200" BASE 16) MACRO-END
+MACRO IOException_VoluntaryEOF        IS ("1000" BASE 16) MACRO-END
+
+; new-io-exception
+; This function returns a newly created io-exception object, which has
+; no bits set in its status.
+
+DEFINE io-exception FUNCTION new-io-exception AS
+   LOCAL io-exception ex
+   RETURN ex
+
+; io-exception-text
+; This function accepts an io-exception object as its sole argument and
+; returns a printable string of text that summarizes the bits set in
+; the io-exception's status.
+
+DEFINE STREAM FUNCTION io-exception-text VALUE io-exception ex AS
+   LOCAL COUNTER io-exception-status
+   LOCAL STREAM r
+   LOCAL STREAM exception-texts VARIABLE INITIAL-SIZE 0
+   SET io-exception-status TO get-exception-status ex
+   DO WHEN io-exception-status = 0
+      SET NEW exception-texts TO "SOURCE/OUTPUT is unexceptional"
+   ELSE
+      SET NEW exception-texts TO "EXTERNAL SOURCE/OUTPUT FUNCTION arguments " _
+               "in error"
+             WHEN io-exception-status MASK IOException_ParameterError != 0
+      SET NEW exception-texts TO "EXTERNAL SOURCE/OUTPUT FUNCTION failed to " _
+               "find the expected running environment"
+             WHEN io-exception-status MASK IOException_PreconnectError != 0
+      SET NEW exception-texts TO "EXTERNAL SOURCE/OUTPUT FUNCTION failed to " _
+               "find required resources (e.g. memory)"
+             WHEN io-exception-status MASK IOException_CreateResourceError != 0
+      SET NEW exception-texts TO "Connection operation failed"
+             WHEN io-exception-status MASK IOException_ConnectionError != 0
+      SET NEW exception-texts TO "Read operation failed"
+             WHEN io-exception-status MASK IOException_ReadError != 0
+      SET NEW exception-texts TO "Write operation  failed"
+             WHEN io-exception-status MASK IOException_WriteError != 0
+      SET NEW exception-texts TO "Termination operation failed"
+             WHEN io-exception-status MASK IOException_TerminationError != 0
+      SET NEW exception-texts TO "Some subfunction failed to find required " _
+             "resources (e.g. memory)"
+             WHEN io-exception-status MASK IOException_OtherResourceError != 0
+      SET NEW exception-texts TO "A data encoding error was encountered"
+             WHEN io-exception-status MASK IOException_DataEncodingError != 0
+      SET NEW exception-texts TO "A %"miscellaneous%" error was encountered"
+             WHEN io-exception-status MASK IOException_MiscellaneousError != 0
+   DONE
+   OPEN r AS BUFFER
+   USING OUTPUT AS r
+   DO
+      REPEAT OVER exception-texts
+         OUTPUT ",%n" UNLESS #FIRST
+         OUTPUT exception-texts
+      AGAIN
+     OUTPUT ".%n"
+   DONE
+   CLOSE r
+   RETURN r
+
+;===========================================================================
+;===========================================================================

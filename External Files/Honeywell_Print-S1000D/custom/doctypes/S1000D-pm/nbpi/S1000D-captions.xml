@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- [*** CONFIGURATION FILE ***] -->
+
+<!-- S1000D "pmEntry" captions lookup file -->
+
+<!--
+
+ Captions coming from "V4.1 Stylesheet Requirements.docx":
+
+ pmt51: "FM" "Front Matter" "Front matter"
+
+ pmt52: [Not used by itself - title is "Technical content". Maybe repeat first subsection's prefixes below ("DESC", "Description", "Technical descriptions")?]
+
+ pmt53: "DESC" "Description" "Technical descriptions"
+
+ pmt54: "MAINT" "Maintenance" "Maintenance and servicing"
+
+ pmt55: [Not clear - this seems like the opposite case from pmt52: the enclosing section has prefixes defined, but not the first subsection. Maybe use same for both again (same as pmt54)?]
+
+ [ALSO: pmt55-58 are missing files, and don't have prefixes defined]
+
+ pmt56: [Not defined: title "Removal and installation"]
+
+ pmt57: [Not defined: title "Task sets"]
+
+ pmt58: "SRVC" "Service" "Servicing"
+ pmt59: "TEST" "Test" "Examination, Test, Checks"
+ pmt60: "DIS" "Disassembly" "Disconnect remove and disassemble procedure"
+ pmt61: "ASSY" "Assembly" "Assemble, install and reconnect procedure"
+ pmt62: "RPR" "Repair" "Repair instructions"
+ pmt63: "STORE" "Storage" "Storage procedures and data"
+ pmt64: "IPD" "Illustrated Parts Data" "Illustrated Parts Data"
+
+ [NOT USED]: "FI" "Fault" "Fault Isolation"
+
+-->
+
+<captions>
+
+<entry type="pmt51"
+       short="TC"
+       prefix="Front matter and introduction"
+       section="Front matter and introduction"
+       startat="1"
+       />
+
+<entry type="pmt52"
+       short="TI"
+       prefix="Functional and technical descriptions"
+       section="Functional and technical descriptions"
+       startat="1"
+       />
+
+<entry type="pmt53"
+       short="RR"
+       prefix="Description of function"
+       section="Description of function"
+       startat="1"
+       />
+
+<entry type="pmt54"
+       short="RTR"
+       prefix="Technical description"
+       section="Technical description"
+       startat="1"
+       />
+
+<entry type="pmt55"
+       short="SBL"
+       prefix="Electrical and electronic data"
+       section="Electrical and electronic data"
+       startat="1"
+       />
+
+<entry type="pmt56"
+       short="LEP"
+       prefix="Software data"
+       section="Software data"
+       startat="1"
+       />
+
+<entry type="pmt57"
+       short="TC"
+       prefix="Diagrams and schematics"
+       section="Diagrams and schematics"
+       startat="1"
+       />
+
+<entry type="pmt58"
+       short="INTRO"
+       prefix="Maintenance and servicing"
+       section="Maintenance and servicing"
+       startat="1"
+       />
+
+<entry type="pmt59"
+       short=""
+       prefix="Maintenance Planning"
+       section="Maintenance Planning"
+       startat="1"
+       />
+
+<entry type="pmt60"
+       short=""
+       prefix="Removal and Installation"
+       section="Removal and Installation"
+       startat="1001"
+       />
+
+<entry type="pmt61"
+       short=""
+       prefix="Task Sets"
+       section="Task Sets"
+       startat="2001"
+       />
+
+<entry type="pmt62"
+       short=""
+       prefix="Servicing"
+       section="Servicing"
+       startat="3001"
+       />
+
+<entry type="pmt63"
+       short=""
+       prefix="Examination, test, checks and fault isolation"
+       section="Examination, test, checks and fault isolation"
+       startat="4001"
+       />
+
+<entry type="pmt64"
+       short=""
+       prefix="Disconnect, remove and disassemble procedures"
+       section="Disconnect, remove and disassemble procedures"
+       startat="5001"
+       />
+
+<entry type="pmt65"
+       short=""
+       prefix="Repair instructions"
+       section="Repair instructions"
+       startat="6001"
+       />
+
+<entry type="pmt66"
+       short=""
+       prefix="Assemble, install and reconnect procedures"
+       section="Assemble, install and reconnect procedures"
+       startat="7001"
+       />
+
+<entry type="pmt67"
+       short=""
+       prefix="Storage procedures and data"
+       section="Storage procedures and data"
+       startat="8001"
+       />
+
+<entry type="pmt68"
+       short=""
+       prefix="Special procedures"
+       section="Special procedures"
+       startat="9001"
+       />
+
+<entry type="pmt69"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="11001"
+       />
+
+<entry type="pmt70"
+       short=""
+       prefix="IPD Introduction"
+       section="IPD Introduction"
+       startat="12001"
+       />
+
+<entry type="pmt71"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="13001"
+       />
+
+<entry type="pmt72"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="14001"
+       />
+<entry type="pmt73"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="15001"
+       />
+<entry type="pmt74"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="16001"
+       />
+<entry type="pmt75"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="10001"
+       />
+<entry type="pmt76"
+       short=""
+       prefix="Rotating Components/Life-Limited Components/Check Interval"
+       section="Rotating Components/Life-Limited Components/Check Interval"
+       startat="10001"
+       />
+<entry type="pmt77"
+       short="T"
+       prefix="First page continued"
+       section="First page continued"
+       startat="2"
+       />
+
+<!-- The next six (78-83) are for special IRM sections. Later perhaps we might want to
+ use a different configuration file just for IRM (if we start to run out of numbers). -->
+<entry type="pmt78"
+       short=""
+       prefix="General Check"
+       section="General Check"
+       startat="5001"
+       />
+<entry type="pmt79"
+       short=""
+       prefix="Inspection/Check"
+       section=" Inspection/Check"
+       startat="5001"
+       />
+<entry type="pmt80"
+       short=""
+       prefix="Continue-Time Check"
+       section="Continue-Time Check"
+       startat="5001"
+       />
+<entry type="pmt81"
+       short=""
+       prefix="Zero-Time Check"
+       section="Zero-Time Check"
+       startat="5001"
+       />
+<entry type="pmt82"
+       short=""
+       prefix="General Repair"
+       section="General Repair"
+       startat="6001"
+       />
+<!-- NOTE: Some IRM documents use pmt65 for repair as well -->
+<entry type="pmt83"
+       short=""
+       prefix="Repair"
+       section="Repair"
+       startat="6001"
+       />
+
+<!-- The next two (84-85) are for special SPM sections. -->
+<entry type="pmt84"
+       short=""
+       prefix="Packaging"
+       section="Packaging"
+       startat="6001"
+       />
+<!-- The Appendix is also used in other documents (with prefix "A-"). Note that the stylesheet will apply -->
+<!-- the correct "startat" value in that case (page "1"), and the prefix. The "7001" starting page shown below -->
+<!-- is still used for SPM. -->
+<entry type="pmt85"
+       short=""
+       prefix="Appendix"
+       section="Appendix"
+       startat="7001"
+       />
+
+<entry type="pmt86"
+       short=""
+       prefix="Heavy Maintenance"
+       section="Heavy Maintenance"
+       startat="1"
+       />
+
+<!-- New types for IM/SDIM/SDOM representing sections 1-6. Start at 91 to make it easier to recognize. -->
+<!-- UPDATE: Now using pmt87-pmt90 for the "overflow" sections 10-13 -->
+
+<entry type="pmt87"
+       short="10"
+       prefix="Section 10"
+       section="Section 10"
+       startat="1"
+       />
+
+<entry type="pmt88"
+       short="11"
+       prefix="Section 11"
+       section="Section 11"
+       startat="1"
+       />
+
+<entry type="pmt89"
+       short="12"
+       prefix="Section 12"
+       section="Section 12"
+       startat="1"
+       />
+
+<entry type="pmt90"
+       short="13"
+       prefix="Section 13"
+       section="Section 13"
+       startat="1"
+       />
+
+<entry type="pmt91"
+       short="1"
+       prefix="Section 1"
+       section="Section 1"
+       startat="1"
+       />
+
+<entry type="pmt92"
+       short="2"
+       prefix="Section 2"
+       section="Section 2"
+       startat="1"
+       />
+
+<entry type="pmt93"
+       short="3"
+       prefix="Section 3"
+       section="Section 3"
+       startat="1"
+       />
+
+<entry type="pmt94"
+       short="4"
+       prefix="Section 4"
+       section="Section 4"
+       startat="1"
+       />
+
+<entry type="pmt95"
+       short="5"
+       prefix="Section 5"
+       section="Section 5"
+       startat="1"
+       />
+
+<entry type="pmt96"
+       short="6"
+       prefix="Section 6"
+       section="Section 6"
+       startat="1"
+       />
+
+<entry type="pmt97"
+       short="7"
+       prefix="Section 7"
+       section="Section 7"
+       startat="1"
+       />
+
+<entry type="pmt98"
+       short="8"
+       prefix="Section 8"
+       section="Section 8"
+       startat="1"
+       />
+
+<entry type="pmt99"
+       short="9"
+       prefix="Section 9"
+       section="Section 9"
+       startat="1"
+       />
+
+</captions>
+

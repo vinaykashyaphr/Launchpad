@@ -1,0 +1,243 @@
+; Page footer fix (currently IRM related)
+
+cross-translate
+
+; IRM regular "Page 6002-307668", but foldout showing up as "Page 6003/6004"
+; and needs to be "Page 6003-307668/6004-307668"
+
+; NOTE: going to modify foldout footer as "Page 6003/6004-307668" which matches what is happening in LEP
+
+global stream s-page-footer-suffix initial {""}
+
+; SB - must reset page number on key table following a foldout graphic
+global stream s-in-key-page initial {"NO"}
+global stream s-key-page-reset initial {"NONE"}
+
+
+macro m-white-space is (white-space* "%n"* white-space*) macro-end
+
+
+; CV - this doesn't work as will be resetting right after buffer is set
+;    - in XEP state, there currently doesn't seem to be a reliable way of re-setting
+; (a) Reset buffer
+;find ("<xep:text value=%"EFFECTIVITY%"")=tag
+;  set s-page-footer-suffix to ""
+;  output "%x(tag)"
+
+
+
+; (b) Find page suffix string
+;      <xep:text value="Page " x="480140" y="38655" width="26130"/>
+;      <xep:text value="6001" x="506270" y="38655" width="22240"/>
+;      <xep:text value="-893384" x="528510" y="38655" width="36690"/>
+
+find ("<xep:text value=%"Page %"" [any-text except ">"]* ">" m-white-space
+      "<xep:text value=%"" digit+ "%"" [any-text except ">"]* ">" m-white-space
+      "<xep:text value=%"" ("-" digit+)=suffix "%"" [any-text except ">"]* ">" m-white-space
+     )=tag
+  set s-page-footer-suffix to "%x(suffix)"
+  output "%x(tag)"
+
+
+
+; (c) Add suffix to foldout pages (don't worry about overhang)
+;      <xep:text value="Page " x="491810" y="41535" width="26130"/>
+;      <xep:text value="6003" x="517940" y="41535" width="22240"/>
+;      <xep:text value="/" x="540180" y="41535" width="2780"/>
+;      <xep:text value="6004" x="542960" y="41535" width="22240"/>
+
+find ("<xep:text value=%"Page %"" [any-text except ">"]* ">" m-white-space
+      "<xep:text value=%"" (digit+)=page-1 "%"" [any-text except ">"]* ">" m-white-space
+      "<xep:text value=%"/%"" [any-text except ">"]* ">" m-white-space
+     )=tag-1
+     ("<xep:text value=%"" (digit+)=page-2)=tag-2 ("%"" [any-text except ">"]* ">" m-white-space
+     )=tag-3
+  output "%x(tag-1)%x(tag-2)%g(s-page-footer-suffix)%x(tag-3)"     
+
+     
+
+; ************************************************************
+; Sonovision update (2019.04.29)
+; - blank page after foldout page displaying header/footer and "Page" (with no number)
+; - try to detect this with script and replace with empty page
+
+; e.g. this page should be entirely blank:
+;
+;   <xep:page width="1224000" height="792000" page-number="37" page-id="5">
+;      <xep:gray-color gray="0.0"/>
+;      <xep:polygon x-from="151200" y-from="51000">
+;         <xep:point x-till="151200" y-till="51500"/>
+;         <xep:point x-till="313700" y-till="51500"/>
+;         <xep:point x-till="313200" y-till="51000"/>
+;         <xep:point x-till="312700" y-till="50500"/>
+;         <xep:point x-till="151200" y-till="50500"/>
+;      </xep:polygon>
+;      <xep:polygon x-from="313200" y-from="22200">
+;         <xep:point x-till="313700" y-till="22200"/>
+;         <xep:point x-till="313700" y-till="51500"/>
+;         <xep:point x-till="313200" y-till="51000"/>
+;         <xep:point x-till="312700" y-till="50500"/>
+;         <xep:point x-till="312700" y-till="22200"/>
+;      </xep:polygon>
+;      <xep:word-spacing value="0"/>
+;      <xep:letter-spacing value="0"/>
+;      <xep:font-stretch value="1.0"/>
+;      <xep:font family="Arial"
+;                weight="400"
+;                style="normal"
+;                variant="normal"
+;                size="10000"/>
+;      <xep:text value="Page" x="541850" y="41535" width="23350"/>
+;      <xep:font family="Arial"
+;                weight="700"
+;                style="normal"
+;                variant="normal"
+;                size="24000"/>
+;      <xep:text value="31-60-02" x="342576" y="28284" width="96048"/>
+;      <xep:font family="Arial"
+;                weight="400"
+;                style="normal"
+;                variant="normal"
+;                size="10000"/>
+;      <xep:text value="EFFECTIVITY" x="79200" y="46535" width="63900"/>
+;      <xep:text value="ALL" x="79200" y="34535" width="17790"/>
+;      <xep:text value="27 Apr 2016" x="510720" y="29535" width="54480"/>
+;      <xep:font family="Arial"
+;                weight="400"
+;                style="normal"
+;                variant="normal"
+;                size="8000"/>
+;      <xep:text value="© Honeywell International Inc. Do not copy without express permission of Honeywell."
+;                x="172084"
+;                y="14628"
+;                width="300232"/>
+;      <xep:target x="-511920"
+;                  y="775800"
+;                  id="ITG_TABLE_FOLDOUT"
+;                  name="ITG_TABLE_FOLDOUT"/>
+;      <xep:image src="file:/C:/Honeywell_Print-DESKTOP/Honeywell_XSL-FO/CMM_DRIVER/../../Honeywell_XSL-FO/images//hwell.tif"
+;                 type="image/tiff"
+;                 x-from="247680"
+;                 y-from="748385"
+;                 scale-x="1.0"
+;                 scale-y="1.0"
+;                 width="115200"
+;                 height="25200"
+;                 role="none"/>
+;      <xep:font family="Arial"
+;                weight="400"
+;                style="normal"
+;                variant="normal"
+;                size="10000"/>
+;      <xep:text value="COMPONENT MAINTENANCE MANUAL"
+;                x="212775"
+;                y="730385"
+;                width="185010"/>
+;      <xep:text value="7023460" x="285820" y="716385" width="38920"/>
+;      <xep:target x="-511920"
+;                  y="721665"
+;                  id="rx:last@ITG_TABLE_FOLDOUT"
+;                  name="rx:last@ITG_TABLE_FOLDOUT"/>
+;   </xep:page>
+
+
+; FOLDOUT PAGE where "Page" in footer has no number value after it
+find ("<xep:page width=%"1224000%" height=%"792000%"" ((lookahead not ">")any)* ">")=page-tag-start
+     m-white-space "<xep:gray-color gray=%"0.0%"/>"
+     (m-white-space "<xep:polygon " ((lookahead not "</xep:polygon>")any)* "</xep:polygon>")+
+     m-white-space "<xep:word-spacing " ((lookahead not "/>")any)* "/>"
+     
+     m-white-space "<xep:letter-spacing " ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:font-stretch " ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:font " ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:text value=%"Page%"" ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:font " ((lookahead not "/>")any)* "/>"
+
+     ((lookahead not "</xep:page>")any)* ("</xep:page>")=page-tag-end
+
+  output "%x(page-tag-start)<!-- REPLACED WITH BLANK PAGE -->%x(page-tag-end)"     
+
+
+
+; ************************************************************
+; Sonovision update (2019.05.07)
+; SB - must reset page number on key table following a foldout graphic
+;    - change key table page from foldout portrait
+;    - force blank foldout page between the graphic and now portrait key table page
+;      (Note: the extra blank foldout is the correct page, while key table will be incorrect - but at least sequential)
+
+;find ("<xep:text value=%"Key for")=tag
+;
+;  output "%n<!-- KEY TABLE PAGE -->%n"
+;
+;  output "%x(tag)"
+;  set s-in-key-page to "YES"
+
+
+find ("<xep:page width=%"1224000%" height=%"792000%"") 
+     ( ((lookahead not ">")any)* ">"
+     m-white-space "<xep:word-spacing " ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:letter-spacing " ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:font-stretch " ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:font " ((lookahead not "/>")any)* "/>"
+     m-white-space "<xep:gray-color gray=%"0.0%"/>"
+     m-white-space "<xep:text value=%"Key for")=tag
+     
+  output "%n<!-- BLANK FOLDOUT PAGE -->%n"
+  output "%n<xep:page width=%"1224000%" height=%"792000%"></xep:page>"
+
+  output "%n<!-- KEY TABLE PAGE -->%n"
+  output "<xep:page width=%"612000%" height=%"792000%""
+    || "%x(tag)"
+  set s-in-key-page to "YES"
+
+
+
+
+
+
+
+find "</xep:page>"=tag when s-in-key-page is equal "YES"
+  output "%x(tag)"
+  set s-in-key-page to "NO"
+  set s-key-page-reset to "NONE"
+
+
+; SB folodout page
+;<xep:text value="Page" x="520430" y="32042" width="23350"/>
+;<xep:text value="33" x="543780" y="32042" width="11120"/>
+;<xep:text value="/" x="554900" y="32042" width="2780"/>
+;<xep:text value="34" x="557680" y="32042" width="11120"/>
+
+find ("<xep:text value=%"Page%"" [any-text except ">"]* ">" m-white-space
+      "<xep:text value=%"" (digit+)=page-1 "%"" [any-text except ">"]* ">" m-white-space
+      "<xep:text value=%"/%"" [any-text except ">"]* ">" m-white-space
+     )=tag-1
+     ("<xep:text value=%"" (digit+)=page-2)=tag-2 ("%"" [any-text except ">"]* ">" m-white-space
+     )=tag-3
+
+  output "%n<!-- FOLDOUT GRAPHIC PAGE -->%n"
+
+  output "%x(tag-1)%x(tag-2)%x(tag-3)"
+  set s-key-page-reset to "%x(page-2)"
+
+
+
+; SB key page
+;<xep:text value="Page " x="496990" y="32042" width="26130"/>
+;<xep:text value="54" x="523120" y="32042" width="11120"/>
+
+find ("<xep:text value=%"Page %"" [any-text except ">"]* ">" m-white-space)=tag-1
+     ("<xep:text value=%"")=tag-2 (digit+)=page-1 ("%"" [any-text except ">"]* ">" m-white-space
+     )=tag-3
+     when s-in-key-page is equal "YES" and s-key-page-reset isnt equal "NONE"
+
+  ; NOTE: blank foldout inserted before this page
+  ;       - graphic "Page 33/34"
+  ;       - blank (inserted and will be page 34)
+  ;       - key table renumbered to "Page 34", but add "A" suffix to make unique "Page 34A"
+  ;output "%x(tag-1)%x(tag-2)%g(s-key-page-reset)%x(tag-3)"
+  output "%x(tag-1)%x(tag-2)%g(s-key-page-reset)A%x(tag-3)"
+
+  set s-in-key-page to "NO"
+  set s-key-page-reset to "NONE"

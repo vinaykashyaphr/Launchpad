@@ -1,0 +1,807 @@
+;===========================================================================
+;
+; Copyright (C) 1999 - 2000, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;
+;  ombcd.xin - Binary Coded Decimal Numbers
+;
+;  Version: 1.01
+;  Modified: 2000-01-28
+;  Added casts for upward compatibility
+;  Corrected warnings
+;
+;  Version: 1.0
+;  Created: 2000-01-10
+;  Initial release.
+;
+;  Modified: 2000-01-11 rba
+;  Removed duplicate definition for abs
+;
+;===========================================================================
+
+include-guard ombcd.xin
+
+declare function-library "ombcd"
+declare opaque bcd
+  created by "OMBCD_Create"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; LIBRARY MANAGEMENT FUNCTIONS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+define external stream function BCD_LibraryVersion
+  as "OMBCD_LibraryVersion"
+
+define external switch function BCD_IsVersionCompatible
+  as "OMBCD_IsVersionCompatible"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; CONVERSION FUNCTIONS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+define external bcd    conversion-function
+          value (numeric-literal
+                 | stream
+            into stream)  stream-value
+as   "OMBCD_StreamToBcd"
+
+define external bcd     conversion-function
+          value counter counter-value
+as   "OMBCD_CounterToBcd"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; COMPARISON FUNCTIONS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; bcd op bcd
+;
+define overloaded switch
+          infix-function value bcd b1 <  value bcd b2
+elsewhere
+
+
+define overloaded switch
+          infix-function value bcd b1 <= value bcd b2
+elsewhere
+
+
+define overloaded switch
+          infix-function value bcd b1 =  value bcd b2
+elsewhere
+
+
+define overloaded switch
+          infix-function value bcd b1 >= value bcd b2
+elsewhere
+
+
+define overloaded switch
+          infix-function value bcd b1 >  value bcd b2
+elsewhere
+
+define overloaded switch
+          infix-function value bcd b1 != value bcd b2
+elsewhere
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; counter op bcd
+;
+define overloaded switch
+          infix-function value counter c <  value bcd b
+as
+  return bcd c <  b
+
+
+define overloaded switch
+          infix-function value counter c <= value bcd b
+as
+  return bcd c <= b
+
+
+define overloaded switch
+          infix-function value counter c =  value bcd b
+as
+  return bcd c =  b
+
+
+define overloaded switch
+          infix-function value counter c >= value bcd b
+as
+  return bcd c >= b
+
+
+define overloaded switch
+          infix-function value counter c >  value bcd b
+as
+  return bcd c >  b
+
+define overloaded switch
+          infix-function value counter c != value bcd b
+as
+  return bcd c != b
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; bcd op counter
+;
+define overloaded switch
+          infix-function value bcd b <  value counter c
+as
+  return b <  bcd c
+
+
+define overloaded switch
+          infix-function value bcd b <= value counter c
+as
+  return b <= bcd c
+
+
+define overloaded switch
+          infix-function value bcd b =  value counter c
+as
+  return b =  bcd c
+
+
+define overloaded switch
+          infix-function value bcd b >= value counter c
+as
+  return b >= bcd c
+
+
+define overloaded switch
+          infix-function value bcd b >  value counter c
+as
+  return b >  bcd c
+
+define overloaded switch
+          infix-function value bcd b != value counter c
+as
+  return b != bcd c
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; stream op bcd
+;
+define overloaded switch
+          infix-function value stream s <  value bcd b
+as
+  return bcd s <  b
+
+
+define overloaded switch
+          infix-function value stream s <= value bcd b
+as
+  return bcd s <= b
+
+
+define overloaded switch
+          infix-function value stream s =  value bcd b
+as
+  return bcd s =  b
+
+
+define overloaded switch
+          infix-function value stream s >= value bcd b
+as
+  return bcd s >= b
+
+
+define overloaded switch
+          infix-function value stream s >  value bcd b
+as
+  return bcd s >  b
+
+define overloaded switch
+          infix-function value stream s != value bcd b
+as
+  return bcd s != b
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; bcd op stream
+;
+define overloaded switch
+          infix-function value bcd b <  value stream s
+as
+  return b <  bcd s
+
+
+define overloaded switch
+          infix-function value bcd b <= value stream s
+as
+  return b <= bcd s
+
+
+define overloaded switch
+          infix-function value bcd b =  value stream s
+as
+  return b =  bcd s
+
+
+define overloaded switch
+          infix-function value bcd b >= value stream s
+as
+  return b >= bcd s
+
+
+define overloaded switch
+          infix-function value bcd b >  value stream s
+as
+  return b >  bcd s
+
+define overloaded switch
+          infix-function value bcd b != value stream s
+as
+  return b != bcd s
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; DYADIC ARITHMETIC OPERATORS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; bcd op bcd
+;
+define overloaded external bcd
+                infix-function value bcd b1 + value bcd b2
+as
+  "OMBCD_Add"
+
+define overloaded external bcd
+                infix-function value bcd b1 - value bcd b2
+as
+  "OMBCD_Subtract"
+
+define overloaded external bcd
+                infix-function value bcd b1 * value bcd b2
+as "OMBCD_Multiply"
+
+define overloaded external bcd
+                infix-function value bcd b1 / value bcd b2
+as "OMBCD_Divide"
+
+define overloaded          bcd
+                infix-function value bcd b1 modulo value bcd b2
+elsewhere
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; counter op bcd
+;
+define overloaded          bcd
+                infix-function value counter c + value bcd b
+as
+  return bcd c + b
+
+define overloaded          bcd
+                infix-function value counter c - value bcd b
+as
+  return bcd c - b
+
+define overloaded          bcd
+                infix-function value counter c * value bcd b
+as
+  return bcd c * b
+
+define overloaded          bcd
+                infix-function value counter c / value bcd b
+as
+  return bcd c / b
+
+define overloaded          bcd
+                infix-function value counter c modulo value bcd b
+as
+  return bcd c modulo b
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; bcd op counter
+;
+define overloaded          bcd
+                infix-function value bcd b + value counter c
+as
+  return b + bcd c
+
+define overloaded          bcd
+                infix-function value bcd b - value counter c
+as
+  return b - bcd c
+
+define overloaded          bcd
+                infix-function value bcd b * value counter c
+as
+  return b * bcd c
+
+define overloaded          bcd
+                infix-function value bcd b / value counter c
+as
+  return b / bcd c
+
+define overloaded          bcd
+                infix-function value bcd b modulo value counter c
+as
+  return b modulo bcd c
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; stream op bcd
+;
+define overloaded          bcd
+                infix-function value stream s + value bcd b
+as
+  return bcd s + b
+
+define overloaded          bcd
+                infix-function value stream s - value bcd b
+as
+  return bcd s - b
+
+define overloaded          bcd
+                infix-function value stream s * value bcd b
+as
+  return bcd s * b
+
+define overloaded          bcd
+                infix-function value stream s / value bcd b
+as
+  return bcd s / b
+
+define overloaded          bcd
+                infix-function value stream s modulo value bcd b
+as
+  return bcd s modulo b
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; bcd op stream
+;
+define overloaded          bcd
+                infix-function value bcd b + value stream s
+as
+  return b + bcd s
+
+define overloaded          bcd
+                infix-function value bcd b - value stream s
+as
+  return b - bcd s
+
+define overloaded          bcd
+                infix-function value bcd b * value stream s
+as
+  return b * bcd s
+
+define overloaded          bcd
+                infix-function value bcd b / value stream s
+as
+  return b / bcd s
+
+define overloaded          bcd
+                infix-function value bcd b modulo value stream s
+as
+  return b modulo bcd s
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; FORMATTING FUNCTIONS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+define overloaded stream
+                  infix-function value stream fmt % value bcd b
+elsewhere
+
+define overloaded stream
+                  infix-function value stream fmt format value bcd b
+as
+  return fmt % b
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; ROUNDING FUNCTIONS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+define bcd     function  ceiling
+       value   bcd       b
+    by value   bcd       base optional
+elsewhere
+
+define bcd     function  floor
+       value   bcd       b
+    by value   bcd       base optional
+elsewhere
+
+define bcd     function  round
+                    value   bcd       b
+    nearest         value   bcd       base         optional
+    bankers-nearest value   bcd       bankers-base optional
+elsewhere
+
+define bcd     function  truncate
+       value   bcd       b
+    by value   bcd       base optional
+elsewhere
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; MONADIC ARITHMETIC OPERATORS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+define overloaded bcd prefix-function +
+          value  bcd       b
+elsewhere
+
+define overloaded bcd prefix-function -
+          value  bcd       b
+elsewhere
+
+define bcd function abs
+   value    bcd      b
+elsewhere
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; PRIVATE AREA
+;;
+;; The following functions can only be called from within
+;; this include file. Do not call from user code. OmniMark
+;; Technologies reserves the right to remove or modify these
+;; functions without notice.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+define external  counter function bcd-cmp
+                 value  bcd     b1
+       to        value  bcd     b2
+as "OMBCD_Compare"
+
+
+;------------------------------------------------------------
+define stream function bcd-format-round
+              value bcd     b
+       places value counter p
+elsewhere
+
+;------------------------------------------------------------
+define external stream function bcd-to-stream
+                value bcd     b
+as   "OMBCD_BcdToStream"
+
+
+;------------------------------------------------------------
+define external  function bcd-throw
+                 value   stream   identity
+       msg       value   stream   message
+as "OMBCD_Throw"
+
+;------------------------------------------------------------
+define function bcd-throw-illegal-modifier
+                 value   stream   modifier
+       for       value   stream   command
+       in        value   stream   format-string
+       because   value   stream   reason
+elsewhere
+
+;------------------------------------------------------------
+define stream    function bcd-trim-string
+                 value    stream   s
+elsewhere
+
+;------------------------------------------------------------
+define external bcd function  bcd-truncate
+        value   bcd b
+     by value   bcd base optional
+as
+  "OMBCD_Truncate"
+
+;------------------------------------------------------------
+include "omnumfmt.xin"
+
+;------------------------------------------------------------
+define overloaded switch
+          infix-function value bcd b1 <  value bcd b2
+as
+  return bcd-cmp b1 to b2 <  0
+
+
+;------------------------------------------------------------
+define overloaded switch
+          infix-function value bcd b1 <= value bcd b2
+as
+  return bcd-cmp b1 to b2 <= 0
+
+
+;------------------------------------------------------------
+define overloaded switch
+          infix-function value bcd b1 =  value bcd b2
+as
+  return bcd-cmp b1 to b2 =  0
+
+
+;------------------------------------------------------------
+define overloaded switch
+          infix-function value bcd b1 >= value bcd b2
+as
+  return bcd-cmp b1 to b2 >= 0
+
+
+;------------------------------------------------------------
+define overloaded switch
+          infix-function value bcd b1 >  value bcd b2
+as
+  return bcd-cmp b1 to b2 >  0
+
+;------------------------------------------------------------
+define overloaded switch
+          infix-function value bcd b1 != value bcd b2
+as
+  return bcd-cmp b1 to b2 != 0
+
+;------------------------------------------------------------
+define overloaded stream
+                  infix-function value stream fmt % value bcd b
+as
+  do scan fmt
+    match numfmt-pattern
+      local stream compiled-template variable
+
+      numfmt-parse fmt into compiled-template
+      return numfmt-format bcd-format-round b
+                                       places compiled-template ^ "precision"
+                        with compiled-template
+
+      catch numfmt-error msg
+        bcd-throw "BCD0111" msg msg
+
+      catch numfmt-illegal-character c in template because msg
+        do
+          local stream m
+          set m to "Illegal character '"
+                || bcd-trim-string c
+                || "' in template '"
+                || bcd-trim-string template
+                || "'."
+          set m to m || ' ' || msg when msg != ""
+          bcd-throw "BCD0012" msg m
+        done
+
+      catch numfmt-overflow num overflows template
+        bcd-throw "BCD0013"
+              msg ("Value "
+                   || bcd-trim-string num
+                   || " overflows template '"
+                   || bcd-trim-string template
+                   || "'.")
+
+      catch numfmt-unimplemented msg
+        bcd-throw "BCD0019" msg msg
+
+    match [any except "d"]* => modifiers "d" value-end
+      local counter pad
+      local switch  right initial {false}
+      local stream  s
+  
+      set s to bcd-to-stream b
+      set pad to 0
+      repeat scan modifiers
+        match (digit+ => a)? "k"
+          bcd-throw-illegal-modifier "k" for "d" in fmt
+            because "cannot have a numeric argument"
+            when a is specified
+          set right to true
+
+        match (digit+ => a)? "f"
+          bcd-throw-illegal-modifier "f" for "d" in fmt
+            because "must have a numeric argument"
+            when a isnt specified
+          set pad to a - length of s
+
+        match (digit+ => a)? any => m
+          bcd-throw-illegal-modifier m for "d" in fmt because "is not allowed"
+
+        match digit+ => a value-end
+          bcd-throw-illegal-modifier "" for "d" in fmt
+             because ("Numeric argument '"
+                      || bcd-trim-string a
+                      || "' is not followed by a modifier")
+      again
+      return s                when pad <= 0
+      return " " ||* pad || s when right
+      return s || " " ||* pad
+
+    match unanchored letter => ft value-end
+      bcd-throw "BCD0010" msg ("Unsupported format command '" || ft || "'.")
+
+    else
+      bcd-throw "BCD0014" msg ("Illegal format string '"
+                               || bcd-trim-string fmt
+                               || "'.")
+  done
+  bcd-throw "BCD0111"
+   msg "Assertion failure: This line should not be reached."
+  return "" ; turn off a warning message.
+    
+;------------------------------------------------------------------------
+define stream function bcd-format-round
+              value bcd     b
+       places value counter p
+as
+  do when p = 0
+    return bcd-to-stream round b
+  else
+    local bcd precision
+
+    set precision to bcd ("0." || "0" ||* (p - 1) || "1")
+    return bcd-to-stream b when precision = bcd 0
+    return bcd-to-stream round b nearest precision
+  done
+
+;------------------------------------------------------------
+define overloaded          bcd
+                infix-function value bcd b1 modulo value bcd b2
+as
+   bcd-throw "BCD0022"
+        msg "The second operand of modulo cannot be 0."
+     when b2 = bcd 0
+
+   return b1 - b2 * truncate (b1 / b2)
+
+
+;------------------------------------------------------------
+define function bcd-throw-illegal-modifier
+                 value   stream   modifier
+       for       value   stream   command
+       in        value   stream   format-string
+       because   value   stream   reason
+as
+  local stream m
+  open m as buffer
+  using output as m
+    do
+      do when modifier = ""
+        output reason
+      else
+        output "Format modifier '" || modifier || "' " || reason
+      done
+      output " for format command '"
+          || command
+          || "' in format '"
+          || bcd-trim-string format-string
+          || "'."
+    done
+  close m
+  bcd-throw "BCD0011" msg m
+
+;------------------------------------------------------------
+define stream    function bcd-trim-string
+                 value    stream   s
+as
+  ; For strings longer than 40 characters, truncate and add an ellipsis
+  do scan s
+    match any {37} => part any {4}
+      return (part || "...")
+  done
+  return s
+
+;------------------------------------------------------------
+define bcd      function abs
+       value    bcd       b
+as
+   return b when b >= bcd 0
+   return -b
+
+;------------------------------------------------------------
+define bcd     function  ceiling
+       value   bcd       b
+    by value   bcd       base optional
+as
+  local  bcd   t-base
+  local  bcd   t-b
+
+  do when base is specified
+    set t-base to base
+  else
+    set t-base to bcd 1
+  done
+
+  set t-b to bcd-truncate b by t-base
+
+  return t-b when b <= bcd 0 | b = t-b
+  return t-b + t-base
+
+;------------------------------------------------------------
+define bcd     function  floor
+       value   bcd       b
+    by value   bcd       base optional
+as
+  local  bcd   t-base
+  local  bcd   t-b
+
+  do when base is specified
+    set t-base to base
+  else
+    set t-base to bcd 1
+  done
+
+  set t-b to bcd-truncate b by t-base
+  return t-b when b >= bcd 0 | b = t-b
+  return t-b - t-base
+
+;------------------------------------------------------------
+define bcd     function  round
+                    value   bcd       b
+    nearest         value   bcd       base         optional
+    bankers-nearest value   bcd       bankers-base optional
+as
+  do when bankers-base is specified
+    local bcd b-nearest
+    local bcd b-plus
+    local bcd b-half-base
+
+    set b-half-base to bankers-base / bcd 2
+    return b when b-half-base = bcd 0 & bankers-base != bcd 0
+
+    set b-plus to b + b-half-base
+    set b-nearest to floor b-plus by bankers-base
+    return b-nearest - bankers-base
+      when b-nearest = b-plus
+         & (b-nearest / bankers-base) modulo bcd 2 != bcd 0
+    return b-nearest
+
+  else when base is specified
+    do when b >= bcd 0
+      return bcd-truncate (b + base * bcd 0.5) by base
+    else
+      return bcd-truncate (b - base * bcd 0.5) by base
+    done
+
+  else when b >= bcd 0
+    return bcd-truncate (b + bcd 0.5)
+
+  else
+    return bcd-truncate (b - bcd 0.5)
+  done
+
+;------------------------------------------------------------
+define bcd     function  truncate
+       value   bcd       b
+    by value   bcd       base optional
+as
+  return bcd-truncate b when base isnt specified
+  return bcd-truncate b by base
+
+;------------------------------------------------------------
+define overloaded bcd prefix-function +
+          value  bcd       b
+as
+  return b
+
+;------------------------------------------------------------
+define overloaded bcd prefix-function -
+          value  bcd       b
+as
+  return bcd 0 - b
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

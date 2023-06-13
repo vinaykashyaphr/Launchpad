@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!NOTATION tif SYSTEM "tiff">
+]>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="P" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>INTRODUCTION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Software Data</title>
+<levelledPara><para>The TBD (CSD, APUC, or ECU) incorporates closed
+unit programming ability. This feature allows the TBD to be programmed
+with the operating system software through the ARINC TBD channel with
+the proper equipment. Refer to <internalRef internalRefId="t001"
+internalRefTargetType="irtt02"></internalRef> for the software version
+history. Each configuration is shown with the applicable operating
+system software version.</para>
+<table id="t001">
+<title>Software Version History</title>
+<tgroup cols="3"><colspec colname="col1" colwidth="2.24in"/><colspec
+colname="col2" colwidth="2.24in"/><colspec colname="col3"
+colwidth="2.24in"/><thead><row>
+<entry>
+<para>OPS PN</para>
+</entry>
+<entry>
+<para>Software Version Number</para>
+</entry>
+<entry>
+<para>(CSD, APUC, OR ECU) PN</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>CMNNNNNNN-NNNN</para>
+</entry>
+<entry>
+<para>VNN.NN</para>
+</entry>
+<entry>
+<para>NNNNNNN-NNN</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+<levelledPara><para>The TBD (CSD, APUC, or ECU) incorporates closed
+unit programming ability. This feature allows the TBD to be programmed
+with the operating system software through the ARINC TBD channel with
+the proper equipment. Refer to <internalRef internalRefId="t002"
+internalRefTargetType="irtt02"></internalRef> for the software version
+history. Each configuration is shown with the applicable operating
+system software version.</para>
+<table id="t002">
+<title>Software Version History</title>
+<tgroup cols="4"><colspec colname="col1" colwidth="1.68in"/><colspec
+colname="col2" colwidth="1.68in"/><colspec colname="col3"
+colwidth="1.68in"/><colspec colname="col4" colwidth="1.68in"/><thead>
+<row>
+<entry>
+<para>OPS Diskette PN</para>
+</entry>
+<entry>
+<para>Software Version Number</para>
+</entry>
+<entry>
+<para>(CSD, APUC, OR ECU) PN</para>
+</entry>
+<entry>
+<para>OPS PN</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>CMNNNNNNN-NNNN</para>
+</entry>
+<entry>
+<para>VNN.NN</para>
+</entry>
+<entry>
+<para>NNNNNNN-NNN</para>
+</entry>
+<entry>
+<para>CMNNNNNNN-NNNN</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

@@ -1,0 +1,698 @@
+;===========================================================================
+;                                                                           
+;  Copyright (c) 1998, 1999, OmniMark Technologies Corporation.             
+;  All Rights Reserved.                                                     
+;                                                                           
+;===========================================================================
+;  omdate.xin - date functions                                              
+;                                                                           
+;  Version: 1.3                                                             
+;  Revised: 14 APR 1998                                                     
+;  Revised: 27 AUG 1998 (See the "Change History")                          
+;  Revised: 04 JUN 1999 (See the "Change History")                           
+;===========================================================================
+
+include-guard omdate.xin
+
+; These functions define a set of operations on dates/times.  They are built
+; around a standard normalized form for the date/time: a 19-character string in
+; "YYYYMMDDhhmmss+ZHZM" format where:
+
+; YYYY is the four-digit year,
+; MM   is the two-digit month number,
+; DD   is the two-digit day within the month,
+; hh   is the two-digit hour within the day,
+; mm   is the two-digit minute within the hour,
+; ss   is the two-digit second within the minute,
+; +ZH  is the (always) signed two-digit whole number of hours that the given
+;      time is ahead of Universal Time, and
+; ZM   is the two-digit number of minutes that the given time is ahead of
+;      Universal Time in excess of the number of such hours (with the same
+;      sign assumed as for "+ZH").
+
+; The user of this set of functions should use the following functions where
+; possible, but can operate directly on the normalized form where appropriate.
+
+; The response to erroneous argument values in the following functions is
+; to return a conventional value: for STREAM valued results this is always
+; the string "???", for COUNTER valued results this is 0 (zero) for
+; differences, or 1 (one) for counts.
+
+; ----------------------------------------------------------------------
+
+; The primary date/time manipulation functions defined are:
+
+; now-as-ymdhms
+; returns a "YYYYMMDDhhmmss+ZHZM" string of the current date/time.
+
+; add-to-ymdhms ymdhms
+;        [years years-to-add]
+;       [months months-to-add]
+;         [days days-to-add]
+;        [hours hours-to-add]
+;      [minutes minutes-to-add]
+;      [seconds seconds-to-add]
+; returns the "YYYYMMDDhhmmss+ZHZM" format date/time given a date/time 'ymdhms'
+; in the same format, and zero-to-six signed addition/subtraction values.
+
+; ymd-weekday of ymd
+; returns the number of the day of the week given a "YYYYMMDD" string, 'ymd'.
+
+; ymdhms-adjust-time-zone ymdhms to-be new-zone
+; returns the date/time 'ymdhms' passed to it, but adjusted to be in a new
+; time zone, 'new-zone'.
+
+; ymdhms-second-difference (ymdhms1, ymdhms2)
+; returns the (signed) number of seconds between 'ymdhms1' and 'ymdhms2',
+; both in "YYYYMMDDhhmmss+ZHZM" format.
+
+; ymdhms-day-difference (ymdhms1, ymdhms2)
+; returns the (signed) number of days between 'ymdhms1' and 'ymdhms2',
+; both in "YYYYMMDDhhmmss+ZHZM" format.  Partial days are rounded down.
+
+; ymdhms-month-difference (ymdhms1, ymdhms2)
+; returns the (signed) number of months between 'ymdhms1' and 'ymdhms2',
+; both in "YYYYMMDDhhmmss+ZHZM" format.  Partial months are rounded down.
+
+; round-up-ymdhms ymdhms to interval
+; returns the passed 'ymdhms' passed to it, but rounded up to the end of
+; the minute, hour, day, month or year indicated by 'interval'.
+
+; round-down-ymdhms ymdhms to interval
+; returns the passed 'ymdhms' passed to it, but rounded down to the start of
+; the minute, hour, day, month or year indicated by 'interval'.
+
+; ymdhms-julian-day-count ymd
+; returns the number of day within the year up to and including 'ymd'.
+
+; format-ymdhms date-format with-date ymdhms
+; returns the DATE-like formatted form of the "YYYYMMDDhhmmss+ZHZM" format
+; string 'ymdhms', using 'date-format' as the format string.
+
+; ymdhms-to-arpadate ymdhms
+; returns the ARPA format date/time given a "YYYYMMDDhhmmss+ZHZM" string,
+; 'ymdhms'.
+
+; arpadate-to-ymdhms arpadate
+; returns the date/time in the given ARPA format string 'arpadate', as
+; a "YYYYMMDDhhmmss+ZHZM" string.
+
+; ----------------------------------------------------------------------
+
+; The following are utility routines used by the primary date/time
+; manipulation functions described above.  However, they may be found to
+; be of use otherwise.
+
+; ymd-to-day-count ymd
+; returns the number of days from an arbitrary day up to 'ymd', which is a
+; string in "YYYYMMDD" format.  (The arbitrary day uses 1 January 0001 as
+; day 1, based on the current calendar, not adjusted for any revisions.)
+
+; day-count-to-ymd day-count
+; returns the "YYYYMMDD" format date corresponding to the arbitrary day
+; number 'day-count'.
+
+; hms-to-second-count hms
+; returns the number of seconds from midnight of a time given in "hhmmss"
+; format, 'hms'.
+
+; second-count-to-hms second-count
+; returns a "hhmmss" format string given a number of seconds from midnight,
+; 'second-count'.
+
+; szhzm-to-minute-count szhzm
+; returns the time zone 'shm' passed to it, converting "+hhmm" format to
+; a signed number of minutes.
+
+; ----------------------------------------------------------------------
+
+; Change History:
+
+; 3 June 1999:
+
+; The function "arpadate-to-ymdhms" has been updated so that it now
+; allows a comma following any component of an ARPA format date, even
+; though that format doesn't specifically allow commas in most places.
+; Also added arpadate-to-ymdhms to function list at start of file.
+
+; 27 August 1998:
+
+; 1. Cases where erroneous input could cause out-of-range program errors
+;    are now all caught.
+; 2. Cases where non-digit input could cause program conversion errors
+;    are now all caught.
+; 3. add-to-ymdhms has been corrected so that negative month values are
+;    handled correctly.
+; 4. The behaviour of add-to-ymdhms has been modified in two significant
+;    but useful ways:
+;    a) The day, hour, minute and seconds additions are done first,
+;       producing new values, and (sometimes) updating the month and
+;       year.  That date/time is then taken and the year and month
+;       additions are then done, preserving the day of the month (where
+;       possible) produced by the first set of additions.
+;    b) An invalid day of the month produced by a month addition (for
+;       example, adding one month to October 31st) is adjusted down to
+;       the last day of the month, rather than producing a day in the
+;       following month.
+; 5. arpadate-to-ymdhms has been revised so that it is now guarranteed
+;    that either a fully valid date will be returned or "???" will be.
+;    A time part of 24:00:00 is also now handled properly.
+;    Other routines only check for usable, but not necesarily fully
+;    valid input values.
+; 6. day-count-to-ymd has been tightened up to handle the case of
+;    February in a leap year in a cleaner manner.
+
+; ----------------------------------------------------------------------
+
+define stream function now-as-ymdhms as
+   ; Returns the current date/time in "YYYYMMDDhhmmss+ZHZM" form.
+   return date "=xY=M=D=H=m=s=t"
+
+define counter function ymd-to-day-count value stream ymd as
+   ; Takes a date in "YYYYMMDD" form and returns the number of the indicated
+   ; day, with 1 January 0001 being day 1.
+   ; The argument can actually be a longer string (it can have a hhmmss part)
+   ; but any part beyond the day is ignored.
+   local counter days-to-month size 12 initial {
+           0,  31,  59,  90, 120, 151,
+         181, 212, 243, 273, 304, 334}
+   do scan ymd
+   match digit {4} => year (digit {2} => month when "01" <= month <= "12")
+         digit {2} => day
+      local counter d
+      local counter y
+      set y to year - 1
+      set d to day + days-to-month @ month +
+               y / 400 * 146097 +
+               y modulo 400 / 100 * 36524 +
+               y modulo 100 / 4 * 1461 +
+               y modulo 4 * 365
+      increment d when month > 2 &
+                       year modulo 4 = 0 &
+                       (year modulo 100 != 0 | year modulo 400 = 0)
+      return d
+   else
+      return 1  ; In case of an erroneous argument
+   done
+
+define stream function day-count-to-ymd value counter day-count as
+   ; Takes a day number, with 1 January 0001 being day 1, and returns it
+   ; in "YYYYMMDD" form.
+   local counter days-to-month-end size 12 initial {
+          31,  59,  90, 120, 151, 181,
+         212, 243, 273, 304, 334, 365}
+   local counter y initial {1}
+   local counter m
+   local counter d
+   set d to day-count - 1
+   increment y by d / 146097 * 400
+   set d to d modulo 146097
+   do when d != 146096
+      increment y by d / 36524 * 100
+      set d to d modulo 36524
+   else
+      increment y by 399
+      set d to 365
+   done
+   increment y by d / 1461 * 4
+   set d to d modulo 1461
+   do when d != 1460
+      increment y by d / 365
+      set d to d modulo 365
+   else
+      increment y by 3
+      set d to 365
+   done
+   do when y modulo 4 = 0 &
+           (y modulo 100 != 0 | y modulo 400 = 0)
+      do when d >= 60
+         decrement d
+      else when d >= 31
+         return "%4fzd(y)02" || "2fzd" % (d - 30)
+      done
+   done
+   repeat over days-to-month-end
+      do when d < days-to-month-end
+         set m to #item
+         exit
+      done
+   again
+   set d to d - days-to-month-end @ (m - 1) unless m = 1
+   return "%4fzd(y)%2fzd(m)" || "2fzd" % (d + 1)
+
+define counter function ymd-weekday of value stream ymd as
+   ; Takes a date in "YYYYMMDD" form, and returns the number of the day of the
+   ; week, with Monday being day 1 and Sunday being day 7.
+   return (ymd-to-day-count ymd - 1) modulo 7 + 1
+
+define counter function hms-to-second-count value stream hms as
+   ; Takes a time in "hhmmss" form and returns the number of the indicated
+   ; second, with 00:00:00 being second 0.
+   ; The argument can actually be a longer string (it can have a time zone
+   ; part) but any part beyond the second is ignored.
+   do scan hms
+   match digit {2} => h digit {2} => m digit {2} => s
+      return h * 3600 + m * 60 + s
+   done
+
+define stream function second-count-to-hms value counter second-count as
+   ; Takes a second number, with 00:00:00 being second 0, and returns it
+   ; in "hhmmss" form.
+   return "2fzd" % (second-count / 3600) ||
+          "2fzd" % (second-count / 60 modulo 60) ||
+          "2fzd" % (second-count modulo 60)
+
+define stream function add-to-ymdhms
+                        value stream ymdhms
+                 years value counter years-to-add optional initial {0}
+                months value counter months-to-add optional initial {0}
+                  days value counter days-to-add optional initial {0}
+                 hours value counter hours-to-add optional initial {0}
+               minutes value counter minutes-to-add optional initial {0}
+               seconds value counter seconds-to-add optional initial {0}
+      as
+   ; Takes a date/time in "YYYYMMDDhhmmss+ZHZM" form, and (signed) values to
+   ; add/subtract from each date/time unit, and returns the updated date/time
+   ; in "YYYYMMDDhhmmss+ZHZM" form, in the same time zone.
+   local counter days-in-month size 12 initial
+                 {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+   do scan ymdhms
+   match digit {8} => ymd
+         digit {6} => hms (["+-"] digit {4}) => time-zone value-end
+      local counter d
+      local counter s
+      set s to hms-to-second-count hms +
+               hours-to-add * 3600 +
+               minutes-to-add * 60 +
+               seconds-to-add
+      set d to s / 86400 + days-to-add
+      set s to s modulo 86400
+      do when s < 0
+         increment s by 86400
+         decrement d
+      done
+      do scan day-count-to-ymd (ymd-to-day-count ymd + d)
+      match digit {4} => year digit {2} => month digit {2} => day
+         local counter y
+         local counter m
+         set m to month + months-to-add
+         set y to year + years-to-add + (m - 1) / 12
+         set m to (m - 1) modulo 12 + 1
+         do when m <= 0
+            increment m by 12
+            decrement y
+         done
+         do when day <= days-in-month @ m
+            set d to day
+         else when m = 2 &
+                   y modulo 4 = 0 &
+                   (y modulo 100 != 0 | y modulo 400 = 0)
+            set d to 29
+         else
+            set d to days-in-month @ m
+         done
+         return "%4fzd(y)%2fzd(m)%2fzd(d)" ||
+                second-count-to-hms s || time-zone
+                when 0 < y <= 9999
+      done
+   done
+   return "???"  ; In case of an erroneous argument,
+                 ; or if a date prior to 1 Jan 0001 or
+                 ; after 31 Dec 9999 is produced.
+
+define counter function szhzm-to-minute-count value stream szhzm as
+   ; Takes a signed time zone in "+hhmm" format and returns the same
+   ; value as a signed minutes count.
+   do scan szhzm
+   match "+" digit {2} => h digit {2} => m value-end
+      return h * 60 + m
+   match "-" digit {2} => h digit {2} => m value-end
+      return -(h * 60 + m)
+   else
+      return 0  ; In case of an erroneous argument
+   done
+
+define stream function ymdhms-adjust-time-zone value stream ymdhms
+                                         to-be value stream new-zone as
+   ; Takes a date/time in "YYYYMMSShhmmss+ZHZM" form, and returns the
+   ; same date/time, in the same format, but adjusted to be in the given
+   ; time zone, which must be in "+hhmm" format.
+   do scan ymdhms
+   match digit {14} => ymdhms (["+-"] digit {4}) => old-zone value-end
+      return add-to-ymdhms (ymdhms || new-zone)
+                   minutes (szhzm-to-minute-count new-zone -
+                            szhzm-to-minute-count old-zone)
+             when new-zone matches (["+-"] digit {4} value-end)
+   done
+   return "???"  ; In case of an erroneous argument
+
+define counter function ymdhms-second-difference
+              (value stream a, value stream b) as
+   ; Takes two dates in "YYYYMMSShhmmss+ZHZM" form, and returns the (signed)
+   ; difference in units of a second.  The date/times can be in different
+   ; time zones.
+   do scan ymdhms-adjust-time-zone a to-be "+0000"
+   match digit {8} => a-ymd digit {6} => a-hms
+      do scan ymdhms-adjust-time-zone b to-be "+0000"
+      match digit {8} => b-ymd digit {6} => b-hms
+         return (ymd-to-day-count a-ymd - ymd-to-day-count b-ymd) * 86400 +
+                (hms-to-second-count a-hms - hms-to-second-count b-hms)
+      done
+   done
+   return 0  ; In case of an erroneous argument
+
+define counter function ymdhms-day-difference
+              (value stream a, value stream b) as
+   ; Takes two dates in "YYYYMMSShhmmss+ZHZM" form, and returns the (signed)
+   ; difference in units of a day.  The result is rounded down to the largest
+   ; number of days less than or equal to the difference.  The date/times
+   ; can be in different time zones.
+   do scan ymdhms-adjust-time-zone a to-be "+0000"
+   match digit {8} => a-ymd digit {6} => a-hms
+      do scan ymdhms-adjust-time-zone b to-be "+0000"
+      match digit {8} => b-ymd digit {6} => b-hms
+         local counter d
+         set d to ymd-to-day-count a-ymd - ymd-to-day-count b-ymd
+         decrement d when a-hms < b-hms
+         return d
+      done
+   done
+   return 0  ; In case of an erroneous argument
+
+define counter function ymdhms-month-difference
+              (value stream a, value stream b) as
+   ; Takes two date/times in "YYYYMMSShhmmss+ZHZM" form, and returns the
+   ; (signed) difference in units of a month.  The result is rounded down to
+   ; the largest number of months less than or equal to the difference.  The
+   ; date/times can be in different time zones.
+   do scan ymdhms-adjust-time-zone a to-be "+0000"
+   match digit {4} => a-y digit {2} => a-m digit {8} => a-dhms
+      do scan ymdhms-adjust-time-zone b to-be "+0000"
+      match digit {4} => b-y digit {2} => b-m digit {8} => b-dhms
+         local counter m
+         set m to (a-y - b-y) * 12 + (a-m - b-m)
+         decrement m when a-dhms < b-dhms
+         return m
+      done
+   done
+   return 0  ; In case of an erroneous argument
+
+define stream function round-up-ymdhms value stream ymdhms
+                                    to value stream interval as
+   ; Takes a date/time in "YYYYMMDDhhmmss+ZHZM" form, and returns the same
+   ; value but rounded up to the end of an interval as indicated by the
+   ; second argument.  The second argument is the name of an interval:
+   ; "year", "month", "day", "hour" or "minute".  Only the shortest
+   ; distinguishing prefix of the interval name is needed, so "y" can be
+   ; used in place of "year", but "mo" and "mi" are needed at a minimum to
+   ; distinguish between "month" and "minute".  The second argument can
+   ; also be in upper- or lower-case.  If the second argument is unrecognized
+   ; (e.g. "second"), the first argument is returned unchanged.
+   do scan ymdhms
+   match digit {4} => year (digit {2} => month when "01" <= month <= "12")
+         digit {2} => day digit {2} => hour digit {2} => minute
+         digit {2} => second (["+-"] digit {4}) => time-zone value-end
+      do scan interval
+      match ul "y"
+         return "%x(year)1231235959%x(time-zone)"
+      match ul "mo"
+         local stream days-in-month size 12 initial
+               {"31", "28", "31", "30", "31", "30",
+                "31", "31", "30", "31", "30", "31"}
+         do when month != 2 |
+                 year modulo 4 != 0 |
+                 (year modulo 100 = 0 & year modulo 400 != 0)
+            return "%x(year)%x(month)" || days-in-month @ month ||
+                   "235959%x(time-zone)"
+         else
+            return "%x(year)%x(month)29235959%x(time-zone)"
+         done
+      match ul "d"
+         return "%x(year)%x(month)%x(day)235959%x(time-zone)"
+      match ul "h"
+         return "%x(year)%x(month)%x(day)%x(hour)5959%x(time-zone)"
+      match ul "mi"
+         return "%x(year)%x(month)%x(day)%x(hour)%x(minute)59%x(time-zone)"
+      else
+         return ymdhms
+      done
+   else
+      return "???"  ; In case of an erroneous argument
+   done
+
+define stream function round-down-ymdhms value stream ymdhms
+                                      to value stream interval as
+   ; Takes a date/time in "YYYYMMDDhhmmss+ZHZM" form, and returns the same
+   ; value but rounded down to the beginning of an interval as indicated by
+   ; the second argument.  The second argument is the name of an interval:
+   ; "year", "month", "day", "hour" or "minute".  Only the shortest
+   ; distinguishing prefix of the interval name is needed, so "y" can be
+   ; used in place of "year", but "mo" and "mi" are needed at a minimum to
+   ; distinguish between "month" and "minute".  The second argument can
+   ; also be in upper- or lower-case.  If the second argument is unrecognized
+   ; (e.g. "second"), the first argument is returned unchanged.
+   do scan ymdhms
+   match digit {4} => year digit {2} => month digit {2} => day
+         digit {2} => hour digit {2} => minute digit {2} => second
+         (["+-"] digit {4}) => time-zone value-end
+      do scan interval
+      match ul "y"
+         return "%x(year)0101000000%x(time-zone)"
+      match ul "mo"
+         return "%x(year)%x(month)01000000%x(time-zone)"
+      match ul "d"
+         return "%x(year)%x(month)%x(day)000000%x(time-zone)"
+      match ul "h"
+         return "%x(year)%x(month)%x(day)%x(hour)0000%x(time-zone)"
+      match ul "mi"
+         return "%x(year)%x(month)%x(day)%x(hour)%x(minute)00%x(time-zone)"
+      else
+         return ymdhms
+      done
+   else
+      return "???"  ; In case of an erroneous argument
+   done
+
+define counter function ymdhms-julian-day-count value stream ymd as
+   ; Takes a date in "YYYYMMDD" format, and returns the "Julian day" --
+   ; the number of day within the year, with 1 January being day number 1.
+   ; The argument can actually be a longer string (it can have a hhmmss part)
+   ; but any part beyond the day is ignored.
+   local counter days-to-month size 12 initial
+         {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334}
+   do scan date ymd
+   match digit {4} => y (digit {2} => m when "01" <= m <= "12")
+         digit {2} => d
+      do when y modulo 4 = 0 &
+              (y modulo 100 != 0 | y modulo 400 = 0) &
+              m > 2
+         return days-to-month @ m + d + 1
+      else
+         return days-to-month @ m + d
+      done
+   else
+      return 1  ; In case of an erroneous argument
+   done
+
+define stream function format-ymdhms value stream date-format
+                           with-date value stream ymdhms as
+   ; Take a date/time in "YYYYMMDDhhmmss+ZHZM" format, and return it formated
+   ; in the manner of the OmniMark DATE operator.
+   local stream month-name size 12 initial {
+         "January", "February", "March",     "April",   "May",      "June",
+         "July",    "August",   "September", "October", "November", "December"}
+   local stream weekday-name size 7 initial {
+         "Monday", "Tuesday",  "Wednesday", "Thursday",
+         "Friday", "Saturday", "Sunday"}
+   local stream result
+   open result as buffer
+   do scan ymdhms
+   match (digit {2} digit {2} => short-year) => long-year
+         (digit {2} => month when "01" <= month <= "12")
+         digit {2} => day
+         digit {2} => hour
+         digit {2} => minute
+         digit {2} => second
+         (["+-"] digit {4}) => time-zone value-end
+      using output as result
+      repeat scan date-format
+      match [any except "="]+ => as-is
+         output as-is
+      match "=Y"
+         output short-year
+      match "=xY"
+         output long-year
+      match "=M"
+         output month
+      match "=xM"
+         output "d" % month
+      match "=n"
+         output month-name @ month
+      match "=D"
+         output day
+      match "=xD"
+         output "d" % day
+      match "=W"
+         output weekday-name @ (ymd-weekday of ymdhms)
+      match "=H"
+         output hour
+      match "=xH"
+         output "d" % hour
+      match "=h"
+         output "2fzd" % ((hour + 11) modulo 12 + 1)
+      match "=xh"
+         output "d" % ((hour + 11) modulo 12 + 1)
+      match "=m"
+         output minute
+      match "=xm"
+         output "d" % minute
+      match "=s" | "=S"
+         output second
+      match "=xs" | "=xS"
+         output "d" % second
+      match "=a"
+         do when hour < "12"
+            output "a"
+         else
+            output "p"
+         done
+      match "=A"
+         do when hour < "12"
+            output "A"
+         else
+            output "P"
+         done
+      match "=t"
+         output time-zone
+      match "=" any => character
+         output character
+      match "="
+         return "???" ; Invalid format item
+      again
+   else
+      output "???"  ; In case of an erroneous argument
+   done
+   close result
+   return result
+
+define stream function ymdhms-to-arpadate value stream ymdhms as
+   ; Takes a date/time in "YYYYMMDDhhmmss+ZHZM" form and returns it in
+   ; standard ARPA/Internet RFC-822 form.
+   local stream day-name size 7 initial {
+         "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
+   local stream month-name size 12 initial {
+         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
+   do scan ymdhms
+   match (digit {4} => year
+          (digit {2} => month when "01" <= month <= "12")
+          digit {2} => day) => ymd
+         digit {2} => hour digit {2} => minute digit {2} => second
+         (["+-"] digit {4}) => time-zone value-end
+      return day-name @ (ymd-weekday of ymd) || ", " ||
+             "d" % day || " " || month-name @ month || " %x(year)" ||
+             " %x(hour):%x(minute):%x(second) " || time-zone
+   else
+      return "???"  ; In case of an erroneous argument
+   done
+
+define stream function arpadate-to-ymdhms value stream arpadate as
+   ; Takes a date/time in ARPA/Internet RFC-822 form and returns it in
+   ; "YYYYMMDDhhmmss+ZHZM" form.  Considerable flexibility is allowed by
+   ; RFC-822.  In addition, this function allows the following additional
+   ; further laxity in the ARPA date/time:
+   ;  * extra and missing white-space is allowed,
+   ;  * commas can be used following any component (even following the
+   ;    last component),
+   ;  * month names and time zones are recognized case-insensitively,
+   ;  * the day, hour, minute and second can have one or two digits in
+   ;    them,
+   ;  * the colons in the time part are optional, and can be dashes, and
+   ;  * two-digit years are allowed -- 70 to 99 are assumed to be 1970 to
+   ;    1999 and 00 to 69 are assumed to be 2000 to 2069.
+   local stream zone-name size 10 initial {
+         "+0000" with^ "UT",  "+0000" with^ "GMT",
+         "-0500" with^ "EST", "-0400" with^ "EDT",
+         "-0600" with^ "CST", "-0500" with^ "CDT",
+         "-0700" with^ "MST", "-0600" with^ "MDT",
+         "-0800" with^ "PST", "-0700" with^ "PDT"}
+   local stream zone-by-letter size 25 initial {
+         "-0100" with^ "A", "-0200" with^ "B", "-0300" with^ "C",
+         "-0400" with^ "D", "-0500" with^ "E", "-0600" with^ "F",
+         "-0700" with^ "G", "-0800" with^ "H", "-0900" with^ "I",
+         "-1000" with^ "K", "-1100" with^ "L", "-1200" with^ "M",
+         "+0100" with^ "N", "+0200" with^ "O", "+0300" with^ "P",
+         "+0400" with^ "Q", "+0500" with^ "R", "+0600" with^ "S",
+         "+0700" with^ "T", "+0800" with^ "U", "+0900" with^ "V",
+         "+1000" with^ "W", "+1100" with^ "X", "+1200" with^ "Y",
+         "+0000" with^ "Z"}
+   local stream month-name size 12 initial {
+         "01" with^ "JAN", "02" with^ "FEB", "03" with^ "MAR",
+         "04" with^ "APR", "05" with^ "MAY", "06" with^ "JUN",
+         "07" with^ "JUL", "08" with^ "AUG", "09" with^ "SEP",
+         "10" with^ "OCT", "11" with^ "NOV", "12" with^ "DEC"}
+   do scan arpadate
+   match white-space* (letter+ white-space*)? ("," white-space*)?
+         (digit+ => day when 1 <= day <= 31) white-space* ("," white-space*)?
+         (letter+ => month when month-name has key "%ux(month)")
+         white-space* ("," white-space*)?
+         (digit {4} => long-year | digit {2} => short-year)
+         white-space* ("," white-space*)?
+         ((digit {1 to 2} => hour when hour <= 24)
+          white-space* ([":-"] white-space*)?
+          (digit {1 to 2} => minute when minute <= 59) white-space*
+          (([":-"] white-space*)?
+           (digit {1 to 2} => second when second <= 59)
+           (lookahead not digit) white-space*)? ("," white-space*)?)?
+         (((letter {2}+ => named-zone
+                          when zone-name has key "%ux(named-zone)") |
+           ul ["ABCDEFGHIKLMNOPQRSTUVWXYZ"] => zone-letter |
+           (["+-"] digit {4}) => zone-differential)
+          white-space* ("," white-space*)?)?
+      local stream true-year
+      local stream true-zone
+      local stream true-hhmmss
+      local counter day-adjustment initial {0}
+      do when long-year is specified
+         set true-year to long-year
+      else when short-year >= "70"
+         set true-year to "19" || short-year
+      else
+         set true-year to "20" || short-year
+      done
+      return "???"  ; In case of an erroneous argument
+             when day = "31" & month = ul ("APR" | "JUN" | "SEP" | "NOV") |
+                  month = ul "FEB" & (day = "30" |
+                                      day = "29" &
+                                      (true-year modulo 4 != 0 |
+                                       true-year modulo 100 = 0 &
+                                       true-year modulo 400 != 0)) |
+                  hour is specified & hour = 24 &
+                  (minute != 0 | second is specified & second != 0)
+      do when hour isnt specified
+         set true-hhmmss to "000000"
+      else when hour = 24
+         set true-hhmmss to "000000"
+         set day-adjustment to 1
+      else when second isnt specified
+         set true-hhmmss to "2fzd" % hour || "2fzd" % minute || "00"
+      else
+         set true-hhmmss to "2fzd" % hour || "2fzd" % minute || "2fzd" % second
+      done
+      do when named-zone is specified
+         set true-zone to zone-name ^ "%ux(named-zone)"
+      else when zone-letter is specified
+         set true-zone to zone-by-letter ^ "%ux(zone-letter)"
+      else when zone-differential is specified
+         set true-zone to zone-differential
+      else
+         set true-zone to "+0000"
+      done
+      return add-to-ymdhms (true-year || month-name ^ "%ux(month)" ||
+                            "2fzd" % day || true-hhmmss || true-zone)
+                      days day-adjustment
+   else
+      return "???"  ; In (any other) case of an erroneous argument
+   done
+;===========================================================================;
+

@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/checkbox.css') }}">
+{% endblock %}
+{% block content %}
+<div class='flex_container'>
+	<div class='message_list'>
+		<form method='post' action="{{ url_for('messages') }}">			
+			<div class='inbox'>				
+				{% for message in message_list|reverse %}
+					<label>
+					<div class='checkbox_container'>
+						<input type="checkbox" name='message_item' value='{{ message.id }}'>
+						<span class='checkmark'></span>					
+					</div>
+					</label>	
+					<div class='message' id='{{ message.id }}' onclick="showMessage(this)" {% if not message.read %} style="font-weight: bold;"{% endif %}>
+						<span id="{{ message.id }}_content" style="display: none;">{{ message.content }}</span>
+						{{ message.title }}<br><br>{{ message.timestamp.strftime("%m/%d/%Y, %H:%M:%S") }}<br>
+					</div>			 
+					
+				{% endfor %}
+			</div>
+			<label>
+				<div class='checkbox_container'>
+					<input type="checkbox" id='select' value='select_all'>
+					<span class='checkmark'></span>					
+				</div>
+			</label>	
+			<div class='delete_button'><input class='button_one' type="submit" name='delete' value='Delete Selected'></div>
+			
+		</form>	
+	</div>
+	<div class='message_display' id='message_display' >No message selected.</div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+
+	function showMessage(message){
+		var message_id = $(message).prop('id');
+		$('#message_display').html($(`#${message_id}_content`).html());
+		// $('.message').css('color', '#2b2b2b');
+		// $('#'+ message_id).css('color', '#009ee0');
+		$('.message').css({'background': 'white', 'color': '#2b2b2b'});
+		if($(message).css('font-weight') == '700'){
+			$.ajax({
+				type: 'POST',
+				url: "{{ url_for('read_message') }}",
+				dataType: 'application/json',			
+				data: {
+					'message_id' : message_id
+				}
+			});
+			var num_of_messages = parseInt($('.badge').text());
+			if(num_of_messages > 1){
+				$('.badge').text(num_of_messages - 1);
+			} else{
+				$('.badge').hide();
+			}
+			
+		}
+		
+		$(message).css({'background': '#009ee0', 'color': 'white', 'font-weight': 'normal'});
+	};
+
+	$('#select').change(function(){
+		if($(this).prop('checked')){
+			$('input[name=message_item]').prop("checked", true);
+		} else{
+			$('input[name=message_item]').prop("checked", false);
+		}
+	});
+
+	$('input[name=message_item]').change(function(){
+		if($(this).prop('checked')){
+			if($('input[name=message_item]:checked').length == $('input[name=message_item]').length){
+				$("#select").prop("checked", true);
+			}
+		}else{
+			$("#select").prop("checked", false);
+		}
+	});
+
+	// function getContent(message_id){
+	// 	$.ajax({
+	// 		type: 'POST',
+	// 		url: '{{ url_for("messages") }}',
+	// 		contentType: "application/json; charset=utf-8",
+	// 		dataType: "json",
+	// 		data: JSON.stringify({
+	// 			'message_id' : message_id
+	// 		}),
+	// 		success: function(data){
+	// 			$('#message_display').val(data.content)
+
+	// 		}
+	// 	});
+	// };
+</script>
+{% endblock %}

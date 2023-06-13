@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<license issuer="RenderX" issued="2017-08-09" serial="443460.716263472641916">
+   <licensee>
+      <person>Jordan Cave jordan.cave@sonovisiongroup.com</person>
+      <organization/>
+   </licensee>
+   <product name="XEPwin">
+      <limit name="trial">1</limit>
+   </product>
+   <product name="XEP"/>
+   <product name="XEP"/>
+   <product name="XEP">
+      <limit name="trial">1</limit>
+   </product>
+<signature>iQBVAgUAWYswQ/z8zkdesEfDAQHkKAH+Iy8yrADut36svtoRkIjwZHaW/0IBViB5
+zeJOrU3FZT7zd7qj7/6N4HjESDyg2ceLqwoHUCoRBtWGaB3oYKyQXQ===iyDO</signature></license>

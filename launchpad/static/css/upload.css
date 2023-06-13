@@ -1,0 +1,95 @@
+.upload_item{
+    border-radius: 3px;
+    border: 2px solid grey;
+    border-bottom: 0px;
+    padding: 0.3rem;
+}
+
+.details{
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.details>p{
+    text-align: center;
+    width: 40%;
+    margin: 0;
+}
+
+.details>*{
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.uploads>.buttons>.checkbox_container{
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    width: 32px;
+}
+
+.checkbox_container>div{
+    transform: translate(0, -70%);
+}
+
+.checkbox_container>span{
+    transform: translate(0, -12%);
+}
+
+.upload_item .checkbox_container{
+    display: inline-block;
+    width: 50%;
+} 
+
+
+.upload_item:nth-last-child(2){
+    border-bottom: 2px solid grey;
+    margin-bottom: 0.5rem;
+}
+
+.upload_item img{
+    height: 32px;
+    width: 32px;
+}
+
+.upload_item a{
+    cursor: pointer;
+}
+
+.upload_item>div{
+    width: 100%;
+    display: block;
+}
+
+.upload_item>div:first-child{
+    display: flex;
+    align-items: center;
+}
+
+.input_form input[type="text"]{
+    width: 80%;
+}
+
+.input_form input[type="submit"]{
+    width: 20%;
+}
+
+.input_form input[type="text"],
+.input_form input[type="submit"]{
+    padding: .3em;
+}
+
+.input_form p{
+    margin: 0.1em 0 0;
+}
+
+.input_form hr{
+    margin: 0.5rem 1rem;
+    opacity: 0.5;
+}
+
+.buttons{
+    display: block;
+    padding: 0.5em;
+}

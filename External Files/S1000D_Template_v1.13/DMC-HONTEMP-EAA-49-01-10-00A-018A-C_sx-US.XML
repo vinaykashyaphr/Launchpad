@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!NOTATION tif SYSTEM "tiff">
+]>
+<?Pub Inc?>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>INTRODUCTION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>General</title>
+<levelledPara><para>This publication gives maintenance instructions
+for the equipment shown on the Title page.</para>
+</levelledPara>
+<levelledPara><para>Refer to <internalRef internalRefId="t001"
+internalRefTargetType="irtt02"></internalRef> for Nameplate Identification
+data.</para>
+<levelledPara><para>The configuration of the equipment is shown by
+the part number, dash number, series number, and change number stamped
+on the identification plate. Compare this data with the data shown
+in <internalRef internalRefId="t001" internalRefTargetType="irtt02"
+></internalRef> (through last alpha suffix).</para>
+</levelledPara>
+<levelledPara><para>A part number, a service bulletin number (Pre
+SB, Post SB), or an effectivity code symbol identifies the special
+procedures or illustrations necessary for each configuration. The
+procedures and illustrations not identified are applicable to all
+the configurations of the equipment.</para>
+</levelledPara>
+<levelledPara><para>The effectivity coding system identifies the differences
+between unit configurations.</para>
+<levelledPara><para>Modifications to the basic unit make it necessary
+to re-identify the unit. For example: PN 123456-1 becomes PN 123456-2.</para>
+</levelledPara>
+<levelledPara><para>Each different part number and dash number has
+its own effectivity code.</para>
+</levelledPara>
+<levelledPara><para>In the text, if no effectivity codes or part numbers
+are shown, then the procedures are applicable to all the configurations
+of the unit.</para>
+</levelledPara>
+<levelledPara><para>In the text, if one or more effectivity codes
+or part numbers are shown, then the procedures are applicable only
+to the related configuration of the unit.</para>
+</levelledPara>
+<levelledPara><para><internalRef internalRefId="t001"
+internalRefTargetType="irtt02"></internalRef> shows the part number
+and effectivity code for each unit.</para>
+<table id="t001">
+<title>Nameplate Identification List for &quot;nomenclature&quot;,
+PN NNNNNNNNN-N</title>
+<tgroup cols="5"><colspec colname="col1" colwidth="0.88in"/><colspec
+colname="col2" colwidth="0.75in"/><colspec colname="col3"
+colwidth="0.75in"/><colspec colname="col4" colwidth="3.18in"/><colspec
+colname="col5" colwidth="1.16in"/><thead><row>
+<entry>
+<para>Effectivity</para>
+<para>Code</para>
+<para>Symbol</para>
+</entry>
+<entry>
+<para>Series</para>
+<para>Number</para>
+</entry>
+<entry>
+<para>Change</para>
+<para>Number</para>
+</entry>
+<entry>
+<para>Description</para>
+</entry>
+<entry>
+<para>Service Bulletin</para>
+<para>Number</para>
+</entry>
+</row><row>
+<entry></entry>
+<entry>
+<para>1</para>
+</entry>
+<entry>
+<para>1</para>
+</entry>
+<entry>
+<para>Original configuration</para>
+</entry>
+<entry>
+<para>-</para>
+</entry>
+</row></thead><tbody><row>
+<entry></entry>
+<entry>
+<para>2</para>
+</entry>
+<entry></entry>
+<entry>
+<para>Series 1 with the changes that follow: </para>
+<para>Incorporate xxxxx xxxxxxxxx xxxxxxx xxxx</para>
+</entry>
+<entry>
+<para>49-nnnn</para>
+</entry>
+</row><row>
+<entry></entry>
+<entry>
+<para>3</para>
+</entry>
+<entry>
+<para>2</para>
+</entry>
+<entry>
+<para>Series 2 with the changes that follow: </para>
+<para>Incorporate xxxxx xxxxxxxxx xxxxxxx xxxx</para>
+</entry>
+<entry>
+<para>49-nnnn</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Refer to <internalRef internalRefId="t002"
+internalRefTargetType="irtt02"></internalRef> for equipment identification
+data.</para>
+<levelledPara><para>The configuration of the equipment is shown by
+the part number, dash number, series number, and change number stamped
+on the identification plate. Compare this data with the data shown
+in <internalRef internalRefId="t002" internalRefTargetType="irtt02"
+></internalRef> (through last alpha suffix).</para>
+</levelledPara>
+<levelledPara><para>A part number, a service bulletin number (Pre
+SB, Post SB), or an effectivity code symbol identifies the special
+procedures or illustrations necessary for each configuration. The
+procedures and illustrations not identified are applicable to all
+the configurations of the equipment.</para>
+</levelledPara>
+<levelledPara><para>The effectivity coding system identifies the differences
+between unit configurations.</para>
+<levelledPara><para>Modifications to the basic unit make it necessary
+to re-identify the unit. For example: PN 123456-1 becomes PN 123456-2.</para>
+</levelledPara>
+<levelledPara><para>Each different part number and dash number has
+its own effectivity code.</para>
+</levelledPara>
+<levelledPara><para>In the text, if no effectivity codes or part numbers
+are shown, then the procedures are applicable to all the configurations
+of the unit.</para>
+</levelledPara>
+<levelledPara><para>In the text, if one or more effectivity codes
+or part numbers are shown, then the procedures are applicable only
+to the related configuration of the unit.</para>
+<table id="t002">
+<title>Equipment Identification List</title>
+<tgroup cols="5"><colspec colname="col1" colwidth="1.17in"/><colspec
+colname="col2" colwidth="0.73in"/><colspec colname="col3"
+colwidth="0.80in"/><colspec colname="col4" colwidth="3.19in"/><colspec
+colname="col5" colwidth="0.81in"/><thead><row>
+<entry>
+<para>PN</para>
+</entry>
+<entry>
+<para>Series</para>
+<para>Number</para>
+</entry>
+<entry>
+<para>Effectivity</para>
+<para>Code</para>
+<para>Symbol</para>
+</entry>
+<entry>
+<para>Description</para>
+</entry>
+<entry>
+<para>Service</para>
+<para>Bulletin</para>
+<para>Number</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>NNNNNNN-N-N</para>
+</entry>
+<entry>
+<para>N</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+<entry>
+<para>Original configuration</para>
+</entry>
+<entry>
+<para>-</para>
+</entry>
+</row><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>N</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+<entry>
+<para>Modification</para>
+</entry>
+<entry>
+<para>nn-nnnn</para>
+</entry>
+</row><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>N</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+<entry>
+<para>Modification</para>
+</entry>
+<entry>
+<para>nn-nnnn</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Refer to <internalRef internalRefId="t003"
+internalRefTargetType="irtt02"></internalRef> for effectivity code
+data.</para>
+<levelledPara><para>Determine the exact configuration of the equipment
+from the part number, series number, and change numbers stamped on
+the equipment identification plate.</para>
+</levelledPara>
+<levelledPara><para><internalRef internalRefId="t003"
+internalRefTargetType="irtt02"></internalRef> gives an alpha code
+symbol for each end unit.</para>
+</levelledPara>
+<levelledPara><para>The code symbol is used at the beginning of the
+illustration title, paragraph, or procedural step to identify work
+procedural differences between equipment.</para>
+<table id="t003">
+<title>Effectivity Code List</title>
+<tgroup cols="2"><colspec colname="col1" colwidth="5.91in"/><colspec
+colname="col2" colwidth="0.81in"/><thead><row>
+<entry>
+<para>PN</para>
+</entry>
+<entry>
+<para>Effectivity</para>
+<para>Code</para>
+<para>Symbol</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+</row><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+</row><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>X</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Refer to <internalRef internalRefId="t004"
+internalRefTargetType="irtt02"></internalRef> for change history data.</para>
+<table id="t004">
+<title>Change History List for  LRU, Parts List Number
+NNNNNNNN-N</title>
+<tgroup cols="3"><colspec colname="col1" colwidth="1.16in"/><colspec
+colname="col2" colwidth="1.16in"/><colspec colname="col3"
+colwidth="4.39in"/><thead><row>
+<entry>
+<para>Parts List</para>
+<para>Number</para>
+</entry>
+<entry>
+<para>Service</para>
+<para>Bulletin</para>
+<para>Number</para>
+</entry>
+<entry>
+<para>Description</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>NNN</para>
+</entry>
+<entry>
+<para>XXXXXXXXXXXX</para>
+</entry>
+</row><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>NNN</para>
+</entry>
+<entry>
+<para>XXXXXXXXXXXX</para>
+</entry>
+</row><row>
+<entry>
+<para>NNNNNNN-N</para>
+</entry>
+<entry>
+<para>NNN</para>
+</entry>
+<entry>
+<para>XXXXXXXXXXXX</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+<levelledPara><para>Standard maintenance procedures that technicians
+must know are not given in this manual.</para>
+</levelledPara>
+<levelledPara><para>This publication is written in agreement with
+the ATA Specification.</para>
+</levelledPara>
+<levelledPara><para>Refer to the Special Tools, Fixtures, and Equipment
+and Consumables tables in each section before the start of maintenance
+or repair procedures.</para>
+</levelledPara>
+<levelledPara><para>An explanation on how to use the <dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="T" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> is given in the Introduction to that section.</para>
+</levelledPara>
+<levelledPara><para>Honeywell recommends that you do the tests in
+ <dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="400" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> before you disassemble the unit. These tests can show the
+condition of the unit or most possible cause of a malfunction. If
+a malfunction occurs, repair as necessary.</para>
+</levelledPara>
+<levelledPara><para>Warnings, cautions, and notes in this manual give
+the data that follows:</para>
+<para>• A WARNING gives a condition or tells personnel what part of
+an operation or maintenance procedure, which if not obeyed, can cause
+injury or death.</para>
+<para>• A CAUTION gives a condition or tells personnel what part of
+an operation or maintenance procedure, which if not obeyed, can cause
+damage to the equipment.</para>
+<para>• A NOTE gives data, not commands. The NOTE helps personnel
+when they do the related instruction.</para>
+</levelledPara>
+<levelledPara><para>Warnings and cautions go before the applicable
+paragraph or step. Notes follow the applicable paragraph or step.</para>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

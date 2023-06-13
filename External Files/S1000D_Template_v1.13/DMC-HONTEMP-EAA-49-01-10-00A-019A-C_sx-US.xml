@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!NOTATION tif SYSTEM "tiff">
+]>
+<?Pub Inc?>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="019" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>(component Name)</techName><infoName>Vendor Code List</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description><note>
+<notePara>The vendor codes and part numbers that are shown in the
+DPL must not be construed as an authorization of the vendor, pursuant
+to the FAA regulations, to ship directly to the user. Neither must
+it be construed as a certification by Honeywell that parts shipped
+by vendors directly to users will conform to the type design or that
+such parts are airworthy or safe for installation.</notePara>
+</note>
+<table frame="topbot"><tgroup cols="2"><colspec colname="col1"
+colsep="0" colwidth="101.63pt"/><colspec colname="col2"
+colwidth="388.45pt"/><thead><row rowsep="0">
+<entry rowsep="1">
+<para>Code</para>
+</entry>
+<entry rowsep="1">
+<para>Vendor</para>
+</entry>
+</row></thead><tbody><row rowsep="0">
+<entry>
+<para>V####CAGE###</para>
+</entry>
+<entry>
+<para>###Address####</para>
+</entry>
+</row></tbody></tgroup></table>
+</description></content></dmodule>

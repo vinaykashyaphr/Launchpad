@@ -1,0 +1,171 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    table.bottomBorder { 
+        border-collapse: collapse; 
+    }
+    table.bottomBorder td, 
+    table.bottomBorder th { 
+        border-bottom: 1px solid black; 
+        padding: 10px; 
+        text-align: left;
+    }
+    table.bottomBorder tr:hover {
+            background-color: #6dd0fd;
+    }
+</style>
+	<div class="container" onclick="highlightEmpty()">
+        <h2>DPMO Checklist</h2>
+        <h4>Job Number: {{ job_no }}</h4>
+        <h4>Revision: {{ revision }}</h4>
+        <form action="" method="post" novalidate>
+            <p>
+                {{ form.op_manager.label }}<br>
+                {{ form.op_manager() }}<br>
+                <span class="note">For example: bkelly</span><br>
+            </p>
+            <p>
+                {{ form.er_level.label }}<br>
+                {{ form.er_level() }}<br>
+                <span class="note">Pre-Delivery = 0, Engineering Review #1 = 1, Engineering Review #2 = 2, etc.</span><br>
+            </p>
+            <p>
+                {{ form.date.label }}<br>
+                {{ form.date }}<br>
+            </p>
+            <p>
+                {{ form.total_pages.label }}<br>
+                {{ form.total_pages }}<br>
+            </p>
+            <a class="button_one" onclick="zeroFill()">Fill in all empty comment fields with zeros</a>
+            <table class="bottomBorder">
+                <thead><tr><th colspan="2">Subject</th><th>{{ comment_name }}</th></tr></thead>
+                    <tbody>
+                        <tr><td></td><td><b> Change Identification </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_A.get(1) }}</td><td style="width: 150px;">{{ form.input1 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_A.get(2) }}</td><td style="width: 150px;">{{ form.input2 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_A.get(3) }}</td><td style="width: 150px;">{{ form.input3 }}</td></tr>
+                        <tr><td></td><td><b> Cross-Reference </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_B.get(1) }}</td><td style="width: 150px;">{{ form.input4 }}</td></tr>
+                        <tr><td></td><td><b>Illustrated Parts List / Detailed Parts List / Engines </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_C.get(1) }}</td><td style="width: 150px;">{{ form.input5 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_C.get(2) }}</td><td style="width: 150px;">{{ form.input6 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_C.get(3) }}</td><td style="width: 150px;">{{ form.input7 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_C.get(4) }}</td><td style="width: 150px;">{{ form.input8 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_C.get(5) }}</td><td style="width: 150px;">{{ form.input9 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_C.get(6) }}</td><td style="width: 150px;">{{ form.input10 }}</td></tr>
+                        <tr><td></td><td><b> Illustration / Figure </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_D.get(1) }}</td><td style="width: 150px;">{{ form.input11 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_D.get(2) }}</td><td style="width: 150px;">{{ form.input12 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_D.get(3) }}</td><td style="width: 150px;">{{ form.input13 }}</td></tr>
+                        <tr><td></td><td><b> Unit of Measure </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_E.get(1) }}</td><td style="width: 150px;">{{ form.input14 }}</td></tr>
+                        <tr><td></td><td><b> Part Nomenclature </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_F.get(1) }}</td><td style="width: 150px;">{{ form.input15 }}</td></tr>
+                        <tr><td></td><td><b> Part Number </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_G.get(1) }}</td><td style="width: 150px;">{{ form.input16 }}</td></tr>
+                        <tr><td></td><td><b> Source Data </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_H.get(1) }}</td><td style="width: 150px;">{{ form.input17 }}</td></tr>
+                        <tr><td></td><td><b> Table </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_I.get(1) }}</td><td style="width: 150px;">{{ form.input18 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_I.get(2) }}</td><td style="width: 150px;">{{ form.input19 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_I.get(3) }}</td><td style="width: 150px;">{{ form.input20 }}</td></tr>
+                        <tr><td></td><td><b> Template </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_J.get(1) }}</td><td style="width: 150px;">{{ form.input21 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_J.get(2) }}</td><td style="width: 150px;">{{ form.input22 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_J.get(3) }}</td><td style="width: 150px;">{{ form.input23 }}</td></tr>
+                        <tr><td></td><td><b> Text </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_K.get(1) }}</td><td style="width: 150px;">{{ form.input24 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_K.get(2) }}</td><td style="width: 150px;">{{ form.input25 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_K.get(3) }}</td><td style="width: 150px;">{{ form.input26 }}</td></tr>
+                        <tr><td></td><td><b> TR Collation </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_L.get(1) }}</td><td style="width: 150px;">{{ form.input27 }}</td></tr>
+                        <tr><td></td><td><b> Warnings / Cautions </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_M.get(1) }}</td><td style="width: 150px;">{{ form.input28 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_M.get(2) }}</td><td style="width: 150px;">{{ form.input29 }}</td></tr>
+                        <tr><td></td><td><b> Other </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_N.get(1) }}</td><td style="width: 150px;">{{ form.input30 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_N.get(2) }}</td><td style="width: 150px;">{{ form.input31 }}</td></tr>
+                        <tr><td></td><td><b> Final Quality Check </b></td><td></td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_O.get(1) }}</td><td style="width: 150px;">{{ form.input32 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_O.get(2) }}</td><td style="width: 150px;">{{ form.input33 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_O.get(3) }}</td><td style="width: 150px;">{{ form.input34 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_O.get(4) }}</td><td style="width: 150px;">{{ form.input35 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_O.get(5) }}</td><td style="width: 150px;">{{ form.input36 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_O.get(6) }}</td><td style="width: 150px;">{{ form.input37 }}</td></tr>
+                        <tr><td>Major</td><td>{{ dpmo_O.get(7) }}</td><td style="width: 150px;">{{ form.input38 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_O.get(8) }}</td><td style="width: 150px;">{{ form.input39 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_O.get(9) }}</td><td style="width: 150px;">{{ form.input40 }}</td></tr>
+                        <tr><td></td><td><b> Software / Code </b></td><td></td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_P.get(1) }}</td><td style="width: 150px;">{{ form.input41 }}</td></tr>
+                        <tr><td>Minor</td><td>{{ dpmo_P.get(2) }}</td><td style="width: 150px;">{{ form.input42 }}</td></tr>
+                    </tbody>
+            </table>
+            <p>{{ form.submit_complete(class="button_one") }}</p>
+            <P>{{ form.submit_incomplete(class="button_one") }}</P>
+        </form>
+    </div>
+<script type="text/javascript">
+    function zeroFill() {
+        var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                        document.getElementById('input4'), document.getElementById('input5'), document.getElementById('input6'),
+                        document.getElementById('input7'), document.getElementById('input8'), document.getElementById('input9'),
+                        document.getElementById('input10'),
+                        document.getElementById('input11'), document.getElementById('input12'), document.getElementById('input13'),
+                        document.getElementById('input14'), document.getElementById('input15'), document.getElementById('input16'),
+                        document.getElementById('input17'), document.getElementById('input18'), document.getElementById('input19'),
+                        document.getElementById('input20'),
+                        document.getElementById('input21'), document.getElementById('input22'), document.getElementById('input23'),
+                        document.getElementById('input24'), document.getElementById('input25'), document.getElementById('input26'),
+                        document.getElementById('input27'), document.getElementById('input28'), document.getElementById('input29'),
+                        document.getElementById('input30'),
+                        document.getElementById('input31'), document.getElementById('input32'), document.getElementById('input33'),
+                        document.getElementById('input34'), document.getElementById('input35'), document.getElementById('input36'),
+                        document.getElementById('input37'), document.getElementById('input38'), document.getElementById('input39'),
+                        document.getElementById('input40'),
+                        document.getElementById('input41'), document.getElementById('input42')];
+
+
+        myArray.forEach(zeroFillinter);
+
+        function zeroFillinter(item) {
+                    if (item.value == '') {
+                        item.value = '0';
+                    }
+                }
+    }
+    window.onload = highlightEmpty()
+    function highlightEmpty() {
+        var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                        document.getElementById('input4'), document.getElementById('input5'), document.getElementById('input6'),
+                        document.getElementById('input7'), document.getElementById('input8'), document.getElementById('input9'),
+                        document.getElementById('input10'),
+                        document.getElementById('input11'), document.getElementById('input12'), document.getElementById('input13'),
+                        document.getElementById('input14'), document.getElementById('input15'), document.getElementById('input16'),
+                        document.getElementById('input17'), document.getElementById('input18'), document.getElementById('input19'),
+                        document.getElementById('input20'),
+                        document.getElementById('input21'), document.getElementById('input22'), document.getElementById('input23'),
+                        document.getElementById('input24'), document.getElementById('input25'), document.getElementById('input26'),
+                        document.getElementById('input27'), document.getElementById('input28'), document.getElementById('input29'),
+                        document.getElementById('input30'),
+                        document.getElementById('input31'), document.getElementById('input32'), document.getElementById('input33'),
+                        document.getElementById('input34'), document.getElementById('input35'), document.getElementById('input36'),
+                        document.getElementById('input37'), document.getElementById('input38'), document.getElementById('input39'),
+                        document.getElementById('input40'),
+                        document.getElementById('input41'), document.getElementById('input42'),
+                        document.getElementById('er_level'), document.getElementById('total_pages'), document.getElementById('date'),
+                        document.getElementById('op_manager')];
+                        
+        myArray.forEach(highlight);
+
+        function highlight(item) {
+                    if (item.value == '') {
+                        item.style.border = "1px solid #FF0000";
+                    }
+                    else {
+                        item.style.border = "1px solid #00FF00";
+                    }
+                }
+        }
+</script>
+{% endblock %}

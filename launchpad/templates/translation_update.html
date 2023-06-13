@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    table.bottomBorder { 
+        border-collapse: collapse; 
+    }
+    table.bottomBorder td, 
+    table.bottomBorder th { 
+        border-bottom: 1px solid black; 
+        padding: 10px; 
+        text-align: left;
+    }
+    table.bottomBorder tr:hover {
+          background-color: #6dd0fd;
+    }
+</style>
+	<div class="container" onmouseover="highlightEmpty()">
+        <h2>Translation Checklist</h2>
+        <h4>Job Number: {{ job_no }}</h4>
+        <h4>Revision: {{ revision }}</h4>
+        <form action="" method="post" novalidate>
+            <p>
+                {{ form.op_manager.label }}<br>
+                {{ form.op_manager() }}<br>
+                <span class="note">For example: bkelly</span><br>
+            </p>
+            <p>
+                {{ form.er_level.label }}<br>
+                {{ form.er_level() }}<br>
+                <span class="note">Pre-Delivery = 0, Engineering Review #1 = 1, Engineering Review #2 = 2, etc.</span><br>
+            </p>
+            <p>
+                {{ form.date1.label }}<br>
+                {{ form.date1() }}<br>
+            </p>
+            <p>
+                {{ form.client.label }}
+                {{ form.client() }}
+            </p>
+            <p>
+                {{ form.translator.label }}<br>
+                {{ form.translator() }}<br>
+
+            </p>
+            <p>
+                {{ form.date2.label }}<br>
+                {{ form.date2() }}<br>
+                <span class="note">Date to appear next to the signature</span><br>
+            </p>
+            <a class="button_one" onclick="zeroFill()">Fill in all empty comment fields with 'Verified'</a>
+            <p>Note: A copy of this form must be completed and signed off and accompany each submission to next logical step.</p>
+            <table class="bottomBorder">
+                    <thead><tr><th>Subject</th><th>Verified</th></tr></thead>
+                    <tbody>
+                        <tr><td> {{ trans_english.get(1) }} <br><br> {{ trans_french.get(1) }}</td><td style="width: 150px;">{{ form.input1() }}</td></tr>
+                        <tr><td> {{ trans_english.get(2) }}<br><br> {{ trans_french.get(2) }}</td><td style="width: 150px;">{{ form.input2() }}</td></tr>
+                        <tr><td>Memory used</td><td style="width: 150px;">{{ form.memory_english() }}</td></tr>
+                        <tr><td>Mémoire utilisée</td><td style="width: 150px;">{{ form.memory_french() }}</td></tr>
+                        <tr><td> {{ trans_english.get(3) }}<br><br> {{ trans_french.get(3) }}</td><td style="width: 150px;">{{ form.input3() }}</td></tr>
+                        <tr><td> {{ trans_english.get(4) }}<br><br> {{ trans_french.get(4) }}</td><td style="width: 150px;">{{ form.input4() }}</td></tr>
+                        <tr><td> {{ trans_english.get(5) }}<br><br> {{ trans_french.get(5) }}</td><td style="width: 150px;">{{ form.input5() }}</td></tr>
+                        <tr><td> {{ trans_english.get(6) }}<br><br>{{ trans_french.get(6) }}</td><td style="width: 150px;">{{ form.input6() }}</td></tr>
+                        <tr><td> {{ trans_english.get(7) }}<br><br>{{ trans_french.get(7) }}</td><td style="width: 150px;">{{ form.input7() }}</td></tr>
+                        <tr><td> {{ trans_english.get(8) }}<br><br> {{ trans_french.get(8) }}</td><td style="width: 150px;">{{ form.input8() }}</td></tr>
+                        <tr><td> {{ trans_english.get(9) }}<br><br> {{ trans_french.get(9) }}</td><td style="width: 150px;">{{ form.input9() }}</td></tr>
+                        <tr><td> {{ trans_english.get(10) }}<br><br> {{ trans_french.get(10) }}</td><td style="width: 150px;">{{ form.input10() }}</td></tr>
+                        <tr><td> {{ trans_english.get(11) }}<br><br> {{ trans_french.get(11) }}</td><td style="width: 150px;">{{ form.input11() }}</td></tr>
+                        <tr><td> {{ trans_english.get(12) }}<br><br> {{ trans_french.get(12) }}</td><td style="width: 150px;">{{ form.input12() }}</td></tr>
+
+                    </tbody>
+            </table>
+            <p>{{ form.submit_complete(class="button_one") }}</p>
+            <P>{{ form.submit_incomplete(class="button_one") }}</P>
+        </form>
+    </div>
+<script type="text/javascript">
+    function zeroFill() {
+        var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                        document.getElementById('input4'), document.getElementById('input5'), document.getElementById('input6'),
+                        document.getElementById('input7'), document.getElementById('input8'), document.getElementById('input9'),
+                        document.getElementById('input10'),
+                        document.getElementById('input11'), document.getElementById('input12')];
+
+        myArray.forEach(zeroFillinter);
+
+        function zeroFillinter(item) {
+                    if (item.value == '') {
+                        item.value = 'Verified';
+                    }
+                }
+        
+    }
+
+    window.onload = highlightEmpty()
+
+    function highlightEmpty() {
+        var myArray = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'),
+                        document.getElementById('input4'), document.getElementById('input5'), document.getElementById('input6'),
+                        document.getElementById('input7'), document.getElementById('input8'), document.getElementById('input9'),
+                        document.getElementById('input10'),
+                        document.getElementById('input11'), document.getElementById('input12'),
+                        document.getElementById('translator'), document.getElementById('er_level'), document.getElementById('date1'),
+                        document.getElementById('op_manager'), document.getElementById('date2'), document.getElementById('client'),
+                        document.getElementById('memory_english'), document.getElementById('memory_french')];
+
+        myArray.forEach(highlight);
+
+        function highlight(item) {
+                    if (item.value == '') {
+                        item.style.border = "1px solid #FF0000";
+                    }
+                    else {
+                        item.style.border = "1px solid #00FF00";
+                    }
+                }
+    }
+</script>
+{% endblock %}

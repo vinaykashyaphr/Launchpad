@@ -1,0 +1,1055 @@
+process
+
+;################################################################################################;
+;|                                                                                              |;
+;| Written by Dan Haley - OCT. 2009                                                             |;
+;|                                                                                              |;
+;| This script replaces the "Shift-F6" function used in Epic 4.2.3 for Honeywell CMM's.         |;
+;|                                                                                              |;
+;| It does the following:                                                                       |;
+;|                                                                                              |;
+;|    - Verifies that the document contains "AA WILL BE GENERATED" before further processing.   |;
+;|                                                                                              |;
+;|    - Checks for revised CON/STD/ACRO/ABBR.                                                   |;
+;|                                                                                              |;
+;|    - Builds the "Special Tools, Fixtures, and Equipment" and "Consumables" tables for all    |;
+;|      pageblocks except 9000. (Contains STD's/CON's used in that pgblk only.) (Sorted)        |;
+;|                                                                                              |;
+;|    - Builds the "Special Tools, Fixtures, and Equipment" and "Consumables" tables for        |;
+;|      pageblock 9000. (Contains STD's/CON's used in all pgblks.) (Sorted)                     |;
+;|                                                                                              |;
+;|    - Builds the "Acronyms and Abbreviations" table (deflist).                                |;
+;|                                                                                              |;
+;|    - Resolves all text entities. (Does not resolve ISO character entities.)                  |;
+;|                                                                                              |;
+;################################################################################################;
+
+;################################################################################################;
+;|                                                                                              |;
+;| Revision History                                                                             |;
+;|                                                                                              |;
+;| 20091113:                                                                                    |;
+;|                                                                                              |;
+;|    - Added acro/abbr rev check and row building to conname and stdname to account for        |;
+;|      acro/abbr nested in stdname or conname. (Made macros "build-acro-row",                  |;
+;|      "build-abbr-row", "check-rev-acro", and "check-rev-abbr".)                              |;
+;|                                                                                              |;
+;|    - Modified rev processing instruction output in table rows to wrap individual para's      |;
+;|      instead of the entire row. (Revbars did not show up correctly on PDF's.)                |;
+;|                                                                                              |;
+;################################################################################################;
+
+global stream GsCurrPgblkKey initial {""}							;Keeps track of the current pageblock key attribute value.
+global stream GsConTables variable					;Keeps track of all CON tables (individual pageblocks and master table (pageblock 9000)).
+global stream GsStdTables variable					;Keeps track of all STD tables (individual pageblocks and master table (pageblock 9000)).
+global stream GsAcroAbbrTable initial {""}		;Holds the ACRO/ABBR table (deflist).
+global stream GsCurrPgblkCons variable				;Keeps track of CON's in the current pageblock.
+global stream GsCurrPgblkStds variable				;Keeps track of STD's in the current pageblock.
+global stream GsAllPgblkCons variable				;Keeps track of all CON's in the manual.
+global stream GsAllPgblkStds variable				;Keeps track of all STD's in the manual.
+global stream GsAllAcroAbbrs variable				;Keeps track of all ACRO's and ABBR's in the manual.
+global stream GsTextEnts variable					;Keeps track of text entities based on entity declarations. Used to resolve the entity references.
+global stream GsDebugFile initial {""}								;Log file containing data that can be used for debug purposes.
+global stream GsMainInput initial {""} 								;Can't "repeat scan #main-input". nothing makes it to "submit #main-input".
+global stream GsSecondaryInput initial {""}						;This contains the generated tables and is used for input when resolving the entities.
+global stream GsLogName initial {""}									;Set on command line based on input filename. (So the log will be unique when processing multiple files from "in".)
+global switch GxPgblk9000 initial {false}			;Lets the program know if the current pgblk is a 9000 pageblock. (Where the master STD/CON tables are output.)
+global switch GxRevCon variable						;Keeps track of revised CON's.
+global switch GxRevStd variable						;Keeps track of revised STD's.
+global switch GxRevAcroAbbr variable				;Keeps track of revised ACRO's and/or ABBR's.
+global switch GxContinue initial {false}
+
+;==================================;
+;          INCLUDES                ;
+;==================================;
+
+define function striprev
+	(modifiable stream a
+  ) as
+  	local stream b
+  	open b as buffer
+  	
+	repeat scan a
+		match ul "<?Pub _rev?>"
+		match ul "<?Pub /_rev?>"
+		match "%n"
+		match any=>c
+			put b "%x(c)"
+	again
+	close b
+	set a to "%g(b)"
+  return
+
+ define function caselessquicksort
+           modifiable  stream   a
+     from  value       counter  l     optional initial {1}
+     to    value       counter  r-opt optional
+  as
+     ;
+     ; Local variables
+     ;
+     local counter i
+     local counter j
+     local counter r
+     local stream x
+     local stream upperx
+     local stream ai
+     local stream upperi
+     local stream aj
+     local stream upperj
+     local stream w
+     local stream v
+     
+
+     ;
+     ; Initialize variables
+     ;
+     do when r-opt is specified
+        set r to r-opt
+     else
+        set r to (number of a)
+     done
+     set i to l
+     set j to r
+     set x to a@((i+j)/2)
+     set key of x to key of a@((i+j)/2)
+
+     repeat
+        set upperx to "%ug(x)"
+        striprev(upperx)
+        repeat
+           set ai to a@i
+           set upperi to "%ug(ai)"
+           striprev(upperi)
+           do when upperi < upperx
+              increment i
+           else
+              exit
+           done
+        again
+        repeat
+           set aj to a@j
+           set upperj to "%ug(aj)"
+           striprev(upperj)
+           do when upperx < upperj
+              decrement j
+           else
+              exit
+           done
+        again
+        do when i <= j
+           set w to a@i
+           set key of w to key of a@i
+           set key of v to key of a@j
+           remove key of a@j
+           set a@i to a@j
+           set key of a@i to key of v
+           set a@j to w
+           set key of a@j to key of w
+           increment i
+           decrement j
+        done
+
+        exit when i > j
+     again
+
+     ;
+     ; Recurse
+     ;
+     caselessquicksort a from l to j when l < j
+     caselessquicksort a from i to r when i < r
+  return
+
+
+;==================================;
+;          MACROS                  ;
+;==================================;
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+macro revst is
+	"<?Pub _rev?>"
+macro-end
+
+macro revend is
+	"<?Pub /_rev?>"
+macro-end
+
+macro pub-pi is
+	(white-space* ("<?Pub Dtl?>"|"<?Pub Caret?>") white-space*)*
+macro-end
+
+macro build-acro-row is
+	match ((revst "%n"*)? ("<acro>") upto ("</acro>") "</acro>" ("%n"* revend)?)=>acro
+		local stream LsAcroterm initial {""}
+		local stream LsAcroname initial {""}
+		local stream LsAcroKey
+		local stream LsAcroDefdata
+		repeat scan acro
+			match ("<acroterm>") upto ("</acroterm>")=>acroterm
+				open LsAcroterm as buffer
+					repeat scan acroterm
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAcroterm "><"
+						match "%n"
+							put LsAcroterm " "
+						match any=>char
+							put LsAcroterm char
+					again
+				close LsAcroterm
+			match ("<acroname>") upto ("</acroname>")=>acroname
+				open LsAcroname as buffer
+					repeat scan acroname
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAcroname "><"
+						match "%n"
+							put LsAcroname " "
+						match any=>char
+							put LsAcroname char
+					again
+				close LsAcroname
+			match "</acro>"
+				set LsAcroKey to "%g(LsAcroterm) %g(LsAcroname)"
+				open LsAcroDefdata as buffer
+					put LsAcroDefdata "<?Pub _rev?>%n" when GxRevAcroAbbr ^ LsAcroKey
+					put LsAcroDefdata "<defdata><term>%g(LsAcroterm)</term><fullterm>%g(LsAcroname)</fullterm></defdata>%n"
+					put LsAcroDefdata "<?Pub /_rev?>%n" when GxRevAcroAbbr ^ LsAcroKey
+				close LsAcroDefdata
+				put GsDebugFile "%n%tTesting LsAcroKey '" || LsAcroKey || "'%n"
+				do when GxRevAcroAbbr ^ LsAcroKey
+					put GsDebugFile "%t%tThe LsAcroKey was revised.%n"
+				else
+					put GsDebugFile "%t%tThe LsAcroKey was NOT revised.%n"
+				done
+				do when GsAllAcroAbbrs hasnt ^ LsAcroKey
+					put GsDebugFile "%t%tThe LsAcroKey did not did not exist in GsAllAcroAbbrs and was created.%n"
+					set new GsAllAcroAbbrs ^ LsAcroKey to LsAcroDefdata
+				else
+					put GsDebugFile "%t%tThe LsAcroKey already existed in GsAllAcroAbbrs.%n"
+				done
+			match any
+		again
+macro-end
+
+macro build-abbr-row is
+	match ((revst "%n"*)? ("<abbr>") upto ("</abbr>") "</abbr>" ("%n"* revend)?)=>abbr
+		local stream LsAbbrterm initial {""}
+		local stream LsAbbrname initial {""}
+		local stream LsAbbrKey
+		local stream LsAbbrDefdata
+		repeat scan abbr
+			match ("<abbrterm>") upto ("</abbrterm>")=>abbrterm
+				open LsAbbrterm as buffer
+					repeat scan abbrterm
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAbbrterm "><"
+						match "%n"
+							put LsAbbrterm " "
+						match any=>char
+							put LsAbbrterm char
+					again
+				close LsAbbrterm
+			match ("<abbrname>") upto ("</abbrname>")=>abbrname
+				open LsAbbrname as buffer
+					repeat scan abbrname
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAbbrname "><"
+						match "%n"
+							put LsAbbrname " "
+						match any=>char
+							put LsAbbrname char
+					again
+				close LsAbbrname
+			match "</abbr>"
+				set LsAbbrKey to "%g(LsAbbrterm) %g(LsAbbrname)"
+				open LsAbbrDefdata as buffer
+					put LsAbbrDefdata "<?Pub _rev?>%n" when GxRevAcroAbbr ^ LsAbbrKey
+					put LsAbbrDefdata "<defdata><term>%g(LsAbbrterm)</term><fullterm>%g(LsAbbrname)</fullterm></defdata>%n"
+					put LsAbbrDefdata "<?Pub /_rev?>%n" when GxRevAcroAbbr ^ LsAbbrKey
+				close LsAbbrDefdata
+				put GsDebugFile "%n%tTesting LsAbbrKey '" || LsAbbrKey || "'%n"
+				do when GxRevAcroAbbr ^ LsAbbrKey
+					put GsDebugFile "%t%tThe LsAbbrKey was revised.%n"
+				else
+					put GsDebugFile "%t%tThe LsAbbrKey was NOT revised.%n"
+				done
+				do when GsAllAcroAbbrs hasnt ^ LsAbbrKey
+					put GsDebugFile "%t%tThe LsAbbrKey did not did not exist in GsAllAcroAbbrs and was created.%n"
+					set new GsAllAcroAbbrs ^ LsAbbrKey to LsAbbrDefdata
+				else
+					put GsDebugFile "%t%tThe LsAbbrKey already existed in GsAllAcroAbbrs.%n"
+				done
+			match any
+		again
+macro-end
+
+macro check-rev-acro is
+	match ((revst "%n"*)? ("<acro>") upto ("</acro>") "</acro>" ("%n"* revend)?)=>acro
+		local stream LsAcroterm initial {""}
+		local stream LsAcroname initial {""}
+		local stream LsAcroKey
+		repeat scan acro
+			match ("<acroterm>") upto ("</acroterm>")=>acroterm
+				open LsAcroterm as buffer
+					repeat scan acroterm
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAcroterm "><"
+						match "%n"
+							put LsAcroterm " "
+						match any=>char
+							put LsAcroterm char
+					again
+				close LsAcroterm
+			match ("<acroname>") upto ("</acroname>")=>acroname
+				open LsAcroname as buffer
+					repeat scan acroname
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAcroname "><"
+						match "%n"
+							put LsAcroname " "
+						match any=>char
+							put LsAcroname char
+					again
+				close LsAcroname
+			match "</acro>"
+				set LsAcroKey to "%g(LsAcroterm) %g(LsAcroname)"
+			match any
+		again
+		;Create a new switch if it doesn't exist. (Default value of false.)
+		set new GxRevAcroAbbr ^ LsAcroKey to false when GxRevAcroAbbr hasnt ^ LsAcroKey
+		;Activate rev switch
+		;Only activate when directly surrounded by (rev before and after) rev or if rev is inside.
+		repeat scan acro
+			;rev surrounding
+			match ((revst "%n"*) ("<acro>") upto ("</acro>") "</acro>" ("%n"* revend))
+				put GsDebugFile "%tGxRevAcroAbbr is now active for '" || LsAcroKey || "' (rev surrounding)%n"
+				activate GxRevAcroAbbr ^ LsAcroKey
+			;ignore when rev is only before
+			match (revst|revend) "%n"* "<acro>"
+			;ignore when rev is only after
+			match "</acro>" "%n"* (revst|revend)
+			;rev inside
+			match "<?Pub " "/"? "_rev?>"
+				put GsDebugFile "%tGxRevAcroAbbr is now active for '" || LsAcroKey || "' (rev inside)%n"
+				activate GxRevAcroAbbr ^ LsAcroKey
+			match any
+		again
+macro-end
+
+macro check-rev-abbr is
+	match ((revst "%n"*)? ("<abbr>") upto ("</abbr>") "</abbr>" ("%n"* revend)?)=>abbr
+		local stream LsAbbrterm initial {""}
+		local stream LsAbbrname initial {""}
+		local stream LsAbbrKey
+		repeat scan abbr
+			match ("<abbrterm>") upto ("</abbrterm>")=>abbrterm
+				open LsAbbrterm as buffer
+					repeat scan abbrterm
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAbbrterm "><"
+						match "%n"
+							put LsAbbrterm " "
+						match any=>char
+							put LsAbbrterm char
+					again
+				close LsAbbrterm
+			match ("<abbrname>") upto ("</abbrname>")=>abbrname
+				open LsAbbrname as buffer
+					repeat scan abbrname
+						match revst
+						match revend
+						match pub-pi
+						match ">" "%n"+ "<"
+							put LsAbbrname "><"
+						match "%n"
+							put LsAbbrname " "
+						match any=>char
+							put LsAbbrname char
+					again
+				close LsAbbrname
+			match "</abbr>"
+				set LsAbbrKey to "%g(LsAbbrterm) %g(LsAbbrname)"
+			match any
+		again
+		;Create a new switch if it doesn't exist. (Default value of false.)
+		set new GxRevAcroAbbr ^ LsAbbrKey to false when GxRevAcroAbbr hasnt ^ LsAbbrKey
+		;Activate rev switch
+		;Only activate when directly surrounded by (rev before and after) rev or if rev is inside.
+		repeat scan abbr
+			;rev surrounding
+			match ((revst "%n"*) ("<abbr>") upto ("</abbr>") "</abbr>" ("%n"* revend))
+				put GsDebugFile "%tGxRevAcroAbbr is now active for '" || LsAbbrKey || "' (rev surrounding)%n"
+				activate GxRevAcroAbbr ^ LsAbbrKey
+			;ignore when rev is only before
+			match (revst|revend) "%n"* "<abbr>"
+			;ignore when rev is only after
+			match "</abbr>" "%n"* (revst|revend)
+			;rev inside
+			match "<?Pub " "/"? "_rev?>"
+				put GsDebugFile "%tGxRevAcroAbbr is now active for '" || LsAbbrKey || "' (rev inside)%n"
+				activate GxRevAcroAbbr ^ LsAbbrKey
+			match any
+		again
+macro-end
+
+;==================================;
+;          PROCESS-START           ;
+;==================================;
+
+process-start
+	open GsDebugFile as file "%g(GsLogName)"
+
+	;===========================================================
+	;Check to see if "<para>AA WILL BE GENERATED</para>" exists.
+	;If not, output all data and halt processing.               
+	;===========================================================
+	put GsDebugFile "%nCHECKING TO SEE IF %"<para>AA WILL BE GENERATED</para>%" EXISTS%n%n"
+	do scan file GsMainInput
+		match unanchored ul "<para>" pub-pi "AA WILL BE GENERATED</para>"
+			put GsDebugFile "%tFound '<para>AA WILL BE GENERATED</para>'.%n"
+			activate GxContinue
+	done
+	do when not GxContinue
+		put GsDebugFile "%tCouldn't find '<para>AA WILL BE GENERATED</para>'. Processing halted.%n"
+		repeat scan file GsMainInput
+			match any=>char
+				output char
+		again
+		halt
+	done
+
+	;===================================
+	;CHECK FOR REVISED CON/STD/ACRO/ABBR
+	;===================================
+	put GsDebugFile "%nCHECKING FOR REVISED CON/STD/ACRO/ABBR%n%n"
+	repeat scan file GsMainInput
+		;===========
+		;Check CON's
+		;===========
+		match ((revst "%n"*)? ("<con>") upto ("</con>") "</con>" ("%n"* revend)?)=>con
+			local stream LsConnbr initial {""}
+			local stream LsConname initial {""}
+			local stream LsConKey
+			repeat scan con
+				match ("<connbr>") upto ("</connbr>")=>connbr
+					open LsConnbr as buffer
+						repeat scan connbr
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsConnbr "><"
+							match "%n"
+								put LsConnbr " "
+							match any=>char
+								put LsConnbr char
+						again
+					close LsConnbr
+					;set LsConnbr to connbr
+				match ("<conname>") upto ("</conname>")=>conname
+					;Check acro/abbr inside conname
+					repeat scan conname
+						check-rev-acro
+						check-rev-abbr
+						match any
+					again
+					open LsConname as buffer
+						repeat scan conname
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsConname "><"
+							match "%n"
+								put LsConname " "
+							match any=>char
+								put LsConname char
+						again
+					close LsConname
+					;set LsConname to conname
+				match "</con>"
+					;set LsConKey to "%g(LsConnbr) %g(LsConname)"
+					do when LsConnbr = ""
+						set LsConKey to "9999999999 %g(LsConname)"
+					else
+						set LsConKey to "%g(LsConnbr) %g(LsConname)"
+					done
+				match any
+			again
+			;Create a new switch if it doesn't exist. (Default value of false.)
+			set new GxRevCon ^ LsConKey to false when GxRevCon hasnt ^ LsConKey
+			;Activate rev switch
+			;Only activate when directly surrounded by (rev before and after) rev or if rev is inside.
+			repeat scan con
+				;rev surrounding
+				match ((revst "%n"*) ("<con>") upto ("</con>") "</con>" ("%n"* revend))
+					put GsDebugFile "%tGxRevCon is now active for '" || LsConKey || "' (rev surrounding)%n"
+					activate GxRevCon ^ LsConKey
+				;ignore when rev is only before
+				match (revst|revend) "%n"* "<con>"
+				;ignore when rev is only after
+				match "</con>" "%n"* (revst|revend)
+				;rev inside
+				match "<?Pub " "/"? "_rev?>"
+					put GsDebugFile "%tGxRevCon is now active for '" || LsConKey || "' (rev inside)%n"
+					activate GxRevCon ^ LsConKey
+				match any
+			again
+
+		;===========
+		;Check STD's
+		;===========
+		match ((revst "%n"*)? ("<std>") upto ("</std>") "</std>" ("%n"* revend)?)=>std
+			local stream LsStdnbr initial {""}
+			local stream LsStdname initial {""}
+			local stream LsStdKey
+			repeat scan std
+				match ("<stdnbr>") upto ("</stdnbr>")=>stdnbr
+					open LsStdnbr as buffer
+						repeat scan stdnbr
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsStdnbr "><"
+							match "%n"
+								put LsStdnbr " "
+							match any=>char
+								put LsStdnbr char
+						again
+					close LsStdnbr
+				match ("<stdname>") upto ("</stdname>")=>stdname
+					;Check acro/abbr inside stdname
+					repeat scan stdname	
+						check-rev-acro
+						check-rev-abbr
+						match any
+					again
+					open LsStdname as buffer
+						repeat scan stdname
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsStdname "><"
+							match "%n"
+								put LsStdname " "
+							match any=>char
+								put LsStdname char
+						again
+					close LsStdname
+				match "</std>"
+					do when LsStdnbr = ""
+						set LsStdKey to "9999999999 %g(LsStdname)"
+					else
+						set LsStdKey to "%g(LsStdnbr) %g(LsStdname)"
+					done
+				match any
+			again
+			;Create a new switch if it doesn't exist. (Default value of false.)
+			set new GxRevStd ^ LsStdKey to false when GxRevStd hasnt ^ LsStdKey
+			;Activate rev switch
+			;Only activate when directly surrounded by (rev before and after) rev or if rev is inside.
+			repeat scan std
+				;rev surrounding
+				match ((revst "%n"*) ("<std>") upto ("</std>") "</std>" ("%n"* revend))
+					put GsDebugFile "%tGxRevStd is now active for '" || LsStdKey || "' (rev surrounding)%n"
+					activate GxRevStd ^ LsStdKey
+				;ignore when rev is only before
+				match (revst|revend) "%n"* "<std>"
+				;ignore when rev is only after
+				match "</std>" "%n"* (revst|revend)
+				;rev inside
+				match "<?Pub " "/"? "_rev?>"
+					put GsDebugFile "%tGxRevStd is now active for '" || LsStdKey || "' (rev inside)%n"
+					activate GxRevStd ^ LsStdKey
+				match any
+			again
+
+		;============
+		;Check ACRO's
+		;============
+		check-rev-acro
+		
+		;============
+		;Check ABBR's
+		;============
+		check-rev-abbr
+
+		match any
+	again
+
+	;===========================================================================
+	;BUILD CON/STD/ACRO/ABBR TABLES                                             
+	;	- Build tbody only so the refints to the original table do not get broke.
+	;===========================================================================
+	put GsDebugFile "==================== BUILDING CON/STD/ACRO/ABBR TABLES ====================%n"
+	repeat scan file GsMainInput
+		match ("<pgblk" [any except ">"]+ ">")=>pgblk
+			do scan pgblk
+				match unanchored "key=%"" [any-text except "%""]+=>pgblk-key "%""
+					set GsCurrPgblkKey to pgblk-key
+			done
+			put GsDebugFile "%n%t==================== START PGBLK (%g(GsCurrPgblkKey)) ====================%n"
+			clear GsCurrPgblkCons
+			clear GsCurrPgblkStds
+		;===============
+		;Build CON rows.
+		;===============
+		match ((revst "%n"*)? ("<con>") upto ("</con>") "</con>" ("%n"* revend)?)=>con
+			local stream LsConnbr initial {""}
+			local stream LsConname initial {""}
+			local stream LsConKey
+			local stream LsConRow
+			repeat scan con
+				match ("<connbr>") upto ("</connbr>")=>connbr
+					open LsConnbr as buffer
+						repeat scan connbr
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsConnbr "><"
+							match "%n"
+								put LsConnbr " "
+							match any=>char
+								put LsConnbr char
+						again
+					close LsConnbr
+				match ("<conname>") upto ("</conname>")=>conname
+					;Find acro/abbr inside conname
+					repeat scan conname
+						build-acro-row
+						build-abbr-row
+						match any
+					again
+					open LsConname as buffer
+						repeat scan conname
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsConname "><"
+							match "%n"
+								put LsConname " "
+							match any=>char
+								put LsConname char
+						again
+					close LsConname
+				match "</con>"
+					;If LsConnbr is emtpy, set that portion of the key to 9999999999 so that when sorted, the CON will 
+					;end up after the CON's that start with numbers and before the CON's that start with letters.
+					do when LsConnbr = ""
+						set LsConKey to "9999999999 %g(LsConname)"
+					else
+						set LsConKey to "%g(LsConnbr) %g(LsConname)"
+					done
+					open LsConRow as buffer
+						;put LsConRow "<?Pub _rev?>%n" when GxRevCon ^ LsConKey
+						;put LsConRow "<row><entry><para>%g(LsConnbr)</para></entry><entry><para>%g(LsConname)</para></entry></row>%n"
+						;put LsConRow "<?Pub /_rev?>%n" when GxRevCon ^ LsConKey
+						put LsConRow "<row><entry>"
+						put LsConRow "<?Pub _rev?>%n" when GxRevCon ^ LsConKey
+						put LsConRow "<para>%g(LsConnbr)</para>"
+						put LsConRow "<?Pub /_rev?>%n" when GxRevCon ^ LsConKey
+						put LsConRow "</entry><entry>"
+						put LsConRow "<?Pub _rev?>%n" when GxRevCon ^ LsConKey
+						put LsConRow "<para>%g(LsConname)</para>"
+						put LsConRow "<?Pub /_rev?>%n" when GxRevCon ^ LsConKey
+						put LsConRow "</entry></row>%n"
+					close LsConRow
+					put GsDebugFile "%n%tTesting LsConKey '" || LsConKey || "'%n"
+					do when GxRevCon ^ LsConKey
+						put GsDebugFile "%t%tThe LsConKey was revised.%n"
+					else
+						put GsDebugFile "%t%tThe LsConKey was NOT revised.%n"
+					done
+					do when GsCurrPgblkCons hasnt ^ LsConKey
+						put GsDebugFile "%t%tThe LsConKey did not did not exist in GsCurrPgblkCons and was created.%n"
+						set new GsCurrPgblkCons ^ LsConKey to LsConRow
+					else
+						put GsDebugFile "%t%tThe LsConKey already existed in GsCurrPgblkCons.%n"
+					done
+					do when GsAllPgblkCons hasnt ^ LsConKey
+						put GsDebugFile "%t%tThe LsConKey did not did not exist in GsAllPgblkCons and was created.%n"
+						set new GsAllPgblkCons ^ LsConKey to LsConRow
+					else
+						put GsDebugFile "%t%tThe LsConKey already existed in GsAllPgblkCons.%n"
+					done
+				match any
+			again
+		;===============
+		;Build STD rows.
+		;===============
+		match ((revst "%n"*)? ("<std>") upto ("</std>") "</std>" ("%n"* revend)?)=>std
+			local stream LsStdnbr initial {""}
+			local stream LsStdname initial {""}
+			local stream LsStdKey
+			local stream LsStdRow
+			repeat scan std
+				match ("<stdnbr>") upto ("</stdnbr>")=>stdnbr
+					open LsStdnbr as buffer
+						repeat scan stdnbr
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsStdnbr "><"
+							match "%n"
+								put LsStdnbr " "
+							match any=>char
+								put LsStdnbr char
+						again
+					close LsStdnbr
+				match ("<stdname>") upto ("</stdname>")=>stdname
+					;Find acro/abbr inside stdname
+					repeat scan stdname
+						build-acro-row
+						build-abbr-row
+						match any
+					again
+					open LsStdname as buffer
+						repeat scan stdname
+							match revst
+							match revend
+							match pub-pi
+							match ">" "%n"+ "<"
+								put LsStdname "><"
+							match "%n"
+								put LsStdname " "
+							match any=>char
+								put LsStdname char
+						again
+					close LsStdname
+				match "</std>"
+					;If LsStdnbr is emtpy, set that portion of the key to 9999999999 so that when sorted, the STD will 
+					;end up after the STD's that start with numbers and before the STD's that start with letters.
+					do when LsStdnbr = ""
+						set LsStdKey to "9999999999 %g(LsStdname)"
+					else
+						set LsStdKey to "%g(LsStdnbr) %g(LsStdname)"
+					done
+					open LsStdRow as buffer
+						;put LsStdRow "<?Pub _rev?>%n" when GxRevStd ^ LsStdKey
+						;put LsStdRow "<row><entry><para>%g(LsStdnbr)</para></entry><entry><para>%g(LsStdname)</para></entry></row>%n"
+						;put LsStdRow "<?Pub /_rev?>%n" when GxRevStd ^ LsStdKey
+						put LsStdRow "<row><entry>"
+						put LsStdRow "<?Pub _rev?>%n" when GxRevStd ^ LsStdKey
+						put LsStdRow "<para>%g(LsStdnbr)</para>"
+						put LsStdRow "<?Pub /_rev?>%n" when GxRevStd ^ LsStdKey
+						put LsStdRow "</entry><entry>"
+						put LsStdRow "<?Pub _rev?>%n" when GxRevStd ^ LsStdKey
+						put LsStdRow "<para>%g(LsStdname)</para>"
+						put LsStdRow "<?Pub /_rev?>%n" when GxRevStd ^ LsStdKey
+						put LsStdRow "</entry></row>%n"						
+					close LsStdRow
+					put GsDebugFile "%n%tTesting LsStdKey '" || LsStdKey || "'%n"
+					do when GxRevStd ^ LsStdKey
+						put GsDebugFile "%t%tThe LsStdKey was revised.%n"
+					else
+						put GsDebugFile "%t%tThe LsStdKey was NOT revised.%n"
+					done
+					do when GsCurrPgblkStds hasnt ^ LsStdKey
+						put GsDebugFile "%t%tThe LsStdKey did not did not exist in GsCurrPgblkStds and was created.%n"
+						set new GsCurrPgblkStds ^ LsStdKey to LsStdRow
+					else
+						put GsDebugFile "%t%tThe LsStdKey already existed in GsCurrPgblkStds.%n"
+					done
+					do when GsAllPgblkStds hasnt ^ LsStdKey
+						put GsDebugFile "%t%tThe LsStdKey did not did not exist in GsAllPgblkStds and was created.%n"
+						set new GsAllPgblkStds ^ LsStdKey to LsStdRow
+					else
+						put GsDebugFile "%t%tThe LsStdKey already existed in GsAllPgblkStds.%n"
+					done
+				match any
+			again
+		;==============================
+		;BUILD ACRO/ABBR rows (defdata)
+		;==============================
+		;======
+		;ACRO's
+		;======
+		build-acro-row
+		;======
+		;ABBR's
+		;======
+		build-abbr-row
+		;===========================================
+		;ASSEMBLE STD/CON ROWS FOR INDIVIDUAL PGBLKS
+		;===========================================
+		match "</pgblk>"
+			local stream LsConTable
+			local stream LsStdTable
+			put GsDebugFile "%n%tASSEMBLING STD/CON ROWS FOR INDIVIDUAL PGBLKS%n"
+			;=================
+			;ASSEMBLE CON ROWS
+			;=================
+			put GsDebugFile "%n%t%tASSEMBLING CON ROWS%n"
+			do when number of GsCurrPgblkCons != 0
+				caselessquicksort GsCurrPgblkCons
+			done
+			open LsConTable as buffer
+			using output as LsConTable do
+				output "<tbody>%n"
+				;See if there are any items on the GsCurrPgblkCons shelf. (If not, output "Not Applicable" row.)
+				do when number of GsCurrPgblkCons != 0
+					put GsDebugFile "%n%t%t%tCON TABLE HAD ENTRIES.%n"
+					repeat over GsCurrPgblkCons
+						output GsCurrPgblkCons
+					again
+				else
+					put GsDebugFile "%n%t%t%tCON TABLE DID NOT HAVE ENTRIES. USED 'Not applicable'.%n"
+					output "<row><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry></row>%n"
+				done
+				output "</tbody>%n"
+			done
+			close LsConTable
+			set new GsConTables ^ GsCurrPgblkKey to LsConTable
+			;=================
+			;ASSEMBLE STD ROWS
+			;=================
+			put GsDebugFile "%n%t%tASSEMBLING STD ROWS%n"
+			do when number of GsCurrPgblkStds != 0
+				caselessquicksort GsCurrPgblkStds
+			done
+			open LsStdTable as buffer
+			using output as LsStdTable do
+				output "<tbody>%n"
+				;See if there are any items on the GsCurrPgblkStds shelf. (If not, output "Not Applicable" row.)
+				do when number of GsCurrPgblkStds != 0
+					put GsDebugFile "%n%t%t%tSTD TABLE HAD ENTRIES.%n"
+					repeat over GsCurrPgblkStds
+						output GsCurrPgblkStds
+					again
+				else
+					put GsDebugFile "%n%t%t%tSTD TABLE DID NOT HAVE ENTRIES. USED 'Not applicable'.%n"
+					output "<row><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry></row>%n"
+				done
+				output "</tbody>%n"
+			done
+			close LsStdTable
+			set new GsStdTables ^ GsCurrPgblkKey to LsStdTable
+			put GsDebugFile "%n%t================================= END PGBLK =================================%n%n"
+		match any
+	again
+	
+	;==============================================
+	;BUILD 9000 TABLES (ALL CON's/STD's IN MANUAL.)
+	;==============================================
+	put GsDebugFile "%nBUILDING 9000 TABLES (ALL CON's/STD's IN MANUAL.)%n%n"
+	do
+		local stream LsConTable9000
+		local stream LsStdTable9000
+		;==============
+		;CON 9000 TABLE
+		;==============
+		put GsDebugFile "%nBUILDING CON 9000 TABLE%n%n"
+		do when number of GsAllPgblkCons != 0
+			caselessquicksort GsAllPgblkCons
+		done
+		open LsConTable9000 as buffer
+			using output as LsConTable9000 do
+				output "<tbody>%n"
+				;See if there are any items on the GsAllPgblkCons shelf. (If not, output "Not Applicable" row.)
+				do when number of GsAllPgblkCons != 0
+					repeat over GsAllPgblkCons
+						output GsAllPgblkCons
+					again
+				else
+					output "<row><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry></row>%n"
+				done
+				output "</tbody>%n"
+			done
+		close LsConTable9000
+		set new GsConTables ^ "ConTable9000" to LsConTable9000
+		;==============
+		;STD 9000 TABLE
+		;==============
+		put GsDebugFile "%nBUILDING STD 9000 TABLE%n%n"
+		do when number of GsAllPgblkStds != 0
+			caselessquicksort GsAllPgblkStds
+		done
+		open LsStdTable9000 as buffer
+			using output as LsStdTable9000 do
+				output "<tbody>%n"
+				;See if there are any items on the GsAllPgblkStds shelf. (If not, output "Not Applicable" row.)
+				do when number of GsAllPgblkStds != 0
+					repeat over GsAllPgblkStds
+						output GsAllPgblkStds
+					again
+				else
+					output "<row><entry><para>Not applicable</para></entry><entry><para>Not applicable</para></entry></row>%n"
+				done
+				output "</tbody>%n"
+			done
+		close LsStdTable9000
+		set new GsStdTables ^ "StdTable9000" to LsStdTable9000
+	done
+	
+	;=====================
+	;BUILD ACRO/ABBR TABLE
+	;=====================
+	put GsDebugFile "%nBUILDING ACRO/ABBR TABLE%n%n"
+	do when number of GsAllAcroAbbrs != 0
+		caselessquicksort GsAllAcroAbbrs
+		open GsAcroAbbrTable as buffer
+			using output as GsAcroAbbrTable do
+				output "<deflist>%n"
+				repeat over GsAllAcroAbbrs
+					output GsAllAcroAbbrs
+				again
+				output "</deflist>%n"
+			done
+		close GsAcroAbbrTable
+	done
+
+	;======================================================
+	;OUTPUT GENERATED TABLES                               
+	;(Ouput to a stream so entities can be resolved later.)
+	;======================================================
+	put GsDebugFile "%nOUTPUTTING GENERATED TABLES%n%n"
+	open GsSecondaryInput as buffer
+	using output as GsSecondaryInput do
+		repeat scan file GsMainInput
+			;==============================================
+			;Check to see if the current pageblock is 9000.
+			;==============================================
+			match ("<pgblk" [any except ">"]+ ">")=>pgblk
+				deactivate GxPgblk9000
+				do scan pgblk
+					match unanchored "key=%"" [any-text except "%""]+=>pgblk-key "%""
+						set GsCurrPgblkKey to pgblk-key
+				done
+				do scan pgblk
+					match unanchored "pgblknbr=%"" [any-text except "%""]+=>pgblknbr "%""
+						activate GxPgblk9000 when pgblknbr = "9000"
+				done
+				put GsDebugFile "%nIN PAGEBLOCK %g(GsCurrPgblkKey)%n%n"
+				output pgblk
+			;==========================
+			;Output CON and STD tables.
+			;==========================
+			match (("<table") upto ("</table>") "</table>")=>table
+				local stream LsType initial {"UNK"}
+				repeat scan table
+					match "<title>" pub-pi white-space* ("Consumables"|"Consumable Materials") white-space* "</title>"
+						put GsDebugFile "%n%tFOUND CON TABLE%n%n"
+						set LsType to "CON"
+					match "<title>" pub-pi white-space* "Special" white-space+ "Tools" white-space* "," white-space+ "Fixtures" white-space* "," white-space+ "and" white-space+ "Equipment" white-space* "</title>"
+						put GsDebugFile "%n%tFOUND STD TABLE%n%n"
+						set LsType to "STD"
+					match any
+				again
+				do when LsType = "CON"
+					repeat scan table
+						match (("<tbody") upto ("</tbody>") "</tbody>" "%n"*)=>tbody
+							do when GxPgblk9000
+								put GsDebugFile "%n%tOUTPUTTING 9000 CON TABLE%n%n"
+								output GsConTables ^ "ConTable9000"
+							else when GsConTables has ^ GsCurrPgblkKey
+								put GsDebugFile "%n%tOUTPUTTING CON TABLE (KEY: " || GsCurrPgblkKey || ")%n%n"
+								output GsConTables ^ GsCurrPgblkKey
+							else
+								put GsDebugFile "%n%tOUTPUTTING ORIG CON TABLE (GsConTables did not have a key '" || GsCurrPgblkKey || "'.%n%n"
+								output tbody
+							done
+						match any=>char
+							output char
+					again
+				else when LsType = "STD"
+					repeat scan table
+						match (("<tbody") upto ("</tbody>") "</tbody>" "%n"*)=>tbody
+							do when GxPgblk9000
+								put GsDebugFile "%n%tOUTPUTTING 9000 STD TABLE%n%n"
+								output GsStdTables ^ "StdTable9000"
+							else when GsStdTables has ^ GsCurrPgblkKey
+								put GsDebugFile "%n%tOUTPUTTING STD TABLE (KEY: " || GsCurrPgblkKey || ")%n%n"
+								output GsStdTables ^ GsCurrPgblkKey
+							else
+								put GsDebugFile "%n%tOUTPUTTING ORIG STD TABLE (GsStdTables did not have a key '" || GsCurrPgblkKey || "'.%n%n"
+								output tbody
+							done
+						match any=>char
+							output char
+					again
+				else
+					output table
+				done
+			;================================
+			;Output ACRO/ABBR list. (deflist)
+			;================================
+			match ul "<para>" pub-pi "AA WILL BE GENERATED</para>"
+				put GsDebugFile "%n%tOUTPUTTING ACRO/ABBR LIST (DEFLIST)%n%n"
+				output GsAcroAbbrTable
+			;================================
+			;Find isempty for debug purposes.
+			;================================
+			match "<isempty/>"=>tag
+				put GsDebugFile "%n%tPAGEBLOCK IS EMPTY.%n%n"
+				output tag
+			;======================
+			;Ouput everything else.
+			;======================
+			match any=>char
+				output char
+		again
+	done
+	close GsSecondaryInput
+
+	;==============================================
+	;RESOLVE TEXT ENTITIES (output to #main-output)
+	;==============================================
+	put GsDebugFile "%nRESOLVING TEXT ENTITIES%n%n"
+	repeat scan GsSecondaryInput
+		;===========================================================================================
+		;Match Entity Declarations.                                                                 
+		;	-	<!ENTITY EquipName "FP30-1 Antenna Assembly and DA-1A/DA-1B Antenna Drive Assemblies">
+		;===========================================================================================
+		match "<!ENTITY" white-space+ [any-text except white-space]+=>ent white-space+ "%"" [any except "%""]+=>val "%"" white-space* ">" white-space*
+			put GsDebugFile "%tCreated new GsTextEnts. KEY: '%x(ent)' VAL: '%x(val)'%n" when GsTextEnts hasnt ^ ent
+			put GsDebugFile "%tWARNING! GsTextEnts already exists: KEY: '%x(ent)' VAL: '%x(val)'%n" when GsTextEnts has ^ ent
+			set new GsTextEnts ^ ent to val when GsTextEnts hasnt ^ ent
+		;=======================
+		;Match Entity References
+		;=======================
+		match "&" [any-text except ";"]+=>ent ";"
+			do when GsTextEnts has ^ ent
+				put GsDebugFile "%tResolving entity reference '%x(ent)' with '" || GsTextEnts ^ ent || "'.%n"
+				output GsTextEnts ^ ent
+			else
+				put GsDebugFile "%tLeaving entity reference '%x(ent)'.%n"
+				output "&%x(ent);"
+			done
+		match any=>char
+			output char
+	again
+
+;==================================;
+;          PROCESS-END             ;
+;==================================;
+
+process-end
+	close GsDebugFile

@@ -1,0 +1,24 @@
+Package Revision;
+
+
+function Rev_all(){
+##Variable Declaration
+	local n, o = oid_caret(); 
+	
+##Main Code
+	a = response("Do you want Add Revision Bars to all Items", '&Yes', '&No');
+	while (oid_valid($o) == 1) {
+		$o = oid_forward($o);
+		$name = oid_name($o)
+		if ($name == "itemSeqNumber") {
+			if (a == 1){
+				oid_modify_attr($o, "changeMark", "1");
+				oid_modify_attr($o, "changeType", "modify");
+			}
+			else {
+				break;
+			}
+		}
+	}
+
+}

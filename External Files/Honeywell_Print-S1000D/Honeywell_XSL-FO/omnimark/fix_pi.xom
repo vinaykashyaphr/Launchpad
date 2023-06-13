@@ -1,0 +1,274 @@
+process
+
+submit #main-input
+
+global stream GsSystemEnts variable
+global counter GcNestedStartTags initial {0}
+global switch GxInRev initial {false}
+global switch GxDeleteEnd initial {false}
+
+macro ws is white-space macro-end
+
+macro revst is '<?Pub _rev?>' macro-end
+macro revend is '<?Pub /_rev?>' macro-end
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+
+
+; ======================================================
+; Common error (remove full path to MasterTextEntities)
+; ======================================================
+; Type I
+; <!ENTITY % MasterTextEntities SYSTEM "P:\WORK\Honeywell\Admin\02-Master Entities\MasterTextEntities.xml">
+; <!ENTITY % MasterTextEntities SYSTEM "file:///P:\WORK\Honeywell\Admin\02-Master Entities\MasterTextEntities.xml">
+; Type II
+; <!ENTITY % MasterTextEntities SYSTEM "\\172.16.15.22\data\WORK\Honeywell\000 - Honeywell Admin\02-Master Entities\MasterTextEntities.xml">
+; to
+; <!ENTITY % MasterTextEntities SYSTEM "MasterTextEntities.xml">
+; (also "MasterTextEntities_IR.xml | MasterTextEntities_IRM.xml | etc.")
+
+; Type I
+find (letter+ ":" ((lookahead not "MasterTextEntities")any-text)* ("MasterTextEntities" ((lookahead not ".xml")any-text)* ".xml")=filename)
+  output "%x(filename)"
+
+; Type II
+find ("\\" ((lookahead not "MasterTextEntities")any-text)* ("MasterTextEntities" ((lookahead not ".xml")any-text)* ".xml")=filename)
+  output "%x(filename)"
+
+
+;; ***************************************************************
+;; "CGM to Vector" conversion utility integration
+;
+;; Converting filename references for CGM to alternate output type
+;find ("." ("CGM" or "cgm"))=ext "%""
+;  
+;  ; EPS - XEP error "not registered" (?) and PDF output does not generate
+;  ;output ".eps%""
+;  
+;  ; SVG - XEP produces PDF output (but noticeably slower - sometimes by several hours) and some SVG warnings in "run.log"
+;  ;output ".svg%""
+;  
+;  ; PDF - XEP produces PDF output (and quickly) with no errors/warnings in "run.log"
+;  output ".pdf%""
+
+
+; *** PLACEHOLDER (until CGM conversion integration process is implemented)
+
+
+; Assume  TIFF "*.tif" will be provided for all CGM "*.cgm" in source "Graphics" folder
+find ("." ("CGM" or "cgm"))=ext "%""
+  output ".tif%""
+
+
+
+;; ***************************************************************
+
+
+  
+; RS: Fix for markup which breaks a second-level list to insert a graphic in the first level (since
+; a graphic is not allowed by the schema in the second-level list). This list-breaking structure
+; restarts the numbering of the second-level list, and is difficult to fix the numbering using only
+; XSLT in the FO process. So change to make the graphic occur within the second-level list
+; (even though not allowed by the schema - for print this doesn't matter) and remove the elements
+; that close and restart the second-level list.
+;
+; The structure looks like this (note the revision markers arounbd the graphic in this case):
+;
+; </prclist2><?Pub _rev?><graphic key="cmm14936834403172453">
+; <chgdesc>Modified Figure 4.</chgdesc>
+; <title>Release Folded Antenna to Extended Position for Transmitting</title>
+; <sheet gnbr="id659271" imgarea="cp" key="cmm14936834443172820"></sheet>
+; </graphic><?Pub /_rev?></prcitem1><prcitem1><prcitem></prcitem>
+; <prclist2>
+
+;find '</prclist2>' white-space*
+;	('<?Pub _rev?>'? white-space* '<graphic' white-space upto ('</graphic>')
+;	'</graphic>' white-space* '<?Pub /_rev?>'?) => graphic
+;	white-space* '</prcitem1>' white-space* '<prcitem1>' white-space*
+;	('<prcitem></prcitem>' or '<prcitem/>') white-space* '<prclist2>'
+;	
+;	output graphic
+
+
+; Sonovision update (2019.09.20) - could be 1 or more graphic elements between list items
+find '</prclist2>' white-space*
+	('<?Pub _rev?>'? white-space* 
+	 '<graphic' white-space upto ('</graphic>') '</graphic>' 
+	  white-space* '<?Pub /_rev?>'?)+ => graphic
+	white-space* '</prcitem1>' white-space* '<prcitem1>' white-space*
+	('<prcitem></prcitem>' or '<prcitem/>') white-space* '<prclist2>'
+	
+	output graphic
+
+
+
+
+;=======================
+;== START EM SPECIFIC ==
+;=======================
+
+find "em_xml_tweaked.dtd"
+   output "em.dtd"
+
+find "<!DOCTYPE em SYSTEM %"" [any except "%""]+ "%""
+	output "<!DOCTYPE em PUBLIC %"-//ATA-HONEYWELL-TEXT//DTD EM-VER6-REV2-LEVEL2//EN%" %"em.dtd%" "
+
+;--- Resolve non-ndata system entities. (Mantis #22040) ---
+;Example ent dec: <!ENTITY Warning_Compressed_Air SYSTEM "file:///Y:\_Master\WCN\Warning_Compressed_Air.xml">
+find '<!ENTITY' ws+ [any except ws]+=>ent-name ws+ 'SYSTEM' ws+ '"' [any except '">']+=>system-id '"' ws* '>' '%n'*
+	local stream LsCleanSysId
+	open LsCleanSysId as buffer
+		repeat scan system-id
+			match 'file:' '/'*
+			match any=>char
+				put LsCleanSysId char
+		again
+	close LsCleanSysId
+	set new GsSystemEnts ^ ent-name to LsCleanSysId
+
+;Example ent ref: &Warning_Compressed_Air;
+find ('&' [any-text except ';']+=>ent-name ';')=>ent-ref
+	do when GsSystemEnts has ^ ent-name
+		do when file GsSystemEnts ^ ent-name exists
+			;Strip prolog.
+			do scan file GsSystemEnts ^ ent-name
+				match ((any) upto ('<' letter ))=>prolog ('<' letter any+)=>body
+					output body
+			done
+		else
+			put #error '%n[error] Could not resolve non-ndata system entity reference "&%x(ent-name);"; could not find file "' || GsSystemEnts ^ ent-name || '".'
+			output ent-ref
+		done
+	else
+		output ent-ref
+	done
+
+; RS: Fix abbr/acro/con/std broken tags (with a newline or space before the '>')
+find '<abbrname' ws+ '>'
+	output '<abbrname>'
+
+find '<abbrterm' ws+ '>'
+	output '<abbrterm>'
+
+find '<acroname' ws+ '>'
+	output '<acroname>'
+
+find '<acroterm' ws+ '>'
+	output '<acroterm>'
+
+find '<conname' ws+ '>'
+	output '<conname>'
+
+find '<connbr' ws+ '>'
+	output '<connbr>'
+
+find '<consrc' ws+ '>'
+	output '<consrc>'
+
+find '<stdname' ws+ '>'
+	output '<stdname>'
+
+find '<stdnbr' ws+ '>'
+	output '<stdnbr>'
+
+find '<stdsrc' ws+ '>'
+	output '<stdsrc>'
+
+	
+;=====================
+;== END EM SPECIFIC ==
+;=====================
+
+find '<?Pub Dtl?>'
+
+; CV - Arbortext sometimes puts linebreak at closing "?>" of PI
+;find ('<?Pub' ws '_rev?>')=>start
+find ('<?Pub' ws '_rev' ws* '?' ws* '>')=>start
+	put #error '%nFOUND START'
+	do when GxInRev
+		activate GxDeleteEnd
+		increment GcNestedStartTags
+		put #error '%t- Deleted START (%d(GcNestedStartTags))'
+	else
+		activate GxInRev
+		set GcNestedStartTags to '0'
+		deactivate GxDeleteEnd
+		output revst
+	done
+
+;find ('<?Pub' ws '/_rev?>')=>end
+find ('<?Pub' ws '/_rev' ws* '?' ws* '>')=>end
+	put #error '%nFOUND END'
+	do when GxDeleteEnd
+		put #error '%t- Deleted END (%d(GcNestedStartTags))'
+		decrement GcNestedStartTags
+		deactivate GxDeleteEnd when GcNestedStartTags = 0
+	else when GcNestedStartTags > 0
+		put #error '%t- Deleted END (%d(GcNestedStartTags))'
+		decrement GcNestedStartTags
+	else
+		output revend
+		deactivate GxInRev
+	done
+
+; CV - Arbortext sometimes puts linebreak at closing "?>" of PI
+;find ('<?Pub' ws '_font' ws 'Underline=' ('"yes"'|'"single"') upto ('>') '>') (upto ('<?Pub' ws '/_font?>'))=>val ('<?Pub' ws '/_font?>')
+find ('<?Pub' ws '_font' ws 'Underline=' ('"yes"'|'"single"') upto ('>') '>') (upto ('<?Pub' ws '/_font' ws* '?' ws* '>'))=>val ('<?Pub' ws '/_font' ws* '?' ws* '>')
+	local stream LsUnderline
+	put #error '%nFOUND UNDERLINE'
+	set LsUnderline to val
+	output '<underline>%g(LsUnderline)</underline>'
+
+;find ('<?Pub' ws '_touchup' ws 'HighltScoring="on"' upto ('>') '>') (upto ('<?Pub' ws '/_touchup?>'))=>val ('<?Pub' ws '/_touchup?>')
+find ('<?Pub' ws '_touchup' ws 'HighltScoring="on"' upto ('>') '>') (upto ('<?Pub' ws '/_touchup' ws* '?' ws* '>'))=>val ('<?Pub' ws '/_touchup' ws* '?' ws* '>')
+	local stream LsOverline
+	put #error '%nFOUND OVERLINE'
+	set LsOverline to val
+	output '<overline>%g(LsOverline)</overline>'
+
+
+; CV - new pagebreak PIs
+find ("<?Pub" ws "_newpage" ws* "?" ws* ">")
+  output "<?pagebreak?>"
+  
+find ("<?PubTbl" ws "row" ws* "breakpenalty=%"-10000%"" ws* "?" ws* ">")
+  output "<?pagebreak?>"
+
+; RS: Add a space before newline, otherwise a title like "TOP ASSEMBLY OF THE AFT TURBINE BEARING ASSEMBLY<?Pub _newline?>DISASSEMBLY â€“ 05"
+; will not have a space where the newline is when collected by <xsl:value-of>.
+find ("<?Pub" ws "_newline" ws* "?" ws* ">")
+  output " <?newline?>"
+
+  
+
+; Sonovision update (2019.01.15)
+; CV - new cell shading support
+;    - convert PI to an element, which will later be transformed to an attribute during UPPER transformation
+; e.g. <?Pub _cellfont Shading="gray3"?>
+find ("<?Pub" ws "_cellfont" ws "Shading=%"" ("#" or letter or digit)+=color "%"" ws* "?" ws* ">")
+  output "<cellfont Shading=%"%x(color)%"/>"
+
+; CV - new row height support
+;    - convert PI to an element, which will later be transformed to an attribute during UPPER transformation
+; e.g. <?PubTbl row rht="3.50in"?>
+find ("<?PubTbl" ws "row" ws "rht=%"" [any-text except "%""]+=height "%"" ws* "?" ws* ">")
+  output "<PubTbl_row rht=%"%x(height)%"/>"
+
+
+
+
+
+
+; CV - remove @align="justify" which sometimes appears in "entry" elements and can generate weirdly spaced column headings
+find " "* "align=%"justify%""
+  output ""
+
+
+find any=>char
+	output char
+	
+process-end
+	put #error '%n%n'

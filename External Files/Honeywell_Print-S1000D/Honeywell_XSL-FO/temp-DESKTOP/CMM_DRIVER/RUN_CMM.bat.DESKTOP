@@ -1,0 +1,13 @@
+@echo off
+
+del TEMP\run.log
+
+cls
+
+echo Rendering CMM XSL-FO...
+
+call DRIVER_CMM.bat >> TEMP\run.log 2>&1
+
+echo Finished
+
+rem pause

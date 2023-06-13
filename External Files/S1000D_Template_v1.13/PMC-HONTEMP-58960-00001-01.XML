@@ -1,0 +1,1331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE pm [
+<!NOTATION eps SYSTEM "eps">
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+<!ENTITY ICN-S1000DBIKE-AAA-000000-A-U8025-00015-A-01-01 SYSTEM "Honeywell Address.eps" NDATA eps>
+%ISOEntities;
+]>
+<pm
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/pm.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection><pmAddress>
+<pmIdent>
+<pmCode modelIdentCode="HONTEMP" pmIssuer="58960" pmNumber="00001"
+pmVolume="01"/><language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></pmIdent>
+<pmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<pmTitle>**Equip name**</pmTitle>
+<shortPmTitle>PARTINFO</shortPmTitle>
+<externalPubCode pubCodingScheme="manualType">CMM</externalPubCode><?Pub
+Caret -2?>
+<externalPubCode pubCodingScheme="variantType">CMM</externalPubCode>
+<externalPubCode pubCodingScheme="CMP">49-01-10</externalPubCode>
+<externalPubCode pubCodingScheme="INT">DNNNNNNNNNNNN</externalPubCode>
+</pmAddressItems>
+</pmAddress><pmStatus issueType="new">
+<security securityClassification="01"/>
+<dataRestrictions>
+<restrictionInstructions>
+<dataDistribution></dataDistribution>
+<exportControl>
+<exportRegistrationStmt>
+<simplePara>These items are controlled by the U.S. government and
+authorized for export only to the country of ultimate destination
+for use by the ultimate consignee or end-user(s) herein identified.
+They may not be resold, transferred, or otherwise disposed of, to
+any other country or to any person other than the authorized ultimate
+consignee or end-user(s), either in their original form or after being
+incorporated into other items, without first obtaining approval from
+the U.S. government or as otherwise authorized by U.S. law and regulations.</simplePara>
+<simplePara>ECCN: **ECCN-USML Number**. </simplePara>
+<simplePara>USML: **ECCN-USML Number**.</simplePara>
+</exportRegistrationStmt>
+</exportControl>
+<dataHandling></dataHandling>
+<dataDestruction></dataDestruction>
+<dataDisclosure></dataDisclosure>
+</restrictionInstructions>
+<restrictionInfo>
+<copyright>
+<copyrightPara>&copy; Honeywell International Inc. Do not copy without
+express permission of Honeywell.</copyrightPara>
+</copyright>
+<policyStatement></policyStatement>
+<dataConds></dataConds>
+</restrictionInfo>
+</dataRestrictions>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applicCrossRefTableRef>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00"
+disassyCodeVariant="A" infoCode="00W" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</applicCrossRefTableRef>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent>
+</dmRef>
+</brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/></qualityAssurance>
+</pmStatus></identAndStatusSection>
+<content>
+<pmEntry pmEntryType="pmt77"><pmEntryTitle>Proprietary Information</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="023" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01"
+disassyCodeVariant="A" infoCode="023" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="010" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="012" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="012" infoCodeVariant="B"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00"
+disassyCodeVariant="A" infoCode="021" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt52"><pmEntryTitle>TRANSMITTAL INFORMATION</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00"
+disassyCodeVariant="A" infoCode="003" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt53"><pmEntryTitle>RECORD OF REVISIONS</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="003" infoCodeVariant="B"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt54"><pmEntryTitle>RECORD OF TEMPORARY REVISIONS</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00"
+disassyCodeVariant="A" infoCode="003" infoCodeVariant="C"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt55"><pmEntryTitle>SERVICE BULLETIN LIST</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00"
+disassyCodeVariant="A" infoCode="008" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt56"><pmEntryTitle>LIST OF EFFECTIVE PAGES</pmEntryTitle>
+<externalPubRef authorityDocument="LEP">
+<externalPubRefIdent></externalPubRefIdent>
+</externalPubRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt58"><pmEntryTitle>INTRODUCTION</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99F-801-A01"><pmEntryTitle>How
+to Use This Manual</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-002-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-003-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-004-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-005-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-006-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-007-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-008-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="G" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-009-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="H" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-802-A01"><pmEntryTitle>Customer
+Support</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-010-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="I" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-011-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="J" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-803-A01"><pmEntryTitle>References</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-012-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="K" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-012-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="K" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-013-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="L" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-804-A01"><pmEntryTitle>Component
+Maintenance Levels</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-014-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="M" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-805-A01"><pmEntryTitle>Acronyms
+and Abbreviations</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-015-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="N" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-806-A01"><pmEntryTitle>Process
+Verification</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-016-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="O" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-016-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="O" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-807-A01"><pmEntryTitle>Software
+History</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-017-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="P" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-017-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="P" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-808-A01"><pmEntryTitle>History
+of Changes</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-018-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="Q" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-018-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="Q" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-019-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="R" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-019-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="R" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99F-809-A01"><pmEntryTitle>Service
+Information Documents</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99F-020-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="S" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99F-020-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="S" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt59"><pmEntryTitle>DESCRIPTION AND OPERATION</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-870-801-A01"><pmEntryTitle>Description</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-870-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="040"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="040"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-870-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="040"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-870-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="040"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-870-802-A01"><pmEntryTitle>Operation</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-870-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="040"
+infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-870-005-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="040"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt60"><pmEntryTitle>TESTING AND FAULT ISOLATION</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="400" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt60"><pmEntryTitle>TESTING AND FAULT ISOLATION</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-801-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-002-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="400"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-003-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="400"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-810-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-810-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="400"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-810-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-810-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-810-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420"
+infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-810-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-810-005-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="420"
+infoCodeVariant="G" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-700-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="400"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-700-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="400"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt61"><pmEntryTitle>SCHEMATIC AND WIRING DIAGRAMS</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="050" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt61"><pmEntryTitle>SCHEMATIC AND WIRING DIAGRAMS</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-805-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-011-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="050"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-012-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="050"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-012-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="050"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-878-801-A01"><pmEntryTitle>Schematic
+and Wiring Diagrams</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-878-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="050"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-878-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="051"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-878-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="054"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-878-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="051"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-878-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="054"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-878-005-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="050"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-878-005-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="050"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt62"><pmEntryTitle>DISASSEMBLY</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="500" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt62"><pmEntryTitle>DISASSEMBLY</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-806-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-013-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-014-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-014-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-000-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-000-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-000-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-000-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-000-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-000-004-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-000-004-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="500"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt63"><pmEntryTitle>CLEANING</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="250" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt63"><pmEntryTitle>CLEANING</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-807-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-015-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-016-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-016-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-100-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-100-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-005-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-006-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="G" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-007-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-100-007-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="250"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt64"><pmEntryTitle>INSPECTION/CHECK</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="300" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt64"><pmEntryTitle>INSPECTION/CHECK</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-808-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-017-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-018-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-018-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-210-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-210-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-210-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-210-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-210-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-210-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-210-005-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-210-005-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="300"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt65"><pmEntryTitle>REPAIR</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="600" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt65"><pmEntryTitle>REPAIR</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-809-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-019-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-020-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-020-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-300-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-300-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-300-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-300-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-300-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-300-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-300-005-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-300-006-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-300-006-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="600"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt66"><pmEntryTitle>ASSEMBLY</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="700" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt66"><pmEntryTitle>ASSEMBLY</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-812-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-025-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-026-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-026-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-400-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-400-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-004-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-004-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="700"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt67"><pmEntryTitle>FITS AND CLEARANCES</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="711" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt67"><pmEntryTitle>FITS AND CLEARANCES</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-813-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-027-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="711"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-028-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="711"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-220-801-A01"><pmEntryTitle>Fits
+and Clearances</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-220-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="711"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-220-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="711"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-220-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="711"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-220-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="711"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt68"><pmEntryTitle>SPECIAL TOOLS, FIXTURES,
+EQUIPMENT, AND CONSUMABLES</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="900" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt68"><pmEntryTitle>SPECIAL TOOLS, FIXTURES,
+EQUIPMENT, AND CONSUMABLES</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-814-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-029-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-940-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-940-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt69"><pmEntryTitle>SPECIAL PROCEDURES</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01"
+disassyCodeVariant="A" infoCode="900" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt69"><pmEntryTitle>SPECIAL PROCEDURES</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-815-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-030-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-031-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-031-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-028-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-028-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-028-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-028-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-028-003-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-028-003-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="900"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt70"><pmEntryTitle>REMOVAL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="520" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt70"><pmEntryTitle>REMOVAL</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-816-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-032-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-033-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-033-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-010-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-010-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-010-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-010-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-010-003-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-010-003-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="520"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt71"><pmEntryTitle>INSTALLATION</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="720" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt71"><pmEntryTitle>INSTALLATION</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-817-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-034-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-035-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-035-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-400-802-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-400-005-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-005-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-006-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-007-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-400-007-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="720"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt72"><pmEntryTitle>SERVICING</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="200" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt72"><pmEntryTitle>SERVICING</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-818-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-036-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-037-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-037-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-600-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-600-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-005-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-006-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="G" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-007-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="H" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-008-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-600-008-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="200"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt73"><pmEntryTitle>STORAGE (INCLUDING TRANSPORTATION)</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="800" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt73"><pmEntryTitle>STORAGE (INCLUDING TRANSPORTATION)</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-819-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-038-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-039-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-039-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-550-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-550-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-550-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-550-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-550-003-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-550-004-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="850"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-550-005-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="860"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-550-006-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-550-006-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="800"
+infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt74"><pmEntryTitle>REWORK (SERVICE BULLETIN
+ACCOMPLISHMENT PROCEDURES)</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="664" infoCodeVariant="E"
+itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt74"><pmEntryTitle>REWORK (SERVICE BULLETIN
+ACCOMPLISHMENT PROCEDURES)</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-820-A01"><pmEntryTitle>Planning
+Data</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-040-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="664"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-041-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="664"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-041-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="664"
+infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-840-801-A01"><pmEntryTitle>Procedure</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-840-001-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="664"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-840-001-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="664"
+infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-840-802-A01"><pmEntryTitle>Accomplishment
+Instructions for Service Bulletin NN-NNNN</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-840-002-A01"><dmRefIdent><dmCode
+assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="664"
+infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP"
+subSubSystemCode="1" subSystemCode="0" systemCode="49"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt75"><pmEntryTitle>ILLUSTRATED PARTS LIST</pmEntryTitle>
+<pmEntry authorityDocument="00-00-00-99C-821-A01"><pmEntryTitle>Description</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-042-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="T" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-043-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="U" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-043-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="U" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00-99C-822-A01"><pmEntryTitle>Contents
+of the IPL</pmEntryTitle>
+<dmRef authorityDocument="00-00-00-99C-044-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="V" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-044-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="V" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-045-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="W" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-045-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="W" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-046-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="X" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-046-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="X" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-047-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="Y" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+<dmRef authorityDocument="00-00-00-99C-047-A01"><dmRefIdent><dmCode
+assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018"
+infoCodeVariant="Y" itemLocationCode="C" modelIdentCode="HONAERO"
+subSubSystemCode="0" subSystemCode="0" systemCode="00"
+systemDiffCode="EAA"/></dmRefIdent></dmRef>
+</pmEntry>
+<pmEntry><pmEntryTitle>Vendor Code List</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00"
+disassyCodeVariant="A" infoCode="019" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry><pmEntryTitle>Detailed Parts List</pmEntryTitle>
+<pmEntry>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="01"
+disassyCodeVariant="A" infoCode="941" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt85"><pmEntryTitle>Appendix</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00"
+disassyCodeVariant="A" infoCode="910" infoCodeVariant="A"
+itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1"
+subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</content>
+</pm>
+<?INMEDLNG sx-US?>

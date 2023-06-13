@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<license issuer="RenderX" issued="2007-07-30">
+   <licensee>
+      <person>RenderX Customer</person>
+   </licensee>
+   <product name="XEP">
+      <limit name="trial">1</limit>
+      <feature name="stamp"/>
+   </product>
+<signature>iQBVAgUARq3cmPz8zkdesEfDAQElCAH8D1AEggcBoCR/DOVunlUaORdd48+IBOT9
+QCEOPSRa66poEEuO/66n1GO7ptmg1yd1KnZYgLNCWMNj5abGWoqRWg===yM1T</signature></license>

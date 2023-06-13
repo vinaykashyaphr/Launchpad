@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE pm>
+<?Pub Inc?>
+<pm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/pm.xsd">
+<identAndStatusSection>
+<pmAddress>
+<pmIdent>
+<pmCode modelIdentCode="HON99193" pmIssuer="99193" pmNumber="00001" pmVolume="01"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></pmIdent>
+<pmAddressItems>
+<issueDate day="01" month="01" year="0001"/><?Pub Caret -2?>
+<pmTitle>PM TITLE</pmTitle>
+<shortPmTitle>SHORT NAME</shortPmTitle>
+<externalPubCode pubCodingScheme="CMP"></externalPubCode><externalPubCode pubCodingScheme="INT">00–00–00</externalPubCode><externalPubCode pubCodingScheme="initialDate">DD Mmm YYYY</externalPubCode></pmAddressItems></pmAddress>
+<pmStatus issueType="new">
+<security securityClassification="01"/>
+<dataRestrictions>
+<restrictionInstructions>
+<dataDistribution></dataDistribution>
+<exportControl>
+<exportRegistrationStmt>
+<simplePara>These items are controlled by the U.S. government and authorized for export only to the country of ultimate destination for use by the ultimate consignee or end-user(s) herein identified. They may not be resold, transferred, or otherwise
+disposed of, to any other country or to any person other than the authorized ultimate consignee or end-user(s), either in their original form or after being incorporated into other items, without first obtaining approval from the U.S. government or as
+otherwise authorized by U.S. law and regulations.</simplePara>
+<simplePara>ECCN: 9E991.</simplePara>
+</exportRegistrationStmt>
+</exportControl></restrictionInstructions>
+<restrictionInfo>
+<copyright><copyrightPara>© Honeywell International Inc. Do not copy without express permission of Honeywell.</copyrightPara>
+</copyright>
+<policyStatement></policyStatement>
+<dataConds></dataConds></restrictionInfo></dataRestrictions><responsiblePartnerCompany enterpriseCode=""></responsiblePartnerCompany>
+<originator enterpriseCode=""></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="AAA"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<unverified/></qualityAssurance></pmStatus>
+</identAndStatusSection>
+<content>
+<pmEntry pmEntryType="pmt77">
+<pmEntryTitle>Proprietary Information</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="023" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="010" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="021" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt52">
+<pmEntryTitle>TRANSMITTAL INFORMATION</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt53">
+<pmEntryTitle>RECORD OF REVISIONS</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="B" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt54">
+<pmEntryTitle>RECORD OF TEMPORARY REVISIONS</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="C" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry authorityDocument="00-00-00" pmEntryType="pmt56">
+<pmEntryTitle>LIST OF EFFECTIVE PAGES</pmEntryTitle>
+</pmEntry>
+<pmEntry pmEntryType="pmt58">
+<pmEntryTitle>INTRODUCTION</pmEntryTitle>
+<pmEntry>
+<pmEntryTitle>How to Use This Illustrated Parts Catalog</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry>
+<pmEntryTitle>Customer Support</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry>
+<pmEntryTitle>References</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="D" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="E" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry>
+<pmEntryTitle>Acronyms and Abbreviations</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="F" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry>
+<pmEntryTitle>Contents of the DPL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="G" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="H" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="I" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry pmEntryType="pmt55">
+<pmEntryTitle>SERVICE BULLETIN LIST</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="008" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry pmEntryType="pmt90">
+<pmEntryTitle>VENDOR CODES</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="Z" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+<pmEntry authorityDocument="49" pmEntryType="pmt75">
+<pmEntryTitle>ENGINE</pmEntryTitle>
+<pmEntry authorityDocument="49-00">
+<pmEntryTitle>GAS TURBINE ENGINE</pmEntryTitle>
+<pmEntry authorityDocument="49-00-00">
+<pmEntryTitle>GAS TURBINE ENGINE ASSEMBLY</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="0" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-20">
+<pmEntryTitle>ENGINE ASSEMBLY</pmEntryTitle>
+<pmEntry authorityDocument="49-20-00">
+<pmEntryTitle>ENGINE ASSEMBLY</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="0" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-21">
+<pmEntryTitle>WIRING HARNESS</pmEntryTitle>
+<pmEntry authorityDocument="49-21-00">
+<pmEntryTitle>WIRING HARNESS</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-22">
+<pmEntryTitle>POWER SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-22-00">
+<pmEntryTitle>POWER SECTION ASSEMBLY</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="04" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="05" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-26">
+<pmEntryTitle>GEARBOX SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-26-00">
+<pmEntryTitle>GEARBOX ASSEMBLY</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="6" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="6" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="6" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="04" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="6" subSystemCode="2" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-31">
+<pmEntryTitle>FUEL AND CONTROL SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-31-00">
+<pmEntryTitle>FUEL AND CONTROL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="3" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="3" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="3" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="04" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="3" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="05" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="3" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="06" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="3" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="07" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="3" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-41">
+<pmEntryTitle>IGNITION SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-41-00">
+<pmEntryTitle>IGNITION</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="4" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="4" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="4" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-42">
+<pmEntryTitle>STARTING SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-42-00">
+<pmEntryTitle>STARTER MOTOR</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="4" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-51">
+<pmEntryTitle>AIR SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-51-00">
+<pmEntryTitle>AIR</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="5" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="5" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="5" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="04" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="5" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-61">
+<pmEntryTitle>ENGINE CONTROLS SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-61-00">
+<pmEntryTitle>ENGINE CONTROL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="6" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="6" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="6" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="04" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="6" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-75">
+<pmEntryTitle>TIME SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-75-00">
+<pmEntryTitle>TIME</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="5" subSystemCode="7" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="5" subSystemCode="7" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-91">
+<pmEntryTitle>OIL SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-91-00">
+<pmEntryTitle>OIL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="04" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="05" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="1" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-92">
+<pmEntryTitle>OIL SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-92-00">
+<pmEntryTitle>OIL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="2" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-93">
+<pmEntryTitle>OIL SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-93-00">
+<pmEntryTitle>OIL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="3" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="3" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+<pmEntry authorityDocument="49-94">
+<pmEntryTitle>OIL SECTION</pmEntryTitle>
+<pmEntry authorityDocument="49-94-00">
+<pmEntryTitle>OIL</pmEntryTitle>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="01" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="4" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="02" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="4" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="03" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="4" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="04" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="4" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="05" disassyCodeVariant="A" infoCode="941" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HON99193" subSubSystemCode="4" subSystemCode="9" systemCode="49" systemDiffCode="EAA"/></dmRefIdent>
+</dmRef>
+</pmEntry>
+</pmEntry>
+</pmEntry>
+</content></pm>

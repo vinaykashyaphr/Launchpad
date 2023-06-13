@@ -1,0 +1,302 @@
+@echo off
+
+rem *** Path Configuration ***
+call ..\environment.bat
+
+
+echo ==========================
+echo *** Parameters Setting ***
+echo ==========================
+set params="IMAGES_DIR=file:///%WorkPath%/images/" "GRAPHICS_DIR=file:///%WorkPath%/CMM_DRIVER/XML_INPUT/graphics" "WorkPath=file:///%WorkPath%/CMM_DRIVER"
+
+
+rem *******************************************************************************************************
+rem *******************************************************************************************************
+rem *******************************************************************************************************
+
+echo ==============================
+echo *** Check for IRM XML ***
+echo *** (which will need to be converted to SGML via legacy conversion process in order to populate "consumable" tables) ***
+echo ==============================
+
+
+
+for %%a in ("XML_INPUT\*.xml") do (
+
+  rem *** Check to see if IRM (also reset MasterTextEntity.xml URI) ***
+  %omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\irm_check.xom" -of "XML_INPUT\%%~na.xml.IRM" -log "TEMP\%%~na_irm_check.err" -d GsMasterTextEntityFolder "%RenderPath%\MasterTextEntities" -d GsIRMLogFileName "TEMP\irm_xml.txt"
+
+
+  if exist "TEMP\irm_xml.txt" (
+    
+    echo ***************************************************************************************
+    echo "Setting up IRM conversions framework"
+    echo ***************************************************************************************
+    
+    rem *** The IRM "conversions" scripts are adapted from legacy application which had numerous hardcoded "C:\conversions" path dependencies
+    rem *** (do not re-install if already exists?)
+
+    REM if not exist "C:\Honeywell_Print-conversions\Honeywell_Print-conversions-readme.txt" (
+    REM   xcopy "%RenderPath%\applications\Honeywell_Print-conversions" "C:\Honeywell_Print-conversions\" /E /Y
+    REM )
+
+    rem *** (always re-install, in case script updates need to be added in future)
+    xcopy "%RenderPath%\applications\Honeywell_Print-conversions" "C:\Honeywell_Print-conversions\" /E /Y
+
+    mkdir "C:\Honeywell_Print-conversions\in"
+    mkdir "C:\Honeywell_Print-conversions\out"
+    mkdir "C:\Honeywell_Print-conversions\omnimark\temporary"
+
+
+    echo ***************************************************************************************
+    echo "IRM XML file found - converting to SGML (in order to populate conusmables tables)"
+    echo ***************************************************************************************
+  
+    rem *** Delete source *.xml file ***
+    del "XML_INPUT\%%~na%%~xa"
+  
+    rem *** Convert *.xml.IRM to *.sgml ***
+
+    copy "XML_INPUT\%%~na.xml.IRM" "C:\Honeywell_Print-conversions\in\%%~na.xml"
+    
+    call "C:\Honeywell_Print-conversions\omnimark\scripts\00-flow-cmm-fragment-publisher-mtoss_GEN2.bat"
+    
+    
+    copy "C:\Honeywell_Print-conversions\out\*.sgm" "%WorkPath%\CMM_DRIVER\XML_INPUT"
+
+    cd "%WorkPath%\CMM_DRIVER"
+    
+    echo ***************************************************************************************
+    echo "IRM XML to SGML conversion complete"
+    echo ***************************************************************************************
+
+  )
+
+
+  if not exist "TEMP\irm_xml.txt" (
+    
+    rem *** If this isn't an IRM file, then delete the temporary "*.xml.IRM" file ***
+    del "XML_INPUT\%%~na.xml.IRM"
+    
+  )
+
+
+)
+
+
+rem *******************************************************************************************************
+rem *******************************************************************************************************
+rem *******************************************************************************************************
+
+
+
+
+echo ==============================
+echo *** Converting SGML to XML ***
+echo ==============================
+for %%a in ("XML_INPUT\*.sgm") do (
+	%omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\sgml2xml.xom" -of "XML_INPUT\%%~na.xml" -log "TEMP\%%~na_sgml2xml.err"
+)
+
+echo ====================
+echo *** Start Render ***
+echo ====================
+
+for %%a in ("XML_INPUT\*.xml") do (
+
+	echo ===================================
+	echo 0   *** Deleting existing files ***
+	echo ===================================
+	del PDF_OUTPUT\%%~na*
+	del TEMP\*.* /F /Q
+	copy cmm.dtd TEMP\cmm.dtd
+
+	rem *** CV - copy "MasterTextEntities.xml" to TEMP
+	copy ..\MasterTextEntities\MasterTextEntities*.xml TEMP
+
+	echo =======================
+	echo 1   *** Cleanup XML ***
+	echo =======================
+rem		 Character code check and editor cleanup
+	rem %omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\pre_process.xom" -of "TEMP\%%~na_PRE-PROCESSED.xml" -log "TEMP\%%~na_pre_process.err"
+
+	%omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\fix_line_break.xom" -of "TEMP\%%~na_FIXED_LINE_BREAK.xml" -log "TEMP\%%~na_fix_line_break.err"
+	%omnimark% "TEMP\%%~na_FIXED_LINE_BREAK.xml" -sb "%RenderPath%\omnimark\pre_process.xom" -of "TEMP\%%~na_PRE-PROCESSED.xml" -log "TEMP\%%~na_pre_process.err"
+
+
+	echo ==========================================
+	echo 2   *** Fixing Processing Instructions ***
+	echo ==========================================
+rem		 Remove arbortext pi, resolve nested rev markup pi, transform style pi to elements.
+	%omnimark% "TEMP\%%~na_PRE-PROCESSED.xml" -sb "%RenderPath%\omnimark\fix_pi.xom" -of "TEMP\%%~na_FIXED_PI.xml" -log "TEMP\%%~na_fix_pi.err"
+
+	echo ==========================
+	echo 3   *** Updating GNBRs ***
+	echo ==========================
+rem		 Update graphic attributes to point to graphic files
+	%omnimark% "TEMP\%%~na_FIXED_PI.xml" -sb "%RenderPath%\omnimark\update_gnbrs.xom" -of "TEMP\%%~na_UPDATED_GNBRs.xml" -d GsGraphicsDir "%WorkPath%/CMM_DRIVER/XML_INPUT/graphics" -log "TEMP\%%~na_update_gnbrs.err"
+
+	echo ======================
+	echo 4   *** Create EDI ***
+	echo ======================
+	%omnimark% "TEMP\%%~na_UPDATED_GNBRs.xml" -sb "%RenderPath%\omnimark\create_edi.xom" -log "TEMP\%%~na_create_edi.err" -of "TEMP\edi_tables.xml"
+
+	echo =======================
+	echo 5   *** Propagating Rev ***
+	echo =======================
+rem		 Relocate rev markup to simplify transform
+	rem %omnimark% "TEMP\%%~na_UPDATED_GNBRs.xml" -sb "%RenderPath%\omnimark\propagate_rev.xom" -of "TEMP\%%~na_PROPAGATED_REV.xml" -log "TEMP\%%~na_propagate_rev.err"
+
+	rem *** CV - sometimes the propagated rev markers need to be moved
+	%omnimark% "TEMP\%%~na_UPDATED_GNBRs.xml" -sb "%RenderPath%\omnimark\propagate_rev.xom" -of "TEMP\%%~na_PROPAGATED_REV-v1.xml" -log "TEMP\%%~na_propagate_rev.err"
+	%omnimark% "TEMP\%%~na_PROPAGATED_REV-v1.xml" -sb "%RenderPath%\omnimark\propagate_rev_fix.xom" -of "TEMP\%%~na_PROPAGATED_REV.xml" -log "TEMP\%%~na_propagate_rev-fix.err"
+
+	echo ===================================
+	echo 6   *** Running Shift-F6 replacment ***
+	echo ===================================
+rem		 Generate acro/abbr list and tool/consumable tables if necessary
+	if exist "TEMP\gen2_shift-f6.txt" (
+		echo Running GEN-2 replacement
+		rem %omnimark% "TEMP\%%~na_PROPAGATED_REV.xml" -sb "%RenderPath%\omnimark\cmm_shift_f6_GEN2.xom" -of "TEMP\%%~na_sf6.xml" -d GsMainInput "TEMP\%%~na_PROPAGATED_REV.xml" -d GsLogName "TEMP\%%~na_shift-f6_GEN2_debug.txt" -log "TEMP\%%~na_shift-f6_GEN2.err"
+		%omnimark% "TEMP\%%~na_PROPAGATED_REV.xml" -sb "%RenderPath%\omnimark\cmm_shift_f6_GEN2.xom" -of "TEMP\%%~na_sf6-v1.xml" -d GsMainInput "TEMP\%%~na_PROPAGATED_REV.xml" -d GsLogName "TEMP\%%~na_shift-f6_GEN2_debug.txt" -log "TEMP\%%~na_shift-f6_GEN2.err"
+	) else (
+		echo Running original replacement
+		rem %omnimark% "TEMP\%%~na_PROPAGATED_REV.xml" -sb "%RenderPath%\omnimark\cmm_shift_f6.xom" -of "TEMP\%%~na_sf6.xml" -d GsMainInput "TEMP\%%~na_PROPAGATED_REV.xml" -d GsLogName "TEMP\%%~na_shift-f6_debug.txt" -log "TEMP\%%~na_shift-f6.err"
+		%omnimark% "TEMP\%%~na_PROPAGATED_REV.xml" -sb "%RenderPath%\omnimark\cmm_shift_f6.xom" -of "TEMP\%%~na_sf6-v1.xml" -d GsMainInput "TEMP\%%~na_PROPAGATED_REV.xml" -d GsLogName "TEMP\%%~na_shift-f6_debug.txt" -log "TEMP\%%~na_shift-f6.err"
+	)
+
+	rem *** CV - (PASS 2) sometimes the propagated rev markers need to be moved
+	%omnimark% "TEMP\%%~na_sf6-v1.xml" -sb "%RenderPath%\omnimark\propagate_rev_fix.xom" -of "TEMP\%%~na_sf6.xml" -log "TEMP\%%~na_propagate_rev-fix-2.err"
+
+	echo ======================
+	echo 7   *** Strip Tags ***
+	echo ======================
+rem		Strip elements used to generate acro/abbr and tool/consumable tables
+	%omnimark% "TEMP\%%~na_sf6.xml" -sb "%RenderPath%\omnimark\strip_tags.xom" -of "TEMP\%%~na_STRIPPED_TAGS.xml" -log "TEMP\%%~na_strip_tags.err"
+
+	echo ==========================================
+	echo 8   *** Populating Required Attributes ***
+	echo ==========================================
+rem		 Generate attributes to authoring instance if needed
+	%omnimark% "TEMP\%%~na_STRIPPED_TAGS.xml" -sb "%RenderPath%\omnimark\hw_add_xml_attrs.xom" -d GsMainInput "TEMP\%%~na_STRIPPED_TAGS.xml" -of "TEMP\%%~na_POP-ATTRS.xml" -log "TEMP\%%~na_hw_add_xml_attrs.err"
+
+	echo ==============================
+	echo 9   *** Creating UPPER.xml ***
+	echo ==============================
+rem		 Transforms attributes and element names to uppercase
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_POP-ATTRS.xml" "-xsl:%RenderPath%\shared\upperCase.xsl" "-o:TEMP\%%~na_UPPER%%~xa"
+
+	echo =====================================================
+	echo 10   *** XML to FO First Pass to collect LEP Data ***
+	echo =====================================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_UPPER%%~xa" "-xsl:%RenderPath%\CMM_XSL\CMM.xsl" "-o:TEMP\%%~na_lep.fo" %params% "LEP_PASS=1"
+	
+	
+	echo =================================
+	echo 10A   *** Strip fo:list-block ***
+	echo =================================
+rem		Remove elements used to render foldout and landscape tables
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lep.fo" "-xsl:%RenderPath%\CMM_XSL\strip_list-blocks.xsl" "-o:TEMP\%%~na_lep_stripped_list-block.fo"
+
+	
+	echo =====================================================
+	echo 11   *** FO to XEP First Pass to collect LEP Data ***
+	echo =====================================================
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_lep_stripped_list-block.fo" -xep "TEMP\%%~na_lep.xep"
+
+	echo ===============================================================================
+	echo 12   *** Extract LEP data to XML file from first pagination pass of RenderX ***
+	echo ===============================================================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lep.xep" "-o:TEMP\%%~na_lepExtract.xml" "-xsl:%RenderPath%\CMM_XSL\lepExtract_CMM.xsl"
+	
+	echo ====================================================
+	echo 13   *** Add Table Foldout Pages to LEP Extract ***
+	echo ====================================================
+	%omnimark% "TEMP\%%~na_lepExtract.xml" -sb "%RenderPath%\omnimark\lep_foldout_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_lepExtract_foldout-pages.xml" -log "TEMP\%%~na_lep_foldout_pages.err"
+
+	echo ======================================
+	echo 13A   *** Add Point Pages to LEP Extract ***
+	echo ======================================
+	%omnimark% "TEMP\%%~na_lepExtract_foldout-pages.xml" -sb "%RenderPath%\omnimark\lep_point_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_lepExtract_point-pages.xml" -log "TEMP\%%~na_lep_point_pages.err"
+	
+	echo ===============================================================================
+	echo 13B   *** First Render of LEP Pages for page count ***
+	echo ===============================================================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lepExtract_point-pages.xml" "-xsl:%RenderPath%\CMM_XSL\rendeLep_CMM.xsl" "-o:TEMP\%%~na_lepRender.fo" "LEP_PASS=1"
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_lepRender.fo" -xep "TEMP\%%~na_lepRender.xep"
+	
+	echo ===============================================================================
+	echo 13C   *** Second Render of LEP Pages for page count ***
+	echo ===============================================================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_lepExtract_point-pages.xml" "-xsl:%RenderPath%\CMM_XSL\rendeLep_CMM.xsl" "-o:TEMP\%%~na_lepRender_2.fo" "LEP_RENDER_FILE=file:///%WorkPath%/CMM_DRIVER/TEMP/%%~na_lepRender.xep"
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_lepRender_2.fo" -xep "TEMP\%%~na_lepRender_2.xep"
+
+	echo ======================
+	echo 14   *** XML to FO ***
+	echo ======================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_UPPER%%~xa" "-o:TEMP\%%~na.fo.orig" "-xsl:%RenderPath%\CMM_XSL\CMM.xsl" %params% "LEP_EXTRACT_FILE=file:///%WorkPath%/CMM_DRIVER/TEMP/%%~na_lepExtract_point-pages.xml" "LEP_RENDER_FILE=file:///%WorkPath%/CMM_DRIVER/TEMP/%%~na_lepRender_2.xep"
+	%omnimark% "TEMP\%%~na.fo.orig" -sb "%RenderPath%\omnimark\fix_line_break.xom" -of "TEMP\%%~na.fo" -log "TEMP\%%~na_fix_line_break-2nd-pass.err"
+	
+	
+	echo =================================
+	echo 14A   *** Strip fo:list-block ***
+	echo =================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na.fo" "-xsl:%RenderPath%\CMM_XSL\strip_list-blocks.xsl" "-o:TEMP\%%~na_stripped_list-block.fo"
+
+	echo ======================
+	echo 15   *** FO to XEP ***
+	echo ======================
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_stripped_list-block.fo" -xep "TEMP\%%~na.xep"
+
+	echo ==================================
+	echo 16   *** XEP to Re-ordered XEP ***
+	echo ==================================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na.xep" "-o:TEMP\%%~na_2.xep" "-xsl:%RenderPath%\CMM_XSL\reorderPages_CMM.xsl"
+
+	echo ============================
+	echo 17   *** Add Point Pages ***
+	echo ============================
+	%omnimark% "TEMP\%%~na_2.xep" -sb "%RenderPath%\omnimark\point_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_point-pages.xep" -log "TEMP\%%~na_point_pages.err"
+
+	echo ====================================
+	echo 18   *** Add Foldout Table Pages ***
+	echo ====================================
+	%omnimark% "TEMP\%%~na_2_point-pages.xep" -sb "%RenderPath%\omnimark\foldout_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_foldout-pages.xep" -log "TEMP\%%~na_foldout_pages.err"
+
+	echo ===============================
+	echo 19   *** Updating TOC Pages ***
+	echo ===============================
+	%omnimark% "TEMP\%%~na_2_foldout-pages.xep" -sb "%RenderPath%\omnimark\update_toc.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_updated-toc.xep" -log "TEMP\%%~na_update_toc.err"
+
+
+	echo ====================================
+	echo 19.5 *** Foldout page footer fix ***
+	echo ====================================
+	%omnimark% "TEMP\%%~na_2_updated-toc.xep" -sb "%RenderPath%\omnimark\foldout_page_footer_fix.xom" -of "TEMP\%%~na_2_updated-toc-FINAL.xep" -log "TEMP\%%~na_foldout_page_footer_fix.err"
+
+	echo =====================================
+	echo 20   *** Oversize Image Detection ***
+	echo =====================================
+	%omnimark% "TEMP\%%~na_2_updated-toc-FINAL.xep" -sb "%RenderPath%\omnimark\oversize-image-check.xom" -of "TEMP\%%~na.junk" -d GsLogFileName "TEMP\oversize-image-check.log" -log "TEMP\%%~na_oversize_image_check.err"
+
+	echo ==================================
+	echo 21   *** Render XEP to PDF ***
+	echo ==================================
+	rem %java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -xep "TEMP\%%~na_2_updated-toc.xep" -pdf "PDF_OUTPUT\%%~na.pdf"
+	%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -xep "TEMP\%%~na_2_updated-toc-FINAL.xep" -pdf "PDF_OUTPUT\%%~na.pdf"
+
+
+echo ==================
+echo Date: %DATE%
+echo Time: %TIME%
+echo ==================
+
+echo ==================
+echo *** End Render ***
+echo ==================
+
+	rem *** Save document specific log files ***
+	copy "TEMP\oversize-image-check.log" "PDF_OUTPUT\%%~na-oversize-image-check.log"
+	copy "TEMP\run.log" "PDF_OUTPUT\%%~na-run.log"
+
+)

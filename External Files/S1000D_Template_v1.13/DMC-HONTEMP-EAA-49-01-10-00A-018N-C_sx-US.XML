@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!NOTATION tif SYSTEM "tiff">
+]>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="N" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>INTRODUCTION</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>General</title>
+<levelledPara><para>The abbreviations are used in agreement with ASME
+Y14.38.</para>
+</levelledPara>
+<levelledPara><para>Acronyms and non-standard abbreviations used in
+this publication are as follows:</para>
+<table frame="topbot"><tgroup cols="2"><colspec colname="col1"
+colsep="0" colwidth="2.03in"/><colspec colname="col2" colwidth="4.83in"/>
+<thead><row rowsep="0">
+<entry align="center" nameend="col2" namest="col1" rowsep="1">
+<?PubTbl cell border-top-style="none"?>
+<para>List of Acronyms and Abbreviations</para>
+</entry>
+</row><row rowsep="0">
+<entry rowsep="1">
+<para>Term</para>
+</entry>
+<entry rowsep="1">
+<para>Full Term</para>
+</entry>
+</row></thead><tbody><row rowsep="0">
+<entry>
+<para>ANSI</para>
+</entry>
+<entry>
+<para>American National Standards Institute</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>APU </para>
+</entry>
+<entry>
+<para>auxiliary power unit</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>APUC</para>
+</entry>
+<entry>
+<para>auxiliary power unit controller</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>ARINC</para>
+</entry>
+<entry>
+<para>Aeronautical Radio, Incorporated</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>ASME</para>
+</entry>
+<entry>
+<para>American Society of Mechanical Engineers</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>ATA</para>
+</entry>
+<entry>
+<para>Air Transport Association</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>ATE </para>
+</entry>
+<entry>
+<para>automated test equipment</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>ATLAS</para>
+</entry>
+<entry>
+<para>abbreviated test language for all systems</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>AWG</para>
+</entry>
+<entry>
+<para>American Wire Gage</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>CAGE</para>
+</entry>
+<entry>
+<para>commercial and government entity</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>CMM </para>
+</entry>
+<entry>
+<para>component maintenance manual</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>CRES </para>
+</entry>
+<entry>
+<para>corrosion resistant steel</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>CSD </para>
+</entry>
+<entry>
+<para>cargo smoke detector</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>DPL </para>
+</entry>
+<entry>
+<para>detailed parts list</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>ECU </para>
+</entry>
+<entry>
+<para>electronic control unit</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>EDI </para>
+</entry>
+<entry>
+<para>equipment designator index</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>ESDS </para>
+</entry>
+<entry>
+<para>electrostatic discharge sensitive</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>FAA </para>
+</entry>
+<entry>
+<para>Federal Aviation Administration</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>GPO </para>
+</entry>
+<entry>
+<para>Government Printing Office</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>IEC </para>
+</entry>
+<entry>
+<para>International Electrotechnical Commission</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>IEEE </para>
+</entry>
+<entry>
+<para>Institute of Electrical and Electronics Engineers</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>IPC </para>
+</entry>
+<entry>
+<para>illustrated parts catalog</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>IPL</para>
+</entry>
+<entry>
+<para>illustrated parts list</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>LRU</para>
+</entry>
+<entry>
+<para>line replaceable unit</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>MFG </para>
+</entry>
+<entry>
+<para>manufacturer</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>MTOSS</para>
+</entry>
+<entry>
+<para>maintenance task oriented support system</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>NHA </para>
+</entry>
+<entry>
+<para>next higher assembly</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>NI </para>
+</entry>
+<entry>
+<para>numerical index</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>No. </para>
+</entry>
+<entry>
+<para>number</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>OHM</para>
+</entry>
+<entry>
+<para>overhaul manual</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>OMM</para>
+</entry>
+<entry>
+<para>overhaul maintenance manual</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>OPR</para>
+</entry>
+<entry>
+<para>operation</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>OPS</para>
+</entry>
+<entry>
+<para>operational program software</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>PN</para>
+</entry>
+<entry>
+<para>part number</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>Pub.</para>
+</entry>
+<entry>
+<para>publication</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>SB</para>
+</entry>
+<entry>
+<para>service bulletin</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>SI</para>
+</entry>
+<entry>
+<para>International System of Units</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>SPM</para>
+</entry>
+<entry>
+<para>standard practices manual</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>SRU</para>
+</entry>
+<entry>
+<para>shop replaceable unit</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>TPOS</para>
+</entry>
+<entry>
+<para>test programs and operational software</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>TR</para>
+</entry>
+<entry>
+<para>temporary revision</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>TSDP</para>
+</entry>
+<entry>
+<para>technical support and data package</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>U.S.A.</para>
+</entry>
+<entry>
+<para>United States of America</para>
+</entry>
+</row><row rowsep="0">
+<entry>
+<para>USMS</para>
+</entry>
+<entry>
+<para>United States Measurement System</para>
+</entry>
+</row><row>
+<entry>
+<?PubTbl cell border-bottom-style="solid"?>
+<para>UUT</para>
+</entry>
+<entry>
+<?PubTbl cell border-bottom-style="solid"?>
+<para>unit under test</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

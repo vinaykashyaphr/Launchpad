@@ -1,0 +1,100 @@
+process
+
+;Adds filenames* to gnbr attribute and strips doctype declarations from SVG files.
+; *Changes any file extension other than '.tif' or '.tiff' to '.svg'.
+
+submit #main-input
+
+global stream GsGraphicsDir initial {""}				;Set on command line!
+global stream GsGnbrFilename variable	;Keyed shelf for graphic filenames. Key is gnbr. Shelf item is filename.
+global switch GxDebug initial {false}	;<-- When true: used to make XML invalid so further XSL processing will stop.
+
+macro upto (arg string) is
+	((lookahead not string) any)*
+macro-end
+
+;### PROCESS ENTITY DECLARATIONS ###
+;	<!ENTITY TPE3589_03 SYSTEM "Graphics\TPE3589_03.cgm" NDATA cgm>
+;	<!ENTITY TPD9100_01 SYSTEM "Graphics\TPD9100_01.tif" NDATA ccitt4>
+find ('<!ENTITY' white-space+ [any-text except white-space]+=>ent 
+                 white-space+ 'SYSTEM' 
+                 white-space+ ['"%''] [any except '"%'']+=>path ['"%''] 
+                 white-space+ 'NDATA' 
+                 white-space+ (letter|digit)+ 
+                 white-space* '>')=>dec
+	local stream LsFilename initial {'unknown'}
+	local stream LsExtension initial {'.tif'}
+	put #error 'Analyzing entity dec: "%x(dec)"%n'
+	;## CAPTURE FILENAME AND EXTENSION (change extension to .svg if it's not .tif or .tiff)
+	repeat scan path
+		match [any except '\/']+=>node
+			do scan node
+				match ((any) upto ('.' (letter|digit){3 to 4}))=>filename ('.' (letter|digit){3 to 4})?=>extension ;<-- Needed to account for periods in the filename (that weren't part of the extension) and "tiff" as a file extension.
+					set LsFilename to filename
+					set LsExtension to extension when extension != ''
+			done
+		match any
+	again
+	set LsExtension to '.svg' when '%lg(LsExtension)' != ('.tif'|'.tiff')
+	do when GsGnbrFilename hasnt ^ ent
+		put #error '%tENT: "%x(ent)" PATH: "%x(path)" FILENAME: "%g(LsFilename)" NEW EXTENSION: "%g(LsExtension)"%n'
+		set new GsGnbrFilename ^ ent to LsFilename || LsExtension
+		;## STRIP DOCTYPE FROM SVG's (single line doctype: <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">)
+		do when LsExtension = '.svg'
+			do when file '%g(GsGraphicsDir)/%g(LsFilename)%g(LsExtension)' exists
+				local switch LxHasDoctype initial {false}
+				put #error '%tFound SVG file "%g(GsGraphicsDir)/%g(LsFilename)%g(LsExtension)".%n'
+				do scan file '%g(GsGraphicsDir)/%g(LsFilename)%g(LsExtension)'
+					match unanchored '<!DOCTYPE'
+						activate LxHasDoctype
+						put #error '%tSVG file "%g(GsGraphicsDir)/%g(LsFilename)%g(LsExtension)" has a doctype declaration.%n'
+				done
+				do when LxHasDoctype
+					local stream LsOrigSVG	;Capture original SVG in a stream.
+					local stream LsNewSVG	;Output new SVG directly to the original filename.
+					local switch LxStrippedDoctype initial {false}
+					set LsOrigSVG to file '%g(GsGraphicsDir)/%g(LsFilename)%g(LsExtension)'
+					open LsNewSVG as file '%g(GsGraphicsDir)/%g(LsFilename)%g(LsExtension)'
+						using output as LsNewSVG do
+							repeat scan LsOrigSVG
+								match '<!DOCTYPE' [any except '>']+ '>' '%n'*
+									activate LxStrippedDoctype
+								match any=>char
+									output char
+							again
+						done
+					close LsNewSVG
+					put #error '%tDoctype stripped.%n' when LxStrippedDoctype
+					put #error '%t[error] Could not strip doctype declaration.%n' when not LxStrippedDoctype
+				else
+					put #error '%tNo doctype found.%n'
+				done
+			else
+				put #error '%tCould not find SVG file "%g(GsGraphicsDir)/%g(LsFilename)%g(LsExtension)".%n'
+			done
+		done
+	else
+		output '<!-- Duplicate graphic entity declaration: %x(ent). -->%n'
+		put #error '%t[error] Duplicate graphic entity declaration: "%x(ent)".%n'
+	done
+	;## OUTPUT ORIGINAL ENTITY DECLARATION
+	output 'DEBUG IS ON%n' when GxDebug ;<-- used to make XML invalid so further XSL processing will stop.
+	output dec
+
+;### REPLACE GNBR ATTRIBUTES ###
+find white-space 'gnbr="' [any except '"']+=>gnbr '"'
+	output ' gnbr="'
+	do when GsGnbrFilename has ^ gnbr
+		output GsGnbrFilename ^ gnbr || '"'
+	else
+		output '%x(gnbr).tif"'
+	done
+
+find any=>char
+	output char
+	
+process-start
+	put #error 'Start time:%t' || date '=h:=m:=s%n'
+
+process-end
+	put #error 'End time:%t' || date '=h:=m:=s%n'

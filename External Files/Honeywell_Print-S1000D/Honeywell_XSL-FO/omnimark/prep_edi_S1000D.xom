@@ -1,0 +1,122 @@
+; S1000D EDI (Equipment Designator Index)
+; - inject wrappers into S1000D content to assist in adaptation of ATA Omnimark scripts used to generate EDI tables
+
+cross-translate
+
+global stream s-in-item initial {"NO"}
+global stream s-in-functionalItemRef initial {"NO"}
+
+macro ws is white-space macro-end
+
+
+; *******************************************************************************************************
+; Sonovision update (2019.04.16)
+; - S1000D: adding item wrappers around "rdi" sequences to make them easier to process when generating EDI tables
+
+; S1000D allows this to repeat without any wrapper between items
+; - must assume that same pattern always exists 
+;  (e.g. is "geoloc" ever not there?)
+;<genericPartData genericPartDataName="eqdes"><genericPartDataValue>C122H</genericPartDataValue></genericPartData>
+;<genericPartData genericPartDataName="rdi"><genericPartDataValue>C12</genericPartDataValue></genericPartData>
+;<genericPartData genericPartDataName="geoloc"><genericPartDataValue>2H</genericPartDataValue></genericPartData>
+
+
+find ("<genericPartData genericPartDataName=%"eqdes%">" ((lookahead not "</genericPartData>")any)* "</genericPartData>")=tag
+  ; Sometimes "geoloc" is missing, so must close an already open "eqdes" item
+  do when s-in-item is equal "YES"
+   output "%n<genericPartData genericPartDataName=%"geoloc%"><genericPartDataValue><S1000D_geoloc></S1000D_geoloc></genericPartDataValue></genericPartData>"
+   output "%n</S1000D_itemdata>%n"
+  done
+  output "<S1000D_itemdata>%n%x(tag)"
+  set s-in-item to "YES"
+
+
+find "<genericPartData genericPartDataName=%"rdi%">" ws* "<genericPartDataValue>" ((lookahead not "</genericPartDataValue>")any)*=val "</genericPartDataValue>" ws* "</genericPartData>"
+  ; Sometimes "eqdes" is missing, so must start a new item
+  do when s-in-item is equal "NO"
+   output "%n<S1000D_itemdata>%n"
+  done
+  set s-in-item to "YES"
+  output "<genericPartData genericPartDataName=%"rdi%"><genericPartDataValue><S1000D_rdi>%x(val)</S1000D_rdi></genericPartDataValue></genericPartData>"
+
+
+; (NOTE: @genericPartDataName="rd" are also considered to be "rdi")
+find "<genericPartData genericPartDataName=%"rd%">" ws* "<genericPartDataValue>" ((lookahead not "</genericPartDataValue>")any)*=val "</genericPartDataValue>" ws* "</genericPartData>"
+  ; Sometimes "eqdes" is missing, so must start a new item
+  do when s-in-item is equal "NO"
+   output "%n<S1000D_itemdata>%n"
+  done
+  set s-in-item to "YES"
+  output "<genericPartData genericPartDataName=%"rd%"><genericPartDataValue><S1000D_rdi>%x(val)</S1000D_rdi></genericPartDataValue></genericPartData>"
+
+
+;find ("<genericPartData genericPartDataName=%"geoloc%">" ((lookahead not "</genericPartData>")any)* "</genericPartData>")=tag
+;  output "%x(tag)%n</S1000D_itemdata>"
+
+
+find "<genericPartData genericPartDataName=%"geoloc%">" ws* "<genericPartDataValue>" ((lookahead not "</genericPartDataValue>")any)*=val "</genericPartDataValue>" ws* "</genericPartData>"
+  output "<genericPartData genericPartDataName=%"geoloc%"><genericPartDataValue><S1000D_geoloc>%x(val)</S1000D_geoloc></genericPartDataValue></genericPartData>"
+  	|| "%n</S1000D_itemdata>"
+  set s-in-item to "NO"
+
+
+find "</genericPartDataGroup>"=tag
+  ; Sometimes "geoloc" is missing, so must close an already open "eqdes" item
+  do when s-in-item is equal "YES"
+   output "%n<genericPartData genericPartDataName=%"geoloc%"><genericPartDataValue><S1000D_geoloc></S1000D_geoloc></genericPartDataValue></genericPartData>"
+   output "%n</S1000D_itemdata>%n"
+  done
+  output "%x(tag)"
+  set s-in-item to "NO"
+
+
+
+; *******************************************************************************************************
+; Must also account for alternate location for finding EDI content "functionalItemRef"
+
+;<referTo>
+;<functionalItemRef functionalItemNumber="C7" installationIdent="4B">
+;</functionalItemRef>
+;<functionalItemRef functionalItemNumber="C10" installationIdent="4B">
+;</functionalItemRef>
+;<functionalItemRef functionalItemNumber="C11" installationIdent="4C">
+;</functionalItemRef>
+;<functionalItemRef functionalItemNumber="C14" installationIdent="4C">
+;</functionalItemRef>
+;</referTo>
+
+; Sometimes <functionalItemRef functionalItemNumber="C14" installationIdent="4C"/>
+
+find "<functionalItemRef"=tag
+  ; Close preceding open tag
+  do when s-in-functionalItemRef is equal "YES"
+   output "</S1000D_itemdata>%n"
+  done
+  set s-in-functionalItemRef to "YES"
+  output "<S1000D_itemdata>%n%x(tag)"
+
+find "</functionalItemRef>"=tag
+  set s-in-functionalItemRef to "NO"
+  output "%x(tag)%n</S1000D_itemdata>"
+
+find "</referTo>"=tag
+  ; Close if there's still an open tag
+  do when s-in-functionalItemRef is equal "YES"
+   output "</S1000D_itemdata>%n"
+  done
+  set s-in-functionalItemRef to "NO"
+  output "%x(tag)"
+
+
+; *******************************************************************************************************
+; Suppress leading zero(s) in figure and item numbers
+; <catalogSeqNumber assyCode="19" figureNumber="02" indenture="2" item="050" itemVariant="A" subSubSystemCode="1" subSystemCode="6" systemCode="49" trimmedItem="50">
+
+; - creating a TEMP file only used for generating EDI tables, so can just remove all leading zero characters 
+;   without needing to worry about restoring
+find "=%""=attrib "0"+
+  output "%x(attrib)"
+
+
+
+

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- [*** CONFIGURATION FILE ***] -->
+
+<!-- S1000D "pmEntry" captions lookup file -->
+
+<!-- Revised from CMM version for EM -->
+
+<!-- Description of entry attributes:
+
+- type: the pmEntryType code
+- short: short prefix used for page number prefixes
+- prefix: long prefix; not currently used.
+- section: Section (type) title; used in the LEP for front-matter (and in the CMM LEP for other section titles)
+- startat: page number to start the section at, often using multiples of 1000 for ATA output, like "1001", "2001", etc.
+-->
+
+<captions>
+
+<!-- This is used for the fisrt section which occurs after the title page, usually title "Proprietary Information" -->
+<entry type="pmt77"
+       short="T"
+       prefix="First page continued"
+       section="First page continued"
+       startat="2"
+       />
+
+<!-- The pmt for the Table of Contents is not used for S1000D, since the ToC is added by the stylesheet. -->
+<entry type="pmt51"
+       short="TC"
+       prefix="Table of Contents"
+       section="Table of Contents"
+       startat="1"
+       />
+
+<entry type="pmt52"
+       short="TI"
+       prefix="Transmittal Information"
+       section="Transmittal Information"
+       startat="1"
+       />
+
+<entry type="pmt53"
+       short="RR"
+       prefix="Record of Revisions"
+       section="Record of Revisions"
+       startat="1"
+       />
+
+<entry type="pmt54"
+       short="RTR"
+       prefix="Record of Temporary Revisions"
+       section="Record of Temporary Revisions"
+       startat="1"
+       />
+
+<entry type="pmt55"
+       short="SBL"
+       prefix="Service Bulletin List"
+       section="Service Bulletin List"
+       startat="1"
+       />
+
+<!-- The LEP pmEntry was missing in some early samples, but should always be present in the PM. -->
+<entry type="pmt56"
+       short="LEP"
+       prefix="List of Effective Pages"
+       section="List of Effective Pages"
+       startat="1"
+       />
+
+<!-- This occurs sometimes before a ToC pmEntry to represent the List of Figures.
+It is currently ignored for LEP processing. -->
+<entry type="pmt57"
+       short="TC"
+       prefix="Diagrams and schematics"
+       section="Diagrams and schematics"
+       startat="1"
+       />
+
+<entry type="pmt58"
+       short="INTRO"
+       prefix="Introduction"
+       section="Introduction"
+       startat="1"
+       />
+
+<!-- The entries starting from pmt59 are from CMM, and represent the standard document body sections.
+For EM, we will use numbers from pmt80 for standard EM sections. These are left here for
+reference, but should not be used in EM. -->
+<entry type="pmt59"
+       short=""
+       prefix="Maintenance Planning"
+       section="Maintenance Planning"
+       startat="1"
+       />
+
+<entry type="pmt60"
+       short=""
+       prefix="Removal and Installation"
+       section="Removal and Installation"
+       startat="1001"
+       />
+
+<entry type="pmt61"
+       short=""
+       prefix="Task Sets"
+       section="Task Sets"
+       startat="2001"
+       />
+
+<entry type="pmt62"
+       short=""
+       prefix="Servicing"
+       section="Servicing"
+       startat="3001"
+       />
+
+<entry type="pmt63"
+       short=""
+       prefix="Examination, test, checks and fault isolation"
+       section="Examination, test, checks and fault isolation"
+       startat="4001"
+       />
+
+<entry type="pmt64"
+       short=""
+       prefix="Disconnect, remove and disassemble procedures"
+       section="Disconnect, remove and disassemble procedures"
+       startat="5001"
+       />
+
+<entry type="pmt65"
+       short=""
+       prefix="Repair instructions"
+       section="Repair instructions"
+       startat="6001"
+       />
+
+<entry type="pmt66"
+       short=""
+       prefix="Assemble, install and reconnect procedures"
+       section="Assemble, install and reconnect procedures"
+       startat="7001"
+       />
+
+<entry type="pmt67"
+       short=""
+       prefix="Storage procedures and data"
+       section="Storage procedures and data"
+       startat="8001"
+       />
+
+<entry type="pmt68"
+       short=""
+       prefix="Special procedures"
+       section="Special procedures"
+       startat="9001"
+       />
+
+<entry type="pmt69"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="11001"
+       />
+
+<entry type="pmt70"
+       short=""
+       prefix="IPD Introduction"
+       section="IPD Introduction"
+       startat="12001"
+       />
+
+<entry type="pmt71"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="13001"
+       />
+
+<entry type="pmt72"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="14001"
+       />
+<entry type="pmt73"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="15001"
+       />
+<entry type="pmt74"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="16001"
+       />
+<entry type="pmt75"
+       short=""
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       startat="10001"
+       />
+
+<entry type="pmt76"
+       short=""
+       prefix="Not specified"
+       section="Not specified"
+       startat="10001"
+       />
+
+<!-- EM body sections start here. -->
+<entry type="pmt80"
+       short=""
+       prefix="Description and Operation"
+       section="Description and Operation"
+       startat="1"
+       />
+<entry type="pmt81"
+       short=""
+       prefix="Fault Isolation"
+       section="Fault Isolation"
+       startat="1001"
+       />
+<entry type="pmt83"
+       short=""
+       prefix="Maintenance Practices"
+       section="Maintenance Practices"
+       startat="2001"
+       />
+<entry type="pmt84"
+       short=""
+       prefix="Servicing"
+       section="Servicing"
+       startat="3001"
+       />
+<entry type="pmt85"
+       short=""
+       prefix="Removal and Installation"
+       section="Removal and Installation"
+       startat="4001"
+       />
+<entry type="pmt86"
+       short=""
+       prefix="Adjustment and Test"
+       section="Adjustment and Test"
+       startat="5001"
+       />
+<entry type="pmt87"
+       short=""
+       prefix="Inspection and Check"
+       section="Inspection and Check"
+       startat="6001"
+       />
+<entry type="pmt88"
+       short=""
+       prefix="Cleaning and painting"
+       section="Cleaning and painting"
+       startat="7001"
+       />
+<entry type="pmt89"
+       short=""
+       prefix="Approved Repairs"
+       section="Approved Repairs"
+       startat="8001"
+       />
+<entry type="pmt90"
+       short="VCL"
+       prefix="Vendor Codes"
+       section="Vendor Codes"
+       startat="1"
+       />
+
+</captions>
+

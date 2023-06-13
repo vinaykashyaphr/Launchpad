@@ -1,0 +1,1017 @@
+;===========================================================================
+;
+; Copyright (C) 1998 - 2000, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  omtcp.xin - TCP Server/Client Access Functions
+;
+;  Version: 1.3
+;  Revised: 28 MAY 1998
+;
+;  Version: 1.5
+;  Revised: 20 APR 1999
+;  Revised: 15 JAN 1999
+;
+;  Version: 1.6
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;
+;  Version: 1.7
+;  Revised: 16 DEC 1999
+;  Change: added queue-size param to TCPServiceOpen
+;
+;  Version: 2.0
+;  Revised: 06 JAN 2000
+;  Change: added HttpService support
+;===========================================================================
+
+include-guard omtcp.xin
+include "omioprot.xin"
+declare function-library "omtcp"
+
+;===========================================================================
+
+declare opaque TCPSubSystem created by "TCPLibraryCreator"
+declare opaque TCPService created by "TCPServiceCreator"
+declare opaque TCPConnection created by "TCPConnectionCreator"
+
+;===========================================================================
+;
+; The global variable, "this-one-TCPSubSystem", is required to ensure
+; proper initialization and cleanup of the TCPLibrary.
+;
+global TCPSubSystem this-one-TCPSubSystem 
+;
+;===========================================================================
+
+
+;===========================================================================
+define external stream function TCPLibraryVersion
+as "TCPLibraryVersion"
+;===========================================================================
+;
+; returns the version string of the library. For example:
+;
+;    "OMTCP 1.5 Created by OmniMark Technologies Corporation, 1998"
+;
+
+
+;===========================================================================
+define external switch function TCPIsVersionCompatible
+as "TCPIsVersionCompatible"
+;===========================================================================
+;
+; Returns TRUE if the OMTCP library is compatible with this version
+; of OmniMark. It returns FALSE if this version of the library is designed 
+; for a newer version of OmniMark.
+;
+; Example:
+;
+; do unless TCPIsVersionCompatible
+;    put #error "OMTCP library is not compatible with this OmniMark"
+;    halt with 1
+; done
+
+
+;***************************************************************************;
+;******************************* TCPService ********************************;
+;***************************************************************************;
+
+
+;===========================================================================
+ define external TCPService function TCPServiceOpen
+    at value counter port-number optional
+    descriptor value counter ListenSocketDescriptor optional
+    queue-size value counter ListenQueueSize optional
+ as "TCPServiceOpen"
+ ;===========================================================================
+;
+; TCPServiceOpen is used by a server program to create a TCP service port
+; on which it will listen for incoming client-initiated service requests.
+; If TCPServiceOpen fails, it still returns a TCPService object.  This
+; failure object is in error and is closed. You must specify either the
+; port-number or the listen-socket-descriptor but not both:
+;
+; 1) If both arguments are given, TCPServiceOpen returns an error message.
+; 
+; 2) If neither argument is given, TCPServiceOpen chooses an available port
+;    number for you. In this case, TCPServiceGetPort can be used to 
+;    find out the chosen port.
+;
+; 3) If the port argument is given, TCPServiceOpen creates a listening
+;    socket descriptor at the specified port and returns a TCPService 
+;    object for accepting connections on it.
+;
+; 4) If the listen-socket-descriptor argument is given, TCPServiceOpen
+;    assumes it is a valid listening socket and returns a TCPService object 
+;    for accepting connections on it.
+; 
+; Example 1:
+;
+; local TCPService omdemo-service
+;
+; set omdemo-service to TCPServiceOpen at 5600
+;
+;
+; Example 2:
+;
+; local TCPService omdemo-service
+; local counter port
+;
+; set omdemo-service to TCPServiceOpen
+; set port to TCPServiceGetPort omdemo-service 
+; output "The selected service port for omdemo-service is %d(port)%n" 
+
+; Example 3:
+;
+; local TCPService omdemo-service
+; local counter ListenSocketFd
+;
+; set ListenSocketFd to Some_How_Get_Me_A_Listen_Socket_Descriptor_At_Port (6000)
+; set omdemo-service to TCPServiceOpen descriptor ListenSocketFd
+;
+
+
+;===========================================================================
+define external function TCPServiceClose
+   value TCPService this-TCPService
+as "TCPServiceClose"
+;===========================================================================
+;
+; TCPServiceClose is used by a server program to close down a TCP service
+; port. Once close, no more client connection requests can be accepted.
+; It is valid to TCPServiceClose a TCPService object that is already
+; closed, or which never was opened.  In both these cases, TCPServiceClose
+; does nothing.
+;
+; Note that allowing an OmniMark TCPService variable to go out of scope
+; (exiting a local scope for a local variable, or exiting the OmniMark
+; program for a global variable) has the effect of doing a TCPServiceClose
+; on the variable.  So long as TCPService variables are declared at a scope
+; level that corresponds to the lifetime of the service -- which is normally
+; good programming practice -- there is never any need to use TCPServiceClose.
+;
+; Example:
+;
+; TCPServiceClose omdemo-service
+;
+
+
+;===========================================================================
+define external TCPConnection function TCPServiceAcceptConnection
+   value TCPService this-TCPService
+as "TCPServiceAcceptConnection"
+;===========================================================================
+;
+; TCPServiceAcceptConnection is used by a server program to listen and accept
+; incoming client-initiated service requests.  
+; If TCPServiceAcceptConnection fails, it still returns a TCPConnection
+; object.  This failure object is in error and is closed.  If the passed
+; TCPService object is itself in error, or was never opened,
+; TCPServiceAcceptConnection simply fails.
+;
+; Example:
+;
+; local TCPService omdemo-service
+; local TCPConnection client
+;
+; set omdemo-service to TCPServiceOpen at 5600
+;
+; repeat
+;    set client to TCPServiceAcceptConnection omdemo-service
+;    ; process request
+; again
+;
+
+
+;===========================================================================
+define external counter function TCPServiceGetPort
+    value TCPService this-TCPService
+as "TCPServiceGetPort"
+;===========================================================================
+;
+; TCPServiceGetPort returns the service port number at which the TCPService object
+; listens for incomming connections. This API is particualry useful when you call
+; TCPServiceOpen without giving a port number. In this case, TCPServiceOpen
+; chooses an available port for you, and TCPServiceGetPort can be used to find out
+; about that chosen port.
+;
+; Example:
+;
+; local TCPService omdemo-service
+; local counter port
+;
+; set omdemo-service to TCPServiceOpen
+; set port to TCPServiceGetPort omdemo-service 
+; output "The selected service port for omdemo-service is %d(port)%n" 
+;
+;
+
+
+;===========================================================================
+define external switch function TCPServiceIsInError
+   value TCPService this-TCPService
+as "TCPServiceIsInError"
+;===========================================================================
+;
+; Errors in initiating or using a TCPService are recorded in the
+; TCPService itself, or in the TCPConnection objects derived from
+; it. TCPServiceIsInError returns TRUE if the TCPService object is in error,
+; returns FALSE otherwise.
+;
+; Example:
+;
+; do when TCPServiceIsInError omdemo-service
+;    local stream errorReport variable
+;
+;    TCPServiceGetStatusReport omdemo-service into errorReport
+;    output "TCP Service Error:%n"
+;    repeat over errorReport
+;       output errorReport || "%n"
+;    again
+; done
+;
+
+
+;===========================================================================
+define external function TCPServiceGetStatusReport
+        value TCPService this-TCPService
+   into modifiable stream report
+as "TCPServiceGetStatusReport"
+;===========================================================================
+;
+; Errors in initiating or using a TCPService are recorded in the
+; TCPService itself, or in the TCPConnection objects derived from
+; it. TCPServiceGetStatusReport is used to identify the error
+;
+; If the TCPService is in error, the "into" shelf is populated with one
+; or more strings, each an appropriate error message -- any previous shelf
+; contents are lost.  In most cases there will only be one.  If the
+; TCPService is not in error, the into shelf will be cleared.
+; 
+; Each error entry in the shelf consists of a symbolic (string) error code, 
+; followed by a single space, followed by text that describes or explains
+; the error in more detail. A list of symbolic constants along with their
+; meaning is show below:
+;
+;      ENETDOWN       : "Network subsystem failed"
+;      EMFILE         : "no file handles available"
+;      ENOBUFS        : "no buffer space available"
+;      ENOTSOCK       : "handle is not a socket"
+;      EADDRINUSE     : "address already in use"
+;      ENOTCONN       : "not connected"
+;      EADDRNOTAVAIL  : "address not available"
+;      EBIND          : "Failed to create service (listen) port
+;      EACCEPT        : "Failed to accept a new connection"
+;      EINTERNAL      : "Internal error"
+;
+; Example:
+;
+; local stream errorReport variable
+;
+; TCPServiceGetStatusReport omdemo-service into errorReport
+; output "TCP Service Error:%n" when number of errorReport = 0
+; repeat over errorReport
+;   output errorReport || "%n"
+; again
+;
+
+
+;===========================================================================
+define external switch function TCPServiceIsOpen
+               value TCPService this-TCPService
+as "TCPServiceIsOpen"
+;===========================================================================
+;
+; Sometimes it's useful to be able to simply ask whether a TCPService
+; is open, independent of whether it's just been declared, or is in error.
+; It is always valid to call this function. It returns TRUE if the TCPService
+; object is bound to a port and can accept connections. It returns FALSE, 
+; otherwise.
+;
+; Example:
+;
+; do when ! TCPServiceIsOpen omdemo-service
+;    output "not open%n"
+; done
+;
+
+
+
+;***************************************************************************;
+;****************************** TCPConnection ******************************;
+;***************************************************************************;
+
+
+;===========================================================================
+define external TCPConnection function TCPConnectionOpen
+                       on value stream host-name
+                      at value counter port-number
+                 timeout value counter timeout-in-milliseconds optional
+as "TCPConnectionOpen"
+;===========================================================================
+;
+; TCPConnection is used by a client program to establish a connection to
+; a server program that is running on a specific host machine and port.
+;
+; If TCPConnectionOpen fails, it still returns a TCPConnection
+; object.  This failure object is in error and is closed.
+; The timeout value, if specified, applies only to the wait for the
+; connection.  If timeout is exceeded, the connection fails.  If timeout
+; is not specified, TCPConnectionOpen "blocks" until a connection is
+; made or some other cause of failure is encountered.
+;
+; Example:
+;
+; local TCPConnection client
+;
+; set client to TCPConnectionOpen on "123.123.123.45" at 5600
+;
+
+
+;===========================================================================
+define external function TCPConnectionClose
+     value TCPConnection this-TCPconnection
+as "TCPConnectionClose"
+;===========================================================================
+;
+; TCPConnectionClose is used by a client program to close down a TCP 
+; connection.
+;
+; It is valid to TCPConnectionClose a TCPConnection object that is already
+; closed, or which never was connected.  In both these cases,
+; TCPConnectionClose does nothing.
+;
+; Once a TCPConnection has been closed by TCPConnectionClose, then any
+; read or write operation on an external source or output derived from
+; it is in error.
+;
+; Note that it is generally poor programming practice to use
+; TCPConnectionClose.  The following points explain why this is so:
+;
+;  1. Allowing an OmniMark TCPConnection variable to go out of scope (exiting
+;     a local scope for a local variable, or exiting the OmniMark program
+;     for a global variable), in the absence of other references to the
+;     TCPConnection, has the effect of doing a TCPConnectionClose on the
+;     variable.  So long as TCPConnection variables are declared at a scope
+;     level that corresponds to the lifetime of the connection -- which is
+;     normally good programming practice -- there is never any need to use
+;     TCPConnectionClose.
+;  2. If global external sources and/or outputs have been derived from a local
+;     TCPConnection variable, they constitute references to the TCPConnection,
+;     so that local TCPConnection variable's going out of scope does not by
+;     itself cause a TCPConnectionClose.  It is only when all of these
+;     external outputs and sources themselves are discarded -- generally
+;     by their going out of scope -- that the connection to which they are
+;     attached is finally closed.
+;  3. It is good programming practice to have the scope of external sources
+;     and outputs derived from a TCPConnection be no more global than that
+;     of the TCPConnection.  If this is done, then the programmer doesn't
+;     have to worry about the effect of the derived sources and outputs on
+;     the lifetime of the connection.
+;
+; Example:
+;
+; local TCPConnection client
+;
+; set client to TCPConnectionOpen on "123.123.123.45" at 5600
+; ; do something with the connection
+; ; communicate with server
+; TCPConnectionClose client
+;
+
+
+;===========================================================================
+define external switch function TCPConnectionIsInError
+               value TCPConnection this-TCPConnection
+as "TCPConnectionIsInError"
+;===========================================================================
+;
+; Errors in initiating or using a TCPConnection are recorded in the
+; TCPConnection itself. TCPConnectionIsInError returns TRUE if the 
+; TCPConnection object is in error, returns FALSE otherwise.
+;
+; Example:
+;
+; local TCPConnection client
+;
+; set client to TCPConnectionOpen on "123.123.123.45" at 5600
+; do when TCPConnectionIsInError client
+;    local stream errorReport variable
+;
+;    TCPConnectionGetStatusReport client into errorReport
+;    output "TCP Connection Error:%n"
+;    repeat over errorReport
+;       output errorReport || "%n"
+;    again
+; done
+;
+
+
+;===========================================================================
+define external function TCPConnectionGetStatusReport
+        value TCPConnection this-TCPConnection
+  into modifiable stream report
+as "TCPConnectionGetStatusReport"
+;===========================================================================
+;
+; If the TCPConnection is in error, the into shelf is populated with one
+; or more strings, each an appropriate error message -- any previous shelf
+; contents are lost.  In most cases there will only be one.  If the
+; TCPConnection is not in error, the into shelf will be cleared.
+; Errors in initiating or using a TCPConnection are recorded in the
+; TCPConnection itself.  TCPConnectionGetStatusReport is used to identify
+; the error
+;
+; Each error entry in the shelf consists of a symbolic (string) error code, 
+; followed by a single space, followed by text that describes or explains
+; the error in more detail. A list of symbolic constants along with their
+; meaning is show below:
+;
+;      ENETDOWN       : "Network subsystem failed"
+;      EMFILE         : "no file handles available"
+;      ENOBUFS        : "no buffer space available"
+;      ENOTSOCK       : "handle is not a socket"
+;      ENOTCONN       : "not connected"
+;      EADDRNOTAVAIL  : "address not available"
+;      ECONNABORTED   : "connection aborted"
+;      ECONNRESET     : "connection reset"
+;      ETIMEDOUT      : "connection timed out"
+;      ECONNREFUSED   : "connection refused"
+;      EREAD          : "Failed to read from connection"
+;      EWRITE         : "Failed to write to connection"
+;      EHOSTDOWN      : "host down"
+;      EHOSTUNREACH   : "host unreachable"
+;      HOST_NOT_FOUND : "Authoritive: Host not found"
+;      TRY_AGAIN      : "Non-authoritive: host not found or server failure"
+;      NO_RECOVERY    : "Non-recoverable: refused or not implemented"
+;      EINTERNAL      : "Internal error"
+;
+; Example:
+;
+; local TCPConnection client
+;
+; set client to TCPConnectionOpen on "123.123.123.45" at 5600
+; do when TCPConnectionIsInError client
+;    local stream errorReport variable
+;
+;    TCPConnectionGetStatusReport client into errorReport
+;    output "TCP Connection Error:%n"
+;    repeat over errorReport
+;       output errorReport || "%n"
+;    again
+; done
+;
+
+
+;===========================================================================
+define external switch function TCPConnectionIsConnected
+            value TCPConnection this-TCPConnection
+as "TCPConnectionIsConnected"
+;===========================================================================
+;
+; Sometimes it's useful to be able to simply ask whether a TCPConnection
+; is open, independent of whether it's just been declared, or is in error.
+; It is always valid to call this function. It returns TRUE if the TCPConnection
+; object is connected to peer. It returns FALSE, otherwise.
+;
+; Example:
+;
+; local TCPConnection client
+;
+; set client to TCPConnectionOpen on "osarus" at 5902
+; repeat
+;    exit when ! TCPConnectionIsConnected client
+;
+;    ; process ...
+;    ;
+; again
+;
+
+
+;===========================================================================
+define external function TCPConnectionSetBuffering
+              value TCPConnection this-TCPConnection
+      enabled value switch IsBuffered optional initial {TRUE}
+      size    value counter BufferSize optional
+as "TCPConnectionSetBuffering"
+;===========================================================================
+;
+; By default, a TCPConnection object buffers its output when writing to it 
+; through a derived external output object (sink). TCPConnectionSetBuffering
+; can be used to disable buffering altogether, or to change the internal buffer
+; size. Buffering is a property of the TCPConnection object and not the
+; external output objects (sinks) derived from it. Buffering is done
+; only when writing to the TCPConnection object through an external output 
+; object. The TCPConnection buffer is flushed when any derived external output
+; object is closed. Writing to the TCPConnection object using TCPConnectionPut
+; is never buffered.
+;
+; Examples:
+;
+;   to enable buffering with default buffer size:
+;   TCPConnectionSetBuffering this-TCPConnection enabled TRUE
+;
+;   to disable buffering:
+;   TCPConnectionSetBuffering this-TCPConnection enabled FALSE
+;
+;   to enable buffering with 1024 bytes buffer size:
+;   TCPConnectionSetBuffering this-TCPConnection size 1024
+;
+
+
+;===========================================================================
+define external stream function TCPConnectionGetPeerName
+            value TCPConnection this-TCPConnection
+as "TCPConnectionGetPeerName"
+;===========================================================================
+; 
+; TCPConnectionGetPeerName Returns the official name of the peer host on 
+; the other side of the connection. If TCPConnectionGetPeerName failes to 
+; get the official name, it returns its IP address.
+;
+; If the passed TCPConnection object is closed or was never connected, then
+; this function returns a distinct value that doesn't look like a valid
+; peer name, and causes the TCPConnection object to be in error.
+; If no peer name is available, but the connection is legitimate, this
+; function returns the peer's IP address. The IP is returned in doted decimal
+; format, i.e. "127.0.0.1".
+;
+; Example:
+;
+; local TCPService omdemo-service
+; local TCPConnection client
+;
+; set omdemo-service to TCPServiceOpen at 5600
+;
+; repeat
+;    set client to TCPServiceAcceptConnection omdemo-service
+;    output "Request from " || "g" % TCPConnectionGetPeerName client || "%n"
+;    ; process request
+; again
+;
+
+
+;===========================================================================
+define external stream function TCPConnectionGetPeerIP
+            value TCPConnection this-TCPConnection
+as "TCPConnectionGetPeerIP"
+;===========================================================================
+;
+; TCPConnectionGetPeerIP Returns the IP address of the peer host on 
+; the other side of the connection. The IP is returned in doted decimal
+; format, i.e. "127.0.0.1".
+;
+; If the passed TCPConnection object is closed or was never connected, then
+; this function returns a distinct value that doesn't look like a valid
+; peer name, and causes the TCPConnection object to be in error.
+;
+; Example:
+;
+; local TCPService omdemo-service
+; local TCPConnection client
+;
+; set omdemo-service to TCPServiceOpen at 5600
+;
+; repeat
+;    set client to TCPServiceAcceptConnection omdemo-service
+;    output "Request from " || "g" % TCPConnectionGetPeerIP client || "%n"
+;    ; process request
+; again
+;
+
+
+;===========================================================================
+define external output function TCPConnectionGetOutput
+              value TCPConnection this-TCPConnection
+      timeout value counter timeout-in-milliseconds optional
+     protocol value IOProtocol this-IOProtocol optional
+as "TCPConnectionGetOutput"
+;===========================================================================
+;
+; If the passed TCPConnection object is closed or was never connected, then
+; this function returns a dummy external output object that swallows anything
+; written to it.  At the same time it sets the TCPConnection object to be
+; in error.
+;
+; The timeout value applies primarily to data written to the returned
+; external output.  In the case of TCPConnectionGetOutput, the timeout
+; value applies to individual write operations.
+;
+; TCPConnectGetOutput can be called once or serially more than once 
+; for a connection. That is, only one external output from a connection can
+; be derived (active) at a time. The current external output must be closed
+; before you can do another TCPConnectGetOutput. All such derived streams write 
+; to the same output stream attachment, but may each have their own 
+; transformation logic and buffering. 
+;
+; If a TCPConnection from which an external output is derived is closed,
+; using TCPConnectionClose, then it is in error to perform a subsequent
+; write to the output -- the TCPConnection object is made to be in error,
+; and any data written (after that) is discarded.
+;
+; The external output created by TCPConnectionGetOutput has a name.
+; This name is the same value as that returned by TCPGetPeerName for
+; the same TCPConnection -- that is, the peer name if available, or
+; its IP address if not.
+;
+; In general, for this function and those following, if the time between
+; reading or writing two characters never exceeds the timeout value, no
+; timeout exception occurs.  If a timeout exception does occur, the
+; operation involved returns (returns end-of-input for a source or read,
+; or discards the output text for an output or put) and sets the
+; TCPConnection to be in error.  If a timeout value is not specified,
+; reads and writes "block" until data is read or written, or until some
+; other process indicates that an error has occurred.
+;
+; Example:
+;
+; local TCPConnection TCP-Conn
+; local stream s
+;
+; set TCP-Conn to TCPConnectionOpen on "localhost" at 5300
+; TCPConnectionSetBuffering TCP-Conn enabled False
+; 
+; open s with binary-mode as 
+;    TCPConnectionGetOutput TCP-Conn 
+;        protocol IOProtocolMultiPacket
+;
+; put s ("=" ||* 3048 || "%n") ||* 10
+; put s "hello world"
+; close s
+;
+; repeat
+;    exit when ! TCPConnectionIsConnected TCP-Conn
+;    output TCPConnectionGetCharacters TCP-Conn
+; again
+;
+
+
+;===========================================================================
+define external source function TCPConnectionGetSource
+              value TCPConnection this-TCPConnection
+      timeout value counter timeout-in-milliseconds optional
+     protocol value IOProtocol this-IOProtocol optional
+as "TCPConnectionGetSource"
+;===========================================================================
+;
+; If the passed TCPConnection object is closed or was never connected, then
+; this function returns a dummy external source object that immediately
+; returns "end of input".  At the same time it sets the TCPConnection object
+; to be in error.
+;
+; The timeout value applies primarily to data read from the returned
+; external source.
+;
+; TCPConnectionGetSource can be called more than once for a connection --
+; all such derived sources read from the same source attachment, but
+; it is in the nature of sources that they are subject to read-ahead,
+; and it is generally the case that a read from a source will actually
+; capture more data than is needed for immediate use.  This means that
+; if there are two or more sources derived from a connection, it is usually
+; the case that data read from one such source is not that which immediately
+; follows that read from another such.  As a consequence, only ONE external
+; source can be derived from a connection at a time. That is, sources must
+; be derived serially.
+;
+; If a TCPConnection from which an external source is derived is closed,
+; using TCPConnectionClose, then it is in error to perform a subsequent
+; read from the source -- the TCPConnection object is made to be in error,
+; and the source returns end-of-input, as for other errors.
+;
+; Example:
+;
+; local TCPConnection TCP-Conn
+; local stream s
+;
+; set TCP-Conn to TCPConnectionOpen on "localhost" at 5300
+; TCPConnectionSetBuffering TCP-Conn enabled False
+; 
+; open s with binary-mode as 
+;    TCPConnectionGetOutput TCP-Conn 
+;        protocol IOProtocolMultiPacket
+;
+; put s "hello world"
+; close s
+;
+; output TCPConnectionGetSource TCP-Conn 
+;           protocol IOProtocolMultiPacket
+;
+
+
+;===========================================================================
+define external function TCPConnectionSignalSourceEnd
+     value TCPConnection this-TCPConnection
+as "TCPConnectionSignalSourceEnd"
+;===========================================================================
+;
+; Once TCPConnectionSignalSourceEnd is performed on a TCPConnection from which 
+; an external source is derived, then a subsequent read from the source
+; returns end-of-input.
+;
+; TCPConnectionSignalSourceEnd does nothing if the TCPConnection object 
+; has no external source derived from it. Likewise, it does nothing if
+; the TCPConnection object is already SourceEnd-Signaled, closed, or which 
+; never was connected. 
+;
+; Example:
+;
+; global TCPConnection TCP-Conn
+;
+; find "</html>"
+;   TCPConnectionSignalSourceEnd TCP-Conn
+;
+; find any-text => x
+;   output "%x(x)"
+;
+; process
+;    set TCP-Conn to TCPConnectionOpen on "localhost" at 5300
+;    submit TCPConnectionGetSource TCP-Conn
+;
+
+
+;===========================================================================
+define external function TCPConnectionPut
+     value TCPConnection this-TCPConnection
+       from value stream characters-to-be-put
+   timeout value counter timeout-in-milliseconds optional
+as "TCPConnectionPut"
+;===========================================================================
+;
+; If the passed TCPConnection object is closed or was never connected, then
+; this function ignores the 'characters-to-be-put'.  At the same time it
+; sets the TCPConnection object to be in error.
+;
+; TCPConnectionPut can be formulated in terms of TCPConnectionGetOutput
+; as follows:
+;   define function TCPConnectionPut
+;             value TCPConnection this-TCPConnection
+;        from value stream characters-to-be-put
+;      timeout value counter timeout-in-milliseconds optional
+;   as
+;      do when timeout-in-milliseconds is specified
+;         set TCPConnectionGetOutput this-TCPConnection
+;                            timeout timeout-in-milliseconds
+;             to characters-to-be-put
+;      else
+;         set TCPConnectionGetOutput this-TCPConnection
+;             to characters-to-be-put
+;      done
+;
+;
+; As a consequence, the difficulties inherent with multiple derived outputs
+; apply to uses of TCPConnectionPut also. That is, only one external output
+; from a connection can be derived (active) at a time. The current external
+; output must be closed before you can issue a TCPConnectionPut.
+;
+; Note that sequential uses of TCPConnectionPut in the absence of any use of
+; TCPConnectionGetOutput is allowed.
+;
+; Any attempt to do a TCPConnectionPut when the there is already
+; an active TCPConnectionGetOutput-derived output is not allowed and
+; will result in OmniMark External Function Exception.
+;
+; Any attempt to to a TCPConnectionPut when the associated TCPConnection has
+; been closed using TCPConnectionClose is in error, in the same manners as
+; for an external output derived from the TCPConnection.
+;
+; Example:
+;
+; local TCPConnection TCP-Conn
+;
+; set TCP-Conn to TCPConnectionOpen on "localhost" at 5300
+; 
+; TCPConnectionPut TCP-Conn from "hello world"
+; TCPConnectionPut TCP-Conn from ((("*" ||* 78) || "%n") ||* 40)
+;
+
+
+;===========================================================================
+define external stream function TCPConnectionGetCharacters
+            value TCPConnection this-TCPConnection
+             size value counter minimum-read-length optional
+      variable-to value counter maximum-read-length optional
+          timeout value counter timeout-in-milliseconds optional
+as "TCPConnectionGetCharacters"
+;===========================================================================
+;
+; There are four combinations of specifying the size and variable-to values,
+; as follows:
+;  1. If neither are specified, then TCPConnectionGetCharacters returns
+;     as many characters as it has available, so long as it has at least
+;     one character.  It will wait (only for as long as the timeout value if
+;     one is specified) for at least one character only if it has no
+;     characters to return.
+;  2. If only the size value is specified, then TCPConnectionGetCharacters
+;     reads and returns exactly minimum-read-length characters.  If a timeout
+;     value is also specified and is exceeded, it will return immediately with
+;     the (zero or more) characters it has available.  It will also set
+;     the TCPConnection to be in error.
+;  3. If only the variable-to value is specified, then
+;     TCPConnectionGetCharacters reads as many characters as it has
+;     available, as if neither size nor variable-to were specified, except
+;     that if it has more than maximum-read-length available, it will only
+;     return maximum-read-length, and will save any remaining characters
+;     for a subsequent read.
+;  4. If both the size and variable-to values are specified, then
+;     TCPConnectionGetCharacters reads at least minimum-read-length
+;     characters, but will return up to maximum-read-length characters
+;     if it has them available.  Like the size value only case, it can
+;     timeout in reading the first minimum-read-length characters, but
+;     will not do so once that many have been read.
+;     It is an error for the size value to be greater than the variable-to
+;     value.
+;
+; If the passed TCPConnection object is closed or was never connected, then
+; this function returns zero characters.  At the same time it sets the
+; TCPConnection object to be in error.  If an error is encountered during
+; reading, either zero characters or those alread read (if any) are returned,
+; as seems appropriate.  And, of course, the TCPConnection object is set
+; to be in error.
+;
+; Note that difficulties inherent in deriving multiple sources from a
+; connection apply equally to using TCPConnectionGetCharacters when a
+; TCPConnectionGetSource-derived source is also active.  Note, however,
+; that sequential uses of TCPConnectionGetCharacters are allowed.  It is
+; also guarranteed that a TCPConnectionGetCharacters will only ever read
+; the characters it returns from a source -- any following characters are
+; available to the next TCPConnectionGetSource, TCPConnectionGetCharacters,
+; or TCPConnectionGetLine. 
+;
+; Any attempt to do a TCPConnectionCharacters when the there is already
+; an active TCPConnectionGetSource-derived source is not allowed and
+; will result in OmniMark External Function Exception.
+;
+; Any attempt to to do a TCPConnectionCharacters when the associated
+; TCPConnection has been closed using TCPConnectionClose is in error, in the
+; same manners as for an external source derived from the TCPConnection.
+;
+; Example:
+;
+; local TCPConnection TCP-Conn
+;
+; set TCP-Conn to TCPConnectionOpen on "localhost" at 5300
+;
+; repeat
+;    exit when ! TCPConnectionIsConnected TCP-Conn
+;    output TCPConnectionGetCharacters TCP-Conn
+; again
+;
+
+
+;===========================================================================
+define external switch function TCPConnectionHasCharactersToRead
+            value TCPConnection this-TCPConnection
+          timeout value counter timeout-in-milliseconds optional
+as "TCPConnectionHasCharactersToRead"
+;===========================================================================
+; Example:
+;
+; local TCPConnection TCP-Conn
+;
+; set TCP-Conn to TCPConnectionOpen on "localhost" at 5300
+;
+; repeat
+;    exit unless TCPConnectionHasCharactersToRead TCP-Conn timeout 0
+;    output TCPConnectionGetCharacters TCP-Conn
+; again
+;
+
+
+
+;===========================================================================
+define external stream function TCPConnectionGetLine
+            value TCPConnection this-TCPConnection
+         multiline value switch read-to-double-line-end
+                                   optional initial {false}
+          timeout value counter timeout-in-milliseconds optional
+as "TCPConnectionGetLine"
+;===========================================================================
+;
+; TCPConnectionGetLine reads up to and including the next line-end
+; sequence ("%13#%10#", "%13#" or "%10#") or the next pair of line-end
+; sequences if the multiline value is true, and returns the read
+; characters.  The returned characters are "normalized" as follows:
+;  1. All line-end sequences are replaced by "%13#%10#".
+;  2. The trailing line-end sequence in the multiline case is removed,
+;     so that there is only one line-end sequence at the end.
+;
+; If a timeout value is specified and exceeded, either zero characters
+; are returned or only those available, as seems appropropriate.  And
+; the TCPConnection is set to be in error.
+;
+; Note that difficulties inherent in deriving multiple sources from a
+; connection apply equally to using TCPConnectionGetLine when a
+; TCPConnectionGetSource-derived source is also active.  Note, however,
+; that sequential uses of TCPConnectionGetLine are safe.  It is
+; also guarranteed that a TCPConnectionGetLine will only ever read
+; the characters it returns from a source -- any following characters are
+; available to the next TCPConnectionGetSource, TCPConnectionGetCharacters,
+; or TCPConnectionGetLine.
+;
+; Any attempt to do a TCPConnectionGetLine when the there is already
+; an active TCPConnectionGetSource-derived source is not allowed and
+; will result in OmniMark External Function Exception.
+;
+; Any attempt to to do a TCPConnectionLine when the associated
+; TCPConnection has been closed using TCPConnectionClose is in error, in the
+; same manners as for an external source derived from the TCPConnection.
+;
+; Example:
+;
+; local TCPConnection TCP-Conn
+;
+; set TCP-Conn to TCPConnectionOpen on "localhost" at 5300
+;
+; repeat
+;    exit when ! TCPConnectionIsConnected TCP-Conn
+;    output TCPConnectionGetLine TCP-Conn
+; again
+;
+
+
+;***************************************************************************;
+;*************************** TCPTraceConnection ****************************;
+;***************************************************************************;
+
+
+;===========================================================================
+define TCPConnection function TCPTraceConnectionOpen
+   on      value stream  host-name
+   at      value counter port-number
+   title   value stream  trace-title
+   timeout value counter timeout-in-milliseconds optional
+
+as
+;===========================================================================
+;
+; TCPTraceConnectionOpen opens a TCP network connection to a trace
+; server program running on the host specified by "host-name" at
+; the port specified by "port-number". It returns a TCPConnection
+; object that can be used to send trace messages. The "trace-title"
+; is a way to title (label) the trace connection. The trace server program
+; could, for example, use it as a title for a window that displays trace
+; messages sent through the related trace connection object.
+;
+; TCPTraceConnectionOpen appends "%13#%10#" to the user specified title.
+; The trace server considers the first line (text ending with "%13#%10#")
+; that is sent to it as the title. Therefore, "trace-title" should not contain
+; "%13#%10#".
+;
+; If TCPTraceConnectionOpen fails, it still returns a TCPConnection
+; object.  This failure object is in error and is closed.
+; The timeout value, if specified, applies only to the wait for the
+; connection.  If timeout is exceeded, the connection fails.  If timeout
+; is not specified, TCPTraceConnectionOpen "blocks" until a connection is
+; made or some other cause of failure is encountered.
+;
+;
+; Example:
+;
+; local TCPConnection tracer
+; local stream match-rule-trace
+;
+; open match-rule-trace as 
+;      TCPTraceConnectionOpen 
+;           on "monitor" 
+;           at 5730 
+;           title "Tracing match rules"
+;
+; put match-rule-trace "rule x fired%n"
+;
+
+
+local TCPConnection TCPTraceConnection
+
+do when timeout-in-milliseconds is specified
+   set TCPTraceConnection to TCPConnectionOpen
+                                on host-name
+                                at port-number
+                                timeout timeout-in-milliseconds
+else
+   set TCPTraceConnection to TCPConnectionOpen
+                                on host-name
+                                at port-number
+done
+
+TCPConnectionSetBuffering TCPTraceConnection enabled FALSE
+
+TCPConnectionPut TCPTraceConnection from (trace-title || "%13#%10#")
+   unless TCPConnectionIsInError TCPTraceConnection
+
+return TCPTraceConnection
+
+;end-as
+;
+;===========================================================================

@@ -1,0 +1,307 @@
+#======================================================================
+#        File: loaddita.acl
+#
+#     Content: This file contains routines for initializing the DITA
+# 			   application session.
+#      Author: Bangalore Team
+#     Created: 08/18/06
+#
+# (c) 2005-2009 Parametric Technology Corporation (PTC), Unpublished --
+# All Rights Reserved Under the Copyright Laws of the United States.
+#
+# NOTICE for Customers that are United States Governmental entities:
+# PTC Licensed Products are "commercial computer software" under the applicable
+# federal acquisition regulations. This Commercial Computer Software and
+# Documentation, pursuant to FAR 12.212(a)-(b) (OCT'95) or DFARS 227.7202-1(a)
+# and 227.7202-3(a) (JUN'95), is provided to the US Government under a limited
+# commercial license only. For procurements predating the above clauses, use,
+# duplication, or disclosure by the Government is subject to the restrictions set
+# forth in subparagraph (c)(1)(ii) of the Rights in Technical Data and Computer
+# Software Clause at DFARS 252.227-7013 (OCT'88) or Commercial Computer
+# Software-Restricted Rights at FAR 52.227-19(c)(1)-(2) (JUN'87), as applicable.
+# Contractor is Parametric Technology Corporation (PTC).
+#======================================================================
+
+package loaddita
+
+global _STRICT_ = 1;
+
+# autoloads and alias definitions for supporting packages
+
+# define items needed from this file:
+autoload dita::initializeDocument()					dita
+autoload dita::_enable_attribute_default_value_cb()	dita
+
+# define items that should be available for use outside of the DITA Application:
+
+autoload addadapters::addCMSAdapterName()			addadapters
+autoload addadapters::checkIfAdapterNameExists()	addadapters
+autoload addadapters::getBuiltInAdapterList()		addadapters
+
+# set up Dita Map Outline Mode based on user preference from .wcf
+autoload _ditamapoutline::ditamapoutlinemode() 		_ditamapoutline
+
+alias DitaMapOutline	_ditamapoutline::ditamapoutlinemode(-2)
+alias DMOToggle			_ditamapoutline::ditamapoutlinemode()
+alias DMOOn				_ditamapoutline::ditamapoutlinemode(1,0)
+alias DMOOff			_ditamapoutline::ditamapoutlinemode(0)
+alias DMOGTOn			_ditamapoutline::ditamapoutlinemode(1,1)
+
+autoload dita::enableSwitchAuthorInsert()			dita
+autoload dita::keyName_valid()						dita
+autoload dita::keyref_valid()						dita
+autoload dita::openRef								dita
+autoload dita::openRefValid()						dita
+autoload dita::table_column()						dita
+autoload dita::table_column_action()				dita
+
+autoload dita::oid_effective_attr()					dita
+autoload dita::oid_effective_attrs()				dita
+autoload dita::oid_effective_default_attrs()		dita
+
+autoload dita::associate_related_rd_doctype_files() dita
+
+alias DITATableInsertColumn				dita::table_column_action(1)
+alias DITATableInsertColumnRight		dita::table_column_action(2)
+alias DITATableDeleteColumn				dita::table_column_action(3)
+alias DITATableSelectColumn				dita::table_column_action(4)
+alias DITATableModifyAttributesColumn	dita::table_column_action(5)
+alias DITATableModifyAttributesElement	dita::table_column_action(6)
+
+autoload dita::displayKeysForTarget()				dita
+alias displayKeysForTarget {
+	dita::displayKeysForTarget()
+}
+
+autoload dita::keyInfoActive()						dita
+
+autoload dita::displayKeyrefInfo()					dita
+alias displayKeyrefInfo {
+	dita::displayKeyrefInfo()
+}
+autoload dita::flushKeyContext()					dita
+alias flushKeyContext {
+	dita::flushKeyContext();
+}
+
+alias flushAllKeyContexts {
+	dita::flushKeyContext(-2);
+}
+
+autoload dita::keyrefResolveHook()					dita;
+
+autoload dita::displayResolvedDocument()			dita
+alias ResolveDocument					dita::displayResolvedDocument()
+
+autoload dita::select_previewtext()					dita
+
+autoload dita::showRelationshipDlg()				dita
+alias showRelationshipDlg				dita::showRelationshipDlg()
+
+autoload dita::showTopicrefDlg()					dita
+alias ShowTopicrefDlg					dita::showTopicrefDlg()
+
+autoload dita::showConrefDlg()						dita
+alias ShowConrefDlg						dita::showConrefDlg()
+
+autoload dita::showNewTopicDlg()					dita
+alias ShowNewTopicDlg					dita::showNewTopicDlg()
+
+autoload dita::showImageDlg()						dita
+alias ShowImageDlg						dita::showImageDlg()
+
+autoload dita::showLinkOrXrefDlg()					dita
+alias ShowLinkOrXrefDlg					dita::showLinkOrXrefDlg()
+
+autoload dita::showRelationshipDlg()				dita
+alias showRelationshipDlg				dita::showRelationshipDlg()
+
+autoload dita::openHrefOrConref()					dita
+alias EditTopic			dita::openHrefOrConref(oid_current_tag(0,2), 1)
+
+autoload dita::_openDoc								dita
+
+autoload dita::_enable_attribute_default_value_cb 	dita
+alias DITAAttributeDefaultValueCBOn 	dita::_enable_attribute_default_value_cb(0, 1)
+alias DITAAttributeDefaultValueCBOff 	dita::_enable_attribute_default_value_cb(0, 0)
+
+autoload dita_move::promoteTopicrefElement()		dita_move
+alias PromoteTopicrefElement			dita_move::promoteTopicrefElement()
+
+autoload dita_move::demoteTopicrefElement()			dita_move
+alias DemoteTopicrefElement				dita_move::demoteTopicrefElement()
+
+autoload dita_move::moveUpElement()					dita_move
+alias MoveUpElement						dita_move::moveUpElement()
+
+autoload dita_move::moveDownElement()				dita_move
+alias MoveDownElement					dita_move::moveDownElement()
+
+autoload rdstyle::enableEditing()					rdstyle
+alias EnableRDSEditing					rdstyle::enableEditing()
+
+autoload validateDITASpecialization		validateDitaSpecializations
+autoload getDITARefDocTypeAndValidate	validateDitaSpecializations
+
+# Aliases for the resource manager pop-up menu
+autoload _ditarm::openDoc() _ditarm;
+autoload _ditarm::adapter_state_hook() _ditarm;
+autoload _ditarm::doIGAction() _ditarm;
+autoload _ditarm::cms_search() _ditarm;
+autoload _ditarm::clear_cms_results() _ditarm;
+autoload _ditarm::check_out_and_edit() _ditarm;
+autoload _ditarm::check_out() _ditarm;
+autoload _ditarm::cancel_check_out() _ditarm;
+autoload _ditarm::show_cms_properties() _ditarm;
+autoload _ditarm::toggleAutoSyncLookIn() _ditarm;
+autoload _ditarm::clear_history() _ditarm;
+autoload _ditarm::do_insert_tag() _ditarm;
+autoload _ditarm::cur_dlg_is_modal() _ditarm;
+autoload main::dita_show_rm_tab() _ditarm;
+autoload main::dita_doc_show_rm_tab() _ditarm;
+autoload main::dita_reset_rm_state() _ditarm;
+autoload _ditarm::is_favorite() _ditarm;
+autoload _ditarm::can_add_to_favorites() _ditarm;
+autoload _ditarm::add_to_favorites() _ditarm;
+autoload _ditarm::remove_from_favorites() _ditarm;
+autoload _ditarm::can_move_favorite_up() _ditarm;
+autoload _ditarm::can_move_favorite_down() _ditarm;
+autoload _ditarm::move_favorite_up() _ditarm;
+autoload _ditarm::move_favorite_down() _ditarm;
+autoload _ditarm::export_favorites() _ditarm;
+autoload _ditarm::import_favorites() _ditarm;
+autoload _ditarm::is_favorites_container() _ditarm;
+autoload _ditarm::has_favorites() _ditarm;
+autoload main::dita_rm_import_favorites() _ditarm;
+autoload main::dita_rm_export_favorites() _ditarm;
+autoload _ditarm::is_read_only() _ditarm;
+autoload _ditarm::toggle_primary_rm() _ditarm;
+autoload _ditarm::doc_has_primary_rm() _ditarm;
+
+autoload rdstyle::_rd_ProfileHook() rdstyle;
+autoload _profile::add_profiledochook() _profile;
+
+alias ShowDitaRM            _ditarm::toggle_primary_rm();
+alias OpenDocFromDITARM     _ditarm::openDoc();
+alias DoDITAIGHighlightLink _ditarm::doIGAction(1)
+alias DoDITAIGAnimationLink _ditarm::doIGAction(2)
+alias DoDITAIGViewLink      _ditarm::doIGAction(4)
+alias DITARMSearchCMS       _ditarm::cms_search()
+alias DITARMCMSResultsClear _ditarm::clear_cms_results()
+alias CheckOutAndEditDocFromDITARM _ditarm::check_out_and_edit()
+alias CheckOutDocFromDITARM _ditarm::check_out();
+alias CancelCheckOutFromDITARM _ditarm::cancel_check_out()
+alias ViewCMSPropertiesFromDITARM _ditarm::show_cms_properties()
+alias ToggleRMLookInAutoSync _ditarm::toggleAutoSyncLookIn()
+alias ClearDITARMHistory _ditarm::clear_history()
+alias DITARMAddToFavorites _ditarm::add_to_favorites()
+alias DITARMRemoveFromFavorites _ditarm::remove_from_favorites()
+alias DITARMMoveFavoriteUp _ditarm::move_favorite_up()
+alias DITARMMoveFavoriteDown _ditarm::move_favorite_down()
+alias DITARMExportFavorites _ditarm::export_favorites()
+alias DITARMImportFavorites _ditarm::import_favorites();
+
+# Autoloads of the _ditaimgpreview.acl script
+autoload _ditaimgpreview::init() _ditaimgpreview;
+
+autoload dita::showKeyReport() dita;
+autoload dita::caret_has_keys() dita;
+alias DITAShowKeys dita::showKeyReport(oid_null());
+alias DITAShowSelectedKeys dita::showKeyReport(oid_current_tag(0,2))
+
+# DITAVAL autoloads and commands
+autoload main::ditaval_preview() ditaval;
+autoload ditaval::createDitavalFileForInstance() ditaval;
+autoload ditaval::editDitavalFileForInstance() ditaval;
+autoload ditaval::dlg_fn() ditaval;
+alias ApplyDitavalFile main::ditaval_preview()
+alias CreateDitavalFile ditaval::createDitavalFileForInstance()
+alias EditDitavalFile ditaval::editDitavalFileForInstance()
+
+# two callback functions to enable the attribute_default_value callback
+# for DITA documents, even if the documents are not loaded into a window
+
+function createDocCB(newdoc) {
+	if (doc_type_dita(newdoc)) {
+		dita::_enable_attribute_default_value_cb(newdoc, 1)
+	}
+	if (doc_is_dita_rdedit(newdoc) || doc_is_dita_rdstyle(newdoc)) {
+	   # Do not set stylesheet association here.
+	   # If this is done here, the view settings are not the
+	   # correct ones when the file is opened.
+		dita::associate_related_rd_doctype_files(newdoc, 0);
+	}
+}
+
+function cloneDocCB(origdoc, newdoc) {
+	if (doc_type_dita(newdoc)) {
+		dita::_enable_attribute_default_value_cb(newdoc, 1)
+	}
+}
+
+# Function is callback for the editfile hook.
+#
+# Parameters:
+#   code:
+#   code is an integer specifying detail about type of edit occurring
+#
+#   0 - The document is being displayed into a new
+#       or empty window.
+#   1 - The document is being reverted.
+#   2 - The document replaces another document in the current window
+#       (for example, from an edit command without the -newwindow
+#       option, or a doc_show call).
+#
+# Returns:
+#   void
+
+global initDocumentCalled;
+global initProfileHook;
+
+function \
+_editFileHook(code)
+{
+	# avoid calling into dita.acl until we really need to
+
+	local doc =  current_doc()
+
+	if ( !initProfileHook && ( doc_is_dita_rdstyle(doc) || doc_is_dita_rdedit(doc)) ) {
+		_profile::add_profiledochook("rdstyle::_rd_ProfileHook",1);
+		initProfileHook = 1;
+	}
+
+	# do the real work if we've already seen a DITA document or if
+	# this is a DITA document (a topic, map, specialization of topic
+	# or map, ditabase, or RDE)
+
+	if(initDocumentCalled || doc_type_dita(doc) > 0) {
+		initDocumentCalled = 1
+		dita::initializeDocument(code, doc)
+	}
+}
+
+# Initialize the DITA application.
+function \
+initializeSession()
+{
+	# see if the DITA application is configured
+	if(!get_custom_dir("com.arbortext.dita")){
+		return; # application not configured, so don't initialize
+	}
+
+	# setup editFilehook, the real initialization is done from the hook
+	add_hook('editfilehook', package_name().'::_editFileHook')
+
+    # add the adapter state hook for the RM.
+    add_hook('adapterstatehook', '_ditarm::adapter_state_hook');
+
+	# setup a create and a clone doc callback with doc=zero (all docs)
+	doc_add_callback(0, 'create', package_name().'::createDocCB')
+	doc_add_callback(0, 'clone', package_name().'::cloneDocCB')
+
+	# This hook resolves keyref or keyconref to a target
+	# Both in screen displays and in composition
+	add_hook("keyrefresolvehook", "dita::keyrefResolveHook")
+}
+
+initializeSession()

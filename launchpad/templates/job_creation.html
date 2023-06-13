@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block content %}
+<form class="form-inline" method="POST" action=""></form>
+	<div class="container">
+		<div class="center">
+			<h2>Create New Job</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+						<p>
+							Job Number: {{ job_no }}</br>
+						</p>
+						<p>
+							{{ form.project.label }}</br>
+							{{ form.project() }}
+							{% for error in form.project.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+						<p>
+							{{ form.ata_number.label }}</br>
+							<span class="note">Include any applicable dashes</span><br>
+							{{ form.ata_number() }}
+							{% for error in form.ata_number.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+						<p>
+							{{ form.d_number.label }}</br>
+							<span class="note">Leave blank if not applicable</span><br>
+							{{ form.d_number() }}
+						</p>
+						<p>
+							{{ form.type_of_publication.label }}</br>
+							{{ form.type_of_publication() }}
+							{% for error in form.type_of_publication.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+						<p>
+							{{ form.software.label }}</br>
+							{{ form.software() }}
+							{% for error in form.software.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+						<p>
+							{{ form.type_of_job.label }}</br>
+							{{ form.type_of_job() }}
+							{% for error in form.type_of_job.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+						<p>
+							{{ form.location_of_authoring.label }}</br>
+							{{ form.location_of_authoring() }}
+							{% for error in form.location_of_authoring.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+					<p>{{ form.submit(class="button_one") }}</p>
+				</p>
+			</form>	
+		</div>
+	</div>
+{% endblock %}

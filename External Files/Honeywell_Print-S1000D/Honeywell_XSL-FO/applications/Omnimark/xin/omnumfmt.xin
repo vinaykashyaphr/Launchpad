@@ -1,0 +1,846 @@
+;===========================================================================
+;
+; Copyright (C) 1999 - 2000, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;
+;  omnumfmt.xin - template-based numeric formatting library
+;
+;  Version: 1.01
+;  Revised: 2000-01-07
+;  Change:  Corrected warnings.
+;
+;  Version: 1.0
+;  Revised: 2000-01-07
+;  Change:  Initial release.
+;
+;===========================================================================
+;
+; EXPORTED SECTION
+;
+; THROWS
+;
+;   numfmt-error:
+;     numfmt-error cannot be caused by an error in end-user code.
+;     It indicates a logic error in the implementation of this include
+;     file or in OmniMark itself.
+;     These errors should always be reported immediately to OmniMark
+;     Technologies (together with code that can reproduce the error
+;     if at all possible).
+;                            
+;   numfmt-illegal-character: indicates illegal character in template
+;   numfmt-overflow:          indicates number does not fit in template
+;
+; FUNCTIONS
+;
+;   numfmt-parse
+;      Parses a template and builds a numfmt-info structure.
+;      If the template is invalid, it throws one of the following:
+;        numfmt-illegal-character
+;
+;      The numfmt-info contains values with the keys:
+;         magnitude  ; number of placeholders in front of alignment
+;         precision  ; number of placeholders after alignment
+;         extends
+;
+;   numfmt-format
+;      Formats a normalized string representation of a number according
+;      to the provided template.
+;        numfmt-overflow
+;      A normalized number matches the pattern: "-"? digit+ ("." digit+)?
+;
+; MACROS
+;   numfmt-pattern
+;      A pattern macro that matches a template. No validation of the
+;      contents is done.
+;
+;===========================================================================
+
+include-guard omnumfmt.xin
+
+;------------------------------------------------------------------------
+
+declare catch numfmt-error
+       value stream message
+;------------------------------------------------------------------------
+
+declare catch numfmt-illegal-character
+           value stream character
+       in  value stream template
+  because  value stream msg
+;------------------------------------------------------------------------
+
+declare catch numfmt-overflow
+            value stream num
+  overflows value stream template
+;------------------------------------------------------------------------
+
+declare catch numfmt-unimplemented
+       value stream message
+;------------------------------------------------------------------------
+
+macro numfmt-pattern is
+  ("<" numfmt-pattern-contents? ">")
+macro-end
+
+;------------------------------------------------------------------------
+
+define stream function numfmt-format
+       value     stream num
+  with read-only stream compiled-template
+elsewhere
+;------------------------------------------------------------------------
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; IMPLEMENTATION AREA:
+;;
+;;   Functions defined below this point are private. DO NOT USE outside
+;;   of this file. OmniMark Technologies reserves the right to remove
+;;   or significantly alter any function below without notice.
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+define switch function numfmt-pattern-contents
+elsewhere
+;------------------------------------------------------------------------
+
+define stream function numfmt-get-next-pad-non-z
+elsewhere
+;------------------------------------------------------------------------
+define stream function numfmt-normalize
+                 value stream template
+elsewhere
+;------------------------------------------------------------------------
+define switch function numfmt-pattern-increment
+              modifiable counter i
+elsewhere
+;------------------------------------------------------------------------
+define switch function numfmt-pattern-set
+              modifiable stream s
+           to value      stream v
+elsewhere
+;------------------------------------------------------------------------
+define function numfmt-output-float
+                 value stream insert
+  sign           value stream sign
+  replace        value stream sign-pad
+elsewhere
+;------------------------------------------------------------------------
+define function numfmt-output-formatted-value
+      sign     value stream  initial-sign   optional
+      overflow value stream  extension      optional
+      intpart  value stream  int
+      fracpart value stream  frac
+      start    value counter initial-index optional
+elsewhere
+;------------------------------------------------------------------------
+define function numfmt-output-grouping
+              value stream extension
+       spaced value stream spacer
+elsewhere
+;------------------------------------------------------------------------
+define function numfmt-parse
+                  value      stream  template
+            into  modifiable stream  numfmt-info
+elsewhere
+;------------------------------------------------------------------------
+define stream function numfmt-substring
+                 value stream  s
+  at             value counter first
+  to             value counter length optional initial {1}
+elsewhere
+;------------------------------------------------------------------------
+; implementations
+;------------------------------------------------------------------------
+macro numfmt-pattern-insert-sequence
+is
+  ("<" [any except ">"]+ ">")
+macro-end
+
+macro numfmt-pattern-spacer is            [",_ ."] macro-end
+macro numfmt-pattern-spacer-except-dot is [",_ "] macro-end
+macro numfmt-pattern-pad is               ["Z*BN"] macro-end
+macro numfmt-pattern-sign is              ["()-+"] macro-end
+macro numfmt-pattern-insert-character is
+  ["#$%%" | "%128#" to "%255#"]
+macro-end
+
+macro numfmt-pattern-insert
+is
+  ((numfmt-pattern-insert-character+ | numfmt-pattern-insert-sequence)+)
+macro-end
+
+;------------------------------------------------------------------------
+define stream function numfmt-format
+       value  stream   num
+  with read-only stream compiled-template
+as
+  local stream normalized-template
+  local stream ret
+
+  set normalized-template to numfmt-normalize compiled-template ^ "template"
+  open ret as buffer
+  using output as ret
+    do scan num
+      match "0" value-end
+        do scan compiled-template ^ "pad-int"
+             || "."
+             || compiled-template ^ "pad-frac"
+          match unanchored (numfmt-pattern-pad? "." numfmt-pattern-pad?)
+                            => decimal-pads
+            do scan decimal-pads
+              match "." value-end
+                using input as normalized-template
+                  numfmt-output-formatted-value
+                    overflow "0"
+                    intpart  ""
+                    fracpart ""
+                    start    0
+
+              match (("Z." any?
+                        | "*." ["*BN"]?
+                        | "B." ["BN"]?
+                        | "N." "N"?)
+                       value-end)
+                using input as normalized-template
+                  numfmt-output-formatted-value
+                    intpart  "0"
+                    fracpart ""
+                    start    (1 - compiled-template ^ "magnitude")
+
+              else
+                using input as normalized-template
+                  numfmt-output-formatted-value
+                    intpart  ""
+                    fracpart "0"
+                    start    (- compiled-template ^ "magnitude")
+              done
+
+          match any* => huh
+            throw numfmt-error
+              ("Unable to determine pads around decimal for '"
+               || huh
+               || "' in template '"
+               || compiled-template ^ "template"
+               || "'.")
+        done
+
+      match ("-" => s (when compiled-template has key "have-sign"))?
+            "0"? digit* => int "."? digit* => frac value-end
+        local counter digit-index
+        local stream sign
+
+        set digit-index to length of int - compiled-template ^ "magnitude"
+        do when s is specified
+          set sign to s
+        else
+          set sign to "+"
+        done
+        ;
+        ; Synchronize digits to start of template
+        ;
+        do when digit-index > 0
+          throw numfmt-overflow num overflows compiled-template ^ "template"
+            when compiled-template hasnt key "have-extend"
+          do scan int
+            match any {digit-index} => e any* => rest
+              using input as normalized-template
+                numfmt-output-formatted-value
+                  sign     sign
+                  overflow e
+                  intpart  rest
+                  fracpart frac
+            else
+              throw numfmt-error "numfmt-format: digit-index out of range."
+          done
+        else
+          using input as normalized-template
+            numfmt-output-formatted-value
+               sign     sign
+               intpart  int
+               fracpart frac
+               start    digit-index
+        done
+
+      match "-" "0"? digit* => int "."? digit* => frac
+        local counter digit-index
+
+        set digit-index to length of int - compiled-template ^ "magnitude"
+        ;
+        ; Synchronize digits to start of template
+        ;
+        do when digit-index > 0
+          throw numfmt-overflow num overflows compiled-template ^ "template"
+            when compiled-template hasnt key "have-extend"
+
+          do scan int
+            match any {digit-index} => e any* => rest when digit-index > 0
+              using input as "-" || normalized-template
+                numfmt-output-formatted-value
+                  sign     "-"
+                  overflow e
+                  intpart  rest
+                  fracpart frac
+            else
+              throw numfmt-error "numfmt-format: digit-index out of range."
+          done
+
+        else when digit-index = 0
+                  | compiled-template ^ "pad-int" matches "Z"
+
+          throw numfmt-overflow num overflows compiled-template ^ "template"
+            when compiled-template hasnt key "have-extend"
+
+          using input as "-" || normalized-template
+            numfmt-output-formatted-value
+              sign     "-"
+              intpart  int
+              fracpart frac
+              start    digit-index
+
+        else
+          local stream new-template
+
+          do scan normalized-template
+
+            match (("W" | numfmt-pattern-spacer)
+                   numfmt-pattern-insert) => i
+              set new-template to "-" || normalized-template
+
+            match (numfmt-pattern-insert+
+                   ("W" | numfmt-pattern-spacer)) => i
+              set new-template to "-" || normalized-template
+
+            match numfmt-pattern-insert+ => i
+                  "N"
+                  any+ => rest
+              set new-template to "-" || i || rest
+              increment digit-index
+
+            match ("W" | numfmt-pattern-spacer | numfmt-pattern-insert)*
+                    => i
+              local counter pad-count
+
+              set pad-count to - digit-index - 1
+              open new-template as buffer
+              using output as new-template
+                do
+                  output i
+                  ;
+                  ; Skip all but one non-z padding
+                  ;
+                  repeat scan #current-input
+                    match (["NB*"] numfmt-pattern-spacer?) => c
+                          lookahead ["NB*"]
+                          when pad-count > 0
+                      output c
+                      decrement pad-count
+                  again
+                  do scan #current-input
+                    match ["NB*"] numfmt-pattern-spacer? => s
+                      output s || "-"
+                      increment digit-index
+                    match any* => c
+                      throw numfmt-error "Expecting ['NB*'], got '%x(c)'."
+                  done
+                  output #current-input
+                done
+              close new-template
+
+            else
+              throw numfmt-error
+                ("Cannot handle '"
+                 || compiled-template ^ "template"
+                 || "' %% "
+                 || num)
+          done
+          using input as new-template
+            numfmt-output-formatted-value
+               sign     "-"
+               intpart  int
+               fracpart frac
+               start    digit-index
+        done
+    done
+  close ret
+  return ret
+
+;------------------------------------------------------------------------
+define stream function numfmt-get-next-pad-non-z
+as
+  local stream ret initial {""}
+  do scan #current-input
+    match (numfmt-pattern-insert
+           | numfmt-pattern-spacer+
+           | numfmt-pattern-sign+
+           | "Z")*
+          numfmt-pattern-spacer => v
+          ("B" numfmt-pattern-set ret to " "
+           | "*" numfmt-pattern-set ret to "*")
+          (when false) ; backtrack out of pattern
+  done
+  return ret
+           
+;------------------------------------------------------------------------
+define stream function numfmt-normalize
+                 value stream template
+as
+  ; insert a "v" in the correct position
+  do scan template
+    ; has a "v"?
+    match "<"
+          (numfmt-pattern-insert
+           | numfmt-pattern-sign+
+           | numfmt-pattern-spacer+
+           | numfmt-pattern-pad+
+           | "W")* => int
+          "v"
+          (numfmt-pattern-insert
+           | numfmt-pattern-sign+
+           | numfmt-pattern-spacer+
+           | numfmt-pattern-pad+)* => frac
+          ">" value-end
+      return int || "v" || frac
+
+    ; has a "."?
+    match "<"
+          (numfmt-pattern-insert
+           | numfmt-pattern-sign+
+           | numfmt-pattern-spacer-except-dot+
+           | numfmt-pattern-pad+
+           | "W")* => int
+          "."
+          (numfmt-pattern-insert
+           | numfmt-pattern-sign+
+           | numfmt-pattern-spacer+
+           | numfmt-pattern-pad+)* => frac
+          ">" value-end
+       return int || "v." || frac
+
+    ; no, place "v" at end of pads
+    match "<"
+          ((numfmt-pattern-insert
+            | numfmt-pattern-sign+
+            | numfmt-pattern-spacer+)*
+           ("W" 
+            | numfmt-pattern-pad+))+ => int
+
+          (numfmt-pattern-insert
+           | numfmt-pattern-sign+
+           | numfmt-pattern-spacer+)* => frac
+
+          ">" value-end
+      return int || "v" || frac
+    else
+      throw numfmt-error ("numfmt-normalize: can't insert v in '"
+                            || template || "'")
+  done
+
+;------------------------------------------------------------------------
+define switch function numfmt-pattern-increment
+              modifiable counter i
+as
+  increment i
+  return true
+;------------------------------------------------------------------------
+define switch function numfmt-pattern-set
+              modifiable stream s
+           to value      stream v
+as
+  set s to v
+  return true
+;------------------------------------------------------------------------
+define function numfmt-output-float
+                 value stream insert
+  sign           value stream sign
+  replace        value stream sign-pad
+as
+  repeat scan insert
+    match numfmt-pattern-insert-character+ => i
+      output i
+    match "<" [any except ">"]* => sequence ">"
+      output sequence
+    match ["-()"] => neg
+      do when sign = "-"
+        output neg
+      else
+        output sign-pad
+      done
+    match "+"
+      do when sign != "0"
+        output sign
+      else
+        output sign-pad
+      done
+    match any => t
+      throw numfmt-error ("numfmt-output-float: '"
+                            || t
+                            || "' is not an insertable character.")
+  again
+;------------------------------------------------------------------------
+define function numfmt-output-formatted-value
+      sign     value stream  initial-sign    optional
+      overflow value stream  extension       optional
+      intpart  value stream  int
+      fracpart value stream  frac
+      start    value counter initial-index  optional
+as
+  local stream  sign
+  local stream  digits
+  local counter digit-index
+  local stream  last-pad    initial {""}
+  local stream  held-spacer
+  local stream  held-number
+  local stream  held-insert
+
+  set digits      to int || frac
+  do when initial-sign is specified
+    set sign to initial-sign
+  else when digits = "0"
+    set sign to "0"
+  else
+    set sign to "+"
+  done
+
+  do when initial-index is specified
+    set digit-index to initial-index
+  else
+    set digit-index to 0
+  done
+
+  ;
+  ; Parse up to first digit
+  ;
+  do scan #current-input
+    match (numfmt-pattern-insert | numfmt-pattern-sign+)+ => i
+      numfmt-output-float i sign sign replace last-pad
+  done
+  ;
+  ; Hold extension (if any)
+  ;
+  open held-number as buffer
+  open held-insert as buffer             
+  using output as held-number
+    do scan #current-input
+      match "W"
+        output extension when extension is specified
+
+      match numfmt-pattern-spacer => spacer
+        numfmt-output-grouping extension spaced spacer
+          when extension is specified
+    done
+  ;
+  ; Output leading pads (only occurs if no extension)
+  ;
+  repeat scan #current-input
+    match ["NB*"] => p when digit-index < 0
+      increment digit-index
+      do when p = "B"
+        set last-pad to " "
+      else when p = "*"
+        set last-pad to "*"
+      else
+        set last-pad to ""
+      done
+      output last-pad
+
+    match numfmt-pattern-spacer => s
+          when digit-index < length of int
+      output last-pad
+
+    match (numfmt-pattern-insert+
+          | numfmt-pattern-sign+) => i
+      numfmt-output-float i sign sign replace last-pad
+  again
+  ;
+  ; Output integer digits
+  ;
+  using output as held-number
+    repeat scan #current-input
+      match numfmt-pattern-pad => p
+          when digit-index < length of int
+        increment digit-index
+        do when p = "B"
+          set last-pad to " "
+        else when p = "*"
+          set last-pad to "*"
+        else
+          set last-pad to ""
+        done
+        do when digit-index <= 0
+          output "0"
+        else
+          output numfmt-substring digits at digit-index
+        done
+
+      match numfmt-pattern-spacer => s
+          when  digit-index < length of int
+        output s
+
+      match (numfmt-pattern-insert+
+            | numfmt-pattern-sign+) => i
+        using output as held-insert
+          numfmt-output-float i sign sign replace last-pad
+    again
+  close held-number
+  close held-insert
+  output held-insert || held-number
+  ;
+  ; Save decimal
+  ;
+  do scan #current-input
+    match "v" numfmt-pattern-spacer => s
+      set held-spacer to s
+    match numfmt-pattern-spacer => s "v"
+      set held-spacer to s
+    match "v"
+    match any* => x
+      throw numfmt-error "numfmt-format: no v in template (rem=%x(x))."
+  done
+  ;
+  ; Output fraction digits
+  ;
+  open held-number as buffer
+  open held-insert as buffer             
+  using output as held-number
+    repeat scan #current-input
+      match numfmt-pattern-pad when digit-index < length of digits
+        increment digit-index
+        output held-spacer when held-spacer is attached
+        output numfmt-substring digits at digit-index
+        discard held-spacer
+
+      match numfmt-pattern-spacer => spacer
+                                 when digit-index < length of digits
+        output spacer
+
+      match (numfmt-pattern-insert+
+            | numfmt-pattern-sign+) => i
+        using output as held-insert
+          numfmt-output-float i
+                           sign sign
+                        replace numfmt-get-next-pad-non-z
+    again
+  close held-number
+  close held-insert
+  output held-number || held-insert
+  ;
+  ; Output trailing pads
+  ;
+  repeat scan #current-input
+    match numfmt-pattern-pad => p
+      do when p = "Z"
+        output held-spacer when held-spacer is attached
+        output "0"
+      else when p = "*"
+        output p when held-spacer is attached
+        output p
+      else when p = "B"
+        output " " when held-spacer is attached
+        output " "
+      done
+      discard held-spacer
+      
+    match numfmt-pattern-spacer => spacer
+      set held-spacer to spacer
+      
+    match (numfmt-pattern-insert+
+          | numfmt-pattern-sign+) => i
+      numfmt-output-float i
+                       sign sign
+                    replace numfmt-get-next-pad-non-z
+  again
+
+;------------------------------------------------------------------------
+define function numfmt-output-grouping
+              value stream extension
+       spaced value stream spacer
+as
+  local counter grouping-size initial {0}
+
+  do scan #current-input
+    match (numfmt-pattern-pad numfmt-pattern-increment (grouping-size)
+           | numfmt-pattern-insert
+           | numfmt-pattern-sign)*
+          (when false)        ; force pattern to fail so nothing consumed
+  done
+  using input as extension
+    do
+      do scan #current-input
+        match any {(length of extension - 1) modulo grouping-size + 1} => s
+          output s || spacer
+      done
+      repeat scan #current-input
+        match any {grouping-size} => s
+          output s || spacer
+      again
+    done
+;------------------------------------------------------------------------
+
+define switch function numfmt-pattern-contents
+as
+  do scan #current-input
+    match ([any except "<>"]+ | numfmt-pattern)+
+      return true
+  done      
+  return false
+;------------------------------------------------------------------------
+define function numfmt-parse
+                  value      stream  template
+       into       modifiable stream  numfmt-info
+as
+  local switch  have-spacer
+  local switch  have-sign
+  local switch  have-placeholder-after-spacer
+  local switch  have-placeholder
+  local switch  have-W
+  local switch  have-v
+  local counter dot-count initial {0}
+  local switch  extends-flag initial {false}
+  local stream  pads
+  local stream  integer-pads
+  local stream  fraction-pads
+
+  open integer-pads as buffer
+  open pads as buffer
+  open fraction-pads as buffer
+
+  repeat scan template
+
+    match numfmt-pattern-spacer => spacer
+      do when !have-placeholder
+        throw numfmt-illegal-character spacer in template
+            because "Cannot have a leading spacer when 'W' is specified."
+          when have-W
+        set extends-flag to true
+      done
+
+      throw numfmt-illegal-character spacer in template
+          because "Spacers must be separated by placeholder characters."
+        when have-spacer & !have-placeholder-after-spacer
+
+      do when spacer = "."
+        increment dot-count
+        do when !have-v
+          close pads
+          put integer-pads pads
+          open pads as buffer
+        done
+      done
+      set have-placeholder-after-spacer to false
+      set have-spacer to true
+
+
+    match numfmt-pattern-pad+ => p
+      set have-placeholder to true
+      set have-placeholder-after-spacer to true
+      put pads p
+
+    match "W"
+      throw numfmt-illegal-character "W" in template
+          because "'W' must precede all placeholder and spacer characters."
+        when have-placeholder | have-spacer
+
+      throw numfmt-illegal-character "W" in template
+          because "Only one 'W' may occur in a template."
+        when have-W
+
+      set have-W to true
+
+    match "v"
+      throw numfmt-illegal-character 'v' in template
+          because "Only one 'v' may occur in a template."
+        when have-V
+      set have-V to true
+      close pads
+      put integer-pads pads
+      open pads as buffer
+
+    match "<>"
+      throw numfmt-illegal-character "<" in template
+          because "'<>' must not be empty."
+
+    match value-start "<"
+
+    match ">" value-end
+
+    match numfmt-pattern-sign+
+      activate have-sign
+
+    match numfmt-pattern-insert
+      ; okey-dokey
+
+    match ">" any => x
+       throw numfmt-illegal-character x in template
+         because " Characters occur after end of template."
+
+    match any => x
+       throw numfmt-illegal-character x in template because ""
+  again
+
+  throw numfmt-illegal-character '.' in template
+      because "Only one '.' character is allowed when there is no 'v'."
+    when dot-count > 1 & !have-v
+
+  close pads
+  do when have-v | dot-count > 0
+    put fraction-pads pads
+  else  
+    put integer-pads pads
+  done
+  close integer-pads
+  close fraction-pads
+  set extends-flag to extends-flag | have-W
+
+  do scan integer-pads || "." || fraction-pads
+    ;match ["N."]* ["B."]* ["*."]* ["Z."]+ ["*."]* ["B."]* ["N."]* value-end
+      ; okay if alignment character is not center of zeroing
+  
+    match "N"* "B"* "*"* "Z"* "." "Z"* "*"* "B"* "N"* value-end
+      ; okay
+    else
+      throw numfmt-illegal-character "N' or 'B' or '*' or 'Z"
+        in template
+        because ("Pad characters must be ordered NB*Z before the alignment"
+                 || " character and Z*BN after the alignment character.")
+  done          
+
+  clear numfmt-info
+  set new numfmt-info ^ "template" to template
+  set new numfmt-info ^ "magnitude" to "d" % length of integer-pads
+  set new numfmt-info ^ "precision" to "d" % length of fraction-pads
+  set new numfmt-info ^ "pad-int"   to integer-pads
+  set new numfmt-info ^ "pad-frac"  to fraction-pads
+
+  set new numfmt-info ^ "have-extend" to "true" when extends-flag
+  set new numfmt-info ^ "have-sign"   to "true" when have-sign
+
+;------------------------------------------------------------------------
+define stream function numfmt-substring
+                 value stream  s
+  at             value counter first
+  to             value counter length optional initial {1}
+as
+  do scan s
+    match value-start                       when length + first < 1
+      return ""
+    match any {length + first - 1} => c     when first <= 0
+      return c
+    match any {0 to first - 1} any {0 to length} => c
+      return c
+  done
+  throw numfmt-error "numfmt-format: Assertion Failure - unreachable code."
+  return ""
+
+;------------------------------------------------------------------------

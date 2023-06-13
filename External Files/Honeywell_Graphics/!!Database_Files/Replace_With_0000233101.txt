@@ -1,0 +1,7 @@
+del /s C:\conversions\out\*.*
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00001\id000011\id0000112\id00001124\0000112405.*" C:\conversions\out
+
+copy "\\Az18st2701\az75_cae\art_work\art_arc\id0\id00\id000\id0000\id00002\id000023\id0000233\id00002331\0000233101.*" C:\conversions\out
+
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?MENTORPATH ?>
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A"
+infoCode="023" infoCodeVariant="A" itemLocationCode="D"
+modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0"
+systemCode="00" systemDiffCode="EAB"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>LRU</techName><infoName>Honeywell – Confidential</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="99193">
+</responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="AAA"/></dmRefIdent>
+</dmRef></brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Honeywell – Confidential</title>
+<para>COPYRIGHT BY HONEYWELL INTERNATIONAL INC. (“HONEYWELL”).
+ALL RIGHTS RESERVED. THIS DOCUMENT AND ALL INFORMATION CONTAINED HEREIN
+ARE THE CONFIDENTIAL AND PROPRIETARY INFORMATION OF HONEYWELL AND
+CONTAIN HONEYWELL TRADE SECRETS. NEITHER THIS DOCUMENT NOR THE INFORMATION
+CONTAINED HEREIN MAY, IN WHOLE OR IN PART, BE USED, DUPLICATED, OR
+DISCLOSED FOR ANY PURPOSE WITHOUT PRIOR WRITTEN PERMISSION OF HONEYWELL.</para>
+<para>PLEASE REVIEW THE TERMS OF THIS AGREEMENT CAREFULLY BEFORE USING
+THIS DOCUMENT, AS BY USING IT, YOU ACKNOWLEDGE THAT YOU HAVE REVIEWED
+THIS AGREEMENT AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.</para>
+</levelledPara>
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

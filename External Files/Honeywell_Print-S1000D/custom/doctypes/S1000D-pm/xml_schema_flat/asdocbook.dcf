@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE DocumentTypeConfiguration PUBLIC "-//Arbortext//DTD Document Type Configuration 2.0//EN"
+ "dcfdtd.dtd" [
+<!ENTITY activex PUBLIC "-//Arbortext//TEXT AXControl Document Type Configuration 1.0//EN" "">
+<!ENTITY % strings PUBLIC "-//Arbortext//ENTITIES Document Type Configuration Translated Strings 1.0//EN" "../../lib/dcf_strings.ent">
+%strings;
+]>
+<DocumentTypeConfiguration>
+<Options langAttribute="lang"></Options>
+<NewDialog>
+<New category="DocBook"
+description="Arbortext Article (XML DocBook V4.0)" sampleFile="demo.xml"
+templateFile="template.xml"/></NewDialog>
+<ElementOptions>
+<ElementOption allowSpellChecking="no" element="abbrev"/>
+<ElementOption category="division" element="abstract"/>
+<ElementOption allowSpellChecking="no" element="acronym"/>
+<ElementOption category="division" element="appendix"
+webComposePageBoundary="yes"/>
+<ElementOption category="division" element="article" primary="yes"
+webComposePageBoundary="yes"/>
+<ElementOption element="articleinfo" webComposePageBoundary="yes"/>
+<ElementOption allowSpellChecking="no" element="authorinitials"/>
+<ElementOption category="division" element="bibliodiv"/>
+<ElementOption category="division" element="bibliography"/>
+<ElementOption category="division" element="blockquote"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="command"/>
+<ElementOption allowSpellChecking="no" element="computeroutput"/>
+<ElementOption allowSpellChecking="no" element="contractnum"/>
+<ElementOption allowSpellChecking="no" element="descrForPart"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="email"/>
+<ElementOption category="division" element="example"/>
+<ElementOption category="division" element="figure"/>
+<ElementOption allowSpellChecking="no" element="filename"/>
+<ElementOption element="footnote" spellCheckingNewWord="yes"/>
+<ElementOption element="holder" spellCheckingNewWord="yes"/>
+<ElementOption allowSpellChecking="no" element="inlinemediaobject"/>
+<ElementOption allowSpellChecking="no" element="issuenum"/>
+<ElementOption element="itemizedlist" listType="block"/>
+<ElementOption category="division" element="legalnotice"/>
+<ElementOption element="listitem" listType="item"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="literal"/>
+<ElementOption allowCharacterSubstitution="no" element="literallayout"/>
+<ElementOption category="division" element="note"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="option"/>
+<ElementOption element="orderedlist" listType="block"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="programlisting"/>
+<ElementOption allowCharacterSubstitution="no" element="replaceable"/>
+<ElementOption category="division" element="section" primary="yes"/>
+<ElementOption category="division" element="sidebar"/>
+<ElementOption allowCharacterSubstitution="no" allowSpellChecking="no"
+element="systemitem"/>
+<ElementOption category="division" element="table"/>
+<ElementOption category="title" element="title"/>
+<ElementOption allowSpellChecking="no" element="userinput"/>
+<ElementOption category="division" element="variablelist"/>
+<ElementOption category="division" element="varlistentry"/>
+<ElementOption allowSpellChecking="no" element="volumenum"/>
+</ElementOptions>
+<AttributeOptions>
+<AttributeOption attribute="security" profiling="yes"/>
+<AttributeOption attribute="os" profiling="yes"/>
+<AttributeOption attribute="userlevel" profiling="yes"/>
+</AttributeOptions>
+<Display>
+<Icon characterNumber="16" characterNumberLocal="15"
+characterSet="ati_tag" id="para"/>
+<Icon characterNumber="18" characterNumberLocal="17"
+characterSet="ati_tag" id="endpara"/>
+<ElementDisplay element="abstract" partialTagModeDisplay="full"/>
+<ElementDisplay element="appendix" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="article" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="authorgroup" partialTagModeDisplay="full"/>
+<ElementDisplay element="bibliodiv" partialTagModeDisplay="full"/>
+<ElementDisplay element="bibliography" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="blockquote" partialTagModeDisplay="full"/>
+<ElementDisplay element="colspec" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="example" partialTagModeDisplay="full"/>
+<ElementDisplay element="figure" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="footnoteref" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="imagedata" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="itemizedlist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="legalnotice" partialTagModeDisplay="full"/>
+<ElementDisplay element="literallayout" newline="yes" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="literallayout" newline="yes" pair="end"/>
+<ElementDisplay element="note" partialTagModeDisplay="full"/>
+<ElementDisplay element="orderedlist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="para" pair="start" partialTagModeIcon="para"/>
+<ElementDisplay element="para" pair="end" partialTagModeIcon="endpara"/>
+<ElementDisplay element="partKeyword" newline="yes"/>
+<ElementDisplay element="programlisting" newline="yes" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="programlisting" newline="yes" pair="end"/>
+<ElementDisplay element="quote" partialTagModeDisplay="none"/>
+<ElementDisplay element="revhistory" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="sidebar" partialTagModeDisplay="full"/><?Pub
+Caret -2?>
+<ElementDisplay element="spanspec" pair="start"
+partialTagModeDisplay="partial"/>
+<ElementDisplay element="table" newline="yes"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="variablelist" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="varlistentry" pair="start"
+partialTagModeDisplay="full"/>
+<ElementDisplay element="xref" pair="start"
+partialTagModeDisplay="partial"/></Display>
+<Specials>
+<Graphic element="imagedata" entity="entityref" filename="fileref"
+horizScale="scale" reproDepth="depth" reproWidth="width"
+scaleToFit="scalefit" vertScale="scale"/>
+<Link element="ulink" uri="url"/>
+<Link element="link" idref="linkend"/>
+<Paragraph element="para"/>&activex;
+</Specials>
+<ContextTransformations>
+<InsertAroundToFix>
+<ElementListItem element="para"/>
+<ElementListItem element="term"/></InsertAroundToFix>
+<Substitutions element="appendix">
+<ElementListItem element="section"/></Substitutions>
+<Substitutions element="section">
+<ElementListItem element="appendix"/></Substitutions>
+<Substitutions element="sectioninfo">
+<ElementListItem element="appendixinfo"/></Substitutions>
+<InsertAutoWithin element="indexterm" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:primary><InsertAutoSelection/><InsertAutoCaret/></axdocbook:primary
+></InsertAutoWithin>
+<InsertAutoWithin element="listitem" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:para><InsertAutoSelection/><InsertAutoCaret/></axdocbook:para
+></InsertAutoWithin>
+<InsertAutoWithin element="sidebar" xmlns:axdocbook="axdocbook.dtd"
+><axdocbook:title></axdocbook:title><InsertAutoSelection/><InsertAutoCaret
+/></InsertAutoWithin>
+</ContextTransformations>
+<TextStyles>
+<Bold attribute="role" attributeValue="bold" element="emphasis"/>
+<Underline attribute="role" attributeValue="underline"
+element="emphasis"/>
+<Italic attribute="role" attributeValue="italic" element="emphasis"/>
+</TextStyles>
+<Lists>
+<Bulleted>
+<Block element="itemizedlist"/>
+<Item element="listitem"/></Bulleted>
+<Numbered>
+<Block element="orderedlist"/>
+<Item element="listitem"/></Numbered>
+</Lists>
+<SmartInsert>
+<Category title="&Admonition;">
+<ElementListItem element="note"/></Category>
+<Category title="&Compound;">
+<ElementListItem element="sidebar"/></Category>
+<Category title="&Description;">
+<ElementListItem element="abstract"/>
+<ElementListItem element="authorblurb"/>
+<ElementListItem element="epigraph"/></Category>
+<Category title="&Division;">
+<ElementListItem element="appendix"/>
+<ElementListItem element="section"/></Category>
+<Category title="&DocumentInformation;">
+<ElementListItem element="author"/>
+<ElementListItem element="authorinitials"/>
+<ElementListItem element="corpauthor"/>
+<ElementListItem element="othercredit"/>
+<ElementListItem element="revhistory"/></Category>
+<Category title="&Formal;">
+<ElementListItem element="example"/>
+<ElementListItem element="figure"/>
+<ElementListItem element="table"/></Category>
+<Category title="&General;">
+<ElementListItem element="abbrev"/>
+<ElementListItem element="acronym"/>
+<ElementListItem element="citetitle"/>
+<ElementListItem element="emphasis"/>
+<ElementListItem element="footnote"/>
+<ElementListItem element="phrase"/>
+<ElementListItem element="quote"/>
+<ElementListItem element="trademark"/></Category>
+<Category title="&Graphic;">
+<ElementListItem element="imagedata"/></Category>
+<Category title="&Index;">
+<ElementListItem element="indexterm"/></Category>
+<Category title="&Informal;">
+<ElementListItem element="blockquote"/>
+<ElementListItem element="informaltable"/>
+<ElementListItem element="mediaobject"/></Category>
+<Category title="&Inline;">
+<ElementListItem element="inlinemediaobject"/></Category>
+<Category title="&LineSpecific;">
+<ElementListItem element="literallayout"/>
+<ElementListItem element="programlisting"/></Category>
+<Category title="&Link;">
+<ElementListItem element="link"/>
+<ElementListItem element="ulink"/></Category>
+<Category title="&Lists;">
+<ElementListItem element="itemizedlist"/>
+<ElementListItem element="orderedlist"/>
+<ElementListItem element="variablelist"/></Category>
+<Category title="&Paragraph;">
+<ElementListItem element="para"/></Category>
+<Category title="&Reference;">
+<ElementListItem element="footnoteref"/>
+<ElementListItem element="xref"/></Category>
+<Category title="&Technical;">
+<ElementListItem element="command"/>
+<ElementListItem element="computeroutput"/>
+<ElementListItem element="email"/>
+<ElementListItem element="filename"/>
+<ElementListItem element="literal"/>
+<ElementListItem element="option"/>
+<ElementListItem element="replaceable"/>
+<ElementListItem element="systemitem"/>
+<ElementListItem element="userinput"/></Category>
+</SmartInsert>
+<Profiling config="asdocbook.pcf"/>
+<FrameSets>
+<FrameSet description="default" location="default"/></FrameSets>
+<PasteOptions><PasteElement category="primary_division"
+element="article"/><PasteElement category="primary_division_title"
+element="title"/><PasteElement category="primary_table_wrapper"
+element="informaltable"/></PasteOptions></DocumentTypeConfiguration>

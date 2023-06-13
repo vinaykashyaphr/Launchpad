@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/checkbox.css') }}">
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="center">
+			<h2>Log In:</h2>
+			<form action="" method="post" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					<!-- {{ form.username.label }}<br> -->
+					{{ form.username(size=32, class="textfield", placeholder='Username') }}
+					{% for error in form.username.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					<!-- {{ form.password.label }}<br> -->
+					{{ form.password(size=32, class="textfield", placeholder='Password') }}
+					{% for error in form.password.errors %}
+					<span class="error">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					<label class="checkbox_container">			
+						{{ form.remember_me.label }} {{ form.remember_me() }} 
+						<span class="checkmark"></span>						
+					</label>
+				</p>
+				<p>{{ form.submit(class="button_one") }}</p>
+
+			</form>	
+		</div>
+		<!-- <p style="text-align: center;"><strong>By signing in, you indicate that you agree to abide by the following Terms and Conditions:</strong></p>
+		<div id="eula">
+			<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias molestiae est illum sed temporibus laboriosam neque fuga iste facilis dolorem, eos similique ipsa excepturi mollitia error magnam laudantium ab cumque harum corporis! Aut veniam vitae sit aliquid nobis voluptas modi dolore laudantium odit autem, delectus eum, deleniti beatae inventore assumenda quod voluptatibus quas totam sapiente nemo, esse quisquam. Quibusdam unde illo inventore est, a sequi dolores dolorem consequuntur molestiae praesentium?</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi necessitatibus harum, recusandae facere optio placeat, iste fugiat, accusantium accusamus impedit consectetur molestias eum nisi quam. Saepe sit possimus tempora enim iste voluptatem sequi totam, vero dolorum, eius iusto voluptas ut in optio! Adipisci ea distinctio accusantium illo, molestiae ex cupiditate ad impedit tempora quasi rem exercitationem, vero eveniet eos est id consequuntur incidunt nihil praesentium labore aliquam error libero officiis veniam. Minus dignissimos officia nobis quam iste illum optio. Minima nam excepturi aut temporibus ullam blanditiis expedita animi non soluta! Nam veritatis sequi, explicabo fugit animi omnis nostrum repellendus unde? Culpa minus autem quia quibusdam commodi explicabo ad neque illo repellat molestiae maxime delectus officia vero ratione assumenda laudantium adipisci tenetur ullam minima aspernatur debitis, est libero. Dicta itaque quas voluptatibus laudantium eligendi cum ab ad expedita dolorem delectus accusantium, nihil quam minus veritatis molestiae id maiores omnis ullam cumque.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus aliquam quis similique deserunt dolorem autem, natus assumenda ipsa optio totam facere cum quo laboriosam, labore dolor voluptas explicabo, temporibus maxime suscipit molestias. Quo mollitia inventore, eaque saepe amet eos fugiat dicta quae tempora tenetur magni incidunt? Qui, sequi repudiandae. Laudantium, voluptas doloremque rem ut vero perferendis excepturi possimus expedita alias iste deserunt ipsum! Temporibus pariatur ab nostrum architecto, ipsum doloribus officiis, voluptate odit facilis quos doloremque deleniti suscipit illo impedit mollitia fugiat voluptatibus eius ipsa repellat itaque quod distinctio quaerat exercitationem? Iste dignissimos excepturi corporis nesciunt totam corrupti eius molestias.</p>
+		</div> -->
+	</div>
+{% endblock %}

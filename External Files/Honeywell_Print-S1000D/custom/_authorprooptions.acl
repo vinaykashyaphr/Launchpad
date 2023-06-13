@@ -1,0 +1,9 @@
+#
+# © Inmedius 2011. All rights Reserved
+# Extra ACL files that can be loaded after transition ACL is loaded to fine-tune environment
+
+if( require("authorpro") ){
+  $authorpro::thresholdwcn = 0;
+  $authorpro::thresholdipd = 0;
+  $authorpro::ap_refdm_inc_same_lng=0;
+}

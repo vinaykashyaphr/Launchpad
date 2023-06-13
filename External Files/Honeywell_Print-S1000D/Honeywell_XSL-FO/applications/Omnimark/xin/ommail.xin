@@ -1,0 +1,189 @@
+;===========================================================================
+;
+; Copyright (C) 1997 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  ommail.xin - External Function declarations for the OmniMark Mail API
+;
+;  Version:     1.2
+;  Last Update: 26 AUG 1998
+;
+;  Version: 1.3
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;===========================================================================
+
+include-guard ommail.xin
+declare function-library "ommail"
+
+;************************** Opaque Type Declaration *************************
+
+declare opaque MailOutBox created by "MailOutBoxCreator"
+
+declare opaque MailInBox created by "POP3MailBoxCreator"
+
+;************************* Library Version Functions ************************
+
+; MailLibraryVersion
+; returns the version string of the library. For example:
+;
+; "OMMAIL 1.2 Copyright (c) 1998, OmniMark Technologies Corporation"
+;
+define external stream function MailLibraryVersion
+as "MailLibraryVersion"
+
+
+;===========================================================================
+define external switch function MailIsVersionCompatible
+as "MailIsVersionCompatible"
+;===========================================================================
+;
+; Returns TRUE if the OMMail library is compatible with this version
+; of OmniMark. It returns FALSE if this version of the library is designed 
+; for a newer version of OmniMark.
+;
+; Example:
+;
+; do unless MailIsVersionCompatible
+;    put #error "OMMail library is not compatible with this OmniMark"
+;    halt with 1
+; done
+
+
+
+;************************* OmniMark MailOutBox API ***************************
+
+; MailOutBoxIsInError
+; Errors in creating or using a MailOutBox are recorded in the
+; MailOutBox itself. MailOutBoxIsInError can be used to detect
+; errors.
+;
+define external switch function MailOutBoxIsInError 
+    value MailOutBox this-MailOutBox
+as "MailOutBoxIsInError"
+
+
+; MailOutBoxGetStatusReport
+; If the MailOutBox is in error, the into shelf is populated with one
+; or more strings, each an appropriate error message -- any previous shelf
+; contents are lost.  In most cases there will only be one.  If the
+; MailOutBox is not in error, the into shelf will be cleared.
+;
+define external function MailOutBoxGetStatusReport
+        value MailOutBox this-MailOutBox
+   into modifiable stream report
+as "MailOutBoxGetStatusReport"
+
+
+; MailOutBoxCreate Creates and sets up the outgoing mail box (MailOutBox).
+; The MailOutBox object is used to compose and send mail messages.
+; If MailOutBoxCreate fails, it still returns a MailOutBox
+; object. This MailOutBox object is in error and is closed. 
+;
+define external MailOutBox function MailOutBoxCreate
+   name    value stream sender-name
+   address value stream address
+   server  value stream server optional initial {"mail"} 
+as "MailOutBoxCreate"
+
+
+; MailOutBoxSendMail
+; initiates the sending of a mail message with the specified subject, 
+; mail header, and recipient list. It returns an external output object that
+; is used to compose the body of the message. Closing the stream attached to this
+; external output object signals the end of message composition and triggers
+; the delivery of the message. The current implementation of the Mail library
+; allows only one derived external output from a MailOutBox object at a time.
+; When the stream attached to an external output object that is derived from
+; a MailOutBox object is closed, further derivation becomes possible. It is
+; an error to dynamically reopen a stream attached to an external output object 
+; derived from a MailOutBox object once it is closed.
+;
+define external output function MailOutBoxSendMail
+           value MailOutBox this-MailOutBox
+   to      value stream recipients
+   subject value stream subject optional initial {""}
+   header  value stream header-info optional 
+as "MailOutBoxSendMail"
+
+
+;************************* OmniMark MailInBox API ***************************
+
+define external switch function MailInBoxIsInError 
+		value MailInBox this-MailInBox
+as "POP3MailBoxIsInError"
+
+
+define external function MailInBoxGetStatusReport
+		value MailInBox this-MailInBox
+	into	modifiable stream report
+as "POP3MailBoxGetStatusReport"
+
+
+define external MailInBox function MailInBoxCreate
+		server		value stream server optional initial {"mail"}
+		user		value stream username
+		password	value stream password
+as "POP3MailBoxCreate"
+
+
+define external function MailInBoxOpen
+				value MailInBox this-MailInBox
+		autodel		value switch autodel optional initial {False}
+as "POP3MailBoxOpen"
+
+
+define external function MailInBoxClose
+				value MailInBox this-MailInBox
+as "POP3MailBoxClose"
+
+
+define external switch function MailInBoxIsOpen
+				value MailInBox this-MailInBox
+as "POP3MailBoxIsOpen"
+
+
+define external counter function MailInBoxGetNumberOfMessages
+				value MailInBox this-MailInBox
+as "POP3MailBoxGetNumberOfMessages"
+
+
+define external counter function MailInBoxGetMessageSize
+				value MailInBox this-MailInBox
+			message value counter message
+as "POP3MailBoxGetMessageSize"
+
+
+define external source function MailInBoxGetMessage
+				value MailInBox this-MailInBox
+			message value counter message
+as "POP3MailBoxGetMessage"
+
+
+define external function MailInBoxMarkMessageForDeletion
+				value MailInBox this-MailInBox
+			message value counter message
+as "POP3MBMarkMessageForDel"
+
+
+define external function MailInBoxMarkAllMessagesForDeletion
+				value MailInBox this-MailInBox
+as "POP3MBMarkAllMessagesForDel"
+
+
+define external function MailInBoxResetDeletionFlags
+				value MailInBox this-MailInBox
+as "POP3MailBoxResetDeletionFlags"
+
+;****************************************************************************

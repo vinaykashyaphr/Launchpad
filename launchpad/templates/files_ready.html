@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+{% block content %}
+	<p><b>Your files are ready!</b></p>
+	<p>They will be available for: <u><span id="timer"></span></u></p>
+	<a class="button_one" href="{{ url_for('single_download', directory=fdir, filename=fname, ftype=ftype) }}">Download</a><br>
+	<a class="button_one" href="{{ url_for('delete_files', directory=fdir) }}">Delete</a><br>
+	<script>
+		var distance = {{ rem }};
+		var x = setInterval(function() {
+		if (distance < 0) {
+				clearInterval(x);
+				$("#timer").text("EXPIRED");
+				if ('{{ request.cookies.get(current_user.username) }}' == 'conv'){
+					window.location.replace("{{ url_for('data_conversion') }}");
+				}
+				else if ('{{ request.cookies.get(current_user.username) }}' == 'tw'){
+					window.location.replace("{{ url_for('technical_writing') }}");
+				}
+				else{
+					window.location.replace("{{ url_for('home') }}");
+				}				
+		}
+		else{
+			// Find the distance between now and the count down date
+
+
+			// Time calculations for days, hours, minutes and seconds
+			var hours = Math.floor(distance / 3600);
+			var minutes = Math.floor((distance % 3600) / 60);
+			var seconds = Math.floor(distance % 60);
+
+			// Output the result in an element with id="demo"
+			$("#timer").text(hours + "h "+ minutes + "m " + seconds + "s");
+			distance = distance - 1
+			// If the count down is over, write some text
+		}
+	}, 1000);
+	</script>
+	<!--<script type="text/javascript" src="{{ url_for('static', filename='timer.js') }}"></script>-->
+
+{% endblock %}

@@ -1,0 +1,52 @@
+<project name="ISOEntities" default="entity-fixes">
+
+<description>
+
+===============================================================
+Reset to original S1000D URL to ISOEntities
+===============================================================
+
+EXAMPLE USAGE: ant -f ant-font-fixes.xml
+
+</description>
+
+<!-- <property name='dir' location='PROVIDED-ON-COMMAND-LINE'/> -->
+<property name='dir' location='.'/>
+
+<target name="entity-fixes" description="Entity Fixes">
+
+
+<echo>**************************************</echo>
+<echo>ISOEntities local reference</echo>
+<echo>**************************************</echo>
+<echo></echo>
+
+
+<replace encoding='UTF-8'
+         dir='${dir}'
+         token='ISOEntities.ent'
+         value='http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities'>
+
+  
+  <!-- NOTE: PMC file is locked by Arbortext, so leave unchanged -->
+  <include name="**/DMC*.xml"/>         
+  <include name="**/DMC*.XML"/>         
+
+</replace>
+
+<replace encoding='UTF-8'
+         dir='${dir}'
+         token='ISOEntities_4-1.ent'
+         value='http://www.s1000d.org/S1000D_4-1/ent/ISOEntities'>
+
+  
+  <!-- NOTE: PMC file is locked by Arbortext, so leave unchanged -->
+  <include name="**/DMC*.xml"/>         
+  <include name="**/DMC*.XML"/>         
+
+</replace>
+
+</target>
+
+</project>
+

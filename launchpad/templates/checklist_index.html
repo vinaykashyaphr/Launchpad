@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+    <div>
+        <h2>Job Information <a class='material-icons' style='font-size:24px;color:black;text-decoration:None' id='job_update' href="{{ url_for('job_update', job_no=job_no) }}"> create </a></h2>
+        <br>
+        <table>
+            <tbody>
+                <tr><td> Job Number: </td><td>{{ job_no }}</td></tr>
+                <tr><td>Project: </td><td>{{ project }}</td></tr>
+                <tr><td>ATA Number: </td><td>{{ ata_number }}</td></tr>
+                <tr><td>D Number (if applicable):</td><td>{{ d_number }}</td></tr>
+                <tr><td>Type of Publication: </td><td>{{ type_of_publication }}</td></tr>
+                <tr><td>Software: </td><td>{{ software }}</td></tr>
+                <tr><td>Type of Job: </td><td>{{ type_of_job }}</td></tr>
+                <tr><td>Location of Authoring: </td><td>{{ location_of_authoring }}</td></tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <h2>Checklist Index</h2>
+        <div class="container">
+                <p>Data Conversion Checklists:</p>
+                <p><a class="button_one button_two" id="data_conversion_index" href="{{ url_for('data_conversion_index', job_no=job_no) }}">Data Conversion Checklist</a></p>
+                <p>Standard Checklists:</p>
+                <p><a class="button_one button_two" id="writer_index" href="{{ url_for('writer_index', job_no=job_no) }}">Writer Checklist</a></p>
+                <p><a class="button_one button_two" id="illustration_index" href="{{ url_for('illustration_index', job_no=job_no) }}">Illustration Checklist</a></p>
+                <p><a class="button_one button_two" id="editor_index" href="{{ url_for('editor_index', job_no=job_no) }}">Editor Checklist</a></p>
+                <p><a class="button_one button_two" id="qa_index" href="{{ url_for('qa_index', job_no=job_no) }}">QA Checklist</a></p>
+                <p><a class="button_one button_two" id="final_delivery_index" href="{{ url_for('final_delivery_index', job_no=job_no) }}">Final Delivery Checklist</a></p>
+                <p>DPMO Checklists:</p>
+                <p><a class="button_one button_two" id="dpmo_index" href="{{ url_for('dpmo_index', job_no=job_no) }}">DPMO Checklist</a></p>
+                <p>Translation Checklists:</p>
+                <p><a class="button_one button_two" id="translation_index" href="{{ url_for('translation_index', job_no=job_no) }}">Translation Checklist</a></p>
+        </div>
+    </div>
+{% endblock %}

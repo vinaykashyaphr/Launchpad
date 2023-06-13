@@ -1,0 +1,42 @@
+Package search;
+
+function sTaskSearch() {
+	local oid, var = 0, start, x = 0, a = 0, end = 0;
+	start = oid_first(current_doc());
+	oid_find_children(start, $sTask, "subtask");
+	oid_find_children(start, $fig, "graphic");
+	readvar -title "Subtask Number" \
+			-prompt "Please enter Subtask Value (xx-xx-xx-xxx-xxx-xxx)" var;
+	split(var,$str, "-");
+	i = 0;
+	for ($i in $sTask) {
+		if (oid_valid($sTask[$i]) == 1){
+			if (oid_attr($sTask[$i],"chapnbr") == $str[1] && oid_attr($sTask[$i],"sectnbr") == $str[2] && oid_attr($sTask[$i],"subjnbr") == $str[3] && oid_attr($sTask[$i],"func") == $str[4] && oid_attr($sTask[$i],"seq") == $str[5]) {
+				goto_oid(sTask[$i], 1);
+				a = response('Do you want to search again?', '&Yes', '&No');
+				if (a != 1) {
+					break;
+				}			
+			}
+		
+		}
+		if (oid_valid($fig[$i]) == 1){
+			if (oid_attr($fig[$i],"chapnbr") == $str[1] && oid_attr($fig[$i],"sectnbr") == $str[2] && oid_attr($fig[$i],"subjnbr") == $str[3] && oid_attr($fig[$i],"func") == $str[4] && oid_attr($fig[$i],"seq") == $str[5]) {
+				goto_oid(fig[$i], 1);
+				a = response('Do you want to search again?', '&Yes', '&No');
+				if (a != 1) {
+					break;
+				}			
+			}
+			
+		}
+		if (count($sTask) == $i && end == 0){
+			message_box("Search result could not be found", 0x00);
+			end = 1;
+		}else if (count($fig) == $i && end == 0) {
+			message_box("Search result could not be found", 0x00);
+			end = 1;
+		}	
+	}
+		
+}

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="C" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>RECORD OF TEMPORARY REVISIONS</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<para>Instructions on each page of a temporary revision tell you where
+to put the pages in your manual. Remove the temporary revision pages
+only when discard instructions are given. For each temporary revision,
+put the applicable data in the record columns on this page.</para>
+<para>Definition of Status column: A TR may be active, incorporated,
+or deleted. &ldquo;Active&rdquo; is entered by the holder of the manual.
+&ldquo;Incorporated&rdquo; means a TR has been incorporated into the
+manual and includes the revision number of the manual when the TR
+was incorporated. &ldquo;Deleted&rdquo; means a TR has been replaced
+by another TR, a TR number will not be issued, or a TR has been deleted.</para>
+<table><tgroup cols="8">
+<?PubTbl tgroup dispwid="778.00px"?>
+<colspec align="center" colname="col1" colwidth="1.21*"/><colspec
+colname="col2" colwidth="1.18*"/><colspec align="center" colname="col3"
+colwidth="1.02*"/><colspec align="center" colname="col4"
+colwidth="1.36*"/><colspec align="center" colname="col5"
+colwidth="1.37*"/><colspec colname="col6" colwidth="0.89*"/><colspec
+colname="col7" colwidth="1.21*"/><colspec colname="col8"
+colwidth="0.72*"/><thead><row>
+<entry colsep="0" valign="bottom">
+<?PubTbl cell border-left-style="none"?>
+<para>Temporary</para>
+<para>Revision</para>
+<para>Number</para>
+</entry>
+<entry align="center" colsep="0" valign="bottom">
+<para>Status</para>
+</entry>
+<entry colsep="0" valign="bottom">
+<para>Page </para>
+<para>Number</para>
+</entry>
+<entry colsep="0" valign="bottom">
+<para>Issue </para>
+<para>Date</para>
+</entry>
+<entry colsep="0" valign="bottom">
+<para>Date</para>
+<para>Put</para>
+<para>In</para>
+<para>Manual</para>
+</entry>
+<entry align="center" colsep="0" valign="bottom">
+<para></para>
+<para></para>
+<para>By</para>
+</entry>
+<entry align="center" colsep="0" valign="bottom">
+<para>Date</para>
+<para>Removed</para>
+<para>From</para>
+<para>Manual</para>
+</entry>
+<entry align="center" valign="bottom">
+<?PubTbl cell border-right-style="none"?>
+<para>By</para>
+</entry>
+</row></thead><tbody><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0" rowsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry colsep="0" rowsep="0"></entry>
+<entry rowsep="0">
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row><row>
+<entry colsep="0">
+<?PubTbl cell border-left-style="none"?>
+</entry>
+<entry colsep="0"></entry>
+<entry colsep="0"></entry>
+<entry colsep="0"></entry>
+<entry colsep="0"></entry>
+<entry colsep="0"></entry>
+<entry colsep="0"></entry>
+<entry>
+<?PubTbl cell border-right-style="none"?>
+</entry>
+</row></tbody></tgroup></table>
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

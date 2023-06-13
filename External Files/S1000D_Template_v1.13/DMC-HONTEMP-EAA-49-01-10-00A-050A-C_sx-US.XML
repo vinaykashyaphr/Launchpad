@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="050" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>SCHEMATIC AND WIRING DIAGRAMS</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content>
+<warningsAndCautionsRef><warningRef id="warn-0001"
+warningIdentNumber="warn-0001">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></warningRef><cautionRef
+cautionIdentNumber="caut-0001" id="caut-0001">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef>
+<cautionRef cautionIdentNumber="caut-0002" id="caut-0002">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef><cautionRef cautionIdentNumber="caut-0003"
+id="caut-0003">
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/></dmRefIdent></dmRef></cautionRef></warningsAndCautionsRef>
+
+<description>
+<levelledPara><title>Job Setup Data</title>
+<levelledPara>
+<para>You can use equivalent alternatives for the special tools, fixtures,
+equipment, and consumable materials unless specified differently.
+The user must find equivalent alternatives.</para>
+</levelledPara>
+<levelledPara>
+<para>Refer to <internalRef internalRefId="t001"
+internalRefTargetType="irtt02"></internalRef> for the special tools,
+fixtures, and equipment in this section.</para>
+</levelledPara>
+<levelledPara>
+<para>CAGE codes and manufacturers&apos; addresses are available at
+https://cage.dla.mil.</para>
+<table id="t001">
+<title>Special Tools, Fixtures, and Equipment</title>
+<tgroup cols="3"><colspec colname="col1"/><colspec colname="COLSPEC1"/>
+<colspec colname="col2"/><thead><row>
+<entry>
+<para>Number</para>
+</entry>
+<entry>
+<para>Description</para>
+</entry>
+<entry>
+<para>Source</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>Not applicable</para>
+</entry>
+<entry>
+<para>Not applicable</para>
+</entry>
+<entry>
+<para>Not applicable</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+<levelledPara cautionRefs="caut-0001" warningRefs="warn-0001">
+<para>Refer to <internalRef internalRefId="t002"
+internalRefTargetType="irtt02"></internalRef> for the consumable materials
+in this section.</para>
+<note>
+<notePara>For the wire color identified by (-C), refer to the applicable
+wire list.</notePara>
+</note>
+<table id="t002">
+<title>Consumables</title>
+<tgroup cols="3"><colspec colname="col1"/><colspec colname="col2"/>
+<colspec colname="col3"/><thead><row>
+<entry>
+<para>Number</para>
+</entry>
+<entry>
+<para>Description</para>
+</entry>
+<entry>
+<para>Source</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>Not applicable</para>
+</entry>
+<entry>
+<para>Not applicable</para>
+</entry>
+<entry>
+<para>Not applicable</para>
+</entry>
+</row></tbody></tgroup></table>
+</levelledPara>
+<levelledPara>
+<para>The list that follows identifies Honeywell publications that
+are related to this section:<randomList>
+<listItem><para>Not applicable.</para>
+</listItem>
+<listItem><para>ATA No. (Pub. No.), CMM, Next Higher Assembly Name</para>
+</listItem>
+<listItem><para>WLXXXXXXX-XXX, Wire List, GIVE WIRE LIST TITLE.</para>
+</listItem>
+</randomList></para>
+</levelledPara>
+<levelledPara>
+<para>Other site-specific information if applicable.</para>
+</levelledPara>
+</levelledPara>
+</description>
+
+</content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

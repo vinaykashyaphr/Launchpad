@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!ENTITY EquipTerm "**Equip term**">
+<!ENTITY ATANo "**ATA  Number**">
+]>
+<?Pub Inc?>
+<dmodule xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd" xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="003" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAB"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="000"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="01" year="0001"/>
+<dmTitle><techName>LRU</techName><infoName>TRANSMITTAL INFORMATION</infoName></dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="99193"></responsiblePartnerCompany>
+<originator enterpriseCode="99193"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="AA" infoCode="022" infoCodeVariant="A" itemLocationCode="D" modelIdentCode="S1000DBIKE" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAC"/>
+</dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance>
+<firstVerification verificationType="tabtop"/></qualityAssurance></dmStatus>
+</identAndStatusSection>
+<content><description>
+<para>TO HOLDERS OF ILLUSTRATED PARTS CATALOG PUBLICATION  <acronym><acronymTerm>ATA</acronymTerm><acronymDefinition>Air Transport Association</acronymDefinition></acronym> <acronym><acronymTerm>No.</acronymTerm><acronymDefinition>number</acronymDefinition>
+</acronym> 00-00-00, REVISED DD MMM YYYY, ISSUED FOR USE IN SUPPORT OF THE FOLLOWING AIRCRAFT. </para>
+<para><internalRef internalRefId="t001" internalRefTargetType="irtt02"></internalRef> shows the applicable engines.</para><?Pub Caret 26?>
+<table id="t001">
+<title>Applicable Engines</title>
+<tgroup cols="3">
+<?PubTbl tgroup dispwid="700.00px"?>
+<colspec colname="col1" colwidth="35.82*"/><colspec colname="col2" colwidth="32.97*"/><colspec colname="COLSPEC0" colwidth="31.21*"/><thead><row>
+<entry>
+<para>Engine <acronym><acronymTerm>PN</acronymTerm><acronymDefinition>part number</acronymDefinition></acronym></para>
+</entry>
+<entry>
+<para>Engine Model Number</para>
+</entry>
+<entry>
+<para>Aircraft Application</para>
+</entry>
+</row></thead><tbody><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+<para><emphasis emphasisType="em01">Revision History</emphasis></para>
+<para><internalRef internalRefId="t007" internalRefTargetType="irtt02"></internalRef> shows the revision history of this EIPC.</para>
+<table id="t007">
+<title>Revision History</title>
+<tgroup cols="2">
+<?PubTbl tgroup dispwid="700.00px"?>
+<colspec colname="col1" colwidth="50.00*"/><colspec colname="col2" colwidth="50.00*"/><thead><row>
+<entry>
+<para>Revision Number</para>
+</entry>
+<entry>
+<para>Revision Date</para>
+</entry>
+</row></thead><tbody><row>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+<para>This revision is a full replacement. All changed pages have a new date, as identified in the List of Effective Pages. Revision bars identify the changed data. A revision bar adjacent to the Fig./Item column identifies changes in the Detailed Parts
+List. See Transmittal information for history of revisions to this EIPC.</para>
+<para>Remove and discard all pages of the manual and replace them with the attached pages. Write the revision number, revision date, and replacement date on the Record of Revisions page.</para>
+<para>Remove and discard all Temporary Revision pages in this manual. Write the date you remove the Temporary Revision from the manual on the Record of Temporary Revisions page.</para>
+<para>Revision bars mark the technical data that changed in this revision; those changes are described in the Table of Highlights. Editorial changes are not marked with a revision bar.</para>
+</description></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

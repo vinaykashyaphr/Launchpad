@@ -1,0 +1,32 @@
+;===========================================================================
+;
+; Copyright (C) 1998 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+
+;===========================================================================
+;  builtins.xin - OmniMark built-in functions
+;
+;  Version: 1.0
+;  Created: 14 APR 1998
+;
+;  Version: 1.1
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;===========================================================================
+
+include-guard builtins.xin
+
+define external function log-message value stream  message-text
+   class value stream  class-value optional initial {""}
+   severity value counter severity-value optional initial {0}
+as "log_message" in function-library "#builtin"

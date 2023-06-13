@@ -1,0 +1,198 @@
+; XEP - image check
+
+; Report on images that exceed expected maximum size settings:
+
+; Portrait: 1905 x 2325 pixels
+; Folodout: 4125 x 2325 pixels
+
+; NOTE: in particular, images that exceed page height maximum of 2325 pixels may generate extra pages and/or interfere with foldout page sequencing
+
+
+; Sonovision maximum image size specifications
+; Portrait: 1905 x 2325 pixels
+; Foldout:  4125 x 2325 pixels
+
+; XEP uses it's own "point" system for measurement
+; Portrait: 457200 x 558000
+; Foldout:  990000 x 558000
+
+; Note: will report on images that exceed either XEP value, but will not be trying to convert XEP values back to pixels
+
+
+cross-translate
+
+global stream s-page-type initial {""} ; (either "portrait" or "foldout" based on current XEP page settings)
+
+global counter c-portrait-max-width initial {"457200"}
+global counter c-portrait-max-height initial {"558000"}
+
+global counter c-foldout-max-width initial {"990000"}
+global counter c-foldout-max-height initial {"558000"}
+
+
+global counter c-current-width initial {"0"}
+global counter c-current-height initial {"0"}
+
+
+global stream GsLogFileName initial {"TEMP\image-check.log"}; (full TEMP path provided on command line)
+global stream GsLog initial {""}
+
+global stream s-current-image initial {""}
+global stream s-current-message initial {""}
+
+global stream s-sourcedir initial {""}
+global stream s-filename initial {""}
+
+
+global stream s-prolog-GOOD initial {""}
+global stream s-prolog-BASIC initial {""}
+
+global counter c-error initial {"0"}
+
+
+; ======================
+; Macros
+; ======================
+macro m-slash is ("\" or "/") macro-end
+
+; ======================
+; Functions
+; ======================
+define function f-get-directory (value stream fullpath) as
+  local stream s-juggle-temp1 initial {""}
+  local stream s-juggle-temp2 initial {""}
+  repeat scan fullpath
+    match ( ((lookahead not m-slash) any-text)* m-slash)=stuff
+    set s-juggle-temp2 to "%x(stuff)"
+    set s-juggle-temp1 to "%g(s-juggle-temp1)%g(s-juggle-temp2)"
+  again
+  set s-sourcedir to "%g(s-juggle-temp1)"
+  return
+; end function
+
+define function f-get-filename (value stream fullpath, value stream sourcedir) as
+  local stream s-juggle-temp1 initial {""}
+  local stream s-juggle-temp2 initial {""}
+  repeat scan fullpath
+    match ( ((lookahead not sourcedir) any-text)* sourcedir)=path any-text*=filename
+    set s-juggle-temp2 to "%x(filename)"
+    set s-juggle-temp1 to "%g(s-juggle-temp1)%g(s-juggle-temp2)"
+  again
+  set s-filename to "%g(s-juggle-temp1)"
+  return
+; end function
+
+
+
+
+
+find-start
+ open GsLog as file GsLogFileName
+ 
+ set s-prolog-GOOD to ""
+ 	|| "%n-----------------------------"
+ 	|| "%nNo oversize images detected."
+ 	|| "%n-----------------------------"
+ 	|| "%n"
+
+ set s-prolog-BASIC to ""
+ 	|| "%n********************************"
+ 	|| "%n*** OVERSIZE IMAGE DETECTION ***"
+ 	|| "%n********************************"
+ 	|| "%n"
+ 	|| "%nMaximum image (width x height) dimensions should not exceed:"
+ 	|| "%n"
+	|| "%nPortrait: 1905 x 2325 pixels"
+	|| "%nFoldout:  4125 x 2325 pixels"
+ 	|| "%n"
+ 	|| "%nImages which exceed maximum page width may run off side of the rendered PDF page,"
+ 	|| "%n"
+	|| "%nImages which exceed maximum page height may interfere with foldout page sequencing,"
+	|| "%ncause duplicate image on expected blank page, push figure title to next page, etc."
+ 	|| "%n"
+ 	|| "%nSee %"oversize-image-check.log%" for list of images that should be sent to Illustration department for resizing."
+ 	|| "%n"
+
+  put GsLog s-prolog-BASIC
+  put #error s-prolog-BASIC
+
+	
+
+find-end
+  do when c-error is equal "0"
+   put GsLog s-prolog-GOOD
+   put #error s-prolog-GOOD
+  done
+  put #error "%n%n"
+  close GsLog
+ 
+
+; Detect current XEP page type
+find "<xep:page width=%"612000%""
+  set s-page-type to "portrait"
+  
+find "<xep:page width=%"1224000%""
+  set s-page-type to "foldout"
+
+
+; Only report on images which either exceed max-width or max-height
+find "<xep:image src=%"" ((lookahead not "%"")any)*=filename "%""
+  set s-current-image to "%x(filename)"
+
+find "width=%"" ((lookahead not "%"")any)*=width "%"" when s-current-image isnt equal ""
+ set c-current-width to "%x(width)"
+
+find "height=%"" ((lookahead not "%"")any)*=height "%"" when s-current-image isnt equal ""
+ set c-current-height to "%x(height)"
+
+; ***********************************************************************************************
+; Report on oversized image when found
+
+find "/>" when s-current-image isnt equal ""
+
+  f-get-directory(s-current-image)
+  f-get-filename(s-current-image, s-sourcedir) ; (returns s-filename without full path)
+  
+  do when s-page-type is equal "portrait"
+
+   do when c-current-width is greater-than c-portrait-max-width
+    set s-current-message to "%g(s-current-message)%n[PORTRAIT IMAGE: %"%g(s-filename)%"] (width greater than 1905 pixels)"
+    increment c-error
+   done
+
+   do when c-current-height is greater-than c-portrait-max-height
+    set s-current-message to "%g(s-current-message)%n[PORTRAIT IMAGE: %"%g(s-filename)%"] (height greater than 2325 pixels)"
+    increment c-error
+   done
+
+  else when s-page-type is equal "foldout"
+
+   do when c-current-width is greater-than c-foldout-max-width
+    set s-current-message to "%g(s-current-message)%n[FOLDOUT IMAGE: %"%g(s-filename)%"] (width greater than 4125 pixels)"
+    increment c-error
+   done
+
+   do when c-current-height is greater-than c-foldout-max-height
+    set s-current-message to "%g(s-current-message)%n[FOLDOUT IMAGE: %"%g(s-filename)%"] (height greater than 2325 pixels)"
+    increment c-error
+   done
+   
+  done
+
+  do when s-current-message isnt equal ""
+   put GsLog s-current-message
+   put GsLog "%n"
+   put #error s-current-message
+   put #error "%n"
+  done
+  
+  set s-current-image to ""
+  set s-current-message to ""
+
+; ***********************************************************************************************
+
+
+
+
+
+

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY ICN-HNYWL-0000100000-001-01 SYSTEM "Graphics/ICN-HNYWL-0000100000-001-01.cgm" NDATA cgm>
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!NOTATION cgm SYSTEM "cgm">
+]>
+<?Pub Inc?>
+<dmodule
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/proced.xsd"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="711" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="01" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>FITS AND CLEARANCES</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic id="app-0001a">
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><procedure><preliminaryRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+<reqSupportEquips>
+<noSupportEquips/></reqSupportEquips>
+<reqSupplies>
+<noSupplies/></reqSupplies>
+<reqSpares>
+<noSpares/></reqSpares>
+<reqSafety>
+<noSafety/></reqSafety>
+</preliminaryRqmts>
+<mainProcedure>
+<proceduralStep><title>Torque Values</title>
+<proceduralStep>
+<para>Tighten nuts, bolts, screws, and tube fittings to the standard
+torque unless specified differently. Refer to FAA Manual FAA-H-8083-30,
+Aviation Maintenance Technician Handbook, for standard torque.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Tighten fasteners installed through non-elastic boundaries to
+remove visible clearance between the parts. Monitor the rundown torque
+necessary just before the fastener becomes tight. Then tighten to
+the final torque (refer to <internalRef internalRefId="t001"
+internalRefTargetType="irtt02"></internalRef> for the correct thread
+size) and add the rundown torque. This procedure is sufficient for
+all fasteners not shown under torque values below. Refer to <internalRef
+internalRefId="t002" internalRefTargetType="irtt02"></internalRef
+> for final torque data after rundown torque.</para>
+</proceduralStep>
+<proceduralStep>
+<para>Tighten fasteners installed through elastic boundaries (sealed
+by means of a diaphragm or similar elastomeric gasket) equally to
+get a pressure tight seal.</para>
+<table id="t001">
+<title>Thread Size and Torque Data</title>
+<tgroup cols="3"><colspec colname="col1"/><colspec colname="col2"/>
+<colspec colname="col3"/><thead><row>
+<entry align="center"></entry>
+<entry align="center" nameend="col3" namest="col2">
+<para>Torque in-lb (Nm)</para>
+</entry>
+</row><row>
+<entry align="center">
+<para>Thread Size</para>
+</entry>
+<entry align="center">
+<para>Aluminum Fastener</para>
+</entry>
+<entry align="center">
+<para>CRES Fastener</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>6-32</para>
+</entry>
+<entry>
+<para>5 (0.565)</para>
+</entry>
+<entry>
+<para>10 (1.13)</para>
+</entry>
+</row><row>
+<entry>
+<para>8-32</para>
+</entry>
+<entry>
+<para>10 (1.13)</para>
+</entry>
+<entry>
+<para>20 (2.26)</para>
+</entry>
+</row><row>
+<entry>
+<para>10-24</para>
+</entry>
+<entry>
+<para>15 (1.695)</para>
+</entry>
+<entry>
+<para>35 (3.955)</para>
+</entry>
+</row><row>
+<entry>
+<para>1/4-20</para>
+</entry>
+<entry>
+<para>45 (5.085)</para>
+</entry>
+<entry>
+<para>75 (8.475)</para>
+</entry>
+</row><row>
+<entry>
+<para>5/16-18</para>
+</entry>
+<entry>
+<para>80 (9.04)</para>
+</entry>
+<entry>
+<para>160 (18.08)</para>
+</entry>
+</row><row>
+<entry>
+<para>3/8-24</para>
+</entry>
+<entry>
+<para>140 (15.82)</para>
+</entry>
+<entry>
+<para>275 (31.075)</para>
+</entry>
+</row><row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row></tbody></tgroup></table>
+<table id="t002">
+<title>Final Torque Data</title>
+<tgroup cols="2"><colspec colname="col1"/><colspec colname="col3"/>
+<thead><row>
+<entry align="center">
+<para>Thread Size</para>
+</entry>
+<entry align="center">
+<para>Approximate Turn After Run-Down</para>
+</entry>
+</row></thead><tbody><row>
+<entry>
+<para>6-32</para>
+</entry>
+<entry>
+<para>45 degrees</para>
+</entry>
+</row><row>
+<entry>
+<para>8-32</para>
+</entry>
+<entry>
+<para>60 degrees</para>
+</entry>
+</row><row>
+<entry>
+<para>10-24</para>
+</entry>
+<entry>
+<para>40 degrees</para>
+</entry>
+</row><row>
+<entry>
+<para>1/4-20</para>
+</entry>
+<entry>
+<para>40 degrees</para>
+</entry>
+</row><row>
+<entry>
+<para>5/16-18</para>
+</entry>
+<entry>
+<para>40 degrees</para>
+</entry>
+</row><row>
+<entry>
+<para>3/8-24</para>
+</entry>
+<entry>
+<para>60 degrees</para>
+</entry>
+</row></tbody></tgroup></table>
+</proceduralStep>
+</proceduralStep>
+</mainProcedure>
+<closeRqmts>
+<reqCondGroup>
+<noConds/></reqCondGroup>
+</closeRqmts>
+</procedure></content></dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

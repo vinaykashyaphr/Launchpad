@@ -1,0 +1,152 @@
+@echo off
+
+rem *** Path Configuration ***
+call ..\environment.bat
+
+
+echo ==========================
+echo *** Parameters Setting ***
+echo ==========================
+set params="IMAGES_DIR=file:///%WorkPath%/images/" "GRAPHICS_DIR=file:///%WorkPath%/SB_DRIVER/XML_INPUT/graphics" "WorkPath=file:///%WorkPath%/SB_DRIVER"
+
+
+rem - WAR NOTE: The SGML to XML conversion will need to be enhanced to resolve all of the differences between XML and SGML. Ref. www.w3.org/TR/NOTE-sgml-xml-971215
+echo ==============================
+echo *** Converting SGML to XML ***
+echo ==============================
+for %%a in ("XML_INPUT\*.sgm") do (
+	%omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\sgml2xml.xom" -of "XML_INPUT\%%~na.xml" -log "TEMP\%%~na_sgml2xml.err"
+)
+
+
+echo ====================
+echo *** Start Render ***
+echo ====================
+
+for %%a in ("XML_INPUT\*.xml") do (
+
+	echo ===================================
+	echo 0   *** Deleting existing files ***
+	echo ===================================	
+	del TEMP\*.* /F /Q
+	del PDF_OUTPUT\%%~na*
+	copy sb.dtd TEMP\sb.dtd
+
+	rem *** CV - copy "MasterTextEntities.xml" to TEMP
+	copy ..\MasterTextEntities\MasterTextEntities*.xml TEMP
+
+	echo ==========================================
+	echo 1   *** FIXING Processing Instructions ***
+	echo ==========================================
+	rem %omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\fix_pi.xom" -of "TEMP\%%~na_FIXED_PI.xml" -log "TEMP\%%~na_fix_pi.err"
+	
+	%omnimark% "XML_INPUT\%%~na%%~xa" -sb "%RenderPath%\omnimark\fix_line_break.xom" -of "TEMP\%%~na_FIXED_LINE_BREAK.xml" -log "TEMP\%%~na_fix_line_break.err"
+	rem %omnimark% "TEMP\%%~na_FIXED_LINE_BREAK.xml" -sb "%RenderPath%\omnimark\fix_pi.xom" -of "TEMP\%%~na_FIXED_PI.xml" -log "TEMP\%%~na_fix_pi.err"
+
+%omnimark% "TEMP\%%~na_FIXED_LINE_BREAK.xml" -sb "%RenderPath%\omnimark\normalize_references.xom" -of "TEMP\%%~na_NORMALIZED_REFERENCES.xml" -log "TEMP\%%~na_normalize_references.err"
+%omnimark% "TEMP\%%~na_NORMALIZED_REFERENCES.xml" -sb "%RenderPath%\omnimark\fix_pi.xom" -of "TEMP\%%~na_FIXED_PI.xml" -log "TEMP\%%~na_fix_pi.err"
+
+	echo ==========================
+	echo 1b   *** Updating GNBRs ***
+	echo ==========================
+rem		 Update graphic attributes to point to graphic files
+	%omnimark% "TEMP\%%~na_FIXED_PI.xml" -sb "%RenderPath%\omnimark\update_gnbrs.xom" -of "TEMP\%%~na_UPDATED_GNBRs.xml" -d GsGraphicsDir "%WorkPath%/SB_DRIVER/XML_INPUT/graphics" -log "TEMP\%%~na_update_gnbrs.err"
+
+	echo ===========================
+	echo 2   *** Propagating Rev ***
+	echo ===========================
+	rem %omnimark% "TEMP\%%~na_FIXED_PI.xml" -sb "%RenderPath%\omnimark\propagate_rev.xom" -of "TEMP\%%~na_PROPAGATED_REV.xml" -log "TEMP\%%~na_propagate_rev.err"
+	%omnimark% "TEMP\%%~na_UPDATED_GNBRs.xml" -sb "%RenderPath%\omnimark\propagate_rev.xom" -of "TEMP\%%~na_PROPAGATED_REV.xml" -log "TEMP\%%~na_propagate_rev.err"
+
+
+
+	echo ==============================
+	echo 3   *** CREATING UPPER.xml ***
+	echo ==============================
+	%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_PROPAGATED_REV.xml" "-xsl:%RenderPath%\shared\upperCase.xsl" "-o:TEMP\%%~na_UPPER%%~xa"
+	
+	echo =====================
+	echo 4   *** XML to FO ***
+	echo =====================
+
+rem %java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_UPPER%%~xa" "-o:TEMP\%%~na.fo" "-xsl:%RenderPath%\SB_XSL\SB.xsl" %params%
+%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na_UPPER%%~xa" "-o:TEMP\%%~na.fo.orig" "-xsl:%RenderPath%\SB_XSL\SB.xsl" %params%
+%omnimark% "TEMP\%%~na.fo.orig" -sb "%RenderPath%\omnimark\fix_line_break.xom" -of "TEMP\%%~na.fo" -log "TEMP\%%~na_fix_line_break-2nd-pass.err"
+
+
+
+echo =================================
+echo 4: 14A   *** Strip fo:list-block ***
+echo =================================
+%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na.fo" "-xsl:%RenderPath%\SB_XSL\strip_list-blocks.xsl" "-o:TEMP\%%~na_stripped_list-block.fo"
+
+
+
+	echo =====================
+	echo 5   *** FO to XEP ***
+	echo =====================
+rem %java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na.fo" -xep "TEMP\%%~na.xep"
+%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -fo "TEMP\%%~na_stripped_list-block.fo" -xep "TEMP\%%~na.xep"
+
+
+
+	echo =================================
+	echo 6   *** XEP to Re-ordered XEP ***
+	echo =================================
+rem %java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na.xep" "-o:TEMP\%%~na_2.xep" "-xsl:%RenderPath%\shared\reorderPages.xsl"
+%java_command% -cp %cp% net.sf.saxon.Transform "-versionmsg:off" "-s:TEMP\%%~na.xep" "-o:TEMP\%%~na_2.xep" "-xsl:%RenderPath%\SB_XSL\reorderPages_SB.xsl"
+
+
+
+echo ============================
+echo 6: 17   *** Add Point Pages ***
+echo ============================
+%omnimark% "TEMP\%%~na_2.xep" -sb "%RenderPath%\omnimark\point_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_point-pages.xep" -log "TEMP\%%~na_point_pages.err"
+
+echo ====================================
+echo 6: 18   *** Add Foldout Table Pages ***
+echo ====================================
+%omnimark% "TEMP\%%~na_2_point-pages.xep" -sb "%RenderPath%\omnimark\foldout_pages.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_foldout-pages.xep" -log "TEMP\%%~na_foldout_pages.err"
+
+echo ===============================
+echo 6: 19   *** Updating TOC Pages ***
+echo ===============================
+%omnimark% "TEMP\%%~na_2_foldout-pages.xep" -sb "%RenderPath%\omnimark\update_toc.xom" -d GsFilename "TEMP\%%~na" -of "TEMP\%%~na_2_updated-toc.xep" -log "TEMP\%%~na_update_toc.err"
+
+
+echo ====================================
+echo 6: 19.5 *** Foldout page footer fix ***
+echo ====================================
+%omnimark% "TEMP\%%~na_2_updated-toc.xep" -sb "%RenderPath%\omnimark\foldout_page_footer_fix.xom" -of "TEMP\%%~na_2_updated-toc-FINAL.xep" -log "TEMP\%%~na_foldout_page_footer_fix.err"
+
+
+
+	echo =====================================
+	echo 7   *** Oversize Image Detection ***
+	echo =====================================
+	%omnimark% "TEMP\%%~na_2_updated-toc-FINAL.xep" -sb "%RenderPath%\omnimark\oversize-image-check.xom" -of "TEMP\%%~na.junk" -d GsLogFileName "TEMP\oversize-image-check.log" -log "TEMP\%%~na_oversize_image_check.err"
+
+
+	echo =================================
+	echo 8   *** Re-ordered XEP to PDF ***
+	echo =================================
+rem %java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -xep "TEMP\%%~na_2.xep" -pdf "PDF_OUTPUT\%%~na.pdf"
+%java_command% -cp %cp% com.renderx.xep.XSLDriver -DCONFIG=%xep_config% -xep "TEMP\%%~na_2_updated-toc-FINAL.xep" -pdf "PDF_OUTPUT\%%~na.pdf"
+
+
+
+
+echo ==================
+echo Date: %DATE%
+echo Time: %TIME%
+echo ==================
+
+echo ==================
+echo *** End Render ***
+echo ==================
+
+	rem *** Save document specific log files ***
+	copy "TEMP\oversize-image-check.log" "PDF_OUTPUT\%%~na-oversize-image-check.log"
+	copy "TEMP\run.log" "PDF_OUTPUT\%%~na-run.log"
+
+)

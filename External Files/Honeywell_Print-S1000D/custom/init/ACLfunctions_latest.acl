@@ -1,0 +1,911 @@
+#NOTE FOR RETURN: Test the use of the new XMLPasteIPL. Changed to check if the tag is a "task".
+
+
+Package ACLfunctions;
+
+function deleterevbars(){};
+
+#This function will be used to update the revision and date values throghout the document.
+
+#function addRev() {
+#local date, oid, revision, T_oid;
+#	readvar -title "LATEST REVISION" \
+#			-prompt "Please enter Revision number" revision;
+#	readvar -title "LATEST REVISION DATE" \
+#			-prompt "Please enter latest Revision date (yyyymmdd)" date;
+#	oid = oid_first(current_doc());
+#	oid_modify_attr(oid, "revdate", date);	
+#	oid_modify_attr(oid, "tsn", revision);
+#	
+#	while (oid_valid(oid) == 1){
+#		oid = oid_forward(oid);
+#		if (oid_name(oid) == "title"){
+#			if (tolower(oid_content(oid)) == "revision history"){
+#				T_oid = oid;
+#				break;
+#			}
+#		
+#		}
+#	
+#	}
+#	for (x = 0; x<= 200; x++){									  #Assumes less than a 200 revisions
+#		if (oid_name(oid) == "para"){
+#			if (oid_content(oid) == revision - 1){
+#				goto_oid(oid, -3)
+#				insert_row;
+#				it "para";
+#				insert_string(revision);
+#				RightArrowKey; rep 1;
+#				it "para";
+#				break;											################## ALL OF IT WORKS, NOW MAKE FUNCTION THAT CHANGE month MM to Month Mmm (Mar, Jan, etc.)
+#			}else if (oid_content(oid) == revision){
+#				break;
+#			}
+#		}
+#		oid = oid_forward(oid);
+#	}          
+#}
+
+
+#Takes text file with XML data and tag location and replaces in the document.
+function xmlPasteIPL(oid, x){
+	if (x == 1){
+		goto_oid($oid);
+		$task1 = oid_forward($oid);
+		if (oid_name($task1)=="task"){
+			oid_select($task1);
+			backspace;
+			oid_delete($task1);
+		}
+		goto_oid($oid);
+		$task1 = oid_forward($oid);
+		if (oid_name($task1)=="task"){
+			goto_oid($task1);
+			oid_select($task1);
+			backspace;
+			CharLeftExtend;
+		}
+		rea -buffer buf1 '\\\\OTFS01\\folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\ARBORTEXT TEMPLATE DATA\\AEROTEMP17.txt'
+		paste buf1;
+		delete_buffer -all;	
+	} 
+	else if (x == 2) {
+		goto_oid($oid);
+		$task1 = oid_forward($oid);
+		if (oid_name($task1)=="task"){
+			oid_select($task1);
+			backspace;
+			oid_delete($task1);
+		}
+		goto_oid($oid);
+		$task1 = oid_forward($oid);
+		if (oid_name($task1)=="task"){
+			goto_oid($task1);
+			oid_select($task1);
+			backspace;
+			CharLeftExtend;
+		}
+		rea -buffer buf1 '\\\\OTFS01\\folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\ARBORTEXT TEMPLATE DATA\\AEROTEMP17_TORONTO.txt'
+		paste buf1;
+		delete_buffer -all;	
+	}
+
+
+}
+
+function xmlPaste(oid, path){
+local fLocation;
+	if (path == "MTOSS"){
+	rea -buffer buf1 '\\\\OTFS01\folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\ARBORTEXT TEMPLATE DATA\\MTOSSTABLES.txt'
+	}
+	else if (path =="JEMTOSS"){
+	rea -buffer buf1 '\\\\OTFS01\folders\\500\\500 - Catch All\\TECHWRITE\\Shawn\\ARBORTEXT TEMPLATE DATA\\JEMTOSSTABLES.txt'
+	}
+	oid_select(oid);
+	backspace;
+	paste buf1;
+	delete_buffer -all;
+}
+
+#Uses Javascript to copy the Boilerplate graphics from Phoenix drive template folder to the jobs graphics folder.
+function copy(file){
+js	file.copy('.//graphics//', 1);
+}
+function move(){
+	a = response('Do you want to copy the boiler plate graphics?', '&Yes', '&No');
+	if (a == 1){
+	set javascriptinterpreter = jscript;
+js		var object = new ActiveXObject("Scripting.FileSystemObject");
+js		var file = object.GetFile("\\\\172.16.15.22\\Data\\HPS\\Honeywell Templates\\graphics\\Output\\ICN-HNYWL-0000233099-001-99.tif");
+		copy(file);
+js		var file = object.GetFile("\\\\172.16.15.22\\Data\\HPS\\Honeywell Templates\\graphics\\Output\\ICN-HNYWL-0000233100-001-99.tif");
+		copy(file);
+js		var file = object.GetFile("\\\\172.16.15.22\\Data\\HPS\\Honeywell Templates\\graphics\\Output\\ICN-HNYWL-0000233101-001-99.tif");
+		copy(file);
+js		var file = object.GetFile("\\\\172.16.15.22\\Data\\HPS\\Honeywell Templates\\graphics\\Output\\ICN-HNYWL-0000233102-001-99.tif");
+		copy(file);
+js		var file = object.GetFile("\\\\172.16.15.22\\Data\\HPS\\Honeywell Templates\\graphics\\Output\\ICN-HNYWL-0000707975-001-99.tif");
+		copy(file);
+js		var file = object.GetFile("\\\\172.16.15.22\\Data\\HPS\\Honeywell Templates\\graphics\\Output\\ICN-HNYWL-0000233104-001-99.tif");
+		copy(file);	
+	}
+}
+
+function searchgentext() {};
+#interim function used to search generated text.
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function deletetag() {
+#This function is used to delete a specified tag from the user. It will ask for the user to type in a name of a tag within the XML or
+#SGML document and it will go through entire document and delete every instance of it.
+
+		local n, o = oid_first(current_doc()); 
+		local name;
+		readvar  -title  "Type in the name of the tag that is to be deleted" \
+						-prompt "Enter the tag" name;
+	if (name == "_rev"){
+		while (oid_valid($o) == 1) {
+			if (oid_name($o) == "$name") {
+					n = o;
+					o = oid_forward($o);
+					goto_oid($n);
+					dt
+			}
+			else {
+
+					o = oid_forward($o);
+			}
+	
+		}
+	}
+	else {
+		while (oid_valid($o) == 1) {
+				if (oid_name($o) == "$name") {
+						n = o;
+						o = oid_forward($o);
+						oid_delete($n);
+				}
+				else {
+
+						o = oid_forward($o);
+				}
+	
+		}
+	}
+}
+
+Function checkfrontmatter(){
+#This function is used to check the front matter graphics, MTOSS tables, The CAGE CODE adresses etc. are up to date.
+#This will return window that will state "Front matter is updated" (if no change found) or "The following requires update".
+  
+		local n, o = oid_first(current_doc());
+		local symbol1 =0, symbol2 =0, MTOSS =0, DPL =0, Nomen =0, Table =0, sym =0, k =0;
+		local check, H4H8, H4H8Del, z, buffer = 0, iplloc, oid;
+		local pages =0, checkIPL = 0;
+		
+
+#Searches the MTOSS table for 878 description
+		if (find("Schematic diagrams, wiring diagrams, interconnect diagrams") == 1){
+						Table++;
+		}
+
+#Searches and replaces all instances of the H4/H8 CAGE code.
+		H4H8 = find("H4/H8");
+		if (H4H8 == 1){
+				While (H4H8 == 1){
+					H4H8Del =  oid_caret();
+					oid_delete($H4H8Del);
+					insert_tag("para");
+					insert_string("CAGE codes and manufacturers' addresses are available at https://cage.dla.mil.");
+					pages++;
+					H4H8 = find("H4/H8");
+				}
+				response("All instances of H4/H8 replaced");
+		} 
+		else {
+				response("There was no instances of H4/H8");
+		}
+
+#Searches and replaces outdated graphics
+		while (oid_valid($o) == 1){
+				if (oid_name($o) == "sheet") {
+						check = oid_attr($o, "gnbr");
+						if ($check == "ICN-HNYWL-0000233099-001-99") {
+								symbol1++;
+						}
+						else if ($check == "ICN-HNYWL-0000233100-001-99") {
+								symbol2++;
+						}
+						else if ($check == "ICN-HNYWL-0000233102-001-99") {
+								MTOSS++;
+						}
+						else if ($check == "ICN-HNYWL-0000707975-001-99") {
+								DPL++;
+						}
+						else if ($check == "ICN-HNYWL-0000233104-001-99") {
+								Nomen++;
+						}
+						else if ($check == "id112405"){
+								$h = $o;
+								$k = 1;
+						}
+						else if ($check == "graphic112405"){
+								$h = $o;
+								$k = 1;
+						}						
+				}
+				if (oid_name($o) == "title"){
+					if (oid_content($o) == "Symbols") {
+						oid = oid_forward($o);
+						if (oid_name(oid) == "sheet"){
+							check = oid_attr(oid, "gnbr");
+							k = 1;
+							if ($check == "ICN-HNYWL-0000233101-001-99") {
+								sym++;
+							}
+						}
+					}
+						
+				}
+				if (oid_name($o)=="iplintro"){
+						iplloc = $o;
+						checkIPL = 1;
+				}
+
+				o = oid_forward($o);
+		}
+		
+		if (symbol1 & symbol2 & MTOSS & DPL & Nomen & Table & sym == 1){
+			response("All figures and tables are updated");
+		}
+		else {
+				if (Table ==0){
+						pages++;
+						response("Table INTRO-2. MTOSS Function Code Definitions need to be updated");
+				}
+
+				if (symbol1 ==0){
+						pages++;
+						declare_graphic_entity("ICN-HNYWL-0000233099-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000233099-001-99.tif");
+						declare_graphic_entity("ICN-HNYWL-0000233100-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000233100-001-99.tif");
+						if (find("Geometric Tolerance Symbols") == 1) {
+							find("Geometric Tolerance Symbols"); 
+							$a = oid_caret(); 
+							$a = oid_forward($a); 
+							oid_modify_attr($a, "gnbr", "ICN-HNYWL-0000233099-001-99");
+							$a = oid_forward($a);
+							if (oid_name($a) == "gdesc"){
+								goto_oid($a,-3);
+								Linedown; rep 2;
+								$a = oid_caret();
+							}
+							else if (oid_name($a)=="_subchars")
+							{
+								$a = oid_forward($a); rep 1;
+							}
+							if (oid_name($a) == "sheet") {
+								oid_modify_attr($a, "gnbr", "ICN-HNYWL-0000233100-001-99");	
+							}
+							else {
+								response("Geometric Tolerance Symbols sheet 2 is missing");
+							}			
+						}
+						else {
+								response("Figure INTRO-1. Missing")
+						}
+				}
+				if (symbol2 ==0){
+						pages++;
+						declare_graphic_entity("ICN-HNYWL-0000233099-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000233099-001-99.tif");
+						declare_graphic_entity("ICN-HNYWL-0000233100-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000233100-001-99.tif");
+						if (find("Geometric Tolerance Symbols") == 1) {
+							find("Geometric Tolerance Symbols"); 
+							$a = oid_caret(); 
+							$a = oid_forward($a); 
+							oid_modify_attr($a, "gnbr", "ICN-HNYWL-0000233099-001-99");
+							$a = oid_forward($a);
+							if (oid_name($a) == "gdesc"){
+								goto_oid($a,-3);
+								Linedown; rep 2;
+								$a = oid_caret();
+							}
+							else if (oid_name($a)=="_subchars")
+							{
+								$a = oid_forward($a); rep 1;
+							}
+							if (oid_name($a) == "sheet") {
+								oid_modify_attr($a, "gnbr", "ICN-HNYWL-0000233100-001-99");	
+							}
+							else {
+								response("Geometric Tolerance Symbols sheet 2 is missing");
+							}			
+						}
+						else {
+								response("Figure INTRO-1. Missing")
+						}
+				}
+				if (sym ==0){
+						pages++;
+						declare_graphic_entity("ICN-HNYWL-0000233101-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000233101-001-99.tif");						
+						if (k == 0) {
+
+								response("Figure INTRO-2.Symbols (Sheet 1 of 1) Missing, Check template")
+						}						
+						else {
+								oid_modify_attr(oid, "gnbr", "ICN-HNYWL-0000233101-001-99");								
+						}
+
+				}		
+				if (MTOSS ==0){
+						pages++;
+						declare_graphic_entity("ICN-HNYWL-0000233102-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000233102-001-99.tif");
+						if (find("Application of Maintenance Task Oriented Support") == 1) {
+								find("Application of Maintenance Task Oriented Support"); 
+								$a = oid_caret(); 
+								local loc = oid_backward($a);
+								if (oid_name(loc) == "chgdesc")
+								{
+									for (x = 0; x <= 100; x++) {
+										loc = oid_backward($loc);
+										if (oid_name(loc) == "subtask"){
+											break;
+										}
+									}
+								}
+								xmlPaste($loc, "MTOSS");
+						}
+						else if (find("Application of Jet Engine Maintenance Task Oriented") == 1){
+								find("Application of Jet Engine Maintenance Task Oriented"); 
+								$a = oid_caret(); 
+								loc = oid_backward($a);
+								loc = oid_backward($loc);
+								if (oid_name(loc) == "chgdesc")
+								{
+									for (x = 0; x <= 100; x++) {
+										loc = oid_backward($loc);
+										if (oid_name(loc) == "subtask"){
+											break;
+										}
+									}
+								}								
+								xmlPaste($loc, "JEMTOSS")		
+						}
+						else {
+								response("Figure MTOSS Code positions. Missing")
+						}
+				}
+
+				if (DPL ==0){
+						pages++;
+						declare_graphic_entity("ICN-HNYWL-0000707975-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000707975-001-99.tif");
+						if (checkIPL == 1){
+							if (find("Manufacturer’s Part Numbering System")== 1){
+								xmlPasteIPL($iplloc, 2);
+							}
+							else {
+								xmlPasteIPL($iplloc, 1);
+							}
+						}
+						else {	
+							response("IPL Intro Figures are Missing")
+						}
+				}
+
+				if (Nomen ==0){
+						pages++;
+						declare_graphic_entity("ICN-HNYWL-0000233104-001-99", "ccitt4", "Graphics\\ICN-HNYWL-0000233104-001-99.tif");						
+				}		
+		}
+		return pages;
+}
+
+Function deleterevbars(){
+#This function is used to delete all the Revision bars, change descriptions for both XML and SGML.
+
+		local n, o = oid_first(current_doc());
+
+		while (oid_valid($o) == 1) {
+			if (oid_name($o) == "_rev") {
+					n = o;
+					o = oid_forward($o);
+					goto_oid($n);
+					dt
+			}
+			else if (oid_name($o) == "chgdesc"){
+					n = o;
+					o = oid_forward($o);
+					oid_delete($n);			
+			} 
+			else if (oid_name($o) == "revst"){
+					n = o;
+					o = oid_forward($o);
+					oid_delete($n);	
+			}
+			else if (oid_name($o) == "revend"){
+					n = o;
+					o = oid_forward($o);
+					oid_delete($n);	
+			}
+			else {
+					o = oid_forward($o);	
+			}
+	}
+}
+
+#If there are CAGE codes in the 2nd column instead of the 3rd one, this will move all instances to the 3rd column. 
+#due to the inconsistent nature of how CAGE code are written, please make sure to check all are replaced correctly.
+
+Function rep_cage() {
+local a, b, c, content, CAGE, cLength1, cLength2, rContent;
+local o = oid_first(current_doc());
+
+while (oid_valid($o) == 1) {
+	o = oid_forward(o);
+	if (oid_name($o) == "conname"){
+		content = oid_content(o);
+		cLength1 = length(content);
+		split($content, $arr, " ")
+		for (x = 0; x < 200; x++){
+			if (arr[x] == "CAGE:"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2+2))
+				if (oid_name(oid_forward(o)) == "consrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o)
+					goto_oid(o);					
+					insert_string(rContent);					
+				}
+				else {
+					goto_oid(o, -3);
+					it consrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);					
+					insert_string(rContent);
+				} 
+				break;
+			}
+			else if (arr[x] == "(CAGE"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2))
+				if (oid_name(oid_forward(o)) == "consrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o)
+					goto_oid(o);					
+					insert_string(rContent);					
+				}
+				else {
+					goto_oid(o, -3);
+					it consrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);					
+					insert_string(rContent);
+				} 
+				break;
+			}	
+			else if (arr[x] == "(CAGE:"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2))
+				if (oid_name(oid_forward(o)) == "consrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o)
+					goto_oid(o);					
+					insert_string(rContent);					
+				}
+				else {
+					goto_oid(o, -3);
+					it consrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);					
+					insert_string(rContent);
+				} 
+				break;
+			}			
+			else if (arr[x] == "commercially"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2+2))			
+				if (oid_name(oid_forward(o)) == "consrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o);
+					goto_oid(o);					
+					insert_string(rContent);					
+							
+				}
+				else {
+					goto_oid(o, -3);
+					it consrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);					
+					insert_string(rContent);					
+				} 
+				break;
+			}
+			else if (arr[x] == "(commercially"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2))			
+				if (oid_name(oid_forward(o)) == "consrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o);
+					goto_oid(o);					
+					insert_string(rContent);					
+							
+				}
+				else {
+					goto_oid(o, -3);
+					it consrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);					
+					insert_string(rContent);					
+				} 
+				break;
+			}			
+		}
+	}
+	else if (oid_name($o) == "stdname"){
+		content = oid_content(o);
+		cLength1 = length(content);		
+		split($content, $arr, " ")
+		for (x = 0; x < 200; x++){
+			if (arr[x] == "CAGE:"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2+2))			
+				if (oid_name(oid_forward(o)) == "stdsrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);					
+							
+				}
+				else {
+					goto_oid(o, -3);
+					it stdsrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);					
+				} 
+				break;
+			}
+			else if (arr[x] == "(CAGE"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2))			
+				if (oid_name(oid_forward(o)) == "stdsrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);												
+				}
+				else {
+					goto_oid(o, -3);
+					it stdsrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);					
+				} 
+				break;
+			}	
+			else if (arr[x] == "(CAGE:"){
+				CAGE = arr[x] . " " . arr[x+1];
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2))			
+				if (oid_name(oid_forward(o)) == "stdsrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);												
+				}
+				else {
+					goto_oid(o, -3);
+					it stdsrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);					
+				} 
+				break;
+			}			
+			else if (arr[x] == "commercially"){
+				CAGE = arr[x] . " " . arr[x+1];			
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2+2))			
+				if (oid_name(oid_forward(o)) == "stdsrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);												
+				}
+				else {
+					goto_oid(o, -3);
+					it stdsrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);					
+				} 
+				break;
+			}
+			else if (arr[x] == "(commercially"){
+				CAGE = arr[x] . " " . arr[x+1];			
+				cLength2 = length(CAGE);
+				rContent = substr(content, 1, cLength1-(cLength2))			
+				if (oid_name(oid_forward(o)) == "stdsrc"){
+					goto_oid(o, -3);
+					RightArrowKey;
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);												
+				}
+				else {
+					goto_oid(o, -3);
+					it stdsrc;
+					insert_string(CAGE);
+					oid_select($o);
+					goto_oid(o);
+					insert_string(rContent);					
+				} 
+				break;
+			}			
+		}
+	}				
+}
+}
+
+#Updates all the legal matter to the latest revisions.
+Function legalmatter() {
+#Variable Declaration
+	local j = oid_first(current_doc());
+	local export[], a = 0, job = 0;
+	
+a = find("This License Agreement and all attachments set forth the entire agreement and understanding between the parties on the subject matter of the License Agreement and merges all prior discussions and negotiations among them. This License Agreement may be modified only by a duly-authorized representative of Honeywell");
+a = find("This License Agreement and all attachments set forth the entire agreement and understanding between the parties on the subject matter of the License Agreement and merges all prior discussions and negotiations among them.  This License Agreement may be modified only by a duly-authorized representative of Honeywell")
+if ($a == 0){
+		readvar  -title  "Job Number" \
+						-prompt "Please Enter the Job Number" number;
+	location = substr(number, 1, 3)
+	if (location == "521" || location == "517") {
+		job = 1;
+	}	
+	While (oid_valid($j)==1) {
+		if (oid_name($j)== "exprtcl") {
+			oid_find_children($j, $export, "para")
+			$i=0;
+			for ($i in $export) {
+				oid_delete($export[1]);
+			}
+			goto_oid($j);
+			insert_tag("para");
+			if (job == 1){
+				insert_string("This document contains technical data and is subject to Canadian and U.S. export regulations. If these commodities, technology, or software were exported from Canada, no export permit is required. If these commodities, technology, or software were exported from the United States, they must be exported in accordance with the Export Administration Regulations. Diversion contrary to Canadian or U.S. Law or regulations is prohibited.")
+			} else {
+				insert_string("These items are controlled by the U.S. government and authorized for export only to the country of ultimate destination for use by the ultimate consignee or end-user(s) herein identified. They may not be resold, transferred, or otherwise disposed of, to any other country or to any person other than the authorized ultimate consignee or end-user(s), either in their original form or after being incorporated into other items, without first obtaining approval from the U.S. government or as otherwise authorized by U.S. law and regulations.")
+			}
+			response("Export control statement updated");
+		}
+		if (oid_name($j)== "fullstmt") {
+			oid_find_children($j, $stmt, "para")
+			i=0;
+			for ($i in $stmt) {
+				oid_delete($stmt[$i]);
+			}
+			goto_oid($j, -1);
+			insert_tag("para");
+			insert_string("COPYRIGHT BY HONEYWELL INTERNATIONAL INC. (\"HONEYWELL\"). ALL RIGHTS RESERVED. THIS DOCUMENT AND ALL INFORMATION CONTAINED HEREIN ARE THE CONFIDENTIAL AND PROPRIETARY INFORMATION OF HONEYWELL AND CONTAIN HONEYWELL TRADE SECRETS. NEITHER THIS DOCUMENT NOR THE INFORMATION CONTAINED HEREIN MAY, IN WHOLE OR IN PART, BE USED, DUPLICATED, OR DISCLOSED FOR ANY PURPOSE WITHOUT PRIOR WRITTEN PERMISSION OF HONEYWELL.");
+			goto_oid(oid_caret(), -3);
+			insert_tag("para");
+			insert_string("PLEASE REVIEW THE TERMS OF THIS AGREEMENT CAREFULLY BEFORE USING THIS DOCUMENT, AS BY USING IT, YOU ACKNOWLEDGE THAT YOU HAVE REVIEWED THIS AGREEMENT AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.");	
+			response("Honeywell-Confidential Updated");
+			break;
+		}
+		j = oid_forward($j);
+	}
+	
+#Replaces the Honeywell Materials License Agreement from 9 to 14 points or latest available vesrion
+
+	if (find("Honeywell Materials License Agreement")== 1){
+		$a =  oid_parent(oid_caret());
+		if (oid_name($a) == "fullstmt"){
+			oid_find_children($a, $stmt2, "para")
+			i=0;
+			for ($i in $stmt2) {
+				oid_delete($stmt2[$i]);
+			}
+			goto_oid($a, -1);
+			rea -buffer buf1 "V:\500\500 - Catch All\TECHWRITE\Shawn\ARBORTEXT TEMPLATE DATA\HMLA.txt"
+			paste buf1;
+			delete_buffer -all;			
+			response("Honeywell Materials License Agreement Updated");
+		}	
+	}
+	else {
+		response("Honeywell Materials License Agreement was not found");
+	}
+
+#Searches and Replaces all instances of the Honeywell Website with the New location
+		Website = find("myaerospace");
+		if (Website == 1) {
+			replace("https://myaerospace.honeywell.com/wps/portal/", "https://aerospace.honeywell.com/en/learn/about-us/about-myaerospace", 0x2000);
+			replace("www.myaerospace.com", "https://aerospace.honeywell.com", 0x2000)
+			replace("myaerospace.com", "https://aerospace.honeywell.com", 0x2000)
+			response("All instances of myaerospace web link replaced");
+		}
+		else {
+			response("There were no instances of the incorrect myaerospace web link");
+		}		
+	
+#Replaces Safety Advisory to latest revision	
+
+	if (find("Safety Advisory")== 1){
+		$a =  oid_parent(oid_caret());
+		if (oid_name($a) == "fullstmt"){
+			oid_find_children($a, $stmt3, "para")
+			i=0;
+			for ($i in $stmt3) {
+				oid_delete($stmt3[$i]);
+			}	
+			goto_oid($a, -1);
+			insert_tag("para");
+			insert_string("WARNING: BEFORE THE MATERIALS CALLED OUT IN THIS PUBLICATION ARE USED, KNOW THE HANDLING, STORAGE AND DISPOSAL PRECAUTIONS RECOMMENDED BY THE MANUFACTURER OR SUPPLIER. FAILURE TO OBEY THE MANUFACTURERS\' ; OR SUPPLIERS\' ; RECOMMENDATIONS CAN RESULT IN PERSONAL INJURY OR DISEASE.");
+			goto_oid(oid_caret(), -3);
+			insert_tag("para");
+			insert_string("This publication describes physical and chemical processes which can make it necessary to use chemicals, solvents, paints, and other commercially available materials. The user of this publication must get the Material Safety Data Sheets (OSHA Form 174 or equivalent) from the manufacturers or suppliers of the materials to be used. The user must know the manufacturer/supplier data and obey the procedures, recommendations, warnings and cautions set forth for the safe use, handling, storage, and disposal of the materials.");		
+			response("Safety Advisory Updated");
+		}		
+	}
+	else {
+		response("Safety Advisory was not found");
+	} 		
+		
+#Replaces Warranty/Liability Advisory
+	
+	if (find("Warranty/Liability Advisory")== 1){
+		if (find("COMPONENTS IDENTIFIED IN THIS SERVICE BULLETIN CURRENTLY HAVE FAA CERTIFIED LIFE LIMITS") == 1){
+		}
+		$a =  oid_parent(oid_caret());
+		if (oid_name($a) == "fullstmt"){
+			oid_find_children($a, $stmt4, "para")
+			i=0;
+			for ($i in $stmt4) {
+				oid_delete($stmt4[$i]);
+			}	
+		goto_oid($a, -1);
+		insert_tag("para");
+		insert_string("WARNING: HONEYWELL ASSUMES NO RESPONSIBILITY FOR ANY HONEYWELL EQUIPMENT WHICH IS NOT MAINTAINED AND/OR REPAIRED IN ACCORDANCE WITH HONEYWELL\'S PUBLISHED INSTRUCTIONS AND/OR HONEYWELL\'S FAA/SFAR 36 REPAIR AUTHORIZATION. NEITHER DOES HONEYWELL ASSUME RESPONSIBILITY FOR SPECIAL TOOLS AND TEST EQUIPMENT FABRICATED BY COMPANIES OTHER THAN HONEYWELL.");
+		goto_oid(oid_caret(), -3);
+		insert_tag("para");
+		insert_string("WARNING: INCORRECTLY REPAIRED COMPONENTS CAN AFFECT AIRWORTHINESS OR DECREASE THE LIFE OF THE COMPONENTS. INCORRECTLY FABRICATED SPECIAL TOOLING OR TEST EQUIPMENT CAN RESULT IN DAMAGE TO THE PRODUCT COMPONENTS OR GIVE UNSATISFACTORY RESULTS.");		
+		if (location == 519)
+		{
+			job = response('Is this a "Life Limit SB" (Title should say "Life Limits")', '&Yes', '&No');
+			goto_oid(oid_caret(), -3);
+			insert_tag("para");
+			insert_string("WARNING: COMPONENTS IDENTIFIED IN THIS SERVICE BULLETIN CURRENTLY HAVE FAA CERTIFIED LIFE LIMITS AND MUST BE REPLACED BY THE LIMITS STATED WITHIN THE SERVICE BULLETIN. HONEYWELL WILL NOT AUTHORIZE OPERATION BEYOND THE LIFE LIMITS PRESENTED HEREIN AND THESE LIFE LIMITS CANNOT BE EXTENDED BY THE INDIVIDUAL OPERATORS. IT IS THE RESPONSIBILITY OF EACH OPERATOR TO ENSURE THAT LIFE LIMIT RECORDS FOR COMPONENTS IDENTIFIED IN THIS SERVICE BULLETIN ARE CORRECT AND COMPLETE. LIFE LIMITED COMPONENTS WITH NO RECORDED HOUR OR CYCLE TRACEABILITY SHALL BE IMMEDIATELY REMOVED FROM SERVICE.");					
+			goto_oid(oid_caret(), -3);
+			insert_tag("para");
+			insert_string("WARNING: OPERATION OF AN ENGINE WITH COMPONENTS THAT EXCEED THE LIFE LIMITS IDENTIFIED IN THIS SERVICE BULLETIN CREATES SUBSTANTIAL RISK TO LIFE AND PROPERTY. SUCH AN ENGINE, FOR EXAMPLE, MAY MALFUNCTION IN A WAY THAT LEADS TO STRUCTURAL FAILURE. SUCH A FAILURE COULD INVOLVE EJECTION OF METAL FRAGMENTS FROM THE ENGINE, COULD BE CATASTROPHIC AND COULD LEAD TO SERIOUS INJURY OR DEATH.");
+			goto_oid(oid_caret(), -3);
+			insert_tag("para");
+			insert_string("WARNING: HONEYWELL EXPRESSLY DISCLAIMS LIABILITY FOR ANY AND ALL INJURY OR DEATH TO PERSONS OR DAMAGES TO PROPERTY, DIRECTLY OR INDIRECTLY CAUSED BY AN ENGINE THAT IS OPERATED WITH COMPONENTS THAT EXCEED THE CYCLE LIFE LIMITS IDENTIFIED IN THIS SERVICE BULLETIN. HONEYWELL FURTHER DISCLAIMS LIABILITY FOR ANY AND ALL INDIRECT, CONSEQUENTIAL OR INCIDENTAL DAMAGES, AND WILL SEEK INDEMNITY FROM YOU FOR ANY SUCH DAMAGES.");
+			
+		}
+		response("Warranty/Liability Advisory Updated");
+		}		
+	}
+	else {
+	response("Warranty/Liability Advisory was not found");
+	}
+	return 4;
+}
+else {
+	response("Legal matter is updated")	
+}
+	b = find("except as authorized under any applicable airworthiness authority regulation");
+	if (b == 0){
+		if (find("Honeywell Materials License Agreement")== 1){
+			$a =  oid_parent(oid_caret());
+			if (oid_name($a) == "fullstmt"){
+				oid_find_children($a, $stmt2, "para")
+				i=0;
+				for ($i in $stmt2) {
+					oid_delete($stmt2[$i]);
+				}
+				oid = $a;
+				for (x = 0; x< 1000; x++){
+					oid = oid_forward(oid);
+					if (oid_name(oid) == "_newpage"){
+						oid_delete(oid);
+						break;
+					}
+				}
+				goto_oid($a, -1);
+				rea -buffer buf1 "V:\500\500 - Catch All\TECHWRITE\Shawn\ARBORTEXT TEMPLATE DATA\HMLA.txt"
+				paste buf1;
+				delete_buffer -all;			
+			}	
+		}	
+	}
+}
+
+#This function calls on the two functions above checkfrontmatter and legal matter to update all of it to the latest revision.
+Function updatefrontmatter () {
+  local changed = 0, a, b;	
+	a = ACLfunctions::checkfrontmatter();
+	b = ACLfunctions::legalmatter();
+	move();
+	changed = a+b;
+	eval $changed,"Total Changed Pages";
+
+
+}
+
+function searchgentext($gentext){
+
+	local genoid, sgen, comoid, x = 1, o = oid_first(current_doc()), sheet;
+	local gen[];	
+	
+	goto_oid(oid_first(current_doc()));
+	insert_tag("_comment");
+	comoid = oid_caret();
+	while (oid_valid($o) == 1){
+		if (oid_name($o) =="_subchars") {
+		gen[x] = $o;
+		x = x+1;
+		}
+		$o = oid_forward($o);
+	}
+	genoid = gen[1];
+	x = 2;
+	while(oid_valid($genoid)==1){
+		oid_select($genoid);
+		copy_mark sgen;
+		goto_oid($comoid)
+		oid_select($comoid);
+		paste sgen;
+		goto_oid(oid_first(current_doc()), -2);
+		find($gentext);
+		if (oid_name(oid_caret()) == "_comment") {
+			goto_oid(genoid, -2);
+			$genoid = oid_backward($genoid); rep 3;
+			oid_select($genoid);
+			$sheet = $genoid;
+			oid_delete($comoid);
+			return $sheet;
+		}
+		genoid = gen[x];
+		x = x+1;
+		if (!oid_valid($genoid)==1){
+			response("Search term is not found.");
+			return 0;
+		}
+
+	}
+	oid_delete($comoid);
+}
+
+function searchgenerated(){
+	local search;
+	readvar -title "Auto Generated Text Search" \
+			-prompt "Please enter the search term" search; 
+	ACLfunctions::searchgentext($search);
+}

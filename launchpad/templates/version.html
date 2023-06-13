@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class='container'>
+	<h2 class="homepage_title">version 0.10.0</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>Added QA Tool</h4>
+		<p>Added an option to use the QA tool as a standalone process. To use it, you require a zip folder containing Data Modules and a graphics folder.
+			You also require a source and converted PDF as separate inputs, as well as the job number and doctype.
+		</p>
+		<br>
+		<h3>Interface:</h3>
+		<h4>Added Tabs</h4>
+		<p>On both the Data Conversion and Technical Writing pages, each tool has been given its own tab in order to keep the pages organized.</p>
+		<h4>Changed Tooltips</h4>
+		<p>All tooltips have been updated to use browser default tooltips. To view tooltips, hover over the object for a short time.</p>
+	</p>
+	<br>
+	<h2 class="homepage_title">version 0.9.1</h2>
+	<p>
+		<h3>Technical Writing:</h3>
+		<h4>Modify Technical Dictionary</h4>
+		<p>Added functionality for adding or removing words from the technical dictionary. Currently only available to supervisors.</p>
+	</p>
+	<br>
+	<h2 class="homepage_title">version 0.9.0</h2>
+	<p>
+		<h3>Technical Writing:</h3>
+		<h4>Spellcheck and Page Dimensions Update</h4>
+		<p>Added a Spellcheck component to Arecibo. This will highlight words that might be misspelled.</p>
+		<p>Added a component to the "Automated QA" option to check for pages that are improperly rotated, as well as foldout pages that are merely a landscape 8.5"x11" page, instead of the properly sized landscape page dimensions.</p>
+	</p>
+	<br>
+	<h2 class="homepage_title">version 0.8.5</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>Bluesheet Update</h4>
+		<p>XML/SGML Conversions will now fill out the bluesheet instead of simply spitting out unformatted data. It will also attempt to fill out the data on the front page.</p>
+	</p>
+	<br>
+	<h2 class="homepage_title">version 0.8.4</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>Job Folder Creator added</h4>
+		<p>Added Job Folder Creator, a tool to make the folder structure for jobs</p>
+	</p>
+
+
+	<h2 class="homepage_title">version 0.8.3</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>Beyond Measure added</h4>
+		<p>Added Beyond Measure, a tool to turn pdfs into sorted textblocks</p>
+	</p>
+
+	<h2 class="homepage_title">version 0.8.2</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>Conversion Tools</h4>
+		<p>Minor fixes to the XML conversion tools.</p>
+	</p>
+
+	<h2 class="homepage_title">version 0.8.1</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>PDF Highlighter Updates</h4>
+		<p>Comments now have label codes and new colours:</p>
+		<ul>
+			<li>E: Extra (red)</li>
+			<li>HC: High confidence similar (green)</li>
+			<li>MC: Medium confidence similar (blue)</li>
+			<li>LC: Low confidence similar (purple)</li>
+		</ul>
+		<p>There is now a summary comment on the first page listing how many of each highlight is present in the document.</p>
+	</p>
+
+	<h2 class="homepage_title">version 0.8.0</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>PDF Highlighter Redone</h4>
+		<p>Interaction remains the same: Enter two PDF files and a job number and press 'Highlight Differences'</p>
+		<p>Processing speeds and reliability are greatly increased.</p>
+	</p>
+
+
+	<h2 class="homepage_title">version 0.7.0</h2>
+	<p>
+		<h3>Technical Writing:</h3>
+		<h4>Arecibo Updated</h4>
+		<p>Arecibo now features multiple checks which can be run independently, as well as not requiring CRs anymore. 
+		   A valid job number must be provided, as well as the type (TR, SB, CMM, etc..).
+		</p>
+	</p>
+
+	<h2 class='homepage_title'>version 0.6.0</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>PDF Highlighter added</h4>
+		<p>A tool has been added to highlight differences found between two PDFs</p>
+		<h4>Validation Step Added To Conversion Process</h4>
+		<p>In addition to the converted data modules, the conversion tool will now also output a 'validation_output.log' file.
+			This file contains data on completion and context errors in each module.</p>
+		<h3>General:</h3>
+		<h4>Tooltips and Help Page framework added</h4>
+		<p>Tooltips and tooltip placeholders have been added and will soon be populated with information.</p>
+		<p>Some headings link to a help page that will be filled with information on Launchpad's different tools.</p>
+		<h4>Removed Checklist Section</h4>
+		<p>The checklist section has been removed from this deployment of Launchpad. It will become a separate tool.</p>
+
+
+	</p>
+
+<br><br>
+
+	<h2 class="homepage_title">version 0.5.0</h2>
+	<p>
+		<h3>Data Conversion:</h3>
+		<h4>Added Printing Option</h4>
+		<p>The conversion tool now has an option to consolidate and print the manuals it converts. If this option is selected,
+			the converted data modules will still be available to download while the consolidate/print process is ongoing.
+		</p>
+		<h4>Improved Error Statuses</h4>
+		<p>If the conversion process fails, the error status shown on the list entry will be mark the specific step it failed on. This could include
+			Conversion, Consolidate, or Print Error.
+		</p>
+		<h3>Checklists:</h3>
+		<p>A new 'Checklists' option has been included on the home page. This was added for testing purposes.
+		<b>Please continue to use the spreadsheet checklist until further notice.</b></p>
+		<h3>Other changes:</h3>
+		<ul>
+			<li>Improved reliability of connection between client/host.</li>
+		</ul>
+	</p>
+	<br><br>
+	<h2 class='homepage_title'>version 0.4.0</h2>
+	<p>
+		<h3>Changes To Data Conversion Workflow</h3>
+		<p>The data conversion workflow has been modified so that all activity is done on a single page. Now, when an item is converted, a conversion item will appear
+			with the current status (Pending, In Progress, Completed, or Error), the time until the files are automatically deleted off the server, and a red 'delete' button.
+			Once the conversion finished (status changes to Completed or Error, a green 'download button will appear.')</p>
+		<p>We've also expanded the conversion tools to be able to handle multiple conversions, downloads, and deletions. You can select multiple source files in the file dialog box,
+			and you can use the checkboxes next to each conversion item to select them and the use the 'Download Selected' or 'Delete Selected' buttons to download or delete all the
+			selected items.
+		</p>
+		<h3>Changes To Arecibo Workflow</h3>
+		<p>Many of the same changes to Data Conversion have also been added to Techwrite, with the exeception that it will still redirect you to a separate page where you can see
+			the script output live. Once Arecibo has completed, a 'Return' button will appear to bring you back to the Tech Writing page, instead of to the Files Ready page.</p>
+		<h3>Added Messages</h3>
+		<p>A message inbox has been added. This will allow you to receive messages from Launchpad. For the time being, this will mostly be for error messages; if something goes wrong
+			during a conversion or Arecibo job, you will receive a message. A copy of this message will also be sent to the admins for debugging.
+		</p>
+		<h3>Added Accuracy Checker</h3>
+		<p>On the Data Conversion, there is now an option to do an accuracy check between two files. Simply select two files and then click on 'Check Accuracy'. Once it's done
+			processing, it will output a percentage similarity between the two files. PDF, XML, TXT files are all permitted. Note that XML comparisons will only compare actual text
+			and not the tags.
+			</p>
+			<p>Making a Raw Check will do an unbiased comparison between the documents; it will assume that they should be identical. If the 'Raw Check' option is not selected,
+				the program will try and strip out any content that might be unavoidably inconsitent between the two documents. This is intended for comparing and ATA source PDF with
+				an S1000D converted PDF.
+			</p>
+		<h3>Other Changes</h3>
+		<ul>
+			<li>Added link to QMS website</li>
+			<li>Various UI changes</li>
+			<li>Various stability fixes</li>
+		</ul>
+		<h3>Known Issues</h3>
+		<ul>
+			<li>The client (browser) will sometimes lose connection to the server, resulting in tasks staying at 'Pending' indefinitely. If no input is required, refreshing
+				the page should fix the issue. If input is required, you may need to refresh the page, discard the upload, and try again, as the prompt to enter input may
+				have been missed.
+			</li>
+			<li>Discarding a task in progress may cause the server to crash.</li>
+		</ul>
+
+
+	</p>
+
+</div>
+{% endblock %}

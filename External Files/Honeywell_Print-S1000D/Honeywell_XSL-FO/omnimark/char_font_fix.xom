@@ -1,0 +1,25 @@
+; Font fix for known problem characters which XEP doesn't render correctly (or can cause it to fail)
+; (see "TEMP\parse1.log" generated during XSL-FO for more potential bad characters,
+
+cross-translate
+
+; Store custom images (e.g. "Delta.svg") in the Honeywell_Print "images" folder
+global stream s-images-folder initial {""}; (provided on command line)
+
+; ********************************************************************
+; PASS 1 - detect known problem characters
+; Delta
+find "∆" or "Δ"
+  output "[###Delta###]"
+
+; ********************************************************************
+
+
+; ********************************************************************
+; PASS 2 - replace marker with inline SVG image
+find "[###Delta###]"
+  ; Use an inline SVG image (scaled to smaller size and baseline-shift) to replace problematic character(s)
+  output "<fo:inline><fo:external-graphic src=%"url('%g(s-images-folder)Delta.svg')%" content-height=%"scale-to-fit%" height=%"3.50mm%" content-width=%"3.00mm%" scaling=%"non-uniform%" baseline-shift=%"-12%%%"/></fo:inline>"
+
+; ********************************************************************
+  

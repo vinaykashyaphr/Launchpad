@@ -1,0 +1,76 @@
+;==================================================
+
+	;Stopped at pgblk 16000. 17000+ are appendices. Add appendix handling, if needed, at a later date.
+	macro start-pgblk-nbr is
+		('1'|'1001'|'2001'|'3001'|'4001'|'5001'|'6001'|'7001'|'8001'|'9001'|'10001'|'11001'|'12001'|'13001'|'14001'|'15001'|'16001')
+	macro-end
+
+;==================================================
+
+	macro pages-to-ignore is
+		('TI-'|'RR-'|'RTR-'|'SBL-'|'LEP-'|'TC-')
+	macro-end
+
+;==================================================
+
+	;update-page-tag(LsPageTag, LPageValue, LiOffsetX)
+	define function update-page-tag(modifiable stream orig-string, value stream new-page, value integer offset-x) as
+		local stream LsUpdatedString
+		open LsUpdatedString as buffer
+			using output as LsUpdatedString do
+				repeat scan orig-string
+					match ul white-space+ 'value="' [any except '"']*=>val '"'
+						output ' value="%g(new-page)"'
+						put GsDebug 'changed page "%x(val)" to "%g(new-page)"%n'
+					match ul white-space+ 'x="' [any except '"']*=>val '"'
+						output ' x="' || 'd' format val - offset-x || '"'
+						put GsDebug 'changed x="%x(val)" to x="' || 'd' format val - offset-x || '"%n'
+					match any=>char
+						output char
+				again
+			done
+		close LsUpdatedString
+		set orig-string to LsUpdatedString
+	
+;==================================================
+
+	define integer function get-x-offset(value stream page-value,
+	                                     value stream old-page-value, 
+	                                     value stream other-offset optional ;Used to tweak offset if needed (a little more/less depending on context)
+	                                    ) as
+		local integer LiCharWidth initial {'5560'} ;original value: 5560
+		local integer LiCharCount initial {'0'}
+		local integer LiOldCharCount initial {'0'}
+		local integer LiOtherOffset initial {'0'}
+		;Count chars in page-value
+		repeat scan page-value
+			match any
+				increment LiCharCount
+		again
+		;Count chars in old-page-value
+		repeat scan old-page-value
+			match any
+				increment LiOldCharCount
+		again
+		;Figure out additional (other) offset.
+		do when other-offset is specified
+			put GsDebug 'Calculating additional (other) offset. (CODE: %g(other-offset))%n'
+			put GsDebug 'Base character width: %d(LiCharWidth).%n'
+			do scan other-offset
+				match 'TFP-INTRO'	;Table Foldout Page in INTRO
+					set LiOtherOffset to LiCharWidth / 4
+				match 'GFP-INTRO'	;Graphic Foldout Page in INTRO
+					set LiOtherOffset to (LiCharWidth / 4) - (LiCharWidth / 2)	;Should be negative 1/4 character.
+				match 'TFP'			;Table Foldout Page *not* in INTRO
+					set LiOtherOffset to LiCharWidth / 2								;Should be 1 character.
+			done
+			put GsDebug 'additional (other) offset: %d(LiOtherOffset)%n'
+		done
+		put GsDebug 'Characters in page-value "%g(page-value)": %d(LiCharCount)%n'
+		put GsDebug 'Characters in old-page-value "%g(old-page-value)": %d(LiOldCharCount)%n'
+		set LiCharCount to LiCharCount - LiOldCharCount
+		put GsDebug 'X offset (pre other-offset): ' || 'd' format LiCharCount * LiCharWidth || '%n' when other-offset is specified
+		put GsDebug 'X offset: ' || 'd' format LiCharCount * LiCharWidth - LiOtherOffset || '%n'
+		return LiCharCount * LiCharWidth - LiOtherOffset
+
+;==================================================

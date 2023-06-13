@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Arbortext, Inc., 1988-2004, v.4002-->
+<!DOCTYPE DocumentTypeConfiguration PUBLIC "-//Arbortext//DTD Document Type Configuration 2.0//EN"
+ "dcfdtd.dtd" [
+<!ENTITY attributeoptions PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_attributeoptions.ent">
+<!ENTITY display PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_display.ent">
+<!ENTITY profileclasses PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_profileclasses.ent">
+<!ENTITY smartinsert PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_smartinsert.ent">
+<!ENTITY lists PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_lists.ent">
+<!ENTITY textstyles PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_textstyles.ent">
+<!ENTITY contexttransformations PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_contexttransformations.ent">
+<!ENTITY specials PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_specials.ent">
+<!ENTITY elementoptions PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_elementoptions.ent">
+<!ENTITY composition PUBLIC "-//Arbortext//ENTITIES DCF Entities//EN" "..\DCF\dcf_composition.ent">
+]>
+<DocumentTypeConfiguration>
+<Options allowComposeStylesheetList="no" allowTouchup="yes"/>
+<NewDialog><New description="S1000D Issue 4 Change 1 xs-Process" sampleFile="../templates/processSchemaTpl.xml" templateFile="../templates/processSchemaTpl.xml"/></NewDialog>
+&elementoptions;
+&attributeoptions;
+&display;
+&specials;
+&contexttransformations;
+&textstyles;
+&lists;
+&smartinsert;
+&profileclasses;
+<FrameSets></FrameSets>
+&composition;
+</DocumentTypeConfiguration>

@@ -1,0 +1,50 @@
+#
+# © Inmedius 2004. All rights Reserved
+#
+
+require winregistry;
+
+# initialise the paths
+global advisorpath;
+
+global advfound;
+
+$advfound = 0;
+
+# initialise the paths
+
+# verify that authorPro is configured, if not then do nothing
+if ( winregistry::HasKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\Advisor','Path') == 1 ) {
+   $advfound = 1;
+} else if ( length( $main::ENV['INMEDIUSADVISOR'] ) != 0 ) {
+   $advfound = 1;
+}
+
+
+# if an authorpro path is located
+if ( $advfound ) {
+  $advisorpath = winregistry::GetKey('HKEY_LOCAL_MACHINE','SOFTWARE\Inmedius\Advisor','Path')
+
+  if ( length( $advisorpath ) == 0 ) {
+
+    # initialise the paths
+    $advisorpath = $main::ENV['INMEDIUSADVISOR'];
+
+    if ( length( $advisorpath ) == 0 ) {
+      $advisorpath = $main::ENV['PROGRAMFILES']."\\Inmedius\\authorPro\\Advisor\\";
+      message_box( "Unable to find the registry key or environment variable for Inmedius advisor.\nUsing the default program files location.", 0x00 );
+    }
+
+  }
+
+  # append the paths to epic to reference the warrior application files
+  if ( length( $advisorpath ) ) {
+    append_load_path( $advisorpath."\\application\\scripts" );
+
+    # load the main initialisation function
+    source advisor.acl;
+
+  } else {
+    message_box("Error [_advisor.acl]: failed to initialise the Advisor environment.", 0x00 );
+  }
+}

@@ -1,0 +1,53 @@
+Package Revision;
+
+function add_revbar() {
+	local current_tag, QA_tag, RFU_tag = 0, latest_RFID, ID = "REVB", o = oid_first(current_doc());
+	local temp, a, higlight;
+	
+	current_tag = oid_caret();
+	
+	while (oid_valid($o) == 1) {
+		o = oid_forward($o);
+		if (oid_name($o) == "qualityAssurance") {
+			QA_tag = $o;
+		}
+		if (oid_name($o) == "reasonForUpdate") {
+			RFU_tag = $o;
+		}
+		if (oid_name($o) == "content") {
+			break;
+		}
+	}
+	if (oid_valid(RFU_tag) == 1){
+		QA_tag = RFU_tag;
+		latest_RFID = oid_attr(RFU_tag, "id");
+	}
+	
+	for (x = 0; x <= 100; x++){
+		temp = $ID . $x
+		if (temp != latest_RFID){		
+			ID = temp;
+			break;
+		}
+	}
+	
+	a = response('Do you want to add a highlight?', '&Yes', '&No', "Cancel");
+	if (a == 1){
+		readvar  -title  "Highlight" \
+					-prompt "What should the highlight say?" highlight;
+					
+		oid_modify_attr(current_tag, "changeMark", "1");	
+		oid_modify_attr(current_tag, "changeType", "modify");	
+		oid_modify_attr(current_tag, "reasonForUpdateRefIds", $ID);
+		goto_oid(QA_tag, -3);
+		it "reasonForUpdate";
+		oid_modify_attr(oid_caret(), "id", $ID);
+		it "simplePara";
+		insert_string(highlight);
+		goto_oid(current_tag, 1);
+	}
+	else if (a == 2){
+		oid_modify_attr(current_tag, "changeMark", "1");	
+		oid_modify_attr(current_tag, "changeType", "modify");
+	}
+}

@@ -1,0 +1,133 @@
+;===========================================================================
+;
+; Copyright (C) 1998 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  utf8pat.xin - UTF-8 pattern matching and conversion
+;
+;  Version: 1.0
+;  Revised: 30 MAR 1998
+;
+;  Version: 1.1
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;===========================================================================
+
+include-guard utf8pat.xin
+
+; utf8-char
+; matches a single UTF-8-encoded character
+
+macro utf8-char is
+   (["%16r{00}" to "%16r{7F}"] |
+    ["%16r{C0}" to "%16r{DF}"] ["%16r{80}" to "%16r{BF}"] |
+    ["%16r{E0}" to "%16r{EF}"] ["%16r{80}" to "%16r{BF}"] {2} |
+    ["%16r{F0}" to "%16r{F7}"] ["%16r{80}" to "%16r{BF}"] {3} |
+    ["%16r{F8}" to "%16r{FB}"] ["%16r{80}" to "%16r{BF}"] {4} |
+    ["%16r{FC}" to "%16r{FD}"] ["%16r{80}" to "%16r{BF}"] {5}) macro-end
+
+; utf8-char-number
+; converts a string containing a single UTF-8 character to the character
+; number it encodes.  This will always be a non-negative COUNTER value.
+; If the string does not consist of a single UTF-8-encoded character,
+; the character number of the Unicode Replacement Character (U-FFFD)
+; is returned instead.
+
+define counter function utf8-char-number value stream utf8-string as
+   do scan utf8-string
+   match ["%16r{00}" to "%16r{7F}"] => one-octet value-end
+      return binary one-octet
+   match ["%16r{C0}" to "%16r{DF}"] => first-octet
+         ["%16r{80}" to "%16r{BF}"] => second-octet value-end
+      return binary first-octet mask "1F" base 16 shift 6 union
+             binary second-octet mask "3F" base 16
+   match ["%16r{E0}" to "%16r{EF}"] => first-octet
+         ["%16r{80}" to "%16r{BF}"] => second-octet
+         ["%16r{80}" to "%16r{BF}"] => third-octet value-end
+      return binary first-octet mask "0F" base 16 shift 12 union
+             binary second-octet mask "3F" base 16 shift 6 union
+             binary third-octet mask "3F" base 16
+   match ["%16r{F0}" to "%16r{F7}"] => first-octet
+         ["%16r{80}" to "%16r{BF}"] => second-octet
+         ["%16r{80}" to "%16r{BF}"] => third-octet
+         ["%16r{80}" to "%16r{BF}"] => fourth-octet value-end
+      return binary first-octet mask "07" base 16 shift 18 union
+             binary second-octet mask "3F" base 16 shift 12 union
+             binary third-octet mask "3F" base 16 shift 6 union
+             binary fourth-octet mask "3F" base 16
+   match ["%16r{F8}" to "%16r{FB}"] => first-octet
+         ["%16r{80}" to "%16r{BF}"] => second-octet
+         ["%16r{80}" to "%16r{BF}"] => third-octet
+         ["%16r{80}" to "%16r{BF}"] => fourth-octet
+         ["%16r{80}" to "%16r{BF}"] => fifth-octet value-end
+      return binary first-octet mask "03" base 16 shift 24 union
+             binary second-octet mask "3F" base 16 shift 18 union
+             binary third-octet mask "3F" base 16 shift 12 union
+             binary fourth-octet mask "3F" base 16 shift 6 union
+             binary fifth-octet mask "3F" base 16
+   match ["%16r{FC}" to "%16r{FD}"] => first-octet
+         ["%16r{80}" to "%16r{BF}"] => second-octet
+         ["%16r{80}" to "%16r{BF}"] => third-octet
+         ["%16r{80}" to "%16r{BF}"] => fourth-octet
+         ["%16r{80}" to "%16r{BF}"] => fifth-octet
+         ["%16r{80}" to "%16r{BF}"] => sixth-octet value-end
+      return binary first-octet mask "01" base 16 shift 30 union
+             binary second-octet mask "3F" base 16 shift 24 union
+             binary third-octet mask "3F" base 16 shift 18 union
+             binary fourth-octet mask "3F" base 16 shift 12 union
+             binary fifth-octet mask "3F" base 16 shift 6 union
+             binary sixth-octet mask "3F" base 16
+   else
+      return "FFFD" base 16
+   done
+
+; utf8-encoded
+; converts a character number to its UTF-8 encoding.  A negative character
+; number (which is invalid) is encoded as the UTF-8 representation of the
+; Unicode Replacement Character (U-FFFD).
+
+define stream function utf8-encoded value counter n as
+   do when n <= "7F" base 16
+      do when n >= 0
+         return "b" % n
+      else
+         return "%16r{EF,BF,BD}" ; UTF-8 for U-FFFD
+      done
+   else when n <= "7FF" base 16
+      return "b" % ("C0" base 16 union n shift -6) ||
+             "b" % ("80" base 16 union n mask "3F" base 16)
+   else when n <= "FFFF" base 16
+      return "b" % ("E0" base 16 union n shift -12) ||
+             "b" % ("80" base 16 union n shift - 6 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n mask "3F" base 16)
+    
+   else when n <= "1FFFFF" base 16
+      return "b" % ("F0" base 16 union n shift -18) ||
+             "b" % ("80" base 16 union n shift - 12 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n shift - 6 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n mask "3F" base 16)
+   else when n <= "3FFFFFF" base 16
+      return "b" % ("F8" base 16 union n shift -24) ||
+             "b" % ("80" base 16 union n shift - 18 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n shift - 12 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n shift - 6 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n mask "3F" base 16)
+   else
+      return "b" % ("FC" base 16 union n shift -30) ||
+             "b" % ("80" base 16 union n shift - 24 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n shift - 18 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n shift - 12 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n shift - 6 mask "3F" base 16) ||
+             "b" % ("80" base 16 union n mask "3F" base 16)
+   done

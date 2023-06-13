@@ -1,0 +1,236 @@
+;===========================================================================
+;
+; Copyright (C) 1998 - 1999, OmniMark Technologies Corporation.
+; All rights reserved.
+;
+; This source code is unpublished proprietary information of OmniMark
+; Technologies Corporation.  The copyright notice above does not
+; evidence any actual or intended publication of such source code.
+;
+; This file may not be redistributed as source, either by itself, 
+; or as part of software derived from this file.  OmniMark programs that
+; incorporate some or all of the code in this file may only be
+; redistributed as "compiled virtual code" files, to be run by
+; OmniMark processors such as OmniMark VM and OmniMark C/VM.
+;
+;===========================================================================
+;  omenc64.xin - Stream Encoding Functions
+;
+;  Version: 1.0
+;  Revised: 19 AUG 1998
+;
+;  Version: 1.1
+;  Revised: 21 JUNE 1999
+;  Change: Change in Copyright Information
+;===========================================================================
+
+include-guard omenc64.xin
+
+;--------------------------
+; common encoding sequences
+;--------------------------
+macro ENCODE64-BASE64 
+   is 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' 
+macro-end
+macro ENCODE64-UU 
+   is '`!"#$%%&%'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\}^_'
+macro-end
+macro ENCODE64-XX 
+   is '+-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' 
+macro-end
+
+
+define function GenerateEncodingSequence
+   from value      stream  PartialSeq
+   into modifiable stream  FullSeq
+   map  modifiable counter FullSeqMap optional
+AS
+   ; local variables
+   local counter i
+   local stream AllChars initial
+      {  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'_
+         'abcdefghijklmnopqrstuvwxyz'_
+         '0123456789'_
+         '!"#$%%&%'()*+,-./:;<=>?@[\]^_`{|}~'
+      }
+
+   ; generate the full sequence
+   clear FullSeq
+   repeat scan ( PartialSeq || AllChars )
+      match any=>x
+         ; sequence must contain 64 items
+         do when i <= 64
+            ; skip duplicates
+            do  when FullSeq hasnt key x
+               set new FullSeq^x to x
+               increment i
+            done
+         done
+   again 
+
+   ; generate the map, if requested
+   do when FullSeqMap is specified
+      ; clear current map
+      repeat over FullSeqMap
+         set FullSeqMap to 0
+      again 
+
+      ; map sequence offsets
+      set i to 0
+      repeat over FullSeq
+         set FullSeqMap@ (binary FullSeq) to i
+         increment i
+      again
+   done
+;return
+
+
+define stream function Encode64
+                 value stream Chars-In
+   with-sequence value stream EncodeSeq optional
+AS
+   ; local variables
+   local stream RetVal
+   local stream Sequence variable initial 
+      {  ".", "-", "0", "1", "2", "3", "4", "5", "6", "7", 
+         "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", 
+         "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", 
+         "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", 
+         "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", 
+         "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
+         "w", "x", "y", "z"
+      }
+
+   ; set up a new key if supplied
+   GenerateEncodingSequence from EncodeSeq into Sequence 
+         when EncodeSeq is specified
+
+   ; do the encoding
+   open RetVal as buffer
+   using output as RetVal
+   repeat scan Chars-In
+      match any => char1 any => char2 any => char3
+         output 
+               Sequence @ (binary char1 shift -2 + 1) ||
+               Sequence @ (binary char1 mask 3 shift 4 
+                     union binary char2 shift -4 + 1) ||
+               Sequence @ (binary char2 mask 15 shift 2 
+                     union binary char3 shift -6 + 1) ||
+               Sequence @ (binary char3 mask 63 + 1)
+
+      match any => char1 any => char2
+         output 
+               Sequence @ (binary char1 shift -2 + 1) ||
+               Sequence @ (binary char1 mask 3 shift 4 
+                     union binary char2 shift -4 + 1) ||
+               Sequence @ (binary char2 mask 15 shift 2 + 1)
+
+      match any => char1
+         output 
+               Sequence @ (binary char1 shift -2 + 1) ||
+               Sequence @ (binary char1 mask 3 shift 4 + 1) 
+   again
+   close RetVal
+return RetVal
+
+
+define stream function Decode64
+                 value      stream Chars-In
+   with-sequence value      stream EncodeSeq optional
+   status        modifiable switch Status    optional
+AS
+   ; local variables
+   local stream RetVal
+   local stream SeqChars initial
+      {  '.-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' }
+   local stream Sequence variable initial 
+      {  ".", "-", "0", "1", "2", "3", "4", "5", "6", "7", 
+         "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", 
+         "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", 
+         "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", 
+         "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", 
+         "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
+         "w", "x", "y", "z"
+      }
+   local counter SeqMap size 127 initial 
+      {  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   
+         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   
+         0,   0,   0,   0,   1,   0,   0,   2,   3,   4,   
+         5,   6,   7,   8,   9,  10,  11,   0,   0,   0,   
+         0,   0,   0,   0,  12,  13,  14,  15,  16,  17,  
+        18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  
+        28,  29,  30,  31,  32,  33,  34,  35,  36,  37,   
+         0,   0,   0,   0,   0,   0,  38,  39,  40,  41,  
+        42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  
+        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  
+        62,  63,   0,   0,   0,   0,   0
+      }
+
+   ; set up a new map if key is supplied
+   do when EncodeSeq is specified
+      GenerateEncodingSequence from EncodeSeq into Sequence map SeqMap
+      open SeqChars as buffer
+      using output as SeqChars
+      repeat over Sequence
+         output Sequence   
+      again
+      close SeqChars
+   done
+
+   ; do the decoding
+   set Status to TRUE when Status is specified
+   open RetVal as buffer
+   using output as RetVal
+   repeat scan Chars-In
+      match any=>char1 any=>char2 any=>char3 any=>char4
+         do when 
+            (  ( SeqChars matches unanchored char1 )
+            &  ( SeqChars matches unanchored char2 )
+            &  ( SeqChars matches unanchored char3 )
+            &  ( SeqChars matches unanchored char4 )
+            )
+            local counter result-value
+            set result-value to 
+                  SeqMap @ (binary char1) shift 18 +
+                  SeqMap @ (binary char2) shift 12 +
+                  SeqMap @ (binary char3) shift 6 +
+                  SeqMap @ (binary char4)
+            output "%3f0b(result-value)"
+         else
+            set Status to FALSE when Status is specified
+         done
+
+      match any=>char1 any=>char2 any=>char3 "="?
+         do when 
+            (  ( SeqChars matches unanchored char1 )
+            &  ( SeqChars matches unanchored char2 )
+            &  ( SeqChars matches unanchored char3 )
+            )
+            local counter result-value
+            set result-value to 
+                  SeqMap @ (binary char1) shift 10 +
+                  SeqMap @ (binary char2) shift 4 +
+                  SeqMap @ (binary char3) shift -2
+            output "%2f0b(result-value)"
+         else
+            set Status to FALSE when Status is specified
+         done
+
+      match any=>char1 any=>char2 "=" {0 to 2}
+         do when 
+            (  ( SeqChars matches unanchored char1 )
+            &  ( SeqChars matches unanchored char2 )
+            )
+            local counter result-value
+            set result-value to 
+                  SeqMap @ (binary char1) shift 2 +
+                  SeqMap @ (binary char2) shift -4
+            output "%0b(result-value)"
+         else
+            set Status to FALSE when Status is specified
+         done
+   again
+   close RetVal
+return RetVal

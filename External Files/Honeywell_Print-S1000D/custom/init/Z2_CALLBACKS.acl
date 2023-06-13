@@ -1,0 +1,12 @@
+package print_callbacks
+
+function add_print_codes(doc)
+{
+	$path = doc_path(doc);
+	$path = tolower($path);
+	PMC = match($path, 'pmc')
+	if ($PMC != 0){
+		Doc_type::add_pub_ref();
+	}
+}
+doc_add_callback(0, 'create', 'print_callbacks::add_print_codes' )

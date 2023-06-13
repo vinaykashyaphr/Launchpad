@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- [*** CONFIGURATION FILE ***] -->
+
+<!-- S1000D "pmEntry" captions lookup file -->
+
+<!--
+
+ Captions coming from "V4.1 Stylesheet Requirements.docx":
+
+ pmt51: "FM" "Front Matter" "Front matter"
+
+ pmt52: [Not used by itself - title is "Technical content". Maybe repeat first subsection's prefixes below ("DESC", "Description", "Technical descriptions")?]
+
+ pmt53: "DESC" "Description" "Technical descriptions"
+
+ pmt54: "MAINT" "Maintenance" "Maintenance and servicing"
+
+ pmt55: [Not clear - this seems like the opposite case from pmt52: the enclosing section has prefixes defined, but not the first subsection. Maybe use same for both again (same as pmt54)?]
+
+ [ALSO: pmt55-58 are missing files, and don't have prefixes defined]
+
+ pmt56: [Not defined: title "Removal and installation"]
+
+ pmt57: [Not defined: title "Task sets"]
+
+ pmt58: "SRVC" "Service" "Servicing"
+ pmt59: "TEST" "Test" "Examination, Test, Checks"
+ pmt60: "DIS" "Disassembly" "Disconnect remove and disassemble procedure"
+ pmt61: "ASSY" "Assembly" "Assemble, install and reconnect procedure"
+ pmt62: "RPR" "Repair" "Repair instructions"
+ pmt63: "STORE" "Storage" "Storage procedures and data"
+ pmt64: "IPD" "Illustrated Parts Data" "Illustrated Parts Data"
+
+ [NOT USED]: "FI" "Fault" "Fault Isolation"
+
+-->
+
+<captions>
+
+<entry type="pmt51"
+       short="FM"
+       prefix="Front matter and introduction"
+       section="Front matter and introduction"
+       />
+
+<entry type="pmt52"
+       short="DESC"
+       prefix="Functional and technical descriptions"
+       section="Functional and technical descriptions"
+       />
+
+<entry type="pmt53"
+       short="DESC"
+       prefix="Description of function"
+       section="Description of function"
+       />
+
+<entry type="pmt54"
+       short="DESC"
+       prefix="Technical description"
+       section="Technical description"
+       />
+
+<entry type="pmt55"
+       short="DESC"
+       prefix="Electrical and electronic data"
+       section="Electrical and electronic data"
+       />
+
+<entry type="pmt56"
+       short="DESC"
+       prefix="Software data"
+       section="Software data"
+       />
+
+<entry type="pmt57"
+       short="DESC"
+       prefix="Diagrams and schematics"
+       section="Diagrams and schematics"
+       />
+
+<entry type="pmt58"
+       short="SRVC"
+       prefix="Maintenance and servicing"
+       section="Maintenance and servicing"
+       />
+
+<entry type="pmt59"
+       short="MAINT"
+       prefix="Maintenance Planning"
+       section="Maintenance Planning"
+       />
+
+<entry type="pmt60"
+       short="REMOV"
+       prefix="Removal and Installation"
+       section="Removal and Installation"
+       />
+
+<entry type="pmt61"
+       short="TASK"
+       prefix="Task Sets"
+       section="Task Sets"
+       />
+
+<entry type="pmt62"
+       short="SRVC"
+       prefix="Servicing"
+       section="Servicing"
+       />
+
+<entry type="pmt63"
+       short="TEST"
+       prefix="Examination, test, checks and fault isolation"
+       section="Examination, test, checks and fault isolation"
+       />
+
+<entry type="pmt64"
+       short="DIS"
+       prefix="Disconnect, remove and disassemble procedures"
+       section="Disconnect, remove and disassemble procedures"
+       />
+
+<entry type="pmt65"
+       short="RPR"
+       prefix="Repair instructions"
+       section="Repair instructions"
+       />
+
+<entry type="pmt66"
+       short="ASSY"
+       prefix="Assemble, install and reconnect procedures"
+       section="Assemble, install and reconnect procedures"
+       />
+
+<entry type="pmt67"
+       short="STORE"
+       prefix="Storage procedures and data"
+       section="Storage procedures and data"
+       />
+
+<entry type="pmt68"
+       short="SPEC"
+       prefix="Special procedures"
+       section="Special procedures"
+       />
+
+<entry type="pmt69"
+       short="IPD"
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       />
+
+<entry type="pmt70"
+       short="IPD"
+       prefix="IPD Introduction"
+       section="IPD Introduction"
+       />
+
+<entry type="pmt71"
+       short="IPD"
+       prefix="Illustrated Parts Data"
+       section="Illustrated Parts Data"
+       />
+
+
+</captions>
+

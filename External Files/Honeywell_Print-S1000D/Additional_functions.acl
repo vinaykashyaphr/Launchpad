@@ -1,0 +1,111 @@
+package Additional_functions
+global booktype, Vbooktype = 0, found = 0, externalcode;
+
+function add_CMP(){};
+function mATA_check() {};
+
+function dATA_check() {
+	found = 0;
+	#Variable Declaration
+	local o = oid_first(current_doc());
+	local name, Activate = 0;
+	
+	#Main Code
+	while (oid_valid($o) == 1) {						#This finds the externalPubCode tag
+		$o = oid_forward($o);
+		$name = oid_name($o);
+		if ($name == 'externalPubCode'){
+			$externalcode = $o;
+			goto_oid($o, -2);
+			check = oid_attr($o, "pubCodingScheme");
+			if (check == 'manualType'){
+				content = oid_content($o);
+				if (content == "EIPC"){
+					Activate = 1;
+				}
+			}
+		}
+		else if ($name == 'pmStatus'){
+			$o = oid_first(current_doc());
+			break;
+		}
+	}
+	while (oid_valid($o) == 1) {
+		$o = oid_forward($o);
+		$name = oid_name($o)
+		if ($name == 'externalPubCode'){
+			$externalcode = $o;
+			goto_oid($o, -2);
+			check = oid_attr($o, "pubCodingScheme");
+			if (check == 'CMP'){
+				found = 1;
+				if (Activate == 1){
+					goto_oid($o, 2)
+					a = oid_empty($o);
+					if ($a == 1){
+						readvar  -title  "The ATA is Incorrect/Missing" \
+						-prompt "Please Enter the ATA for this EIPC" dATA;
+						goto_oid($o, -1);
+						insert_string($dATA);
+					}
+				}
+			}
+		}
+		else if ($name == 'pmStatus'){
+			break;
+		}
+	}
+	
+	if (found == 0){
+		add_CMP();
+	}
+}
+
+
+function mATA_check() {
+	#Variable Declaration
+	local o = oid_first(current_doc());
+	local name, Activate = 1;
+	
+	found = 0; 
+	#Main Code
+	while (oid_valid($o) == 1) {						#This finds the externalPubCode tag
+		$o = oid_forward($o);
+		$name = oid_name($o);
+		if ($name == 'externalPubCode'){
+			$externalcode = $o;
+			goto_oid($o, -2)
+			check = oid_attr($o, "pubCodingScheme");
+			if (check == 'CMP'){
+				found = 1;
+				if (Activate == 1){
+					goto_oid($o, 2)
+					a = oid_empty($o)
+					if ($a == 1){
+						readvar  -title  "The ATA is Incorrect/Missing" \
+						-prompt "Please Enter the ATA for this EIPC" dATA;
+						goto_oid($o, -1)
+						insert_string($dATA);
+					}
+				}
+			}
+		}
+
+	}
+	if (found == 0){
+		goto_oid($externalcode, -2);
+		readvar  -title  "The ATA is Incorrect/Missing" \
+		-prompt "Please Enter the ATA for this EIPC" dATA;
+		it externalPubCode;
+		oid_modify_attr(oid_caret(), "pubCodingScheme", "CMP");
+		insert_string($dATA);
+
+	}
+}
+
+function add_CMP() {
+	goto_oid($externalcode, -2);    #When the CMP attribute is missing
+	it externalPubCode;
+	oid_modify_attr(oid_caret(), "pubCodingScheme", "CMP");
+	dATA_check();
+}

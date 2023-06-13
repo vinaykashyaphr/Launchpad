@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<!DOCTYPE dmodule [
+<!ENTITY ICN-HNYWL-0000707975-001-99 SYSTEM "Graphics\ICN-HNYWL-0000707975-001-99.cgm" NDATA cgm>
+<!ENTITY ICN-HNYWL-0000233104-001-99 SYSTEM "Graphics\ICN-HNYWL-0000233104-001-99.cgm" NDATA cgm>
+<!ENTITY % ISOEntities PUBLIC "ISO 8879-1986//ENTITIES ISO Character Entities 20030531//EN//XML" "http://www.s1000d.org/S1000D_2-3/ent/xml/ISOEntities">
+%ISOEntities;
+<!NOTATION cgm SYSTEM "cgm">
+<!NOTATION tif SYSTEM "tif">
+]>
+<?Pub Inc?>
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/descript.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="Y" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="00" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>LRU</techName><infoName>ILLUSTRATED PARTS LIST</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>ALL</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content><description>
+<levelledPara><title>Detailed Parts List</title>
+<note>
+<notePara>Refer to <internalRef internalRefId="cmm12282350971078790"
+internalRefTargetType="irtt01"></internalRef>.</notePara>
+</note>
+<levelledPara><para>An item number is given to each part in the DPL
+and on the related illustration. The item numbers show the general
+disassembly sequence.</para>
+</levelledPara>
+<levelledPara><para>To find a part number in the DPL.</para>
+<levelledPara><para>If the part number is known, refer to the NI to
+find the figure and item numbers in the DPL.</para>
+</levelledPara>
+<levelledPara><para>If the part number is not known, turn to the illustration;
+locate the part, and record the item number. The part number is shown
+opposite the item number in the DPL.</para>
+</levelledPara>
+<levelledPara><para>If the equipment designator is known, refer to
+the EDI to find the figure and item numbers in the DPL.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Revision codes for added, changed, or deleted
+data.</para>
+<levelledPara><para>Revision bars (I) in the left margin adjacent
+to an entry shows changed or added data to the part in the DPL.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Figure item column.</para>
+<levelledPara><para>A part not shown on the illustration is identified
+in the DPL as non-illustrated by a dash (-) before the item number. </para>
+</levelledPara>
+<levelledPara><para>When two or more items that are visually alike
+are listed in sequence, only the first item is illustrated. The illustration,
+however, is applicable to both items.</para>
+</levelledPara>
+<levelledPara><para>When the detailed parts of an assembly or installation
+are illustrated, they can be identified by a bracket. The bracket
+identifies the next higher assembly or installation. If brackets are
+not used, the detail parts are illustrated, but the next higher assembly
+or installation is not.</para>
+</levelledPara>
+<levelledPara><para>The parts that make up a select-from range group
+(i.e. calibration resistor assortments) have a non-illustrated item
+number or a different figure.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Part number column.</para>
+<levelledPara><para>A part number that is prefixed usually indicates
+a type of part or method of procurement. Examples of these prefixes
+are AN, MS, and NAS. These standard part numbers may be suffixed by
+numbers only or numbers and letters. Suffix numbers usually indicate
+configuration or design difference. Suffix letters usually indicate
+material, color, or finish differences.</para>
+</levelledPara>
+<levelledPara><para>All procurable components manufactured by Honeywell
+have a part number. The part number is stamped, etched, or cast on
+the part at time of manufacture when size, space, or shape is available.
+More manufacturing symbol(s), letter(s), or number(s) can be shown
+with the part number to identify a manufacturing process, a design
+change, or for a proprietary repair. Do not use this data to order
+a part. Use only the item part number and nomenclature as shown in
+the DPL.</para>
+</levelledPara>
+<levelledPara><para>The letter &quot;S&quot; prefix of a part number
+designates a Honeywell standard part number. These standard part numbers
+have suffix letters and numbers.</para>
+</levelledPara>
+<levelledPara><para>Honeywell commercial standard numbers are used
+in the parts lists to identify off-the-shelf items procured from another
+manufacturer. A commercial standard number can be a 10 or 11 digit
+number.</para>
+</levelledPara>
+<levelledPara><para>Nonprocurable part numbers are usually easy to
+identify and are primarily used for information purposes. The part
+numbers NONPROCXXX, ORDERNHA, GAREFXXX, TUCREFXXX, AIREFXXX, and TORREFXXX
+are not procurable and should not be ordered.</para>
+<levelledPara><para>The part number NONPROCXXX is primarily used to
+sub-divide components into a logical, easy to use, subgroup. The subgroup
+is not procurable, but is used to identify a group of procurable components.</para>
+</levelledPara>
+<levelledPara><para>The part number ORDERNHA (Order Next Higher Assembly)
+is primarily used to identify nonprocurable details of an assembly.</para>
+</levelledPara>
+<levelledPara><para>The part number GAREFXXX, TUCREFXXX, AIREFXXX,
+and TORREFXXX is used when a procurable part number exceeds 15 digits.
+When the part number GAREFXXX, TUCREFXXX, AIREFXXX, and TORREFXXX
+appears in the PART NUMBER column, refer to the nomenclature for the
+actual part number of the item desired.</para>
+</levelledPara>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Airline stock number column.</para>
+<levelledPara><para>The airline stock number column has space for
+customers to use.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Nomenclature column.</para>
+<levelledPara><para>The indenture code shows the relationship of each
+item to its NHA.</para>
+<levelledPara><para>Each item goes in the nomenclature column one
+indenture (one dot) to the right of the assembly to which it belongs.</para>
+</levelledPara>
+<levelledPara><para>The items at the same indenture are all components
+of a single assembly or subassembly. Refer to <internalRef
+internalRefId="NomenclatureIndentures-7F96C6D7"
+internalRefTargetType="irtt01"></internalRef> for an example of the
+indenture code system.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>Wherever possible, abbreviations will agree with
+the ASME Y14.38 specification. The non-standard abbreviations that
+spell words are not used.</para>
+</levelledPara>
+<levelledPara><para>The vendor code data are as follows:</para>
+<levelledPara><para>The vendors with a code number have the letter
+V before the number. This code identifies where to get that item.</para>
+</levelledPara>
+<levelledPara><para>No vendor code is shown in the nomenclature column
+of the DPL if the item is a U.S. standard part or Honeywell is the
+vendor.</para>
+</levelledPara>
+<levelledPara><para>The vendors with no code number (NCN) are identified
+by (VNCN__).</para>
+</levelledPara>
+<levelledPara><para>The vendors with no code number are shown in the
+nomenclature column of the DPL with the vendor&rsquo;s full name and
+address.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>A Honeywell specification drawing number will
+be shown if applicable. </para>
+</levelledPara>
+<levelledPara><para>Refer to this list of possible explanation terms.
+These terms may be abbreviated.</para>
+<levelledPara><para>OPTIONAL shows that the part is an optional alternative
+to other parts in the same item number variant group.</para>
+</levelledPara>
+<levelledPara><para>ALTERNATE shows that the part is an alternative
+to other parts in the same item number variant group.</para>
+</levelledPara>
+<levelledPara><para>SUPERSEDED BY shows that the part is replaced
+by the part number or item number shown and is not interchangeable.</para>
+</levelledPara>
+<levelledPara><para>SUPERSEDES shows that the part replaces the part
+number or item number shown and is not interchangeable.</para>
+</levelledPara>
+<levelledPara><para>REPLACED BY shows that the part is replaced by
+the part number or item number shown and is interchangeable. Part
+can be used until the supply is gone.</para>
+</levelledPara>
+<levelledPara><para>REPLACES shows that the part replaces the part
+number or item number shown and is interchangeable.</para>
+</levelledPara>
+<levelledPara><para>PRE SERVICE BULLETIN XXXX shows that the part
+is used if service bulletin XXXX was not done.</para>
+</levelledPara>
+<levelledPara><para>POST SERVICE BULLETIN XXXX shows that the part
+is used if service bulletin XXXX was done.</para>
+</levelledPara>
+<levelledPara><para>PRE SPARE PARTS BULLETIN XXXX shows that the part
+is used if spare parts bulletin XXXX was not done.</para>
+</levelledPara>
+<levelledPara><para>POST SPARE PARTS BULLETIN XXXX shows that the
+part is used if spare parts bulletin XXXX was done.</para>
+</levelledPara>
+<levelledPara><para>NONREPAIRABLE shows that the part cannot be repaired.</para>
+</levelledPara>
+<levelledPara><para>NONPROCURABLE shows that the part or assembled
+parts cannot be purchased and no part number exists for the assembly.
+The components of the assembled parts can be ordered unless differently
+specified.</para>
+</levelledPara>
+<levelledPara><para>ORDER NEXT HIGHER ASSEMBLY shows that the part
+number is part of a matched set and cannot be ordered independently.
+The next higher assembly can be ordered.</para>
+</levelledPara>
+<levelledPara><para>REFERENCE (GAREF, TUCREF, AIREF, TORREF etc.)
+shows the procurable part number that exceeds 15 digits in the NOMENCLATURE
+column as ORDER PN NNNN.</para>
+</levelledPara>
+<levelledPara><para>ORDER PART NUMBER shows a nonstandard or reference
+part number.</para>
+</levelledPara>
+<levelledPara><para>PART ADDED shows the part is added with no comparable
+component involved in the change. Interchangeability of other parts
+is not affected by the additions, unless specified.</para>
+</levelledPara>
+<levelledPara><para>DELETED shows the part is not available for use.</para>
+</levelledPara>
+<levelledPara><para>SEE FIGURE FOR DETAILS shows the part number details
+in a different figure. </para>
+</levelledPara>
+<levelledPara><para>SEE FIGURE FOR NEXT HIGHER ASSEMBLY refers the
+part number to the next higher assembly.</para>
+</levelledPara>
+<levelledPara><para>USE WITH (ITEM or PART NUMBER) shows a part is
+used with a different part.</para>
+</levelledPara>
+<levelledPara><para>COMPONENT OF (ITEM or PART NUMBER) shows that
+the part is a component of a different part.</para>
+</levelledPara>
+<levelledPara><para>MAY BE SUBSTITUTED shows that the part in the
+NOMENCLATURE column with its vendor code is an equivalent alternative
+for the part in the PART NUMBER column.</para>
+</levelledPara>
+<levelledPara><para>REFER TO ATA or PUBLICATION NUMBER identifies
+the assemblies that have their own Component Maintenance Manuals.
+These entries are also shown in the
+<dmRef><dmRefIdent><dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="018" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONTEMP" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="EAA"/></dmRefIdent></dmRef> of this manual under References.</para>
+</levelledPara>
+<levelledPara><para>Control Source Drawing (CSD) shows the Honeywell
+part number for the part in the PART NUMBER column and is fully interchangeable.</para>
+</levelledPara>
+<levelledPara><para>Honeywell Control Source Drawing (HCSD) shows
+the Honeywell part number for the part in the PART NUMBER column and
+is fully interchangeable.</para>
+</levelledPara>
+<levelledPara><para>HAZARDOUS MATERIAL identifies parts that can have
+dangerous effects.</para>
+</levelledPara>
+<levelledPara><para>ESDS identifies parts that are electrostatic sensitive.</para>
+</levelledPara>
+<levelledPara><para>MOISTURE SENSITIVE identifies parts that are moisture
+sensitive.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>If applicable, refer to
+<dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="600" infoCodeVariant="A" itemLocationCode="C" modelIdentCode="HONAERO" subSubSystemCode="0" subSystemCode="0" systemCode="00" systemDiffCode="EAA"/></dmRefIdent></dmRef> for description of wire,
+sleeving, and lacing given in this DPL.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>The effectivity code column.</para>
+<levelledPara><para>The effectivity code identifies the different
+configurations of the top assembly in each IPL figure.</para>
+</levelledPara>
+<levelledPara><para>If this column is empty, the part is used in all
+configurations of the top assembly for that IPL figure.</para>
+</levelledPara>
+<levelledPara><para>If this column has a letter code in it, the part
+is only used in the configuration of the top assembly that has the
+same letter code.</para>
+</levelledPara>
+<levelledPara><para>If this column has more than one letter code,
+the part is used in each top assembly with the same letter codes.</para>
+</levelledPara>
+<levelledPara><para>If a comma separates the column entry (A, C),
+the other codes do not apply. For example, a component coded &quot;A,
+C&quot; is applicable for Codes A and C only and not applicable for
+Code B.</para>
+</levelledPara>
+<levelledPara><para>If a dash separates the column entry (A-C), the
+other codes do apply. For example, a component coded &quot;A-C&quot;
+is applicable for Codes A, B, and C.</para>
+</levelledPara>
+</levelledPara>
+<levelledPara><para>The units per assembly column.</para>
+<levelledPara><para>The units per assembly column show the quantity
+of parts necessary in the assembly of one next higher assembly. The
+letters AR in this column show &quot;as required&quot; items and refer
+to bulk items or adjustable quantity items, such as shims or spacers.
+The letters RF are used to show an item that is shown in another area
+with a quantity.</para>
+<figure id="cmm12282350971078790">
+<title>DPL Example</title>
+<graphic infoEntityIdent="ICN-HNYWL-0000707975-001-99"></graphic>
+<legend>
+<definitionList><definitionListItem>
+<listItemTerm>1</listItemTerm>
+<listItemDefinition><para>FIGURE/ITEM column</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>2</listItemTerm>
+<listItemDefinition><para>PART NUMBER column</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>3</listItemTerm>
+<listItemDefinition><para>AIRLINE STOCK NUMBER column</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>4</listItemTerm>
+<listItemDefinition><para>NOMENCLATURE column</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>5</listItemTerm>
+<listItemDefinition><para>EFFECTIVITY (USE) CODE column</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>6</listItemTerm>
+<listItemDefinition><para>UNITS PER ASSEMBLY column</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>7</listItemTerm>
+<listItemDefinition><para>OPTIONAL example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>8</listItemTerm>
+<listItemDefinition><para>ALTERNATE example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>9</listItemTerm>
+<listItemDefinition><para>SUPERSEDED BY example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>10</listItemTerm>
+<listItemDefinition><para>SUPERSEDES example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>11</listItemTerm>
+<listItemDefinition><para>REPLACED BY example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>12</listItemTerm>
+<listItemDefinition><para>REPLACES example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>13</listItemTerm>
+<listItemDefinition><para>PRE SERVICE BULLETIN example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>14</listItemTerm>
+<listItemDefinition><para>POST SERVICE BULLETIN example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>15</listItemTerm>
+<listItemDefinition><para>PRE SPARE PARTS BULLETIN example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>16</listItemTerm>
+<listItemDefinition><para>POST SPARE PARTS BULLETIN example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>17</listItemTerm>
+<listItemDefinition><para>NONREPAIRABLE example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>18</listItemTerm>
+<listItemDefinition><para>NONPROCURABLE example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>19</listItemTerm>
+<listItemDefinition><para>ORDER NEXT HIGHER ASSEMBLY example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>20</listItemTerm>
+<listItemDefinition><para>REFERENCE example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>21</listItemTerm>
+<listItemDefinition><para>ORDER PART NUMBER example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>22</listItemTerm>
+<listItemDefinition><para>DELETED example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>23</listItemTerm>
+<listItemDefinition><para>SEE FIGURE FOR DETAILS example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>24</listItemTerm>
+<listItemDefinition><para>SEE FIGURE FOR NEXT HIGHER ASSEMBLY example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>25</listItemTerm>
+<listItemDefinition><para>USE WITH (ITEM or PART NUMBER) example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>26</listItemTerm>
+<listItemDefinition><para>COMPONENT OF (ITEM or PART NUMBER) example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>27</listItemTerm>
+<listItemDefinition><para>Changed or added data indicator example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>28</listItemTerm>
+<listItemDefinition><para>Non-illustrated indicator example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>29</listItemTerm>
+<listItemDefinition><para>Vendor code example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>30</listItemTerm>
+<listItemDefinition><para>Control Specification or Drawing Number
+for the related part in the Part Number column example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>31</listItemTerm>
+<listItemDefinition><para>Effectivity (A) example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>32</listItemTerm>
+<listItemDefinition><para>Quantify example</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>33</listItemTerm>
+<listItemDefinition><para>RF indicates item referenced elsewhere.</para>
+</listItemDefinition>
+</definitionListItem><definitionListItem>
+<listItemTerm>34</listItemTerm>
+<listItemDefinition><para>As required example</para>
+</listItemDefinition>
+</definitionListItem></definitionList>
+</legend>
+</figure>
+<figure id="NomenclatureIndentures-7F96C6D7">
+<title>Nomenclature Indentures </title>
+<graphic infoEntityIdent="ICN-HNYWL-0000233104-001-99"></graphic>
+</figure>
+</levelledPara>
+</levelledPara>
+</levelledPara>
+</description></content></dmodule>

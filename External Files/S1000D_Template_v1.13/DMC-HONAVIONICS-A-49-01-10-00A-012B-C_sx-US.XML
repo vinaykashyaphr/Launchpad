@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Arbortext, Inc., 1988-2014, v.4002-->
+<?Pub Inc?>
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<!-- S1000DauthorPro XE(tm), Inmedius, Inc., 2009 -->
+<dmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-1/xml_schema_flat/comrep.xsd">
+<identAndStatusSection>
+<dmAddress>
+<dmIdent>
+<dmCode assyCode="10" disassyCode="00" disassyCodeVariant="A" infoCode="012" infoCodeVariant="B" itemLocationCode="C" modelIdentCode="HONAVIONICS" subSubSystemCode="1" subSystemCode="0" systemCode="49" systemDiffCode="A"/>
+<language countryIsoCode="US" languageIsoCode="sx"/>
+<issueInfo inWork="25" issueNumber="001"/></dmIdent>
+<dmAddressItems>
+<issueDate day="01" month="09" year="2019"/>
+<dmTitle><techName>General</techName><infoName>CAUTION REPOSITORY</infoName>
+</dmTitle>
+</dmAddressItems></dmAddress>
+<dmStatus issueType="new">
+<security securityClassification="01"/>
+<dataRestrictions>
+<restrictionInstructions>
+<dataDistribution></dataDistribution>
+<exportControl>
+<exportRegistrationStmt>
+<simplePara>This document contains technical data and is subject to
+Canadian and U.S. export regulations. If these commodities, technology,
+or software were exported from Canada, no export permit is required.
+If these commodities, technology, or software were exported from the
+United States, they are in accordance with the export administration
+regulations. Diversion contrary to Canadian or U.S. law is prohibited.</simplePara>
+<simplePara>ECCN: 9E991, NLR Eligible</simplePara>
+</exportRegistrationStmt>
+</exportControl>
+<dataHandling></dataHandling>
+<dataDestruction></dataDestruction>
+<dataDisclosure></dataDisclosure></restrictionInstructions>
+<restrictionInfo>
+<copyright><copyrightPara>© Honeywell International Inc. Do not copy
+without express permission of Honeywell.</copyrightPara>
+</copyright>
+<policyStatement></policyStatement>
+<dataConds></dataConds></restrictionInfo></dataRestrictions>
+<responsiblePartnerCompany enterpriseCode="58960">
+</responsiblePartnerCompany>
+<originator enterpriseCode="58960"></originator>
+<applic>
+<displayText>
+<simplePara>All</simplePara>
+</displayText>
+</applic>
+<brexDmRef><dmRef><dmRefIdent><dmCode assyCode="00" disassyCode="00"
+disassyCodeVariant="A" infoCode="022" infoCodeVariant="A"
+itemLocationCode="D" modelIdentCode="HONAERO" subSubSystemCode="0"
+subSystemCode="0" systemCode="00" systemDiffCode="A"/></dmRefIdent></dmRef></brexDmRef>
+<qualityAssurance><firstVerification verificationType="tabtop"/></qualityAssurance>
+</dmStatus>
+</identAndStatusSection>
+<content>
+<commonRepository><cautionRepository><cautionSpec><cautionIdent
+cautionIdentNumber="caut-0001" id="caut-0001"/><warningAndCautionPara
+>DO NOT USE MATERIALS THAT ARE NOT EQUIVALENT TO HONEYWELL SPECIFIED
+MATERIALS. MATERIALS THAT ARE NOT EQUIVALENT CAN CAUSE DAMAGE TO THE
+EQUIPMENT AND CAN MAKE THE WARRANTY NOT APPLICABLE.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0002"
+id="caut-0002"/><warningAndCautionPara>DO NOT HIT OR LET THE LRU FALL DURING THESE PROCEDURES. THE LRU CONTAINS AN
+ASSEMBLY THAT CAN BE DAMAGED FROM INCORRECT USE.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0003"
+id="caut-0003"/><warningAndCautionPara>DO THESE PROCEDURES IN A CLEAN
+ENVIRONMENT TO PREVENT DAMAGE TO MECHANICAL COMPONENTS.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0004"
+id="caut-0004"/><warningAndCautionPara>USE INDUSTRY APPROVED ESDS
+PRECAUTIONS. THE LRU CONTAINS ESDS ITEMS.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0005"
+id="caut-0005"/><warningAndCautionPara>BEFORE YOU USE ISOPROPYL ALCOHOL,
+DO A TEST TO MAKE SURE THAT IT DOES NOT CAUSE DAMAGE TO THE PAINTED
+SURFACES.</warningAndCautionPara></cautionSpec><cautionSpec>
+<cautionIdent cautionIdentNumber="caut-0006" id="caut-0006"/>
+<warningAndCautionPara>DO NOT LET THE ISOPROPYL ALCOHOL TOUCH THE
+CONNECTOR BODY. IT CAN CAUSE DAMAGE TO THE PARTS. USE ISOPROPYL ALCOHOL
+CAREFULLY WHEN YOU CLEAN FLUX FROM THE SOLDER CONNECTIONS.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0007"
+id="caut-0007"/><warningAndCautionPara>IF YOU CLEAN ESDS PARTS WITH
+PRESSURIZED AIR, USE IONIZED AIR. AN ELECTROSTATIC CHARGE CAN CAUSE
+DAMAGE TO THE PARTS IF YOU DO NOT USE IONIZED AIR.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0008"
+id="caut-0008"/><warningAndCautionPara>WHEN YOU REMOVE CORROSION,
+MOVE THE CROCUS CLOTH PARALLEL TO THE AXIS OF THE PART. IF YOU MOVE
+THE CROCUS CLOTH ACROSS THE AXIS, YOU CAN CAUSE DAMAGE TO THE FINISH.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0009"
+id="caut-0009"/><warningAndCautionPara>USE INDUSTRY APPROVED ESDS
+PRECAUTIONS. THE **APPLICABLE PART 0101** CONTAINS ESDS ITEMS.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0010"
+id="caut-0010"/><warningAndCautionPara>USE OF NON-APPROVED OILS, OR
+WHEN BRANDS OR TYPES OF OILS ARE MIXED TOGETHER, CAN DAMAGE APU.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0011"
+id="caut-0011"/><warningAndCautionPara>DO NOT USE THE LOCKWIRE AGAIN
+AFTER REMOVAL. USED LOCKWIRE CAN BREAK IF YOU APPLY TOO MUCH FORCE
+TO IT. THIS CAN CAUSE DAMAGE TO THE EQUIPMENT.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0012"
+id="caut-0012"/><warningAndCautionPara>DO NOT OVERFILL THE APU RESERVOIR.
+TO REMOVE THE OVERFILL HOSE BEFORE OIL HAS BECOME STABLE, OR PRESSURE-FILL
+WITHOUT OVERFILL HOSE VENTING, CAN CAUSE APU DAMAGE.</warningAndCautionPara>
+</cautionSpec><cautionSpec><cautionIdent cautionIdentNumber="caut-0013"
+id="caut-0013"/><warningAndCautionPara>DO NOT HIT OR LET THE **APPLICABLE
+PART 0101** FALL DURING THESE PROCEDURES. THE **APPLICABLE PART 0101**
+CONTAINS AN ASSEMBLY THAT CAN BE DAMAGED FROM INCORRECT USE.</warningAndCautionPara>
+</cautionSpec></cautionRepository></commonRepository>
+</content>
+</dmodule>
+<?INMEDCLNPRJ A350_CMMs_-_Honeywell?>
+<?INMEDBSPATH A350_CMMs_-_Honeywell?>
+<?INMEDLNG sx-US?>

@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+	<h2>404 - Page Not Found</h2>
+	<p>Sorry, it looks like the page you're looking for doesn't exist.</p><br>
+	{% if request.cookies.get(current_user.username) == 'conv' %}
+		<a class='button_one' href="{{ url_for('data_conversion') }}">Back to Home</a>
+	{% elif request.cookies.get(current_user.username) == 'tw' %}
+		<a class='button_one' href="{{ url_for('technical_writing') }}">Back to Home</a>
+	{% else %}
+		<a class='button_one' href="{{ url_for('home') }}">Back to Home</a>
+	{% endif %}
+{% endblock %}
